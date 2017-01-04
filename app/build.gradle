@@ -58,6 +58,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.8'
     /* Jsoup */
     compile 'org.jsoup:jsoup:1.10.2'
+    compile 'me.drakeet.library:crashwoodpecker:2.1.1'
 }
 
 repositories {

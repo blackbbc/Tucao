@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.app.Application
+import me.drakeet.library.CrashWoodpecker
 
 class AppApplication : Application() {
     val INSTANCE : AppApplication by lazy {
@@ -13,6 +14,8 @@ class AppApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        CrashWoodpecker.instance()
+                .flyTo(this)
     }
 
 }
