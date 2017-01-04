@@ -1,3 +1,3 @@
 <resources>
-    <dimen name="toolbar_size">45dp</dimen>
+    <dimen name="toolbar_size">40dp</dimen>
 </resources>
