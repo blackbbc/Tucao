@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:grid="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -49,44 +49,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    grid:columnCount="3"
-                    grid:columnOrderPreserved="false">
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MAD·AMV·GMV"
-                        grid:layout_columnWeight="1" />
+                        app:layout_columnWeight="1" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MMD·3D"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="原创·配音"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="综合·周边·其他"
-                        grid:layout_columnWeight="1" />
+                        app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
 
@@ -114,7 +114,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="动画"/>
+                        android:text="音乐"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -127,90 +127,432 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    grid:columnCount="3"
-                    grid:columnOrderPreserved="false">
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="acg音乐"
-                        grid:layout_columnWeight="1" />
+                        app:layout_columnWeight="1" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="翻唱·原唱"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="舞蹈"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="VOCALOID·UTAU"
-                        grid:layout_columnWeight="1" />
+                        app:layout_columnWeight="1" />
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="演奏·乐器"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="op·ed·ost·角色歌"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="op·ed·ost·角色歌"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="Live·声优相关"
-                        grid:layout_columnWeight="1"/>
+                        app:layout_columnWeight="1"/>
+
+                </android.support.v7.widget.GridLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
+                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="游戏"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多>>"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="游戏影音"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="网络游戏"
+                        app:layout_columnWeight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="单机游戏"
+                        app:layout_columnWeight="1"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="电子竞技"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="家机·掌机·手机"
+                        app:layout_columnWeight="1"/>
+
+                </android.support.v7.widget.GridLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
+                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="三次元"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多>>"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="喜闻乐见"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="娱乐鬼触"
+                        app:layout_columnWeight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="科技·数码"
+                        app:layout_columnWeight="1"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="运动·体育"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="军事情报"
+                        app:layout_columnWeight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="宠物·猫·狗"
+                        app:layout_columnWeight="1" />
+
+                </android.support.v7.widget.GridLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
+                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="影剧"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多>>"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="电视剧"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="电影"
+                        app:layout_columnWeight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="娱乐综艺"
+                        app:layout_columnWeight="1"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="完结剧集"
+                        app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
 
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
+                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="新番"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多>>"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:columnCount="3"
+                    app:columnOrderPreserved="false">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="连载新番"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="天朝出品"
+                        app:layout_columnWeight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="OAD·OVA·剧场版"
+                        app:layout_columnWeight="1"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:text="完结番组"
+                        app:layout_columnWeight="1" />
+
+                </android.support.v7.widget.GridLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
