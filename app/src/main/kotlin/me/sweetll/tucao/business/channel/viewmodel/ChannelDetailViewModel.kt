@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.extension.logD
 
-class ChannelViewModel(val context: Context) : BaseViewModel() {
+class ChannelDetailViewModel(val context: Context) : BaseViewModel() {
     init {
         jsonApiService.list(19, 1, 10, null)
                 .subscribeOn(Schedulers.io())

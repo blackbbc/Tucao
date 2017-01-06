@@ -2,7 +2,7 @@ package me.sweetll.tucao.business.home.adapter
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import me.sweetll.tucao.business.home.fragment.ChannelFragment
+import me.sweetll.tucao.business.home.fragment.ChannelListFragment
 import me.sweetll.tucao.business.home.fragment.RecommendFragment
 
 class HomePagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm) {
@@ -15,7 +15,7 @@ class HomePagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm) {
             2 -> RecommendFragment()
             3 -> RecommendFragment()
             4 -> RecommendFragment()
-            else -> ChannelFragment()
+            else -> ChannelListFragment()
         }
 
     override fun getCount(): Int = tabTiles.size

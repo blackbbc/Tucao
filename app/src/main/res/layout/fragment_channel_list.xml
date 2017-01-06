@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="me.sweetll.tucao.business.home.viewmodel.ChannelViewModel" />
+            type="me.sweetll.tucao.business.home.viewmodel.ChannelListViewModel" />
     </data>
 
     <ScrollView
@@ -59,7 +59,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
-                        android:tag=""
+                        android:tag="19"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"

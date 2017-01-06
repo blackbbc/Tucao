@@ -7,19 +7,19 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.channel.viewmodel.ChannelViewModel
-import me.sweetll.tucao.databinding.ActivityChannelBinding
+import me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel
+import me.sweetll.tucao.databinding.ActivityChannelDetailBinding
 
-class ChannelActivity : BaseActivity() {
-    lateinit var binding: ActivityChannelBinding
-    val viewModel: ChannelViewModel by lazy { ChannelViewModel(this) }
+class ChannelDetailActivity : BaseActivity() {
+    lateinit var binding: ActivityChannelDetailBinding
+    val detailViewModel: ChannelDetailViewModel by lazy { ChannelDetailViewModel(this) }
     var tid = 0
 
     companion object {
         private val ARG_TID = "arg_tid"
 
         fun intentTo(context: Context, tid: Int) {
-            val intent = Intent(context, ChannelActivity::class.java)
+            val intent = Intent(context, ChannelDetailActivity::class.java)
             intent.putExtra(ARG_TID, tid)
             context.startActivity(intent)
         }
@@ -33,8 +33,8 @@ class ChannelActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_channel)
-        binding.viewModel = viewModel
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_channel_detail)
+        binding.viewModel = detailViewModel
 
         tid = intent.getIntExtra(ARG_TID, 0)
     }

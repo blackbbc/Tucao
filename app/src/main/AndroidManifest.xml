@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.sweetll.tucao">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
@@ -16,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.channel.ChannelActivity"></activity>
+        <activity android:name=".business.channel.ChannelDetailActivity"></activity>
     </application>
 
 </manifest>
