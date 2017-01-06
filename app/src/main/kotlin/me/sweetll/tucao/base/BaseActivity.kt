@@ -17,7 +17,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun getToolbar() : Toolbar
 
-    private fun initToolbar() {
+    open fun initToolbar() {
         val toolbar = getToolbar()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

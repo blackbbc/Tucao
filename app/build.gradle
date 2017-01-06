@@ -49,6 +49,7 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.5'
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.5'
     /* RxJava2 */
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.3'
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'

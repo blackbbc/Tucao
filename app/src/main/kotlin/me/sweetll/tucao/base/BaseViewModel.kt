@@ -4,7 +4,7 @@ import android.databinding.BaseObservable
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.di.service.JsonApiService
 
-class BaseViewModel : BaseObservable() {
+open class BaseViewModel : BaseObservable() {
 
     lateinit var jsonApiService: JsonApiService
 
