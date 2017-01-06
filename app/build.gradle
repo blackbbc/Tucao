@@ -47,14 +47,15 @@ dependencies {
     /* IjkPlayer */
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.5'
     compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.5'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.7.5'
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.5'
     /* RxJava2 */
     compile 'io.reactivex.rxjava2:rxjava:2.0.3'
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:converter-simplexml:2.1.0'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     /* Dagger2 */
     compile 'com.google.dagger:dagger:2.8'
     kapt 'com.google.dagger:dagger-compiler:2.8'
