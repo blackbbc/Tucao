@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.category.CategoryActivity"></activity>
+        <activity android:name=".business.channel.ChannelActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package me.sweetll.tucao.business.category.viewmodel
+package me.sweetll.tucao.business.channel.viewmodel
 
 import android.content.Context
 import io.reactivex.Observable
@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.extension.logD
 
-class CategoryViewModel(val context: Context) : BaseViewModel() {
+class ChannelViewModel(val context: Context) : BaseViewModel() {
     init {
         jsonApiService.list(19, 1, 10, null)
                 .subscribeOn(Schedulers.io())

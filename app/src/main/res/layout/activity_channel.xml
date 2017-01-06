@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="me.sweetll.tucao.business.category.CategoryActivity">
+    tools:context="me.sweetll.tucao.business.channel.ChannelActivity">
 
     <data>
         <variable
             name="viewModel"
-            type="me.sweetll.tucao.business.category.viewmodel.CategoryViewModel" />
+            type="me.sweetll.tucao.business.channel.viewmodel.ChannelViewModel" />
     </data>
 
     <LinearLayout
