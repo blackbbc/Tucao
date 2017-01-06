@@ -8,6 +8,7 @@ import me.sweetll.tucao.di.component.BaseComponent
 import me.sweetll.tucao.di.component.DaggerBaseComponent
 import me.sweetll.tucao.di.module.ApiModule
 import me.sweetll.tucao.di.module.BaseModule
+import me.sweetll.tucao.di.service.ApiConfig
 
 class AppApplication : Application() {
     companion object {
@@ -32,7 +33,7 @@ class AppApplication : Application() {
 
     private fun initApiComponent() {
         baseComponent = DaggerBaseComponent.builder()
-                .baseModule(BaseModule())
+                .baseModule(BaseModule(ApiConfig.API_KEY))
                 .build()
         apiComponent = baseComponent.plus(
                 ApiModule()

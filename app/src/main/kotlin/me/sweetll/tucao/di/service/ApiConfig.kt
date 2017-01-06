@@ -1,6 +1,8 @@
 package me.sweetll.tucao.di.service
 
-object ApiUrl {
+object ApiConfig {
+    const val API_KEY = "25tids8f1ew1821ed"
+
     const val BASE_RAW_API_URL = ""
     const val BASE_JSON_API_URL = "http://www.tucao.tv/api_v2/"
     const val BASE_XML_API_URL = ""

@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface JsonApiService {
-    @GET(ApiUrl.LIST_API_URL)
+    @GET(ApiConfig.LIST_API_URL)
     fun list(@Query("tid") tid: Int,
              @Query("page") page: Int,
              @Query("pagesize") pageSize: Int,
