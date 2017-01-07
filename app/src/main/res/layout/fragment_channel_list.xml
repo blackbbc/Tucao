@@ -45,9 +45,11 @@
                         android:text="动画"/>
 
                     <TextView
+                        android:tag="19"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -59,7 +61,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
-                        android:tag="19"
+                        android:tag="28"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -69,6 +71,7 @@
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                     <TextView
+                        android:tag="6"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -79,6 +82,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="25"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -88,6 +92,7 @@
 
 
                     <TextView
+                        android:tag="29"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -125,9 +130,11 @@
                         android:text="音乐"/>
 
                     <TextView
+                        android:tag="20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -139,6 +146,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:tag="7"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -147,6 +155,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="31"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -157,6 +166,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="37"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -166,6 +176,7 @@
 
 
                     <TextView
+                        android:tag="30"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -175,6 +186,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="40"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -186,6 +198,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="88"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -195,20 +208,10 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="52"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="op·ed·ost·角色歌"
-                        app:layout_columnWeight="1"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="Live·声优相关"
@@ -243,9 +246,11 @@
                         android:text="游戏"/>
 
                     <TextView
+                        android:tag="21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -257,6 +262,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:tag="8"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -265,6 +271,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="34"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -275,6 +282,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="44"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -284,6 +292,7 @@
 
 
                     <TextView
+                        android:tag="33"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -293,6 +302,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="42"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -332,9 +342,11 @@
                         android:text="三次元"/>
 
                     <TextView
+                        android:tag="22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -346,6 +358,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:tag="9"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -354,6 +367,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="32"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -364,6 +378,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="57"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -373,6 +388,7 @@
 
 
                     <TextView
+                        android:tag="61"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -382,6 +398,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="65"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -393,6 +410,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="15"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -430,9 +448,11 @@
                         android:text="影剧"/>
 
                     <TextView
+                        android:tag="23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -444,6 +464,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:tag="39"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -452,6 +473,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="38"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -462,6 +484,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="16"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -471,6 +494,7 @@
 
 
                     <TextView
+                        android:tag="27"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
@@ -509,9 +533,11 @@
                         android:text="新番"/>
 
                     <TextView
+                        android:tag="24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多>>"/>
+                        android:text="更多>>"
+                        android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
 
@@ -523,6 +549,7 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:tag="11"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -531,6 +558,7 @@
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:tag="43"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -541,6 +569,7 @@
                         app:layout_columnWeight="1"/>
 
                     <TextView
+                        android:tag="26"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
@@ -550,6 +579,7 @@
 
 
                     <TextView
+                        android:tag="10"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
