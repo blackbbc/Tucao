@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:paddingTop="25dp">
 
     <ImageView
         android:id="@+id/img_thumb"
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:scaleType="centerInside"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img_thumb"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        tools:text="啦啦啦啦啦啦啦"/>
+        android:layout_toRightOf="@+id/img_thumb"
+        android:layout_toEndOf="@+id/img_thumb"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="[日本/SP]朝本年末SP 大叔的爱"
+        android:textSize="17sp"
+        android:textColor="@color/dark_black"/>
+
+    <TextView
+        android:id="@+id/text_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:layout_below="@+id/text_title"
+        android:layout_marginTop="8dp"
+        tools:text="up：7了个3"
+        android:textSize="15sp"
+        android:textColor="@color/light_black"/>
 
     <TextView
         android:id="@+id/text_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_title"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        tools:text="1.2万"/>
+        android:layout_alignLeft="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:layout_below="@+id/text_user"
+        android:layout_marginTop="4dp"
+        tools:text="播放：2.5万"
+        android:textSize="15sp"
+        android:textColor="@color/light_black"/>
 
     <TextView
         android:id="@+id/text_mukio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_title"
-        android:layout_alignRight="@+id/img_thumb"
-        android:layout_alignEnd="@+id/img_thumb"
-        android:layout_marginRight="4dp"
-        android:layout_marginEnd="4dp"
-        tools:text="1234"/>
+        android:layout_toRightOf="@+id/text_play"
+        android:layout_toEndOf="@+id/text_play"
+        android:layout_below="@+id/text_user"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        tools:text="弹幕：312"
+        android:textSize="15sp"
+        android:textColor="@color/light_black"/>
+
+
 
 </RelativeLayout>

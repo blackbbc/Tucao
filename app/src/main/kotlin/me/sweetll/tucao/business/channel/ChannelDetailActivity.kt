@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.channel.adapter.ChannelPagerAdapter
 import me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel
 import me.sweetll.tucao.databinding.ActivityChannelDetailBinding
 import me.sweetll.tucao.model.Channel
@@ -41,6 +42,9 @@ class ChannelDetailActivity : BaseActivity() {
         tid = intent.getIntExtra(ARG_TID, 0)
         channel = Channel.find(tid)!!
         siblingChannels = Channel.findSiblingChannels(tid)
+
+        binding.viewPager.adapter = ChannelPagerAdapter(supportFragmentManager, siblingChannels)
+        binding.tab.setupWithViewPager(binding.viewPager)
     }
 
     override fun initToolbar() {
