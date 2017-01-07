@@ -67,8 +67,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MAD·AMV·GMV"
-                        app:layout_columnWeight="1"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:onClick="@{viewModel::onClickChannel}"
+                        app:layout_columnWeight="1" />
 
                     <TextView
                         android:tag="6"
@@ -79,7 +79,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MMD·3D"
-                        app:layout_columnWeight="1"/>
+                        android:onClick="@{viewModel::onClickChannel}"
+                        app:layout_columnWeight="1" />
 
                     <TextView
                         android:tag="25"
@@ -88,6 +89,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="原创·配音"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -99,6 +101,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="综合·周边·其他"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -152,6 +155,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="acg音乐"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -163,6 +167,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="翻唱·原唱"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -172,6 +177,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="舞蹈"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -183,6 +189,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="VOCALOID·UTAU"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -195,6 +202,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="演奏·乐器"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -205,6 +213,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="op·ed·ost·角色歌"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -215,6 +224,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="Live·声优相关"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                 </android.support.v7.widget.GridLayout>
@@ -268,6 +278,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="游戏影音"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -279,6 +290,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="网络游戏"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -288,6 +300,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="单机游戏"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -299,6 +312,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电子竞技"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -311,6 +325,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="家机·掌机·手机"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                 </android.support.v7.widget.GridLayout>
@@ -364,6 +379,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="喜闻乐见"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -375,6 +391,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="娱乐鬼触"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -384,6 +401,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="科技·数码"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -395,6 +413,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="运动·体育"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -407,6 +426,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="军事情报"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -417,6 +437,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="宠物·猫·狗"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -470,6 +491,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电视剧"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -481,6 +503,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电影"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -490,6 +513,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="娱乐综艺"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -501,6 +525,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="完结剧集"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -555,6 +580,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="连载新番"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
@@ -566,6 +592,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="天朝出品"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
                     <TextView
@@ -575,6 +602,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="OAD·OVA·剧场版"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
 
@@ -586,6 +614,7 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="完结番组"
+                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>

@@ -5,15 +5,20 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel
 import me.sweetll.tucao.databinding.ActivityChannelDetailBinding
+import me.sweetll.tucao.model.Channel
 
 class ChannelDetailActivity : BaseActivity() {
     lateinit var binding: ActivityChannelDetailBinding
     val detailViewModel: ChannelDetailViewModel by lazy { ChannelDetailViewModel(this) }
+
     var tid = 0
+    lateinit var channel: Channel
+    lateinit var siblingChannels: List<Channel>
 
     companion object {
         private val ARG_TID = "arg_tid"
@@ -27,15 +32,27 @@ class ChannelDetailActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-
-    override fun initToolbar() {
-        super.initToolbar()
-    }
+    override fun getStatusBar(): View = binding.statusBar
 
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_channel_detail)
         binding.viewModel = detailViewModel
 
         tid = intent.getIntExtra(ARG_TID, 0)
+        channel = Channel.find(tid)!!
+        siblingChannels = Channel.findSiblingChannels(tid)
+    }
+
+    override fun initToolbar() {
+        super.initToolbar()
+        supportActionBar?.let {
+            it.title = channel.name
+            it.setDisplayHomeAsUpEnabled(true)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

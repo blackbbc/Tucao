@@ -41,6 +41,8 @@ data class Channel(var id: Int, var name: String, var parentId: Int? = null) {
                 Channel(10, "完结番组", 24)
         )
 
+        fun find(tid: Int): Channel? = CHANNELS.find { it.id == tid }
+
         fun findSiblingChannels(tid: Int) = CHANNELS.filter { tid == it.id || tid == it.parentId }
     }
 }
