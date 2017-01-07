@@ -32,7 +32,7 @@ class BaseModule(val apiKey: String) {
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     @Provides
@@ -50,7 +50,7 @@ class BaseModule(val apiKey: String) {
                 val response = chain.proceed(request)
                 response
             }
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     @Provides
@@ -68,7 +68,7 @@ class BaseModule(val apiKey: String) {
                 val response = chain.proceed(request)
                 response
             }
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     @Provides
