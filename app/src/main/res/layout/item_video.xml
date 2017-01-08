@@ -11,7 +11,7 @@
         android:id="@+id/img_thumb"
         android:layout_width="160dp"
         android:layout_height="90dp"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"/>
 
@@ -34,7 +34,7 @@
         android:layout_alignLeft="@+id/text_title"
         android:layout_alignStart="@+id/text_title"
         android:layout_below="@+id/text_title"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         tools:text="up：7了个3"
         android:textSize="15sp"
         android:textColor="@color/light_black"/>

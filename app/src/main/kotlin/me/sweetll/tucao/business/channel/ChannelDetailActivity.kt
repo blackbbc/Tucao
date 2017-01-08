@@ -41,9 +41,10 @@ class ChannelDetailActivity : BaseActivity() {
 
         tid = intent.getIntExtra(ARG_TID, 0)
         channel = Channel.find(tid)!!
-        siblingChannels = Channel.findSiblingChannels(tid)
+        siblingChannels = Channel.findSiblingChannels((if (channel.parentId != null) channel.parentId else channel.id)!!)
 
         binding.viewPager.adapter = ChannelPagerAdapter(supportFragmentManager, siblingChannels)
+        binding.viewPager.offscreenPageLimit = siblingChannels.size
         binding.tab.setupWithViewPager(binding.viewPager)
     }
 

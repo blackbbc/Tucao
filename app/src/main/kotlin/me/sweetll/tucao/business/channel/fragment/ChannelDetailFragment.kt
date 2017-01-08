@@ -64,12 +64,16 @@ class ChannelDetailFragment : Fragment() {
         }
         binding.videoRecycler.layoutManager = LinearLayoutManager(activity)
         binding.videoRecycler.adapter = videoAdapter
+        binding.swipeRefresh.setOnRefreshListener {
+            loadData()
+        }
 
+        // TODO: Should call load data on create
         loadData()
     }
 
     fun loadData() {
-        pageIndex++
+        pageIndex = 0
         jsonApiService.list(tid, pageIndex, pageSize, null)
                 .subscribeOn(Schedulers.io())
                 .flatMap {
@@ -81,6 +85,7 @@ class ChannelDetailFragment : Fragment() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
                 .subscribe({
                     data ->
                     pageIndex++
