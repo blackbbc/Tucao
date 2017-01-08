@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 
 abstract class BaseActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView(savedInstanceState)
@@ -16,23 +15,26 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     abstract fun initView(savedInstanceState: Bundle?)
-    abstract fun getToolbar(): Toolbar
-    abstract fun getStatusBar(): View
+
+    open fun getToolbar(): Toolbar? = null
+    open fun getStatusBar(): View? = null
 
     open fun initToolbar() {
-        val toolbar = getToolbar()
-        setSupportActionBar(toolbar)
+        getToolbar()?.let {
+            setSupportActionBar(it)
+        }
     }
 
     fun initStatusBar() {
-        val statusBar = getStatusBar()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            var statusBarHeight = 0
-            val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-            if (resourceId > 0) {
-                statusBarHeight = resources.getDimensionPixelSize(resourceId)
+        getStatusBar()?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                var statusBarHeight = 0
+                val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+                if (resourceId > 0) {
+                    statusBarHeight = resources.getDimensionPixelSize(resourceId)
+                }
+                it.layoutParams.height = statusBarHeight
             }
-            statusBar.layoutParams.height = statusBarHeight
         }
     }
 }

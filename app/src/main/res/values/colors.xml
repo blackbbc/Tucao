@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#EC407A</color>
 
-    <color name="dark_black">#DE000000</color>
-    <color name="light_black">#8A000000</color>
+    <color name="primary_text">#DE000000</color>
+    <color name="secondary_text">#8A000000</color>
+    <color name="hint_text">#60000000</color>
+    <color name="divider">#1E000000</color>
 </resources>

@@ -34,7 +34,7 @@ class ChannelDetailActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-    override fun getStatusBar(): View = binding.statusBar
+    override fun getStatusBar(): View? = binding.statusBar
 
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_channel_detail)

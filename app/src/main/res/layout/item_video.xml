@@ -25,7 +25,7 @@
         android:ellipsize="end"
         tools:text="[日本/SP]朝本年末SP 大叔的爱"
         android:textSize="17sp"
-        android:textColor="@color/dark_black"/>
+        android:textColor="@color/primary_text"/>
 
     <TextView
         android:id="@+id/text_user"
@@ -37,7 +37,7 @@
         android:layout_marginTop="4dp"
         tools:text="up：7了个3"
         android:textSize="15sp"
-        android:textColor="@color/light_black"/>
+        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/text_play"
@@ -49,7 +49,7 @@
         android:layout_marginTop="4dp"
         tools:text="播放：2.5万"
         android:textSize="15sp"
-        android:textColor="@color/light_black"/>
+        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/text_mukio"
@@ -63,7 +63,7 @@
         android:layout_marginStart="16dp"
         tools:text="弹幕：312"
         android:textSize="15sp"
-        android:textColor="@color/light_black"/>
+        android:textColor="@color/secondary_text"/>
 
 
 
