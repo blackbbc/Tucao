@@ -18,7 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.channel.ChannelDetailActivity"></activity>
+        <activity android:name=".business.channel.ChannelDetailActivity" />
+        <activity android:name=".business.video.VideoActivity" />
+        <activity android:name=".business.search.SearchActivity" />
+        <activity android:name=".business.rank.RankActivity" />
     </application>
 
 </manifest>

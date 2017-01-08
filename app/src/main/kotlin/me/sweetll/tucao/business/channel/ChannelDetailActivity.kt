@@ -19,6 +19,7 @@ class ChannelDetailActivity : BaseActivity() {
 
     var tid = 0
     lateinit var channel: Channel
+    lateinit var parentChannel: Channel
     lateinit var siblingChannels: List<Channel>
 
     companion object {
@@ -41,17 +42,20 @@ class ChannelDetailActivity : BaseActivity() {
 
         tid = intent.getIntExtra(ARG_TID, 0)
         channel = Channel.find(tid)!!
-        siblingChannels = Channel.findSiblingChannels((if (channel.parentId != null) channel.parentId else channel.id)!!)
+        parentChannel = Channel.find(channel.getValidParentId())!!
+        siblingChannels = Channel.findSiblingChannels(parentChannel.id)
 
         binding.viewPager.adapter = ChannelPagerAdapter(supportFragmentManager, siblingChannels)
         binding.viewPager.offscreenPageLimit = siblingChannels.size
         binding.tab.setupWithViewPager(binding.viewPager)
+        val selectedTabPosition = siblingChannels.indexOf(channel)
+        binding.tab.getTabAt(selectedTabPosition)?.select()
     }
 
     override fun initToolbar() {
         super.initToolbar()
         supportActionBar?.let {
-            it.title = channel.name
+            it.title = parentChannel.name
             it.setDisplayHomeAsUpEnabled(true)
         }
     }

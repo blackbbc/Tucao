@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface JsonApiService {
     @GET(ApiConfig.LIST_API_URL)
     fun list(@Query("tid") tid: Int,
-             @Query("page") page: Int,
+             @Query("page") pageIndex: Int,
              @Query("pagesize") pageSize: Int,
              @Query("order") order: String?) : Observable<ListResponse<ListResult>>
 }

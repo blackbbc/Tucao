@@ -7,15 +7,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trello.rxlifecycle2.kotlin.bindUntilEvent
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
+import me.sweetll.tucao.extension.sanitizeList
 import me.sweetll.tucao.extension.toast
 import javax.inject.Inject
 
@@ -68,23 +65,14 @@ class ChannelDetailFragment : Fragment() {
             loadData()
         }
 
-        // TODO: Should call load data on create
+        binding.swipeRefresh.isRefreshing = true
         loadData()
     }
 
     fun loadData() {
-        pageIndex = 0
+        pageIndex = 1
         jsonApiService.list(tid, pageIndex, pageSize, null)
-                .subscribeOn(Schedulers.io())
-                .flatMap {
-                    response ->
-                    if ("200" == response.code) {
-                        Observable.just(response.result)
-                    } else {
-                        Observable.error(Throwable(response.msg))
-                    }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
+                .sanitizeList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
                 .subscribe({
                     data ->
@@ -98,18 +86,10 @@ class ChannelDetailFragment : Fragment() {
 
     fun loadMoreData() {
         jsonApiService.list(tid, pageIndex, pageSize, null)
-                .subscribeOn(Schedulers.io())
-                .flatMap {
-                    response ->
-                    if ("200" == response.code) {
-                        Observable.just(response.result)
-                    } else {
-                        Observable.error(Throwable(response.msg))
-                    }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
+                .sanitizeList()
                 .subscribe({
                     data ->
+                    pageIndex++
                     videoAdapter.addData(data)
                     if (data!!.size < pageSize) {
                         videoAdapter.loadMoreEnd()
@@ -123,3 +103,4 @@ class ChannelDetailFragment : Fragment() {
                 })
     }
 }
+
