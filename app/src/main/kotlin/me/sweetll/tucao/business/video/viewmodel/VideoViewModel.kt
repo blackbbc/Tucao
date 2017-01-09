@@ -15,7 +15,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 .flatMap {
                     response ->
                     if ("succ" == response.result) {
-                        Observable.just(response.duals)
+                        Observable.just(response.durls)
                     } else {
                         Observable.error(Throwable("请求视频接口出错"))
                     }

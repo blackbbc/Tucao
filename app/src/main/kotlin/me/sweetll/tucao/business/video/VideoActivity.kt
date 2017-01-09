@@ -11,7 +11,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.model.json.Result
-import me.sweetll.tucao.model.xml.Dual
+import me.sweetll.tucao.model.xml.Durl
 
 class VideoActivity : BaseActivity() {
     val viewModel = VideoViewModel(this)
@@ -42,9 +42,9 @@ class VideoActivity : BaseActivity() {
         viewModel.queryPlayUrls(result.video[0].type, result.video[0].vid)
     }
 
-    fun loadDuals(duals: MutableList<Dual>?) {
-        duals?.isNotEmpty().let {
-            binding.player.setUp(duals!![0].url, true, null)
+    fun loadDuals(durls: MutableList<Durl>?) {
+        durls?.isNotEmpty().let {
+            binding.player.setUp(durls!![0].url, true, null)
         }
     }
 
