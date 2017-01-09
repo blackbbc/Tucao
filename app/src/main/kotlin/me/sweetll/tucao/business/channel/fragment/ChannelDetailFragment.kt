@@ -7,13 +7,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
+import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.sanitizeList
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.Result
 import javax.inject.Inject
 
 class ChannelDetailFragment : Fragment() {
@@ -59,6 +63,12 @@ class ChannelDetailFragment : Fragment() {
         videoAdapter.setOnLoadMoreListener {
             loadMoreData()
         }
+        binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val result: Result = helper.getItem(position) as Result
+                VideoActivity.intentTo(activity, result)
+            }
+        })
         binding.videoRecycler.layoutManager = LinearLayoutManager(activity)
         binding.videoRecycler.adapter = videoAdapter
         binding.swipeRefresh.setOnRefreshListener {

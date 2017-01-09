@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_video"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="me.sweetll.tucao.business.video.VideoActivity">
 
-</RelativeLayout>
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.video.viewmodel.VideoViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:layout_height="25dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+    </LinearLayout>
+</layout>
