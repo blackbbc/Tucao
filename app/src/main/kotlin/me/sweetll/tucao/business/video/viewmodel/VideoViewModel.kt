@@ -26,6 +26,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     activity.loadDuals(duals)
                 }, {
                     error ->
+                    error.printStackTrace()
                     error.message?.toast()
                 })
 

@@ -44,7 +44,7 @@ class VideoActivity : BaseActivity() {
 
     fun loadDuals(duals: MutableList<Dual>?) {
         duals?.isNotEmpty().let {
-
+            binding.player.setUp(duals!![0].url, true, null)
         }
     }
 

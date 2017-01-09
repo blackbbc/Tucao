@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class Result(val title: String,
                   val play: Int,
                   val mukio: Int,
-                  val creat: String,
+                  val creat: String?,
                   val thumb: String,
                   val typename: String,
                   val typeid: Int,
