@@ -3,13 +3,13 @@ package me.sweetll.tucao.di.service
 import io.reactivex.Observable
 import me.sweetll.tucao.model.json.ListResponse
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.xml.Video
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface XmlApiService {
-//    @GET(ApiConfig.LIST_API_URL)
-//    fun list(@Query("tid") tid: Int,
-//             @Query("page") page: Int,
-//             @Query("pagesize") pageSize: Int,
-//             @Query("order") order: String?) : Observable<ListResponse<Result>>
+    @GET(ApiConfig.PLAY_URL_API_URL)
+    fun playUrl(@Query("type") type: String,
+             @Query("vid") page: String,
+             @Query("r") pageSize: Long) : Observable<Video>
 }

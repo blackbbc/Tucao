@@ -7,6 +7,14 @@ object ApiConfig {
     const val BASE_JSON_API_URL = "http://www.tucao.tv/api_v2/"
     const val BASE_XML_API_URL = "http://www.tucao.tv/"
 
+    /*
+     * Json
+     */
     const val LIST_API_URL = "list.php"
     const val SEARCH_API_URL = "search.php"
+
+    /*
+     * XML
+     */
+    const val PLAY_URL_API_URL = "http://api.tucao.tv/api/playurl"
 }

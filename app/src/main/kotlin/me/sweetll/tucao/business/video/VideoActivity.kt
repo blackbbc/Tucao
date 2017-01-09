@@ -11,6 +11,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.xml.Dual
 
 class VideoActivity : BaseActivity() {
     val viewModel = VideoViewModel(this)
@@ -37,6 +38,14 @@ class VideoActivity : BaseActivity() {
         result = intent.getParcelableExtra(ARG_RESULT)
 
         orientationUtils = OrientationUtils(this, binding.player)
+
+        viewModel.queryPlayUrls(result.video[0].type, result.video[0].vid)
+    }
+
+    fun loadDuals(duals: MutableList<Dual>?) {
+        duals?.isNotEmpty().let {
+
+        }
     }
 
 }

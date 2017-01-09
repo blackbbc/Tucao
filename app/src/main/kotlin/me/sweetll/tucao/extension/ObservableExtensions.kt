@@ -5,7 +5,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
 
-fun <T> Observable<BaseResponse<T>>.sanitizeBase(): Observable<T?> = this
+fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())
         .flatMap { response ->
             if (response.code == "200") {
@@ -16,7 +16,7 @@ fun <T> Observable<BaseResponse<T>>.sanitizeBase(): Observable<T?> = this
         }
         .observeOn(AndroidSchedulers.mainThread())
 
-fun <T> Observable<ListResponse<T>>.sanitizeList(): Observable<MutableList<T>?> = this
+fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T>?> = this
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())
         .flatMap { response ->
             if (response.code == "200") {

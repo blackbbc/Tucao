@@ -16,5 +16,5 @@ class Video {
     var src: Int = 0
 
     @ElementList(inline = true)
-    var duals: MutableList<Video>? = null
+    var duals: MutableList<Dual>? = null
 }

@@ -6,7 +6,7 @@ import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.extension.hideSoftKeyboard
-import me.sweetll.tucao.extension.sanitizeList
+import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
 
 class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
@@ -19,7 +19,7 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
     fun loadData() {
         pageIndex = 1
         jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
-                .sanitizeList()
+                .sanitizeJsonList()
                 .subscribe({
                     data ->
                     pageIndex++
@@ -32,7 +32,7 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
 
     fun loadMoreData() {
         jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
-                .sanitizeList()
+                .sanitizeJsonList()
                 .subscribe({
                     data ->
                     if (data!!.size < pageSize) {

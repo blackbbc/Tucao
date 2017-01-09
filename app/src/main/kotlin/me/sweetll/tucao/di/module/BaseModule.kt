@@ -60,14 +60,6 @@ class BaseModule(val apiKey: String) {
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor { chain ->
-                var request = chain.request()
-                request = chain.request().newBuilder()
-                        .url("${request.url()}&apikey=$apiKey&type=xml")
-                        .build()
-                val response = chain.proceed(request)
-                response
-            }
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 

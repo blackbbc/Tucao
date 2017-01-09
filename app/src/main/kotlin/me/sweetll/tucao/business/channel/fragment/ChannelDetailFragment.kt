@@ -15,7 +15,7 @@ import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
-import me.sweetll.tucao.extension.sanitizeList
+import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import javax.inject.Inject
@@ -82,7 +82,7 @@ class ChannelDetailFragment : Fragment() {
     fun loadData() {
         pageIndex = 1
         jsonApiService.list(tid, pageIndex, pageSize, null)
-                .sanitizeList()
+                .sanitizeJsonList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
                 .subscribe({
                     data ->
@@ -96,7 +96,7 @@ class ChannelDetailFragment : Fragment() {
 
     fun loadMoreData() {
         jsonApiService.list(tid, pageIndex, pageSize, null)
-                .sanitizeList()
+                .sanitizeJsonList()
                 .subscribe({
                     data ->
                     pageIndex++
