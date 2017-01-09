@@ -2,8 +2,8 @@ package me.sweetll.tucao.extension
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import me.sweetll.tucao.model.BaseResponse
-import me.sweetll.tucao.model.ListResponse
+import me.sweetll.tucao.model.json.BaseResponse
+import me.sweetll.tucao.model.json.ListResponse
 
 fun <T> Observable<BaseResponse<T>>.sanitizeBase(): Observable<T?> = this
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())

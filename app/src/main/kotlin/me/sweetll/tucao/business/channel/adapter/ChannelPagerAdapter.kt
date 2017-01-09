@@ -3,7 +3,7 @@ package me.sweetll.tucao.business.channel.adapter
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import me.sweetll.tucao.business.channel.fragment.ChannelDetailFragment
-import me.sweetll.tucao.model.Channel
+import me.sweetll.tucao.model.json.Channel
 
 class ChannelPagerAdapter(fm : FragmentManager, val channels: List<Channel>) : FragmentPagerAdapter(fm) {
 

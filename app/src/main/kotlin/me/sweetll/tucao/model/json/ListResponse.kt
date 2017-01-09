@@ -1,4 +1,4 @@
-package me.sweetll.tucao.model
+package me.sweetll.tucao.model.json
 
 import com.google.gson.annotations.SerializedName
 

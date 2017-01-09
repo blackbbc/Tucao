@@ -11,7 +11,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
 import me.sweetll.tucao.databinding.ActivitySearchBinding
-import me.sweetll.tucao.model.Result
+import me.sweetll.tucao.model.json.Result
 
 class SearchActivity : BaseActivity() {
     val viewModel = SearchViewModel(this)

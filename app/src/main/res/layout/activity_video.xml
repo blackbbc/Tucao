@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="me.sweetll.tucao.business.video.VideoActivity">
 
     <data>
@@ -16,16 +17,57 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/statusBar"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:layout_height="25dp"
-            android:background="@color/colorPrimary"/>
-
         <com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+            android:id="@+id/player"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="千万不要在小狗生气的时候捏他的嘴"
+                android:textColor="@color/primary_text"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="播放：14.6万"
+                    android:textColor="@color/secondary_text"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    tools:text="弹幕：501"
+                    android:textColor="@color/secondary_text"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="BGM是极乐净土。"
+                android:textColor="@color/secondary_text"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider"/>
 
     </LinearLayout>
 </layout>

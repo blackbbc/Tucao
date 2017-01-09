@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.model.Result
+import me.sweetll.tucao.model.json.Result
 
 class VideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, BaseViewHolder>(R.layout.item_video, data) {
 

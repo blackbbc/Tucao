@@ -1,4 +1,4 @@
-package me.sweetll.tucao.model
+package me.sweetll.tucao.model.json
 
 open class BaseResponse<T> {
     var code: String? = null

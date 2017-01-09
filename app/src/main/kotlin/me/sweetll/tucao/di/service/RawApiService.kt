@@ -1,8 +1,8 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
-import me.sweetll.tucao.model.ListResponse
-import me.sweetll.tucao.model.Result
+import me.sweetll.tucao.model.json.ListResponse
+import me.sweetll.tucao.model.json.Result
 import retrofit2.http.GET
 import retrofit2.http.Query
 

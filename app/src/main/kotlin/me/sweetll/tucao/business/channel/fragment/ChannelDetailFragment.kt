@@ -17,7 +17,7 @@ import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.sanitizeList
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.Result
+import me.sweetll.tucao.model.json.Result
 import javax.inject.Inject
 
 class ChannelDetailFragment : Fragment() {

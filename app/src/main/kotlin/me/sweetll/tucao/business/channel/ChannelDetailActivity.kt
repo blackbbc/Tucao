@@ -11,7 +11,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.ChannelPagerAdapter
 import me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel
 import me.sweetll.tucao.databinding.ActivityChannelDetailBinding
-import me.sweetll.tucao.model.Channel
+import me.sweetll.tucao.model.json.Channel
 
 class ChannelDetailActivity : BaseActivity() {
     lateinit var binding: ActivityChannelDetailBinding

@@ -42,10 +42,6 @@ dependencies {
     /* Kotlin */
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "com.android.databinding:compiler:2.2.3"
-    /* IJKPlayer */
-    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.6'
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.6'
-    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.6'
     /* GSYVideoPlayer */
     compile 'com.github.CarGuo:GSYVideoPlayer:v1.5.5'
     /* RxJava2 */

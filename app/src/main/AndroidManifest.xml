@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".business.channel.ChannelDetailActivity" />
-        <activity android:name=".business.video.VideoActivity" />
+        <activity android:name=".business.video.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".business.search.SearchActivity" />
         <activity android:name=".business.rank.RankActivity" />
     </application>

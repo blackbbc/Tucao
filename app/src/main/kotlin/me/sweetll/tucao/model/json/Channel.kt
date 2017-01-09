@@ -1,4 +1,4 @@
-package me.sweetll.tucao.model
+package me.sweetll.tucao.model.json
 
 data class Channel(var id: Int, var name: String, var parentId: Int? = null) {
     companion object {
