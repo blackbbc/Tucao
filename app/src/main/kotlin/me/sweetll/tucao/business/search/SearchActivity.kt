@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
+import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
 import me.sweetll.tucao.model.json.Result
 
@@ -38,6 +41,12 @@ class SearchActivity : BaseActivity() {
             viewModel.loadMoreData()
         }
 
+        binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val result = helper.getItem(position) as Result
+                VideoActivity.intentTo(this@SearchActivity, result)
+            }
+        })
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)
         binding.searchRecycler.adapter = videoAdapter
     }
