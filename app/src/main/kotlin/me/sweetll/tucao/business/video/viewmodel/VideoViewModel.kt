@@ -6,9 +6,9 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.json.Result
 
-class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
-
+class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewModel() {
     fun queryPlayUrls(type: String, vid: String) {
         xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
                 .subscribeOn(Schedulers.io())

@@ -5,7 +5,8 @@ import android.os.Parcelable
 
 data class Video(val title: String,
                  val type: String,
-                 val vid: String?) : Parcelable {
+                 val vid: String?,
+                 var checked: Boolean = false) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Video> = object : Parcelable.Creator<Video> {
             override fun createFromParcel(source: Parcel): Video = Video(source)
@@ -13,7 +14,7 @@ data class Video(val title: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString())
+    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), 1 == source.readInt())
 
     override fun describeContents() = 0
 
@@ -21,5 +22,6 @@ data class Video(val title: String,
         dest?.writeString(title)
         dest?.writeString(type)
         dest?.writeString(vid)
+        dest?.writeInt((if (checked) 1 else 0))
     }
 }

@@ -6,20 +6,28 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.model.xml.Durl
 
 class VideoActivity : BaseActivity() {
-    val viewModel = VideoViewModel(this)
+    lateinit var viewModel: VideoViewModel
     lateinit var binding: ActivityVideoBinding
 
     lateinit var orientationUtils: OrientationUtils
@@ -28,6 +36,8 @@ class VideoActivity : BaseActivity() {
 
     var isPlay = false
     var isPause = false
+
+    lateinit var partAdapter: PartAdapter
 
     companion object {
         private val ARG_RESULT = "result"
@@ -40,10 +50,11 @@ class VideoActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        result = intent.getParcelableExtra(ARG_RESULT)
+        viewModel = VideoViewModel(this, result)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         binding.viewModel = viewModel
-
-        result = intent.getParcelableExtra(ARG_RESULT)
 
         orientationUtils = OrientationUtils(this, binding.player)
         orientationUtils.isEnable = false
@@ -83,12 +94,45 @@ class VideoActivity : BaseActivity() {
             orientationUtils.isEnable = !lock
         }
 
-        // TODO：判断vid是否为null
-//        viewModel.queryPlayUrls(result.video[0].type, result.video[0].vid)
+        val firstVid = result.video[0].vid
+        if (firstVid != null) {
+            // 载入第一个视频
+            viewModel.queryPlayUrls(result.video[0].type, firstVid)
+        } else {
+            "所选视频已失效".toast()
+        }
+
+        setupRecyclerView()
+    }
+
+    fun setupRecyclerView() {
+        result.video[0].checked = true
+        partAdapter = PartAdapter(result.video)
+
+        binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val selectedVideo = helper.getItem(position) as Video
+                if (!selectedVideo.checked) {
+                    partAdapter.data.forEach { it.checked = false }
+                    selectedVideo.checked = true
+                    partAdapter.notifyDataSetChanged()
+
+                    if (selectedVideo.vid != null) {
+                        viewModel.queryPlayUrls(selectedVideo.type, selectedVideo.vid)
+                    } else {
+                        "所选视频已失效".toast()
+                    }
+                }
+            }
+        })
+//        binding.partRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.partRecycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        binding.partRecycler.adapter = partAdapter
     }
 
     fun loadDuals(durls: MutableList<Durl>?) {
         durls?.isNotEmpty().let {
+            // TODO: 载入多段视频
             binding.player.setUp(durls!![0].url, true, null)
             "载入完成".toast()
         }

@@ -6,6 +6,7 @@
     tools:context="me.sweetll.tucao.business.video.VideoActivity">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoViewModel" />
@@ -32,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="千万不要在小狗生气的时候捏他的嘴"
+                android:text="@{viewModel.result.title}"
                 android:textColor="@color/primary_text"/>
 
             <LinearLayout
@@ -44,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="播放：14.6万"
+                    android:text='@{"播放：" + viewModel.result.play}'
                     android:textColor="@color/secondary_text"/>
 
                 <TextView
@@ -51,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     tools:text="弹幕：501"
+                    android:text='@{"弹幕：" + viewModel.result.mukio}'
                     android:textColor="@color/secondary_text"/>
 
             </LinearLayout>
@@ -60,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="BGM是极乐净土。"
+                android:text="@{viewModel.result.description}"
                 android:textColor="@color/secondary_text"/>
 
         </LinearLayout>
@@ -68,6 +73,27 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
+                tools:text="分集(2)"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/partRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
