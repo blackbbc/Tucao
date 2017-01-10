@@ -16,11 +16,11 @@ fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
         }
         .observeOn(AndroidSchedulers.mainThread())
 
-fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T>?> = this
+fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T>> = this
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())
         .flatMap { response ->
             if (response.code == "200") {
-                Observable.just(response.result)
+                Observable.just(response.result ?: mutableListOf())
             } else {
                 Observable.error(Throwable(response.msg))
             }

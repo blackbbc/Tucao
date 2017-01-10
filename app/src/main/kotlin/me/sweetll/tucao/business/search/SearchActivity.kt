@@ -14,6 +14,7 @@ import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
+import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 
 class SearchActivity : BaseActivity() {
@@ -41,6 +42,8 @@ class SearchActivity : BaseActivity() {
             viewModel.loadMoreData()
         }
 
+        binding.swipeRefresh.isEnabled = false
+
         binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val result = helper.getItem(position) as Result
@@ -51,10 +54,13 @@ class SearchActivity : BaseActivity() {
         binding.searchRecycler.adapter = videoAdapter
     }
 
-    fun loadData(data: MutableList<Result>?) {
+    fun loadData(data: MutableList<Result>) {
         videoAdapter.setNewData(data)
-        if (data == null || data.size < viewModel.pageSize) {
+        if (data.size < viewModel.pageSize) {
             videoAdapter.setEnableLoadMore(false)
+        }
+        if (data.isEmpty()) {
+            "什么也没有找到~".toast()
         }
     }
 
@@ -72,6 +78,11 @@ class SearchActivity : BaseActivity() {
                 videoAdapter.loadMoreFail()
             }
         }
+    }
+
+    fun setRefreshing(refreshing: Boolean) {
+            binding.swipeRefresh.isEnabled = refreshing
+            binding.swipeRefresh.isRefreshing = refreshing
     }
 
 }

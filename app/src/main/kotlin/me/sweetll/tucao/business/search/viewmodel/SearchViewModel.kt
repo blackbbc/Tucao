@@ -17,9 +17,11 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
     var pageSize = 10
 
     fun loadData() {
+        activity.setRefreshing(true)
         pageIndex = 1
         jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
                 .sanitizeJsonList()
+                .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
                     data ->
                     pageIndex++
