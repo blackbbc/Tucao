@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 data class Video(val title: String,
                  val type: String,
-                 val vid: String) : Parcelable {
+                 val vid: String?) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Video> = object : Parcelable.Creator<Video> {
             override fun createFromParcel(source: Parcel): Video = Video(source)

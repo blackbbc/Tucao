@@ -83,7 +83,8 @@ class VideoActivity : BaseActivity() {
             orientationUtils.isEnable = !lock
         }
 
-        viewModel.queryPlayUrls(result.video[0].type, result.video[0].vid)
+        // TODO：判断vid是否为null
+//        viewModel.queryPlayUrls(result.video[0].type, result.video[0].vid)
     }
 
     fun loadDuals(durls: MutableList<Durl>?) {

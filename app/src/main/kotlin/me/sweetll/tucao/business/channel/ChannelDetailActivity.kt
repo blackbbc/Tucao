@@ -15,7 +15,7 @@ import me.sweetll.tucao.model.json.Channel
 
 class ChannelDetailActivity : BaseActivity() {
     lateinit var binding: ActivityChannelDetailBinding
-    val detailViewModel: ChannelDetailViewModel by lazy { ChannelDetailViewModel(this) }
+    val detailViewModel = ChannelDetailViewModel(this)
 
     var tid = 0
     lateinit var channel: Channel

@@ -5,7 +5,7 @@ data class Channel(var id: Int, var name: String, var parentId: Int? = null) {
         private val CHANNELS = listOf(
                 Channel(19, "动画"),
                 Channel(28, "MAD·AMV·GMV", 19),
-                Channel(6, "MM·D3D", 19),
+                Channel(6, "MMD·3D", 19),
                 Channel(25, "原创·配音", 19),
                 Channel(29, "综合·周边·其他", 19),
                 Channel(20, "音乐"),
