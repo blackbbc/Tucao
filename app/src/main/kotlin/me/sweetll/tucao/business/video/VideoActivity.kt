@@ -13,6 +13,7 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
@@ -25,6 +26,9 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.model.xml.Durl
+import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.io.File
+import java.io.FileOutputStream
 
 class VideoActivity : BaseActivity() {
     lateinit var viewModel: VideoViewModel
@@ -52,6 +56,12 @@ class VideoActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         result = intent.getParcelableExtra(ARG_RESULT)
         viewModel = VideoViewModel(this, result)
+
+//        val mediaPlayer = GSYVideoManager.instance().mediaPlayer
+//        if (mediaPlayer is IjkMediaPlayer) {
+        (GSYVideoManager.instance().mediaPlayer as IjkMediaPlayer).setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "safe", 0)
+//            ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "concat,file,subfile,http,https,tls,rtp,tcp,udp,crypto");
+//        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         binding.viewModel = viewModel
@@ -94,13 +104,36 @@ class VideoActivity : BaseActivity() {
             orientationUtils.isEnable = !lock
         }
 
-        val firstVid = result.video[0].vid
-        if (firstVid != null) {
-            // 载入第一个视频
-            viewModel.queryPlayUrls(result.video[0].type, firstVid)
-        } else {
-            "所选视频已失效".toast()
+//        val firstVid = result.video[0].vid
+//        if (firstVid != null) {
+//             载入第一个视频
+//            viewModel.queryPlayUrls(result.video[0].type, firstVid)
+//        } else {
+//            "所选视频已失效".toast()
+//        }
+
+
+        try {
+            val outputFile = File.createTempFile("tucao", ".concat", getCacheDir())
+            val outputStream = FileOutputStream(outputFile)
+
+            val test =
+                    "ffconcat version 1.0\n" +
+                    "file 'http://58.216.103.180/youku/6571AA2CD214E842FB8A7A6405/0300010900553A4D76DD1718581209B15F3A81-E563-D647-2FC4-06C5A8F05A9A.flv?sid=04840553300321201a5b3_00&ctype=12'\n" +
+                    "duration 200.992\n" +
+                    "file 'http://222.73.245.134/youku/6772E9CDF24398118DF649471A/0300010901553A4D76DD1718581209B15F3A81-E563-D647-2FC4-06C5A8F05A9A.flv?sid=04840553300321201a5b3_00&ctype=12'\n" +
+                    "duration 181.765";
+
+            outputStream.write(test.toByteArray())
+
+            outputStream.flush()
+            outputStream.close()
+
+            binding.player.setUp(outputFile.absolutePath, true, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
 
         setupRecyclerView()
     }

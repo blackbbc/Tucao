@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.trello.rxlifecycle2.components.support.RxFragment
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
@@ -20,7 +22,7 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import javax.inject.Inject
 
-class ChannelDetailFragment : Fragment() {
+class ChannelDetailFragment : RxFragment() {
     lateinit var binding: FragmentChannelDetailBinding
     var tid = 0
 
@@ -82,6 +84,7 @@ class ChannelDetailFragment : Fragment() {
     fun loadData() {
         pageIndex = 1
         jsonApiService.list(tid, pageIndex, pageSize, null)
+                .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
                 .subscribe({
@@ -96,6 +99,7 @@ class ChannelDetailFragment : Fragment() {
 
     fun loadMoreData() {
         jsonApiService.list(tid, pageIndex, pageSize, null)
+                .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .subscribe({
                     data ->

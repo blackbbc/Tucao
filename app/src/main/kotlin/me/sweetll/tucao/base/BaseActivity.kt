@@ -2,11 +2,11 @@ package me.sweetll.tucao.base
 
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView(savedInstanceState)

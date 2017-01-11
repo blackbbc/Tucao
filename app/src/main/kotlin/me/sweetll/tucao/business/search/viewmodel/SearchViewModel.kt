@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.search.viewmodel
 
 import android.databinding.ObservableField
 import android.view.View
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.search.SearchActivity
@@ -20,6 +21,7 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
         activity.setRefreshing(true)
         pageIndex = 1
         jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
+                .bindToLifecycle(activity)
                 .sanitizeJsonList()
                 .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
@@ -34,6 +36,7 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
 
     fun loadMoreData() {
         jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
+                .bindToLifecycle(activity)
                 .sanitizeJsonList()
                 .subscribe({
                     data ->
