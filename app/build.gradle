@@ -71,6 +71,8 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.2'
     /* Crash */
     compile 'me.drakeet.library:crashwoodpecker:2.1.1'
+    /* Umeng */
+    compile 'com.umeng.analytics:analytics:6.0.7'
 }
 
 repositories {

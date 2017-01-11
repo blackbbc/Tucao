@@ -4,13 +4,16 @@
 
     <!-- 请求访问网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 请求访问网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 读写内存 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
 
     <application
         android:name=".AppApplication"
@@ -31,6 +34,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".business.search.SearchActivity" />
         <activity android:name=".business.rank.RankActivity" />
+
+        <meta-data android:value="587653cd310c93051a000ac9" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Google Play" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

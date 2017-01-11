@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.umeng.analytics.MobclickAgent
 
 abstract class BaseActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,5 +37,15 @@ abstract class BaseActivity : RxAppCompatActivity() {
                 it.layoutParams.height = statusBarHeight
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onResume(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPause(this)
     }
 }

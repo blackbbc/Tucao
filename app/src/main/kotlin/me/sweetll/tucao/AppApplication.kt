@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.app.Application
+import com.umeng.analytics.MobclickAgent
 import me.drakeet.library.CrashWoodpecker
 import me.drakeet.library.PatchMode
 import me.sweetll.tucao.di.component.ApiComponent
@@ -25,6 +26,7 @@ class AppApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
         CrashWoodpecker.instance()
                 .setPatchMode(PatchMode.SHOW_LOG_PAGE)
                 .flyTo(this)
