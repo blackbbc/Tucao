@@ -1,12 +1,15 @@
 package me.sweetll.tucao.extension
 
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
 
 fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
-        .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+        .subscribeOn(Schedulers.io())
+        .retryWhen(ApiConfig.RetryWithDelay())
         .flatMap { response ->
             if (response.code == "200") {
                 Observable.just(response.result)
@@ -17,7 +20,8 @@ fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
         .observeOn(AndroidSchedulers.mainThread())
 
 fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T>> = this
-        .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+        .subscribeOn(Schedulers.io())
+        .retryWhen(ApiConfig.RetryWithDelay())
         .flatMap { response ->
             if (response.code == "200") {
                 Observable.just(response.result ?: mutableListOf())

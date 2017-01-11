@@ -1,5 +1,9 @@
 package me.sweetll.tucao.di.service
 
+import io.reactivex.Observable
+import io.reactivex.functions.Function
+import java.util.concurrent.TimeUnit
+
 object ApiConfig {
     const val API_KEY = "25tids8f1ew1821ed"
 
@@ -17,4 +21,18 @@ object ApiConfig {
      * XML
      */
     const val PLAY_URL_API_URL = "http://api.tucao.tv/api/playurl"
+
+    class RetryWithDelay(val maxRetries: Int = 3, val delayMillis: Long = 2000L) : Function<Observable<in Throwable>, Observable<*>> {
+        var retryCount = 0
+
+        override fun apply(observable: Observable<in Throwable>): Observable<*> = observable
+                .flatMap { throwable ->
+                    if (++retryCount < maxRetries) {
+                        Observable.timer(delayMillis, TimeUnit.MILLISECONDS)
+                    } else {
+                        Observable.error(throwable as Throwable)
+                    }
+                }
+    }
+
 }
