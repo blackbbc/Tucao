@@ -1,4 +1,4 @@
-package me.sweetll.tucao.business.video
+package me.sweetll.tucao.business.video.adapter
 
 import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack
 

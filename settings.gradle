@@ -1,1 +1,4 @@
 include ':app'
+include ':gsyVideoPlayer'
+
+project(':gsyVideoPlayer').projectDir = new File(rootDir, 'GSYVideoPlayer/gsyVideoPlayer')

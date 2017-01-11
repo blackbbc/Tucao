@@ -1,0 +1,3 @@
+[submodule "GSYVideoPlayer"]
+	path = GSYVideoPlayer
+	url = https://github.com/blackbbc/GSYVideoPlayer.git

@@ -6,8 +6,6 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -20,6 +18,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.video.adapter.PartAdapter
+import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.toast
@@ -122,7 +121,7 @@ class VideoActivity : BaseActivity() {
                     "file 'http://58.216.103.180/youku/6571AA2CD214E842FB8A7A6405/0300010900553A4D76DD1718581209B15F3A81-E563-D647-2FC4-06C5A8F05A9A.flv?sid=04840553300321201a5b3_00&ctype=12'\n" +
                     "duration 200.992\n" +
                     "file 'http://222.73.245.134/youku/6772E9CDF24398118DF649471A/0300010901553A4D76DD1718581209B15F3A81-E563-D647-2FC4-06C5A8F05A9A.flv?sid=04840553300321201a5b3_00&ctype=12'\n" +
-                    "duration 181.765";
+                    "duration 181.765"
 
             outputStream.write(test.toByteArray())
 
