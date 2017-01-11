@@ -29,7 +29,7 @@ class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewM
                 }, {
                     error ->
                     error.printStackTrace()
-                    error.message?.toast()
+                    "请求视频接口出错".toast()
                 })
 
     }
