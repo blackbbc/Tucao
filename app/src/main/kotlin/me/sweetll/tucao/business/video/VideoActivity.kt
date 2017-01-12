@@ -80,9 +80,6 @@ class VideoActivity : BaseActivity() {
             view ->
             //直接横屏
             orientationUtils.resolveByClick()
-
-            //第一个true是否需要隐藏ActionBar，第二个true是否需要隐藏StatusBar
-            binding.player.startWindowFullscreen(this, true, true)
         }
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
@@ -174,12 +171,12 @@ class VideoActivity : BaseActivity() {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } else {
+            } /*else {
                 if (binding.player.isIfCurrentIsFullscreen) {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
                 orientationUtils.isEnable = true
-            }
+            } */
         }
     }
 }
