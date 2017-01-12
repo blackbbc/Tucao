@@ -36,6 +36,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     /* GSYVideoPlayer */
     compile project(':gsyVideoPlayer')
+    /* DanmakuFlameMaster */
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
+    compile 'com.github.ctiao:ndkbitmap-armv7a:0.6.2'
     /* Support Library */
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
