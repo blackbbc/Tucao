@@ -176,7 +176,7 @@ class VideoActivity : BaseActivity() {
                 }
             } else {
                 if (binding.player.isIfCurrentIsFullscreen) {
-                    StandardGSYVideoPlayer.backFromWindowFull(this);
+                    StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
                 orientationUtils.isEnable = true
             }
