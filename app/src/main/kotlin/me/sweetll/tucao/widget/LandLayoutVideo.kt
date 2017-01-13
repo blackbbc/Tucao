@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 
 import com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer
 import master.flame.danmaku.controller.DrawHandler
 import master.flame.danmaku.danmaku.loader.IllegalDataException
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory
@@ -24,6 +25,7 @@ import java.io.InputStream
 class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
     lateinit var danmakuContext: DanmakuContext
+    lateinit var parser: BaseDanmakuParser
 
     constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
 
@@ -56,7 +58,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     fun setUpDanmu(inputStream: InputStream) {
-        val parser = createParser(inputStream)
+        parser = createParser(inputStream)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
@@ -71,7 +73,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
-                "弹幕载入完成！".logD()
                 "弹幕载入完成！".toast()
             }
 
@@ -94,7 +95,41 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         return parser
     }
 
-    //这个必须配置最上面的构造才能生效
+    override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
+        val player = super.startWindowFullscreen(context, actionBar, statusBar)
+
+        // 保存弹幕状态
+        danmakuView.stop()
+        danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
+
+        // 载入弹幕状态
+        danmakuView.setCallback(object : DrawHandler.Callback {
+            override fun danmakuShown(danmaku: BaseDanmaku?) {
+
+            }
+
+            override fun updateTimer(timer: DanmakuTimer?) {
+
+            }
+
+            override fun drawingFinished() {
+
+            }
+
+            override fun prepared() {
+                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+                    danmakuView.seekTo(currentPositionWhenPlaying.toLong())
+                } else {
+                    danmakuView.start(currentPositionWhenPlaying.toLong())
+                }
+            }
+
+        })
+        danmakuView.prepare(parser, danmakuContext)
+        danmakuView.enableDanmakuDrawingCache(true)
+        return player
+    }
+
     override fun getLayoutId(): Int {
         if (mIfCurrentIsFullscreen) {
             return R.layout.danmu_video_land
@@ -106,19 +141,15 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         if (mIfCurrentIsFullscreen) {
             val imageView = mStartButton as ImageView
             if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_PLAYING) {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_play_selector)
+                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_pause_selector)
             } else if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_ERROR) {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_pause_selector)
+                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_play_selector)
             } else {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_pause_selector)
+                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_play_selector)
             }
         } else {
             super.updateStartImage()
         }
-    }
-
-    override fun setStateAndUi(state: Int) {
-        super.setStateAndUi(state)
     }
 
     override fun onVideoPause() {
@@ -136,26 +167,38 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     fun onVideoDestroy() {
-        danmakuView.release()
+        if (danmakuView.isPrepared) {
+            danmakuView.release()
+        }
     }
 
     fun startDanmu() {
-        danmakuView.start()
+        if (danmakuView.isPrepared) {
+            danmakuView.start()
+        }
     }
 
     fun stopDanmu() {
-        danmakuView.stop()
+        if (danmakuView.isPrepared) {
+            danmakuView.stop()
+        }
     }
 
     fun resumeDanmu() {
-        danmakuView.resume()
+        if (danmakuView.isPrepared) {
+            danmakuView.resume()
+        }
     }
 
     fun pauseDanmu() {
-        danmakuView.pause()
+        if (danmakuView.isPrepared) {
+            danmakuView.pause()
+        }
     }
 
-    fun seekToDanmu(ms: Long) {
-        danmakuView.seekTo(ms)
+    fun seekToDanmu() {
+        if (danmakuView.isPrepared) {
+            danmakuView.seekTo(currentPositionWhenPlaying.toLong())
+        }
     }
 }

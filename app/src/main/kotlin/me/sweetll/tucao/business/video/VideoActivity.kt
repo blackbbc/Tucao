@@ -120,6 +120,21 @@ class VideoActivity : BaseActivity() {
                 super.onClickResumeFullscreen(p0, *p1)
                 binding.player.resumeDanmu()
             }
+
+            override fun onClickSeekbar(p0: String?, vararg p1: Any?) {
+                super.onClickSeekbar(p0, *p1)
+                binding.player.seekToDanmu()
+            }
+
+            override fun onClickSeekbarFullscreen(p0: String?, vararg p1: Any?) {
+                super.onClickSeekbarFullscreen(p0, *p1)
+                binding.player.seekToDanmu()
+            }
+
+            override fun onTouchScreenSeekPosition(p0: String?, vararg p1: Any?) {
+                super.onTouchScreenSeekPosition(p0, *p1)
+                binding.player.seekToDanmu()
+            }
         })
 
         binding.player.setLockClickListener {
