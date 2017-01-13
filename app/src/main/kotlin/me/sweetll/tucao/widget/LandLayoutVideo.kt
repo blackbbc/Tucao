@@ -6,15 +6,19 @@ import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 
 import com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+import master.flame.danmaku.controller.DrawHandler
 import master.flame.danmaku.danmaku.loader.IllegalDataException
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory
 import master.flame.danmaku.danmaku.model.BaseDanmaku
+import master.flame.danmaku.danmaku.model.DanmakuTimer
 import master.flame.danmaku.danmaku.model.IDisplayer
 import master.flame.danmaku.danmaku.model.android.DanmakuContext
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
 import master.flame.danmaku.ui.widget.DanmakuView
 
 import me.sweetll.tucao.R
+import me.sweetll.tucao.extension.logD
+import me.sweetll.tucao.extension.toast
 
 class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
@@ -52,6 +56,25 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     fun setUpDanmu(url: String) {
         val parser = createParser(url)
+        danmakuView.setCallback(object : DrawHandler.Callback {
+            override fun danmakuShown(danmaku: BaseDanmaku?) {
+
+            }
+
+            override fun updateTimer(timer: DanmakuTimer?) {
+
+            }
+
+            override fun drawingFinished() {
+
+            }
+
+            override fun prepared() {
+                "弹幕载入完成！".logD()
+                "弹幕载入完成！".toast()
+            }
+
+        })
         danmakuView.prepare(parser, danmakuContext)
         danmakuView.enableDanmakuDrawingCache(true)
     }
@@ -93,4 +116,45 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
+    override fun setStateAndUi(state: Int) {
+        super.setStateAndUi(state)
+    }
+
+    override fun onVideoPause() {
+        super.onVideoPause()
+        if (danmakuView.isPrepared) {
+            danmakuView.pause()
+        }
+    }
+
+    override fun onVideoResume() {
+        super.onVideoResume()
+        if (danmakuView.isPrepared && danmakuView.isPaused) {
+            danmakuView.resume()
+        }
+    }
+
+    fun onVideoDestroy() {
+        danmakuView.release()
+    }
+
+    fun startDanmu() {
+        danmakuView.start()
+    }
+
+    fun stopDanmu() {
+        danmakuView.stop()
+    }
+
+    fun resumeDanmu() {
+        danmakuView.resume()
+    }
+
+    fun pauseDanmu() {
+        danmakuView.pause()
+    }
+
+    fun seekToDanmu(ms: Long) {
+        danmakuView.seekTo(ms)
+    }
 }
