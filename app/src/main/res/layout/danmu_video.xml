@@ -12,6 +12,11 @@
 
     </RelativeLayout>
 
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/danmaku"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
     <com.shuyu.gsyvideoplayer.GSYImageCover
         android:id="@+id/cover"
         android:layout_width="match_parent"

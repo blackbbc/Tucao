@@ -25,6 +25,15 @@ public class LandLayoutVideo extends CustomGSYVideoPlayer {
         super(context, attrs);
     }
 
+    @Override
+    protected void init(Context context) {
+        super.init(context);
+        initView();
+    }
+
+    private void initView() {
+
+    }
 
     //这个必须配置最上面的构造才能生效
     @Override
