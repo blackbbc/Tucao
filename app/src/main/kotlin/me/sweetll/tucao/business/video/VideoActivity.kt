@@ -103,7 +103,7 @@ class VideoActivity : BaseActivity() {
         val firstVid = result.video[0].vid
         if (firstVid != null) {
 //             载入第一个视频
-            viewModel.queryPlayUrls(result.video[0].type, firstVid)
+            viewModel.queryPlayUrls(result.hid, 0, result.video[0].type, firstVid)
         } else {
             "所选视频已失效".toast()
         }
@@ -124,7 +124,7 @@ class VideoActivity : BaseActivity() {
                     partAdapter.notifyDataSetChanged()
 
                     if (selectedVideo.vid != null) {
-                        viewModel.queryPlayUrls(selectedVideo.type, selectedVideo.vid)
+                        viewModel.queryPlayUrls(result.hid, position, selectedVideo.type, selectedVideo.vid)
                     } else {
                         "所选视频已失效".toast()
                     }

@@ -22,7 +22,9 @@ object ApiConfig {
      * XML
      */
     const val PLAY_URL_API_URL = "http://api.tucao.tv/api/playurl"
-    const val DANMU_API_URL = "index.php?m=mukio&c=index&a=init&playerID=11-{hid}-1-{part}"
+    const val DANMU_API_URL = "index.php?m=mukio&c=index&a=init"
+
+    fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 
     class RetryWithDelay(val maxRetries: Int = 3, val delayMillis: Long = 2000L) : Function<Observable<in Throwable>, Observable<*>> {
         var retryCount = 0
