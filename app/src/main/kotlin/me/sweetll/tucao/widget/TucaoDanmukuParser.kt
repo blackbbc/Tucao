@@ -16,9 +16,15 @@ import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
 import org.xml.sax.helpers.XMLReaderFactory
 import java.io.IOException
-import java.util.*
 
 class TucaoDanmukuParser: BaseDanmakuParser() {
+
+    companion object {
+        init {
+            System.setProperty("org.xml.sax.driver", "org.xmlpull.v1.sax2.Driver");
+        }
+    }
+
     var dispScaleX = 0f
     var dispScaleY = 0f
 

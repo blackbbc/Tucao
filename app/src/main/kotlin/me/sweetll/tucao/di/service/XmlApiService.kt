@@ -14,8 +14,4 @@ interface XmlApiService {
     fun playUrl(@Query("type") type: String,
              @Query("vid") vid: String,
              @Query("r") r: Long) : Observable<Video>
-
-//    @GET(ApiConfig.DANMU_API_URL)
-//    fun danmu(@Query("playerID") playerId: String,
-//              @Query("r") r: Long) : Observable<DanmuInfo>
 }

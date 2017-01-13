@@ -19,6 +19,7 @@ import master.flame.danmaku.ui.widget.DanmakuView
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
+import java.io.InputStream
 
 class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
@@ -54,8 +55,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
                 .preventOverlapping(overlappingEnablePair)
     }
 
-    fun setUpDanmu(url: String) {
-        val parser = createParser(url)
+    fun setUpDanmu(inputStream: InputStream) {
+        val parser = createParser(inputStream)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
@@ -79,11 +80,11 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         danmakuView.enableDanmakuDrawingCache(true)
     }
 
-    private fun createParser(url: String): BaseDanmakuParser {
+    private fun createParser(inputStream: InputStream): BaseDanmakuParser {
         val loader = DanmakuLoaderFactory.create(DanmakuLoaderFactory.TAG_BILI)
 
         try {
-            loader.load(url)
+            loader.load(inputStream)
         } catch (e: IllegalDataException) {
             e.printStackTrace()
         }

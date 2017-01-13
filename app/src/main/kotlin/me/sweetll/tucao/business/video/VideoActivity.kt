@@ -29,6 +29,7 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.model.xml.Durl
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.io.InputStream
 
 class VideoActivity : BaseActivity() {
     lateinit var viewModel: VideoViewModel
@@ -130,7 +131,6 @@ class VideoActivity : BaseActivity() {
         if (firstVid != null) {
 //             载入第一个视频
             viewModel.queryPlayUrls(result.hid, 0, result.video[0].type, firstVid)
-            binding.player.setUpDanmu(ApiConfig.generateDanmuUrl(result.hid, 0))
         } else {
             "所选视频已失效".toast()
         }
@@ -152,7 +152,6 @@ class VideoActivity : BaseActivity() {
 
                     if (selectedVideo.vid != null) {
                         viewModel.queryPlayUrls(result.hid, position, selectedVideo.type, selectedVideo.vid)
-                        binding.player.setUpDanmu(ApiConfig.generateDanmuUrl(result.hid, position))
                     } else {
                         "所选视频已失效".toast()
                     }
@@ -173,6 +172,10 @@ class VideoActivity : BaseActivity() {
                 "载入完成".toast()
             }
         }
+    }
+
+    fun loadDanmuStream(inputStream: InputStream) {
+        binding.player.setUpDanmu(inputStream)
     }
 
     override fun onPause() {
