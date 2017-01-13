@@ -34,18 +34,18 @@ class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewM
                     "请求视频接口出错".toast()
                 })
 
-        xmlApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
-                .bindToLifecycle(activity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    danmus ->
-                    danmus.toString().logD()
-                }, {
-                    error ->
-                    error.printStackTrace()
-                    "请求弹幕接口出错".toast()
-                })
+//        xmlApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
+//                .bindToLifecycle(activity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    danmus ->
+//                    danmus.toString().logD()
+//                }, {
+//                    error ->
+//                    error.printStackTrace()
+//                    "请求弹幕接口出错".toast()
+//                })
     }
 
 }

@@ -22,6 +22,7 @@ import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.setUp
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
@@ -104,6 +105,7 @@ class VideoActivity : BaseActivity() {
         if (firstVid != null) {
 //             载入第一个视频
             viewModel.queryPlayUrls(result.hid, 0, result.video[0].type, firstVid)
+            binding.player.setUpDanmu(ApiConfig.generateDanmuUrl(result.hid, 0))
         } else {
             "所选视频已失效".toast()
         }
