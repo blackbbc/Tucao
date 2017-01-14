@@ -94,47 +94,9 @@ class VideoActivity : BaseActivity() {
             override fun onQuitFullscreen(p0: String?, vararg p1: Any?) {
                 super.onQuitFullscreen(p0, *p1)
                 orientationUtils.backToProtVideo()
+                binding.player.quitFullScreen()
             }
 
-            override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
-                super.onClickStartIcon(p0, *p1)
-                binding.player.startDanmu()
-            }
-
-            override fun onClickStop(p0: String?, vararg p1: Any?) {
-                super.onClickStop(p0, *p1)
-                binding.player.pauseDanmu()
-            }
-
-            override fun onClickStopFullscreen(p0: String?, vararg p1: Any?) {
-                super.onClickStopFullscreen(p0, *p1)
-                binding.player.pauseDanmu()
-            }
-
-            override fun onClickResume(p0: String?, vararg p1: Any?) {
-                super.onClickResume(p0, *p1)
-                binding.player.resumeDanmu()
-            }
-
-            override fun onClickResumeFullscreen(p0: String?, vararg p1: Any?) {
-                super.onClickResumeFullscreen(p0, *p1)
-                binding.player.resumeDanmu()
-            }
-
-            override fun onClickSeekbar(p0: String?, vararg p1: Any?) {
-                super.onClickSeekbar(p0, *p1)
-                binding.player.seekToDanmu()
-            }
-
-            override fun onClickSeekbarFullscreen(p0: String?, vararg p1: Any?) {
-                super.onClickSeekbarFullscreen(p0, *p1)
-                binding.player.seekToDanmu()
-            }
-
-            override fun onTouchScreenSeekPosition(p0: String?, vararg p1: Any?) {
-                super.onTouchScreenSeekPosition(p0, *p1)
-                binding.player.seekToDanmu()
-            }
         })
 
         binding.player.setLockClickListener {

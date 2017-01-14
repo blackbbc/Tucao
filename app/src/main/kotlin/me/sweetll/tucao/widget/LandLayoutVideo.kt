@@ -27,6 +27,9 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuContext: DanmakuContext
     lateinit var parser: BaseDanmakuParser
 
+    var mLastState = -1
+    var needCorrectDanmu = false
+
     constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
 
     constructor(context: Context) : super(context)
@@ -78,7 +81,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         danmakuView.prepare(parser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(true)
+//        danmakuView.enableDanmakuDrawingCache(true)
     }
 
     private fun createParser(inputStream: InputStream): BaseDanmakuParser {
@@ -96,9 +99,10 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
-        val player = super.startWindowFullscreen(context, actionBar, statusBar)
+        val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
 
         // 保存弹幕状态
+//        danmakuView.pause()
         danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
 
         // 载入弹幕状态
@@ -116,17 +120,29 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
+                danmakuView.start(player.currentPositionWhenPlaying.toLong())
                 if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-                    danmakuView.seekTo(currentPositionWhenPlaying.toLong())
-                } else {
-                    danmakuView.start(currentPositionWhenPlaying.toLong())
+                    danmakuView.pause()
                 }
             }
 
         })
         danmakuView.prepare(parser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(true)
+//        danmakuView.enableDanmakuDrawingCache(true)
         return player
+    }
+
+    /*
+     * 返回正常状态
+     */
+    fun quitFullScreen() {
+        danmakuView.pause()
+        danmakuView = findViewById(R.id.danmaku) as DanmakuView
+        danmakuView.stop()
+        danmakuView.start(currentPositionWhenPlaying.toLong())
+        if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+            danmakuView.pause()
+        }
     }
 
     override fun getLayoutId(): Int {
@@ -171,6 +187,31 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
+    /*
+     * 在这里更新状态
+     * 每隔300ms刷新一次
+     */
+    override fun setTextAndProgress() {
+        super.setTextAndProgress()
+        if (needCorrectDanmu) {
+            needCorrectDanmu = false
+            seekDanmu()
+        }
+        when (mCurrentState) {
+            GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START, GSYVideoPlayer.CURRENT_STATE_PAUSE -> {
+                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING || mLastState == -1) {
+                    pauseDanmu()
+                }
+            }
+            GSYVideoPlayer.CURRENT_STATE_PLAYING  -> {
+                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PAUSE || mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START) {
+                    resumeDanmu()
+                }
+            }
+        }
+        mLastState = mCurrentState
+    }
+
     fun startDanmu() {
         if (danmakuView.isPrepared) {
             danmakuView.start()
@@ -195,9 +236,14 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
-    fun seekToDanmu() {
+    fun seekDanmu() {
         if (danmakuView.isPrepared) {
             danmakuView.seekTo(currentPositionWhenPlaying.toLong())
         }
+    }
+
+    override fun onSeekComplete() {
+        super.onSeekComplete()
+        needCorrectDanmu = true
     }
 }
