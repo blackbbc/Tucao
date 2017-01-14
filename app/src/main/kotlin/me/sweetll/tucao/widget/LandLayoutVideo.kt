@@ -99,7 +99,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         val player = super.startWindowFullscreen(context, actionBar, statusBar)
 
         // 保存弹幕状态
-        danmakuView.stop()
         danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
 
         // 载入弹幕状态
