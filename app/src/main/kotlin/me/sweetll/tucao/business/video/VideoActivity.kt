@@ -182,12 +182,12 @@ class VideoActivity : BaseActivity() {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } /*else {
+            } else {
                 if (binding.player.isIfCurrentIsFullscreen) {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
                 orientationUtils.isEnable = true
-            } */
+            }
         }
     }
 }

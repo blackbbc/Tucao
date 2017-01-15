@@ -27,6 +27,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuContext: DanmakuContext
     lateinit var parser: BaseDanmakuParser
 
+    var danmuStream: InputStream? = null
+
     var mLastState = -1
     var needCorrectDanmu = false
 
@@ -61,6 +63,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     fun setUpDanmu(inputStream: InputStream) {
+        danmuStream = inputStream
         parser = createParser(inputStream)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
@@ -103,31 +106,32 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         // 保存弹幕状态
 //        danmakuView.pause()
-        danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
+//        danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
 
         // 载入弹幕状态
-        danmakuView.setCallback(object : DrawHandler.Callback {
-            override fun danmakuShown(danmaku: BaseDanmaku?) {
+//        danmakuView.setCallback(object : DrawHandler.Callback {
+//            override fun danmakuShown(danmaku: BaseDanmaku?) {
 
-            }
+//            }
 
-            override fun updateTimer(timer: DanmakuTimer?) {
+//            override fun updateTimer(timer: DanmakuTimer?) {
 
-            }
+//            }
 
-            override fun drawingFinished() {
+//            override fun drawingFinished() {
 
-            }
+//            }
 
-            override fun prepared() {
-                danmakuView.start(player.currentPositionWhenPlaying.toLong())
-                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-                    danmakuView.pause()
-                }
-            }
+//            override fun prepared() {
+//                danmakuView.start()
+//                danmakuView.start(player.currentPositionWhenPlaying.toLong())
+//                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+//                    danmakuView.pause()
+//                }
+//            }
 
-        })
-        danmakuView.prepare(parser, danmakuContext)
+//        })
+//        danmakuView.prepare(parser, danmakuContext)
 //        danmakuView.enableDanmakuDrawingCache(true)
         return player
     }
@@ -136,13 +140,13 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
      * 返回正常状态
      */
     fun quitFullScreen() {
-        danmakuView.pause()
-        danmakuView = findViewById(R.id.danmaku) as DanmakuView
-        danmakuView.stop()
-        danmakuView.start(currentPositionWhenPlaying.toLong())
-        if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-            danmakuView.pause()
-        }
+//        danmakuView.pause()
+//        danmakuView = findViewById(R.id.danmaku) as DanmakuView
+//        danmakuView.stop()
+//        danmakuView.start(currentPositionWhenPlaying.toLong())
+//        if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+//            danmakuView.pause()
+//        }
     }
 
     override fun getLayoutId(): Int {
@@ -204,7 +208,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
                 }
             }
             GSYVideoPlayer.CURRENT_STATE_PLAYING  -> {
-                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PAUSE || mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START) {
+                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PAUSE || mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || mLastState == -1) {
                     resumeDanmu()
                 }
             }
@@ -226,18 +230,21 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     fun resumeDanmu() {
         if (danmakuView.isPrepared) {
+            "resumeDanmu".logD()
             danmakuView.resume()
         }
     }
 
     fun pauseDanmu() {
         if (danmakuView.isPrepared) {
+            "pauseDanmu".logD()
             danmakuView.pause()
         }
     }
 
     fun seekDanmu() {
         if (danmakuView.isPrepared) {
+            "seekDanmu".logD()
             danmakuView.seekTo(currentPositionWhenPlaying.toLong())
         }
     }
