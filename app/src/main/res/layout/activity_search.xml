@@ -45,7 +45,7 @@
                 android:paddingStart="8dp"
                 android:paddingRight="8dp"
                 android:paddingEnd="8dp"
-                android:background="@drawable/bg_white_round_rectangle"
+                android:background="@drawable/bg_round_white_rectangle"
                 android:inputType="text"
                 android:imeOptions="actionSearch"
                 android:textColor="@color/primary_text"

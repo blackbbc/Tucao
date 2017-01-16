@@ -5,6 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="me.sweetll.tucao.business.rank.RankActivity">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.rank.viewmodel.RankViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +30,51 @@
             android:minHeight="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckedTextView
+                    android:id="@+id/text_day"
+                    android:tag="0"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="4dp"
+                    android:layout_toLeftOf="@+id/text_week"
+                    android:layout_toStartOf="@+id/text_week"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:checked="true"
+                    android:background="@drawable/selector_date_filter"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="日"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:onClick="@{viewModel::onClickFilterDate}"/>
+
+                <CheckedTextView
+                    android:id="@+id/text_week"
+                    android:tag="1"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="4dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/selector_date_filter"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="周"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:onClick="@{viewModel::onClickFilterDate}"/>
+
+            </RelativeLayout>
+
+
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

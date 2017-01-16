@@ -9,12 +9,14 @@ import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.rank.adapter.RankPagerAdapter
+import me.sweetll.tucao.business.rank.viewmodel.RankViewModel
 import me.sweetll.tucao.databinding.ActivityRankBinding
 import me.sweetll.tucao.model.json.Channel
 
 class RankActivity : BaseActivity() {
 
     lateinit var binding: ActivityRankBinding
+    val viewModel = RankViewModel(this)
 
     lateinit var parentChannels: List<Channel>
 
@@ -31,6 +33,7 @@ class RankActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_rank)
+        binding.viewModel = viewModel
 
         parentChannels = Channel.findAllParentChannels()
         binding.viewPager.adapter = RankPagerAdapter(supportFragmentManager, parentChannels)

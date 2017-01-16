@@ -30,11 +30,11 @@ class RankVideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, Bas
             }
             2 -> {
                 rankText.textSize = 22f
-                rankText.setTextColor(ContextCompat.getColor(mContext, R.color.pink_300))
+                rankText.setTextColor(ContextCompat.getColor(mContext, R.color.pink_400))
             }
             3 -> {
                 rankText.textSize = 20f
-                rankText.setTextColor(ContextCompat.getColor(mContext, R.color.pink_100))
+                rankText.setTextColor(ContextCompat.getColor(mContext, R.color.pink_300))
             }
             else -> {
                 rankText.textSize = 18f
