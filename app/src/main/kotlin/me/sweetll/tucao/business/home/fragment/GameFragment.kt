@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import me.sweetll.tucao.R
 
 
-class BangumiFragment : Fragment() {
+class GameFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_bangumi, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_game, container, false)
         return rootView
     }
 
