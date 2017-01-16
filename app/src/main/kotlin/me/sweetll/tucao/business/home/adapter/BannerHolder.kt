@@ -6,13 +6,13 @@ import android.widget.ImageView
 import com.bigkoo.convenientbanner.holder.Holder
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.model.raw.Banner
+import me.sweetll.tucao.widget.TopCropImageView
 
 class BannerHolder: Holder<Banner> {
     lateinit var imageView: ImageView
 
     override fun createView(context: Context?): View {
-        imageView = ImageView(context)
-        imageView.scaleType = ImageView.ScaleType.FIT_XY
+        imageView = TopCropImageView(context)
         return imageView
     }
 

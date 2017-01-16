@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bigkoo.convenientbanner.ConvenientBanner
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
@@ -26,12 +25,19 @@ class RecommendFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadData()
+        }
     }
 
     fun loadIndex(index: Index) {
         binding.banner.setPages({ BannerHolder() }, index.banners)
-                .setPageIndicator(intArrayOf(R.drawable.indicator_pink_circle, R.drawable.indicator_white_circle))
+                .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
                 .startTurning(3000)
+    }
+
+    fun setRefreshing(isRefreshing: Boolean) {
+        binding.swipeRefresh.isRefreshing = isRefreshing
     }
 }
