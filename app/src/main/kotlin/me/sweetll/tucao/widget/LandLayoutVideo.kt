@@ -123,7 +123,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
             override fun prepared() {
                 fullScreenDanmakuView.start(player.currentPositionWhenPlaying.toLong())
-                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE || currentState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START) {
                     fullScreenDanmakuView.pause()
                 }
             }
@@ -132,13 +132,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         fullScreenDanmakuView.prepare(parser, danmakuContext)
         fullScreenDanmakuView.enableDanmakuDrawingCache(true)
         return player
-    }
-
-    /*
-     * 返回正常状态
-     */
-    fun quitFullScreen() {
-        // 好像不用做什么事情
     }
 
     override fun getLayoutId(): Int {
@@ -206,6 +199,11 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
         }
         mLastState = mCurrentState
+    }
+
+    override fun onPrepared() {
+        super.onPrepared()
+        startDanmu()
     }
 
     fun startDanmu() {

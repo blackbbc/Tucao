@@ -94,7 +94,6 @@ class VideoActivity : BaseActivity() {
             override fun onQuitFullscreen(p0: String?, vararg p1: Any?) {
                 super.onQuitFullscreen(p0, *p1)
                 orientationUtils.backToProtVideo()
-                binding.player.quitFullScreen()
             }
 
         })
