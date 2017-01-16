@@ -6,7 +6,7 @@
 
     <data>
         <variable
-            name="ViewModel"
+            name="viewModel"
             type="me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel" />
     </data>
 
@@ -29,6 +29,12 @@
             android:minHeight="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_drop_down"
+                android:background="?selectableItemBackgroundBorderless"
+                android:onClick="@{viewModel::onClickOrderFilters}"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

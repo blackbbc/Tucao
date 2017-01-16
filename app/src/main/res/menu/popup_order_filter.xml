@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_date"
+        android:title="最近发布" />
+    <item android:id="@+id/menu_views"
+        android:title="人气最旺" />
+    <item android:id="@+id/menu_mukio"
+        android:title="弹幕最多" />
+</menu>
