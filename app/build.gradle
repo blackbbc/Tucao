@@ -80,6 +80,8 @@ dependencies {
     compile 'me.drakeet.library:crashwoodpecker:2.1.1'
     /* Umeng */
     compile 'com.umeng.analytics:analytics:6.0.7'
+    /* EventBus */
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 repositories {

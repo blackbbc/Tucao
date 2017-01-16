@@ -6,6 +6,8 @@ import me.sweetll.tucao.base.BaseViewModel
 import android.widget.Toast
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
+import me.sweetll.tucao.business.channel.event.ChangeChannelFilterEvent
+import org.greenrobot.eventbus.EventBus
 
 
 class ChannelDetailViewModel(val activity: ChannelDetailActivity) : BaseViewModel() {
@@ -24,17 +26,17 @@ class ChannelDetailViewModel(val activity: ChannelDetailActivity) : BaseViewMode
             when (item.itemId) {
                 R.id.menu_date -> {
                     activity.getToolbar().subtitle = "最近发布"
-                    Toast.makeText(activity, "最近发布", Toast.LENGTH_SHORT).show()
+                    EventBus.getDefault().post(ChangeChannelFilterEvent("date"))
                     true
                 }
                 R.id.menu_views -> {
                     activity.getToolbar().subtitle = "人气最旺"
-                    Toast.makeText(activity, "人气最旺", Toast.LENGTH_SHORT).show()
+                    EventBus.getDefault().post(ChangeChannelFilterEvent("views"))
                     true
                 }
                 R.id.menu_mukio -> {
                     activity.getToolbar().subtitle = "弹幕最多"
-                    Toast.makeText(activity, "弹幕最多", Toast.LENGTH_SHORT).show()
+                    EventBus.getDefault().post(ChangeChannelFilterEvent("mukio"))
                     true
                 }
                 else -> false

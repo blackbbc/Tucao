@@ -14,12 +14,15 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
+import me.sweetll.tucao.business.channel.event.ChangeChannelFilterEvent
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 class ChannelDetailFragment : RxFragment() {
@@ -30,6 +33,8 @@ class ChannelDetailFragment : RxFragment() {
 
     var pageIndex = 1
     val pageSize = 10
+
+    var order = "date"
 
     @Inject
     lateinit var jsonApiService: JsonApiService
@@ -77,13 +82,25 @@ class ChannelDetailFragment : RxFragment() {
             loadData()
         }
 
-        binding.swipeRefresh.isRefreshing = true
         loadData()
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
     fun loadData() {
+        if (!binding.swipeRefresh.isRefreshing) {
+            binding.swipeRefresh.isRefreshing = true
+        }
         pageIndex = 1
-        jsonApiService.list(tid, pageIndex, pageSize, null)
+        jsonApiService.list(tid, pageIndex, pageSize, order)
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
@@ -98,7 +115,7 @@ class ChannelDetailFragment : RxFragment() {
     }
 
     fun loadMoreData() {
-        jsonApiService.list(tid, pageIndex, pageSize, null)
+        jsonApiService.list(tid, pageIndex, pageSize, order)
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .subscribe({
@@ -116,5 +133,15 @@ class ChannelDetailFragment : RxFragment() {
                     videoAdapter.loadMoreFail()
                 })
     }
+
+    @Subscribe()
+    fun onChangeChannelFilterEvent(event: ChangeChannelFilterEvent) {
+        if (order != event.order) {
+            order = event.order
+            loadData()
+        }
+    }
+
+
 }
 
