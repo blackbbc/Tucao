@@ -84,7 +84,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         danmakuView.prepare(parser, danmakuContext)
-//        danmakuView.enableDanmakuDrawingCache(true)
+        danmakuView.enableDanmakuDrawingCache(true)
     }
 
     private fun createParser(inputStream: InputStream): BaseDanmakuParser {
@@ -105,34 +105,32 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
 
         // 保存弹幕状态
-//        danmakuView.pause()
-//        danmakuView = player.findViewById(R.id.danmaku) as DanmakuView
+        val fullScreenDanmakuView = player.findViewById(R.id.danmaku) as DanmakuView
 
         // 载入弹幕状态
-//        danmakuView.setCallback(object : DrawHandler.Callback {
-//            override fun danmakuShown(danmaku: BaseDanmaku?) {
+        fullScreenDanmakuView.setCallback(object : DrawHandler.Callback {
+            override fun danmakuShown(danmaku: BaseDanmaku?) {
 
-//            }
+            }
 
-//            override fun updateTimer(timer: DanmakuTimer?) {
+            override fun updateTimer(timer: DanmakuTimer?) {
 
-//            }
+            }
 
-//            override fun drawingFinished() {
+            override fun drawingFinished() {
 
-//            }
+            }
 
-//            override fun prepared() {
-//                danmakuView.start()
-//                danmakuView.start(player.currentPositionWhenPlaying.toLong())
-//                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-//                    danmakuView.pause()
-//                }
-//            }
+            override fun prepared() {
+                fullScreenDanmakuView.start(player.currentPositionWhenPlaying.toLong())
+                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+                    fullScreenDanmakuView.pause()
+                }
+            }
 
-//        })
-//        danmakuView.prepare(parser, danmakuContext)
-//        danmakuView.enableDanmakuDrawingCache(true)
+        })
+        fullScreenDanmakuView.prepare(parser, danmakuContext)
+        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
         return player
     }
 
@@ -140,13 +138,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
      * 返回正常状态
      */
     fun quitFullScreen() {
-//        danmakuView.pause()
-//        danmakuView = findViewById(R.id.danmaku) as DanmakuView
-//        danmakuView.stop()
-//        danmakuView.start(currentPositionWhenPlaying.toLong())
-//        if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-//            danmakuView.pause()
-//        }
+        // 好像不用做什么事情
     }
 
     override fun getLayoutId(): Int {
