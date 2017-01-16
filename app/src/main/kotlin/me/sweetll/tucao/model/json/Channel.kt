@@ -44,6 +44,8 @@ data class Channel(var id: Int, var name: String, var parentId: Int? = null) {
         fun find(tid: Int): Channel? = CHANNELS.find { it.id == tid }
 
         fun findSiblingChannels(tid: Int) = CHANNELS.filter { tid == it.id || tid == it.parentId }
+
+        fun findAllParentChannels() = CHANNELS.filter { it.parentId == null }
     }
 
     fun getValidParentId(): Int = if (parentId != null) parentId!! else id

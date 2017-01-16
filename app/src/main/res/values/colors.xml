@@ -6,4 +6,11 @@
     <color name="secondary_text">#8A000000</color>
     <color name="hint_text">#60000000</color>
     <color name="divider">#1E000000</color>
+
+    <color name="pink_500">#E91E63</color>
+    <color name="pink_400">#EC407A</color>
+    <color name="pink_300">#F06292</color>
+    <color name="pink_200">#F48FB1</color>
+    <color name="pink_100">#F8BBD0</color>
+    <color name="pink_50">#FCE4EC</color>
 </resources>
