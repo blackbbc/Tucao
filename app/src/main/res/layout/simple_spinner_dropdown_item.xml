@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <CheckedTextView
+        android:id="@android:id/text1"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:ellipsize="marquee"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center_vertical"
+        tools:text="最近发布"
+        android:textSize="18sp"
+        android:textColor="@color/primary_text"/>
+</FrameLayout>

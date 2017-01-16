@@ -29,12 +29,12 @@
             android:minHeight="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_drop_down"
-                android:background="?selectableItemBackgroundBorderless"
-                android:onClick="@{viewModel::onClickOrderFilters}"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
