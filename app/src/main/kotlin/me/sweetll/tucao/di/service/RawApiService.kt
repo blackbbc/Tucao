@@ -9,4 +9,7 @@ interface RawApiService {
     @GET(ApiConfig.DANMU_API_URL)
     fun danmu(@Query("playerID") playerId: String,
               @Query("r") r: Long) : Observable<ResponseBody>
+
+    @GET(ApiConfig.INDEX_URL)
+    fun index() : Observable<ResponseBody>
 }

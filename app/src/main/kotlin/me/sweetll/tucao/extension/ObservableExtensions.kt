@@ -6,6 +6,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
+import okhttp3.ResponseBody
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
         .subscribeOn(Schedulers.io())
@@ -28,5 +31,14 @@ fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T
             } else {
                 Observable.error(Throwable(response.msg))
             }
+        }
+        .observeOn(AndroidSchedulers.mainThread())
+
+fun Observable<ResponseBody>.sanitizeHtml(): Observable<Document> = this
+        .subscribeOn(Schedulers.io())
+        .retryWhen(ApiConfig.RetryWithDelay())
+        .map {
+            response ->
+            Jsoup.parse(response.string())
         }
         .observeOn(AndroidSchedulers.mainThread())

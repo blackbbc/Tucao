@@ -82,6 +82,8 @@ dependencies {
     compile 'com.umeng.analytics:analytics:6.0.7'
     /* EventBus */
     compile 'org.greenrobot:eventbus:3.0.0'
+    /* Banner */
+    compile 'com.bigkoo:convenientbanner:2.0.5'
 }
 
 repositories {
