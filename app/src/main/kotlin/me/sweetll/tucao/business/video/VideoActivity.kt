@@ -142,10 +142,10 @@ class VideoActivity : BaseActivity() {
         durls?.isNotEmpty().let {
             if (durls!!.size == 1) {
                 binding.player.setUp(durls[0].url, true, null)
-                "载入完成".toast()
+                "视频载入完成".toast()
             } else {
                 binding.player.setUp(durls, true)
-                "载入完成".toast()
+                "视频载入完成".toast()
             }
         }
     }

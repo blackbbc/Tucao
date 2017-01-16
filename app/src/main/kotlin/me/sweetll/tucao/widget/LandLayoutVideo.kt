@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
+import com.shuyu.gsyvideoplayer.utils.CommonUtil
 
 import com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer
@@ -84,7 +85,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         danmakuView.prepare(parser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(true)
+//        danmakuView.enableDanmakuDrawingCache(true)
     }
 
     private fun createParser(inputStream: InputStream): BaseDanmakuParser {
@@ -130,7 +131,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         fullScreenDanmakuView.prepare(parser, danmakuContext)
-        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
+//        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
         return player
     }
 
@@ -165,15 +166,13 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     override fun onVideoResume() {
         super.onVideoResume()
-        if (danmakuView.isPrepared && danmakuView.isPaused) {
+        if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_PLAYING && danmakuView.isPrepared && danmakuView.isPaused) {
             danmakuView.resume()
         }
     }
 
     fun onVideoDestroy() {
-        if (danmakuView.isPrepared) {
-            danmakuView.release()
-        }
+        danmakuView.release()
     }
 
     /*
@@ -204,10 +203,14 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     override fun onPrepared() {
         super.onPrepared()
         startDanmu()
+
+        // 隐藏状态栏
+        CommonUtil.hideSupportActionBar(context, true, true)
     }
 
     fun startDanmu() {
         if (danmakuView.isPrepared) {
+            "startDanmu".logD()
             danmakuView.start()
         }
     }
