@@ -34,11 +34,11 @@ fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T
         }
         .observeOn(AndroidSchedulers.mainThread())
 
-fun Observable<ResponseBody>.sanitizeHtml(): Observable<Document> = this
+fun <T> Observable<ResponseBody>.sanitizeHtml(transform: Document.() ->  T): Observable<T> = this
         .subscribeOn(Schedulers.io())
         .retryWhen(ApiConfig.RetryWithDelay())
         .map {
             response ->
-            Jsoup.parse(response.string())
+            Jsoup.parse(response.string()).transform()
         }
         .observeOn(AndroidSchedulers.mainThread())

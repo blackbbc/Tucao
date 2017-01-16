@@ -13,7 +13,9 @@ class RecommandViewModel(fragment: RecommendFragment): BaseViewModel() {
 
     fun loadData() {
         rawApiService.index()
-                .sanitizeHtml()
+                .sanitizeHtml({
+
+                })
                 .subscribe({
                     doc ->
                     "成功".logD()
