@@ -33,7 +33,6 @@
         <activity android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".business.video.VideoActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait"/>

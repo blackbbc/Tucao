@@ -181,7 +181,7 @@ class VideoActivity : BaseActivity() {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } else {
+            } else if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 if (binding.player.isIfCurrentIsFullscreen) {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
