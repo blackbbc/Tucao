@@ -40,8 +40,9 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     }
 
     fun parseBanners(doc: Document): List<Banner> {
+        val banners = mutableListOf<Banner>()
 
-        return mutableListOf()
+        return banners
     }
 
     fun parseRecommends(doc: Document): Map<Channel, List<Result>> {
