@@ -25,6 +25,7 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
+        binding.viewPager.offscreenPageLimit = 6
         binding.tab.setupWithViewPager(binding.viewPager)
     }
 
