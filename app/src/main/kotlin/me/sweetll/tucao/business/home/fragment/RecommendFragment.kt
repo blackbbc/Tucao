@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
+import me.sweetll.tucao.model.raw.Index
 
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
@@ -22,5 +23,9 @@ class RecommendFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun loadIndex(index: Index) {
+
     }
 }
