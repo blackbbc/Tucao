@@ -1,12 +1,14 @@
 package me.sweetll.tucao.business.home.viewmodel
 
+import android.view.View
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.home.fragment.RecommendFragment
+import me.sweetll.tucao.business.rank.RankActivity
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 
-class RecommandViewModel(fragment: RecommendFragment): BaseViewModel() {
+class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     init {
         loadData()
     }
@@ -24,6 +26,10 @@ class RecommandViewModel(fragment: RecommendFragment): BaseViewModel() {
                     error.printStackTrace()
                     error.message?.toast()
                 })
+    }
+
+    fun onClickRank(view: View) {
+        RankActivity.intentTo(fragment.activity)
     }
 
 }

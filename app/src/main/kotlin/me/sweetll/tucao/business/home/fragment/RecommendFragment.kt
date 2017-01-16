@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import me.sweetll.tucao.R
-import me.sweetll.tucao.business.home.viewmodel.RecommandViewModel
+import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
 
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
-    val viewModel: RecommandViewModel by lazy { RecommandViewModel(this) }
+    val viewModel: RecommendViewModel by lazy { RecommendViewModel(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recommend, container, false)

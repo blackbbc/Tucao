@@ -17,6 +17,7 @@ object ApiConfig {
     const val LIST_API_URL = "list.php"
     const val SEARCH_API_URL = "search.php"
     const val VIEW_API_URL = "view.php"
+    const val RANK_API_URL = "rank.php"
 
     /*
      * XML
