@@ -3,6 +3,7 @@ package me.sweetll.tucao.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
@@ -164,8 +165,11 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
-    override fun clearFullscreenLayout() {
-        super.clearFullscreenLayout()
+    override fun resolveNormalVideoShow(oldF: View?, vp: ViewGroup?, gsyVideoPlayer: GSYVideoPlayer?) {
+        gsyVideoPlayer?.let {
+            (it as LandLayoutVideo).onVideoDestroy()
+        }
+        super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer)
         danmakuView.show()
     }
 

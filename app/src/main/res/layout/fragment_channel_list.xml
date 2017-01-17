@@ -42,13 +42,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="动画"/>
+                        android:text="动画"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="19"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -67,6 +71,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MAD·AMV·GMV"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -79,6 +85,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="MMD·3D"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -89,6 +97,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="原创·配音"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -101,6 +111,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="综合·周边·其他"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -130,13 +142,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="音乐"/>
+                        android:text="音乐"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -145,6 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+
                     app:columnCount="3"
                     app:columnOrderPreserved="false">
 
@@ -155,6 +172,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="acg音乐"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -167,6 +186,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="翻唱·原唱"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -177,6 +198,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="舞蹈"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -189,6 +212,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="VOCALOID·UTAU"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -202,6 +227,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="演奏·乐器"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -213,6 +240,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="op·ed·ost·角色歌"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -224,6 +253,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="Live·声优相关"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -253,13 +284,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="游戏"/>
+                        android:text="游戏"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -278,6 +313,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="游戏影音"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -290,6 +327,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="网络游戏"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -300,6 +339,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="单机游戏"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -312,6 +353,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电子竞技"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -325,6 +368,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="家机·掌机·手机"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -354,13 +399,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="三次元"/>
+                        android:text="三次元"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -379,6 +428,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="喜闻乐见"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -391,6 +442,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="娱乐鬼触"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -401,6 +454,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="科技·数码"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -413,6 +468,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="运动·体育"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -426,6 +483,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="军事情报"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -437,6 +496,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="宠物·猫·狗"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -466,13 +527,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="影剧"/>
+                        android:text="影剧"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -491,6 +556,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电视剧"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -503,6 +570,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="电影"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -513,6 +582,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="娱乐综艺"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -525,6 +596,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="完结剧集"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -555,13 +628,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="新番"/>
+                        android:text="新番"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_text"/>
 
                     <TextView
                         android:tag="24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多>>"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorPrimary"
                         android:onClick="@{viewModel::onClickChannel}"/>
 
                 </LinearLayout>
@@ -580,6 +657,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="连载新番"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
@@ -592,6 +671,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="天朝出品"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -602,6 +683,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="OAD·OVA·剧场版"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1"/>
 
@@ -614,6 +697,8 @@
                         android:background="#EEEEEE"
                         android:gravity="center"
                         android:text="完结番组"
+                        android:textSize="11sp"
+                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
