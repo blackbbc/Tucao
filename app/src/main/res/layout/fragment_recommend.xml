@@ -13,17 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommendRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/divider"
+            tools:listitem="@layout/item_recommend_video" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recommendRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_recommend_video" />
-
-        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

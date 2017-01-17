@@ -25,25 +25,29 @@ class RecommendAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb1)
                     playText = helper.getView<TextView>(R.id.text_play1)
                     titleText = helper.getView<TextView>(R.id.text_title1)
+                    helper.setTag(R.id.linear1, result.hid)
                     helper.addOnClickListener(R.id.linear1)
                 }
                 1 -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb2)
                     playText = helper.getView<TextView>(R.id.text_play2)
                     titleText = helper.getView<TextView>(R.id.text_title2)
-                    helper.addOnClickListener(R.id.linear1)
+                    helper.setTag(R.id.linear2, result.hid)
+                    helper.addOnClickListener(R.id.linear2)
                 }
                 2 -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb3)
                     playText = helper.getView<TextView>(R.id.text_play3)
                     titleText = helper.getView<TextView>(R.id.text_title3)
-                    helper.addOnClickListener(R.id.linear1)
+                    helper.setTag(R.id.linear3, result.hid)
+                    helper.addOnClickListener(R.id.linear3)
                 }
                 else -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb4)
                     playText = helper.getView<TextView>(R.id.text_play4)
                     titleText = helper.getView<TextView>(R.id.text_title4)
-                    helper.addOnClickListener(R.id.linear1)
+                    helper.setTag(R.id.linear4, result.hid)
+                    helper.addOnClickListener(R.id.linear4)
                 }
             }
             thumbImg.load(result.thumb)
@@ -70,6 +74,7 @@ class RecommendAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
 
         if (channel.id != 0) {
             helper.setText(R.id.text_more, "更多${channel.name}内容")
+            helper.setTag(R.id.text_more, channel.id)
             helper.setVisible(R.id.text_more, true)
             helper.setVisible(R.id.img_rank, false)
             helper.addOnClickListener(R.id.text_more)

@@ -8,7 +8,9 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     tools:paddingTop="33dp"
-    android:orientation="vertical">
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/text_channel"

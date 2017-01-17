@@ -8,14 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bigkoo.convenientbanner.ConvenientBanner
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
-import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
@@ -44,9 +47,23 @@ class RecommendFragment : Fragment() {
 
         binding.recommendRecycler.layoutManager = LinearLayoutManager(activity)
         binding.recommendRecycler.adapter = recommendAdapter
-        binding.recommendRecycler.addItemDecoration(HorizontalDividerBuilder.newInstance(activity)
-                .setDivider(R.drawable.divider_big)
-                .build())
+
+        // Item子控件点击
+        binding.recommendRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
+            override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                when (view.id) {
+                    R.id.text_rank -> {
+                        viewModel.onClickRank(view)
+                    }
+                    R.id.text_more -> {
+                        ChannelDetailActivity.intentTo(activity, view.tag as Int)
+                    }
+                    R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
+
+                    }
+                }
+            }
+        })
     }
 
     fun loadIndex(index: Index) {
