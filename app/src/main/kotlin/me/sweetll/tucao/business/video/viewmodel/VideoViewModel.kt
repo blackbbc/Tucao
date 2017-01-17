@@ -4,13 +4,15 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
-import okhttp3.ResponseBody
+import java.io.File
+import java.io.FileOutputStream
 
 class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewModel() {
     fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
@@ -38,11 +40,20 @@ class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewM
         rawApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
-                .map(ResponseBody::byteStream)
+                .map({
+                    responseBody ->
+                    val outputFile = File.createTempFile("tucao", ".xml", AppApplication.get().cacheDir)
+                    val outputStream = FileOutputStream(outputFile)
+
+                    outputStream.write(responseBody.bytes())
+                    outputStream.flush()
+                    outputStream.close()
+                    outputFile.absolutePath
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    danmuStream ->
-                    activity.loadDanmuStream(danmuStream)
+                    uri ->
+                    activity.loadDanmuUri(uri)
                 }, {
                     error ->
                     error.printStackTrace()

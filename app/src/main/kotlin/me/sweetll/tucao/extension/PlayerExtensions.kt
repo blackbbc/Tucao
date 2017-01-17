@@ -30,9 +30,6 @@ fun CustomGSYVideoPlayer.setUp(durls: MutableList<Durl>, cache: Boolean, vararg 
 //            appendln("duration 181.765")
 //        }
 
-
-        concatContent.logD()
-
         outputStream.write(concatContent.toByteArray())
 
         outputStream.flush()

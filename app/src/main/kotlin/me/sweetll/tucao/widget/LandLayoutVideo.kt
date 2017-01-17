@@ -25,7 +25,7 @@ import java.io.InputStream
 
 class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
-    lateinit var danmuStream: InputStream
+    lateinit var danmuUri: String
 
     var mLastState = -1
     var needCorrectDanmu = false
@@ -46,8 +46,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
     }
 
-    fun setUpDanmu(inputStream: InputStream) {
-        danmuStream = inputStream
+    fun setUpDanmu(uri: String) {
+        danmuUri = uri
         val overlappingEnablePair = mapOf(
                 BaseDanmaku.TYPE_SCROLL_RL to true,
                 BaseDanmaku.TYPE_FIX_TOP to true
@@ -65,7 +65,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             danmakuContext.setMaximumLines(maxLinesPair)
         }
 
-        val parser = createParser(inputStream)
+        val parser = createParser(uri)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
@@ -80,8 +80,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
-//                danmakuView.start(currentPositionWhenPlaying.toLong())
-                danmakuView.start(0)
+                danmakuView.start(currentPositionWhenPlaying.toLong())
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     danmakuView.postDelayed({
                         danmakuView.pause()
@@ -91,14 +90,14 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         danmakuView.prepare(parser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(false)
+        danmakuView.enableDanmakuDrawingCache(true)
     }
 
-    private fun createParser(inputStream: InputStream): BaseDanmakuParser {
+    private fun createParser(uri: String): BaseDanmakuParser {
         val loader = DanmakuLoaderFactory.create(DanmakuLoaderFactory.TAG_BILI)
 
         try {
-            loader.load(inputStream)
+            loader.load(uri)
         } catch (e: IllegalDataException) {
             e.printStackTrace()
         }
@@ -112,7 +111,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         danmakuView.hide()
 
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
-        player.setUpDanmu(danmuStream)
+        player.setUpDanmu(danmuUri)
 
         return player
     }

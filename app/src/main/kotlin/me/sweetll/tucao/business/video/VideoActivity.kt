@@ -150,8 +150,8 @@ class VideoActivity : BaseActivity() {
         }
     }
 
-    fun loadDanmuStream(inputStream: InputStream) {
-        binding.player.setUpDanmu(inputStream)
+    fun loadDanmuUri(uri: String) {
+        binding.player.setUpDanmu(uri)
     }
 
     override fun onPause() {
