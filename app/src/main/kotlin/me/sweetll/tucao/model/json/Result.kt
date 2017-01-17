@@ -3,20 +3,20 @@ package me.sweetll.tucao.model.json
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Result(val hid: String,
-                  val title: String,
-                  val play: Int,
-                  val mukio: Int,
-                  val creat: String?,
-                  val thumb: String,
-                  val typename: String,
-                  val typeid: Int,
-                  val description: String,
-                  val user: String,
-                  val userid: String,
-                  val keywords: String,
-                  val part: Int,
-                  val video: MutableList<Video>) : Parcelable {
+data class Result(val hid: String = "",
+                  val title: String = "",
+                  val play: Int = 0,
+                  val mukio: Int = 0,
+                  val creat: String = "",
+                  val thumb: String = "",
+                  val typename: String = "",
+                  val typeid: Int = 0,
+                  val description: String = "",
+                  val user: String = "",
+                  val userid: String = "",
+                  val keywords: String = "",
+                  val part: Int = 0,
+                  val video: MutableList<Video> = mutableListOf()) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Result> = object : Parcelable.Creator<Result> {
             override fun createFromParcel(source: Parcel): Result = Result(source)

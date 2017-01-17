@@ -12,9 +12,12 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.TextNode
 
 class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     val HID_PATTERN = "/play/h([0-9]+)/".toRegex()
+    val TID_PATTERN = "/list/([0-9]+/)".toRegex()
 
     init {
         loadData()
@@ -63,6 +66,33 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     }
 
     fun parseRecommends(doc: Document): Map<Channel, List<Result>> {
+        val title_red = doc.select("h2.title_red").takeLast(5)
+        val lists_tip = doc.select("div.lists.tip").takeLast(5)
+        val titleZipLists = title_red zip lists_tip
+
+        titleZipLists.forEach {
+            // Parse Channel
+            val aChannelElement = it.first.child(1)
+            val channelLinkUrl = aChannelElement.attr("href")
+            val tid: Int = TID_PATTERN.find(channelLinkUrl)!!.groups[0]!!.value.toInt()
+            val channel = Channel.find(tid)
+
+            // Parse List
+            val ul = it.second.child(1)
+            val results = ul.children().filter {
+                it is Element
+            }.map {
+                it.child(0)
+            }.forEach {
+                // a
+                val linkUrl = it.attr("href")
+                val hid: String = HID_PATTERN.find(linkUrl)!!.groups[0]!!.value
+                val thumb = it.child(0).attr("src")
+                val title = it.child(1).text()
+                val play = it.child(2).text().toInt()
+                val result = Result(hid = hid, title = title, play = play, thumb = thumb)
+            }
+        }
 
         return mutableMapOf()
     }
