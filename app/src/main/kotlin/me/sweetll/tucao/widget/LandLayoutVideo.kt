@@ -48,7 +48,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     fun setUpDanmu(inputStream: InputStream) {
         danmuStream = inputStream
-        val maxLinesPair = mapOf(BaseDanmaku.TYPE_SCROLL_RL to 5)
         val overlappingEnablePair = mapOf(
                 BaseDanmaku.TYPE_SCROLL_RL to true,
                 BaseDanmaku.TYPE_FIX_TOP to true
@@ -59,8 +58,12 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
                 .setDuplicateMergingEnabled(false)
                 .setScrollSpeedFactor(1.2f)
                 .setScaleTextSize(1.2f)
-                .setMaximumLines(maxLinesPair)
                 .preventOverlapping(overlappingEnablePair)
+
+        if (!mIfCurrentIsFullscreen) {
+            val maxLinesPair = mapOf(BaseDanmaku.TYPE_SCROLL_RL to 5)
+            danmakuContext.setMaximumLines(maxLinesPair)
+        }
 
         val parser = createParser(inputStream)
         danmakuView.setCallback(object : DrawHandler.Callback {
@@ -77,7 +80,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
-                danmakuView.start(currentPositionWhenPlaying.toLong())
+//                danmakuView.start(currentPositionWhenPlaying.toLong())
+                danmakuView.start(0)
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     danmakuView.postDelayed({
                         danmakuView.pause()
@@ -87,7 +91,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
         })
         danmakuView.prepare(parser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(true)
+        danmakuView.enableDanmakuDrawingCache(false)
     }
 
     private fun createParser(inputStream: InputStream): BaseDanmakuParser {
@@ -108,46 +112,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         danmakuView.hide()
 
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
+        player.setUpDanmu(danmuStream)
 
-        val fullScreenDanmakuView = player.findViewById(R.id.danmaku) as DanmakuView
-
-        val overlappingEnablePair = mapOf(
-                BaseDanmaku.TYPE_SCROLL_RL to true,
-                BaseDanmaku.TYPE_FIX_TOP to true
-        )
-
-        val danmakuContext = DanmakuContext.create()
-        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
-                .setDuplicateMergingEnabled(false)
-                .setScrollSpeedFactor(1.2f)
-                .setScaleTextSize(1.2f)
-                .preventOverlapping(overlappingEnablePair)
-
-        val parser = createParser(danmuStream)
-
-        fullScreenDanmakuView.setCallback(object : DrawHandler.Callback {
-            override fun danmakuShown(danmaku: BaseDanmaku?) {
-
-            }
-
-            override fun updateTimer(timer: DanmakuTimer?) {
-
-            }
-
-            override fun drawingFinished() {
-
-            }
-
-            override fun prepared() {
-                fullScreenDanmakuView.start(player.currentPositionWhenPlaying.toLong())
-                if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
-                    fullScreenDanmakuView.pause()
-                }
-            }
-
-        })
-        fullScreenDanmakuView.prepare(parser, danmakuContext)
-        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
         return player
     }
 

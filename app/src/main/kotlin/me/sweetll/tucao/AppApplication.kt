@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
 import me.drakeet.library.CrashWoodpecker
 import me.drakeet.library.PatchMode
@@ -30,6 +31,10 @@ class AppApplication : Application() {
         CrashWoodpecker.instance()
                 .setPatchMode(PatchMode.SHOW_LOG_PAGE)
                 .flyTo(this)
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
+        }
+        LeakCanary.install(this)
         initApiComponent()
     }
 
