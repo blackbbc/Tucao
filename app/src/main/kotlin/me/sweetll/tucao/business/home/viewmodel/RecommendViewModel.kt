@@ -13,11 +13,10 @@ import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import org.jsoup.nodes.TextNode
 
 class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     val HID_PATTERN = "/play/h([0-9]+)/".toRegex()
-    val TID_PATTERN = "/list/([0-9]+/)".toRegex()
+    val TID_PATTERN = "/list/([0-9]+)/".toRegex()
 
     init {
         loadData()
@@ -57,7 +56,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
             val linkUrl = aElement.attr("href")
             val imgElement = aElement.child(0)
             val imgUrl = imgElement.attr("src")
-            val hid: String? = HID_PATTERN.find(linkUrl)?.groups?.get(1)?.value
+            val hid: String? = HID_PATTERN.find(linkUrl)?.groupValues?.get(1)
 
             banners.add(Banner(imgUrl, linkUrl, hid))
         }
@@ -70,31 +69,37 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
         val lists_tip = doc.select("div.lists.tip").takeLast(5)
         val titleZipLists = title_red zip lists_tip
 
-        titleZipLists.forEach {
+        val recommends = titleZipLists.fold(mutableMapOf<Channel, List<Result>>()) {
+            total, zipElement ->
             // Parse Channel
-            val aChannelElement = it.first.child(1)
+            val aChannelElement = zipElement.first.child(1)
             val channelLinkUrl = aChannelElement.attr("href")
-            val tid: Int = TID_PATTERN.find(channelLinkUrl)!!.groups[0]!!.value.toInt()
-            val channel = Channel.find(tid)
+            val tid: Int = TID_PATTERN.find(channelLinkUrl)!!.groupValues[1].toInt()
+            val channel = Channel.find(tid)!!
 
             // Parse List
-            val ul = it.second.child(1)
+            val ul = zipElement.second.child(0)
             val results = ul.children().filter {
                 it is Element
             }.map {
                 it.child(0)
-            }.forEach {
+            }.fold(mutableListOf<Result>()) {
+                total, aElement ->
                 // a
-                val linkUrl = it.attr("href")
-                val hid: String = HID_PATTERN.find(linkUrl)!!.groups[0]!!.value
-                val thumb = it.child(0).attr("src")
-                val title = it.child(1).text()
-                val play = it.child(2).text().toInt()
-                val result = Result(hid = hid, title = title, play = play, thumb = thumb)
+                val linkUrl = aElement.attr("href")
+                val hid: String = HID_PATTERN.find(linkUrl)!!.groupValues[1]
+                val thumb = aElement.child(0).attr("src")
+                val title = aElement.child(1).text()
+                val play = aElement.child(2).text().replace(",", "").toInt()
+                total.add(Result(hid = hid, title = title, play = play, thumb = thumb))
+                total
             }
+
+            total.put(channel, results)
+            total
         }
 
-        return mutableMapOf()
+        return recommends
     }
 
 }
