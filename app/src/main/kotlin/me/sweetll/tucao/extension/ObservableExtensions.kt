@@ -10,12 +10,12 @@ import okhttp3.ResponseBody
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T?> = this
+fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T> = this
         .subscribeOn(Schedulers.io())
         .retryWhen(ApiConfig.RetryWithDelay())
         .flatMap { response ->
             if (response.code == "200") {
-                Observable.just(response.result)
+                Observable.just(response.result!!)
             } else {
                 Observable.error(Throwable(response.msg))
             }

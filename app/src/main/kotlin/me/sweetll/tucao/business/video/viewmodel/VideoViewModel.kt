@@ -9,12 +9,39 @@ import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.logD
+import me.sweetll.tucao.extension.sanitizeJson
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import java.io.File
 import java.io.FileOutputStream
 
-class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewModel() {
+class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
+    lateinit var result: Result
+
+    constructor(activity: VideoActivity, hid: String) : this(activity) {
+        queryResult(hid)
+    }
+
+    constructor(activity: VideoActivity, result: Result) : this(activity) {
+        this.result = result
+        activity.loadResult(result)
+    }
+
+    fun queryResult(hid: String) {
+        jsonApiService.view(hid)
+                .bindToLifecycle(activity)
+                .sanitizeJson()
+                .subscribe({
+                    result ->
+                    this.result = result
+                    activity.loadResult(result)
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    error.message?.toast()
+                })
+    }
+
     fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
         xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)

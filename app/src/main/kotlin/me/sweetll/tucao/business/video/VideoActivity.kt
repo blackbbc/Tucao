@@ -38,8 +38,6 @@ class VideoActivity : BaseActivity() {
 
     lateinit var orientationUtils: OrientationUtils
 
-    lateinit var result: Result
-
     var isPlay = false
     var isPause = false
 
@@ -47,20 +45,59 @@ class VideoActivity : BaseActivity() {
 
     companion object {
         private val ARG_RESULT = "result"
+        private val ARG_HID = "hid"
 
         fun intentTo(context: Context, result: Result) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_RESULT, result)
             context.startActivity(intent)
         }
+
+        fun intentTo(context: Context, hid: String) {
+            val intent = Intent(context, VideoActivity::class.java)
+            intent.putExtra(ARG_HID, hid)
+            context.startActivity(intent)
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        result = intent.getParcelableExtra(ARG_RESULT)
-        viewModel = VideoViewModel(this, result)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
+        val hid = intent.getStringExtra(ARG_HID)
+        if (hid != null) {
+            viewModel = VideoViewModel(this, hid)
+        } else {
+            val result: Result = intent.getParcelableExtra(ARG_RESULT)
+            viewModel = VideoViewModel(this, result)
+        }
         binding.viewModel = viewModel
+    }
+
+    fun setupRecyclerView(result: Result) {
+        result.video[0].checked = true
+        partAdapter = PartAdapter(result.video)
+
+        binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val selectedVideo = helper.getItem(position) as Video
+                if (!selectedVideo.checked) {
+                    partAdapter.data.forEach { it.checked = false }
+                    selectedVideo.checked = true
+                    partAdapter.notifyDataSetChanged()
+
+                    if (selectedVideo.vid != null) {
+                        viewModel.queryPlayUrls(result.hid, position, selectedVideo.type, selectedVideo.vid)
+                    } else {
+                        "所选视频已失效".toast()
+                    }
+                }
+            }
+        })
+        binding.partRecycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        binding.partRecycler.adapter = partAdapter
+    }
+
+    fun loadResult(result: Result) {
 
         binding.player.loadText?.let {
             it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
@@ -115,31 +152,7 @@ class VideoActivity : BaseActivity() {
             "所选视频已失效".toast()
         }
 
-        setupRecyclerView()
-    }
-
-    fun setupRecyclerView() {
-        result.video[0].checked = true
-        partAdapter = PartAdapter(result.video)
-
-        binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val selectedVideo = helper.getItem(position) as Video
-                if (!selectedVideo.checked) {
-                    partAdapter.data.forEach { it.checked = false }
-                    selectedVideo.checked = true
-                    partAdapter.notifyDataSetChanged()
-
-                    if (selectedVideo.vid != null) {
-                        viewModel.queryPlayUrls(result.hid, position, selectedVideo.type, selectedVideo.vid)
-                    } else {
-                        "所选视频已失效".toast()
-                    }
-                }
-            }
-        })
-        binding.partRecycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        binding.partRecycler.adapter = partAdapter
+        setupRecyclerView(result)
     }
 
     fun loadDuals(durls: MutableList<Durl>?) {
