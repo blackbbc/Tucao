@@ -62,6 +62,10 @@ class VideoActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         binding.viewModel = viewModel
 
+        binding.player.loadText?.let {
+            it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
+        }
+
         orientationUtils = OrientationUtils(this, binding.player)
         orientationUtils.isEnable = false
 
@@ -142,10 +146,8 @@ class VideoActivity : BaseActivity() {
         durls?.isNotEmpty().let {
             if (durls!!.size == 1) {
                 binding.player.setUp(durls[0].url, true, null)
-                "视频载入完成".toast()
             } else {
                 binding.player.setUp(durls, true)
-                "视频载入完成".toast()
             }
         }
     }

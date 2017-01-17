@@ -34,7 +34,9 @@ class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewM
                 }, {
                     error ->
                     error.printStackTrace()
-                    "请求视频接口出错".toast()
+                    activity.binding.player.loadText?.let {
+                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
+                    }
                 })
 
         rawApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
@@ -57,7 +59,9 @@ class VideoViewModel(val activity: VideoActivity, val result: Result): BaseViewM
                 }, {
                     error ->
                     error.printStackTrace()
-                    "请求弹幕接口出错".toast()
+                    activity.binding.player.loadText?.let {
+                        it.text = it.text.replace("全舰弹幕装填...".toRegex(), "全舰弹幕装填...[失败]")
+                    }
                 })
     }
 

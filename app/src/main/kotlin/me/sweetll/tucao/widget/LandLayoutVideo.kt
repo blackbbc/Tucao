@@ -2,7 +2,9 @@ package me.sweetll.tucao.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
 
@@ -20,10 +22,9 @@ import master.flame.danmaku.ui.widget.DanmakuView
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.logD
-import me.sweetll.tucao.extension.toast
-import java.io.InputStream
 
 class LandLayoutVideo : CustomGSYVideoPlayer {
+    var loadText: TextView? = null
     lateinit var danmakuView: DanmakuView
     lateinit var danmuUri: String
 
@@ -44,6 +45,12 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     private fun initView() {
         //初始化弹幕控件
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
+        if (!isIfCurrentIsFullscreen) {
+            loadText = findViewById(R.id.text_load) as TextView
+        }
+        loadText?.let {
+            it.visibility = View.VISIBLE
+        }
     }
 
     fun setUpDanmu(uri: String) {
@@ -80,6 +87,11 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
+                loadText?.let {
+                    it.post {
+                        it.text = it.text.replace("全舰弹幕装填...".toRegex(), "全舰弹幕装填...[完成]")
+                    }
+                }
                 danmakuView.start(currentPositionWhenPlaying.toLong())
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     danmakuView.postDelayed({
@@ -138,6 +150,20 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
+    override fun setStateAndUi(state: Int) {
+        super.setStateAndUi(state)
+        when (state) {
+            GSYVideoPlayer.CURRENT_STATE_NORMAL -> {
+                loadText?.let {
+                    it.post {
+                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
+                        mStartButton.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+    }
+
     override fun clearFullscreenLayout() {
         super.clearFullscreenLayout()
         danmakuView.show()
@@ -190,6 +216,10 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         super.onPrepared()
         // 隐藏状态栏
         CommonUtil.hideSupportActionBar(context, true, true)
+        // 隐藏LoadText
+        loadText?.let {
+            it.visibility = View.GONE
+        }
     }
 
     fun resumeDanmu() {
