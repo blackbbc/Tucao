@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.video.viewmodel
 
+import android.databinding.ObservableField
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,14 +17,10 @@ import java.io.File
 import java.io.FileOutputStream
 
 class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
-    lateinit var result: Result
-
-    constructor(activity: VideoActivity, hid: String) : this(activity) {
-        queryResult(hid)
-    }
+    val result = ObservableField<Result>()
 
     constructor(activity: VideoActivity, result: Result) : this(activity) {
-        this.result = result
+        this.result.set(result)
     }
 
     fun queryResult(hid: String) {
@@ -32,7 +29,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 .sanitizeJson()
                 .subscribe({
                     result ->
-                    this.result = result
+                    this.result.set(result)
                     activity.loadResult(result)
                 }, {
                     error ->

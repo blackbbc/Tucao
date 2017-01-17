@@ -65,7 +65,8 @@ class VideoActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         val hid = intent.getStringExtra(ARG_HID)
         if (hid != null) {
-            viewModel = VideoViewModel(this, hid)
+            viewModel = VideoViewModel(this)
+            viewModel.queryResult(hid)
         } else {
             val result: Result = intent.getParcelableExtra(ARG_RESULT)
             viewModel = VideoViewModel(this, result)
