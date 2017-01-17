@@ -88,7 +88,6 @@ class VideoActivity : BaseActivity() {
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
                 super.onPrepared(p0, *p1)
-//                orientationUtils.isEnable = true
                 isPlay = true
             }
 

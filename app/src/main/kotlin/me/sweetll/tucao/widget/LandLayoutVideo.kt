@@ -25,10 +25,7 @@ import java.io.InputStream
 
 class LandLayoutVideo : CustomGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
-    lateinit var danmakuContext: DanmakuContext
-    lateinit var parser: BaseDanmakuParser
-
-    var danmuStream: InputStream? = null
+    lateinit var danmuStream: InputStream
 
     var mLastState = -1
     var needCorrectDanmu = false
@@ -47,25 +44,25 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     private fun initView() {
         //初始化弹幕控件
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
+    }
 
-        val maxLinespair = mapOf(BaseDanmaku.TYPE_SCROLL_RL to 5)
+    fun setUpDanmu(inputStream: InputStream) {
+        danmuStream = inputStream
+        val maxLinesPair = mapOf(BaseDanmaku.TYPE_SCROLL_RL to 5)
         val overlappingEnablePair = mapOf(
                 BaseDanmaku.TYPE_SCROLL_RL to true,
                 BaseDanmaku.TYPE_FIX_TOP to true
         )
 
-        danmakuContext = DanmakuContext.create()
+        val danmakuContext = DanmakuContext.create()
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
                 .setDuplicateMergingEnabled(false)
                 .setScrollSpeedFactor(1.2f)
                 .setScaleTextSize(1.2f)
-                .setMaximumLines(maxLinespair)
+                .setMaximumLines(maxLinesPair)
                 .preventOverlapping(overlappingEnablePair)
-    }
 
-    fun setUpDanmu(inputStream: InputStream) {
-        danmuStream = inputStream
-        parser = createParser(inputStream)
+        val parser = createParser(inputStream)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
@@ -80,12 +77,17 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
             }
 
             override fun prepared() {
-                "弹幕载入完成！".toast()
+                danmakuView.start(currentPositionWhenPlaying.toLong())
+                if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
+                    danmakuView.postDelayed({
+                        danmakuView.pause()
+                    }, 10)
+                }
             }
 
         })
         danmakuView.prepare(parser, danmakuContext)
-//        danmakuView.enableDanmakuDrawingCache(true)
+        danmakuView.enableDanmakuDrawingCache(true)
     }
 
     private fun createParser(inputStream: InputStream): BaseDanmakuParser {
@@ -103,12 +105,26 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
+        danmakuView.hide()
+
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
 
-        // 保存弹幕状态
         val fullScreenDanmakuView = player.findViewById(R.id.danmaku) as DanmakuView
 
-        // 载入弹幕状态
+        val overlappingEnablePair = mapOf(
+                BaseDanmaku.TYPE_SCROLL_RL to true,
+                BaseDanmaku.TYPE_FIX_TOP to true
+        )
+
+        val danmakuContext = DanmakuContext.create()
+        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
+                .setDuplicateMergingEnabled(false)
+                .setScrollSpeedFactor(1.2f)
+                .setScaleTextSize(1.2f)
+                .preventOverlapping(overlappingEnablePair)
+
+        val parser = createParser(danmuStream)
+
         fullScreenDanmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
@@ -124,14 +140,14 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
             override fun prepared() {
                 fullScreenDanmakuView.start(player.currentPositionWhenPlaying.toLong())
-                if (currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE || currentState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START) {
+                if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     fullScreenDanmakuView.pause()
                 }
             }
 
         })
         fullScreenDanmakuView.prepare(parser, danmakuContext)
-//        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
+        fullScreenDanmakuView.enableDanmakuDrawingCache(true)
         return player
     }
 
@@ -155,6 +171,11 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         } else {
             super.updateStartImage()
         }
+    }
+
+    override fun clearFullscreenLayout() {
+        super.clearFullscreenLayout()
+        danmakuView.show()
     }
 
     override fun onVideoPause() {
@@ -202,23 +223,8 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     override fun onPrepared() {
         super.onPrepared()
-        startDanmu()
-
         // 隐藏状态栏
         CommonUtil.hideSupportActionBar(context, true, true)
-    }
-
-    fun startDanmu() {
-        if (danmakuView.isPrepared) {
-            "startDanmu".logD()
-            danmakuView.start()
-        }
-    }
-
-    fun stopDanmu() {
-        if (danmakuView.isPrepared) {
-            danmakuView.stop()
-        }
     }
 
     fun resumeDanmu() {
