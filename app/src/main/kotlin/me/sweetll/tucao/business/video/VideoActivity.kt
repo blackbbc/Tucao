@@ -23,6 +23,7 @@ import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.setUp
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
@@ -87,7 +88,7 @@ class VideoActivity : BaseActivity() {
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
                 super.onPrepared(p0, *p1)
-                orientationUtils.isEnable = true
+//                orientationUtils.isEnable = true
                 isPlay = true
             }
 
@@ -177,15 +178,14 @@ class VideoActivity : BaseActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (isPlay && !isPause) {
-            if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } else if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 if (binding.player.isIfCurrentIsFullscreen) {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
-                orientationUtils.isEnable = true
             }
         }
     }
