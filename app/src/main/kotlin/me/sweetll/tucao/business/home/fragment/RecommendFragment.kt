@@ -13,11 +13,13 @@ import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
+import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
+    lateinit var headerView: View
     val viewModel: RecommendViewModel by lazy { RecommendViewModel(this) }
 
     val recommendAdapter = RecommendAdapter(null)
@@ -37,6 +39,9 @@ class RecommendFragment : Fragment() {
     }
 
     fun setupRecyclerView() {
+        headerView = LayoutInflater.from(activity).inflate(R.layout.header_banner, binding.root as ViewGroup, false)
+        recommendAdapter.addHeaderView(headerView)
+
         binding.recommendRecycler.layoutManager = LinearLayoutManager(activity)
         binding.recommendRecycler.adapter = recommendAdapter
         binding.recommendRecycler.addItemDecoration(HorizontalDividerBuilder.newInstance(activity)
@@ -45,7 +50,7 @@ class RecommendFragment : Fragment() {
     }
 
     fun loadIndex(index: Index) {
-        binding.banner.setPages({ BannerHolder() }, index.banners)
+        (headerView as ConvenientBanner<Banner>).setPages({ BannerHolder() }, index.banners)
                 .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
                 .startTurning(3000)

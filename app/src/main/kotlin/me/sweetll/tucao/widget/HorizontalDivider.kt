@@ -13,7 +13,7 @@ class HorizontalDivider(private val divider: Drawable, private val drawFirstItem
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
         val childCount = parent.childCount
-        for (i in 0..childCount - 1) {
+        for (i in 1..childCount - 1) {
             val child = parent.getChildAt(i)
             //获得child的布局信息
             val params = child.layoutParams as RecyclerView.LayoutParams
@@ -21,7 +21,7 @@ class HorizontalDivider(private val divider: Drawable, private val drawFirstItem
             var bottom = top + divider.intrinsicHeight
             divider.setBounds(left + leftPadding, top, right - rightPadding, bottom)
             divider.draw(canvas)
-            if (drawFirstItemTop && i == 0) {
+            if (drawFirstItemTop && i == 1) {
                 bottom = child.top + params.topMargin
                 top = bottom - divider.intrinsicHeight
                 divider.setBounds(left, top, right, bottom)

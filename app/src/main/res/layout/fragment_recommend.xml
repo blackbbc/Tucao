@@ -18,11 +18,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.bigkoo.convenientbanner.ConvenientBanner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recommendRecycler"
                 android:layout_width="match_parent"
