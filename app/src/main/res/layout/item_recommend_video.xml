@@ -35,7 +35,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 tools:background="@color/colorPrimary">
 
                 <ImageView
@@ -103,7 +103,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 tools:background="@color/colorPrimary">
 
                 <ImageView
@@ -179,7 +179,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 tools:background="@color/colorPrimary">
 
                 <ImageView
@@ -247,7 +247,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 tools:background="@color/colorPrimary">
 
                 <ImageView
@@ -313,9 +313,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="center"
         tools:text="更多影视内容"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textColor="@color/colorPrimary"/>
 
     <ImageView
@@ -323,6 +324,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="true"
         android:src="@drawable/bg_rank"
         android:scaleType="centerInside"/>

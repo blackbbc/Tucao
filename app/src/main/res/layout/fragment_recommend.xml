@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.home.viewmodel.RecommendViewModel" />
@@ -22,30 +21,7 @@
             <com.bigkoo.convenientbanner.ConvenientBanner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="热门推荐" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{viewModel::onClickRank}"
-                    android:text="排行榜" />
-
-            </LinearLayout>
+                android:layout_height="120dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recommendRecycler"
