@@ -16,6 +16,7 @@ import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
+import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
@@ -52,14 +53,14 @@ class RecommendFragment : Fragment() {
         binding.recommendRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
-                    R.id.text_rank -> {
+                    R.id.img_rank -> {
                         viewModel.onClickRank(view)
                     }
                     R.id.text_more -> {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
-
+                        VideoActivity.intentTo(activity, view.tag as String)
                     }
                 }
             }

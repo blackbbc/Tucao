@@ -69,6 +69,7 @@ class VideoActivity : BaseActivity() {
         } else {
             val result: Result = intent.getParcelableExtra(ARG_RESULT)
             viewModel = VideoViewModel(this, result)
+            loadResult(result)
         }
         binding.viewModel = viewModel
     }

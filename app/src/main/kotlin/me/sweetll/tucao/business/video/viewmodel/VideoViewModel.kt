@@ -24,7 +24,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
     constructor(activity: VideoActivity, result: Result) : this(activity) {
         this.result = result
-        activity.loadResult(result)
     }
 
     fun queryResult(hid: String) {
