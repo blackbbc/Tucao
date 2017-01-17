@@ -64,12 +64,12 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
         return banners
     }
 
-    fun parseRecommends(doc: Document): Map<Channel, List<Result>> {
+    fun parseRecommends(doc: Document): List<Pair<Channel, List<Result>>> {
         val title_red = doc.select("h2.title_red").takeLast(5)
         val lists_tip = doc.select("div.lists.tip").takeLast(5)
         val titleZipLists = title_red zip lists_tip
 
-        val recommends = titleZipLists.fold(mutableMapOf<Channel, List<Result>>()) {
+        val recommends = titleZipLists.fold(mutableListOf<Pair<Channel, List<Result>>>()) {
             total, zipElement ->
             // Parse Channel
             val aChannelElement = zipElement.first.child(1)
@@ -95,9 +95,32 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
                 total
             }
 
-            total.put(channel, results)
+            total.add(channel to results)
             total
         }
+
+        //解析今日推荐
+        val channel = Channel(0, "今日推荐")
+        val pos8_show = doc.select("div.pos8_show").first()
+
+        val ul = pos8_show.child(0)
+        val results = ul.children().filter {
+            it is Element
+        }.map {
+            it.child(0)
+        }.fold(mutableListOf<Result>()) {
+            total, aElement ->
+            // a
+            val linkUrl = aElement.attr("href")
+            val hid: String = HID_PATTERN.find(linkUrl)!!.groupValues[1]
+            val thumb = aElement.child(0).attr("src")
+            val title = aElement.child(1).text()
+            val play = aElement.child(2).text().replace(",", "").toInt()
+            total.add(Result(hid = hid, title = title, play = play, thumb = thumb))
+            total
+        }
+        recommends.add(0, channel to results)
+
 
         return recommends
     }

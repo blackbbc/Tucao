@@ -25,6 +25,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/linear1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -38,7 +39,7 @@
                 tools:background="@color/colorPrimary">
 
                 <ImageView
-                    android:id="@+id/img_thumb"
+                    android:id="@+id/img_thumb1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"/>
@@ -65,7 +66,7 @@
                         android:scaleType="centerInside"/>
 
                     <TextView
-                        android:id="@+id/text_play"
+                        android:id="@+id/text_play1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -79,6 +80,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/text_title1"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -91,6 +93,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -104,7 +107,7 @@
                 tools:background="@color/colorPrimary">
 
                 <ImageView
-                    android:id="@+id/img_thumb"
+                    android:id="@+id/img_thumb2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"/>
@@ -131,7 +134,7 @@
                         android:scaleType="centerInside"/>
 
                     <TextView
-                        android:id="@+id/text_play"
+                        android:id="@+id/text_play2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -145,6 +148,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/text_title2"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -165,6 +169,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/linear3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -178,7 +183,7 @@
                 tools:background="@color/colorPrimary">
 
                 <ImageView
-                    android:id="@+id/img_thumb"
+                    android:id="@+id/img_thumb3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"/>
@@ -205,7 +210,7 @@
                         android:scaleType="centerInside"/>
 
                     <TextView
-                        android:id="@+id/text_play"
+                        android:id="@+id/text_play3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -219,6 +224,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/text_title3"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -231,6 +237,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -244,7 +251,7 @@
                 tools:background="@color/colorPrimary">
 
                 <ImageView
-                    android:id="@+id/img_thumb"
+                    android:id="@+id/img_thumb4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"/>
@@ -271,7 +278,7 @@
                         android:scaleType="centerInside"/>
 
                     <TextView
-                        android:id="@+id/text_play"
+                        android:id="@+id/text_play4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -285,6 +292,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/text_title4"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -300,19 +308,23 @@
 
     <TextView
         android:id="@+id/text_more"
+        tools:visibility="gone"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        tools:visibility="gone"
-        android:visibility="gone"
         tools:text="更多影视内容"
         android:textSize="12sp"
         android:textColor="@color/colorPrimary"/>
 
     <ImageView
+        android:id="@+id/img_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bg_rank"/>
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_rank"
+        android:scaleType="centerInside"/>
 
 </LinearLayout>
