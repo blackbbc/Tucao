@@ -1,10 +1,15 @@
 package me.sweetll.tucao.widget
 
 import android.content.Context
+import android.util.AttributeSet
 import android.widget.ImageView
 
-class TopCropImageView(context: Context?): ImageView(context) {
-    init {
+class TopCropImageView: ImageView {
+    constructor(context: Context) : super(context) {
+        scaleType = ScaleType.MATRIX
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         scaleType = ScaleType.MATRIX
     }
 

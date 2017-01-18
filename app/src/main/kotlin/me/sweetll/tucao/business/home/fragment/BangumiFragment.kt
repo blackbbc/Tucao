@@ -81,7 +81,7 @@ class BangumiFragment : Fragment() {
         bangumiAdapter.setNewData(bangumi.recommends)
         headerBinding.banner.setPages({ BannerHolder() }, bangumi.banners)
                 .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .startTurning(3000)
     }
 
