@@ -48,9 +48,4 @@ class RankActivity : BaseActivity() {
             it.setDisplayHomeAsUpEnabled(true)
         }
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
 }

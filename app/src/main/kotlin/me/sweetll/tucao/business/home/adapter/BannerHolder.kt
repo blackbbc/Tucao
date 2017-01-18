@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import com.bigkoo.convenientbanner.holder.Holder
+import me.sweetll.tucao.business.browser.BrowserActivity
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.model.raw.Banner
@@ -26,8 +27,7 @@ class BannerHolder: Holder<Banner> {
             if (banner.hid != null) {
                 VideoActivity.intentTo(context, banner.hid)
             } else {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(banner.linkUrl))
-                context.startActivity(intent)
+                BrowserActivity.intentTo(context, banner.linkUrl)
             }
         }
     }

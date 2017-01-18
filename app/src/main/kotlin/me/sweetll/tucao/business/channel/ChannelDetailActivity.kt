@@ -83,9 +83,4 @@ class ChannelDetailActivity : BaseActivity() {
             it.setDisplayHomeAsUpEnabled(true)
         }
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
 }

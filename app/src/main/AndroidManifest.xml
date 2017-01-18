@@ -10,10 +10,8 @@
     <!-- 读写内存 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
 
     <application
         android:name=".AppApplication"
@@ -22,7 +20,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".business.home.MainActivity"
+        <activity
+            android:name=".business.home.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,17 +29,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.channel.ChannelDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".business.video.VideoActivity"
+        <activity
+            android:name=".business.channel.ChannelDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".business.search.SearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".business.rank.RankActivity"
+        <activity
+            android:name=".business.search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.rank.RankActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.browser.BrowserActivity"
             android:screenOrientation="portrait"/>
 
-        <meta-data android:value="587653cd310c93051a000ac9" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Google Play" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="587653cd310c93051a000ac9" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Google Play" />
+
     </application>
 
 </manifest>

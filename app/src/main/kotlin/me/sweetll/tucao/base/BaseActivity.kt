@@ -40,6 +40,11 @@ abstract class BaseActivity : RxAppCompatActivity() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun onResume() {
         super.onResume()
         MobclickAgent.onResume(this)
