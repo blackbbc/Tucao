@@ -29,6 +29,7 @@ object ApiConfig {
      * Raw
      */
     const val INDEX_URL = "http://www.tucao.tv/"
+    const val LIST_URL = "http://www.tucao.tv/{tid}/"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 

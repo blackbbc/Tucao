@@ -2,10 +2,17 @@
 <resources>
     <color name="colorPrimary">#EC407A</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
     <color name="primary_text">#DE000000</color>
     <color name="secondary_text">#8A000000</color>
     <color name="hint_text">#60000000</color>
     <color name="divider">#1E000000</color>
+
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_50">#FAFAFA</color>
 
     <color name="pink_900">#880E4F</color>
     <color name="pink_800">#AD1457</color>

@@ -69,7 +69,7 @@ class RecommendFragment : Fragment() {
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden && !isLoad) {
+        if (!hidden && !isLoad && !binding.swipeRefresh.isRefreshing) {
             viewModel.loadData()
         }
     }
