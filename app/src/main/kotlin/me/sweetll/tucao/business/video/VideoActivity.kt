@@ -87,6 +87,11 @@ class VideoActivity : BaseActivity() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val selectedVideo = helper.getItem(position) as Video
                 if (!selectedVideo.checked) {
+                    binding.player.loadText?.let {
+                        binding.player.startButton.visibility = View.GONE
+                        it.visibility = View.VISIBLE
+                        it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
+                    }
                     partAdapter.data.forEach { it.checked = false }
                     selectedVideo.checked = true
                     partAdapter.notifyDataSetChanged()
@@ -160,6 +165,10 @@ class VideoActivity : BaseActivity() {
 
     fun loadDuals(durls: MutableList<Durl>?) {
         durls?.isNotEmpty().let {
+            binding.player.loadText?.let {
+                it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
+                binding.player.startButton.visibility = View.VISIBLE
+            }
             if (durls!!.size == 1) {
                 binding.player.setUp(durls[0].url, true, null)
             } else {

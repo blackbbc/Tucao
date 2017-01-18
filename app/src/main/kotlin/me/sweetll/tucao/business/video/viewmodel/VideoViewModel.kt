@@ -58,7 +58,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     activity.binding.player.loadText?.let {
-                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
+                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[失败]")
                     }
                 })
 

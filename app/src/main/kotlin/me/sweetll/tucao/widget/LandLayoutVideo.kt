@@ -151,20 +151,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         }
     }
 
-    override fun setStateAndUi(state: Int) {
-        super.setStateAndUi(state)
-        when (state) {
-            GSYVideoPlayer.CURRENT_STATE_NORMAL -> {
-                loadText?.let {
-                    it.post {
-                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
-                        mStartButton.visibility = View.VISIBLE
-                    }
-                }
-            }
-        }
-    }
-
     override fun resolveNormalVideoShow(oldF: View?, vp: ViewGroup?, gsyVideoPlayer: GSYVideoPlayer?) {
         gsyVideoPlayer?.let {
             (it as LandLayoutVideo).onVideoDestroy()
