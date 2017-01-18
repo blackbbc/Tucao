@@ -12,7 +12,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey_300">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -27,7 +28,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey_100"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -76,7 +76,6 @@
                             android:onClick="@{viewModel::onClickChannel}"/>
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"

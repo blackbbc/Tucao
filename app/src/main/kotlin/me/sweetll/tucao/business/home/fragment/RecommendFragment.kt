@@ -17,6 +17,7 @@ import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 
@@ -41,6 +42,7 @@ class RecommendFragment : Fragment() {
             viewModel.loadData()
         }
         setupRecyclerView()
+        loadWhenNeed()
     }
 
     fun setupRecyclerView() {
@@ -68,8 +70,13 @@ class RecommendFragment : Fragment() {
         })
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden && !isLoad && !binding.swipeRefresh.isRefreshing) {
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        loadWhenNeed()
+    }
+
+    fun loadWhenNeed() {
+        if (isVisible && userVisibleHint && !isLoad && !binding.swipeRefresh.isRefreshing) {
             viewModel.loadData()
         }
     }

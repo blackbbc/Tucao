@@ -12,7 +12,7 @@ import me.sweetll.tucao.model.json.Result
 
 class GameAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuickAdapter<Pair<Channel, List<Result>>, BaseViewHolder>(R.layout.item_recommend_video, data) {
     override fun convert(helper: BaseViewHolder, item: Pair<Channel, List<Result>>) {
-val channel = item.first
+        val channel = item.first
         helper.setText(R.id.text_channel, channel.name)
 
         item.second.take(4).forEachIndexed {
@@ -55,7 +55,7 @@ val channel = item.first
             titleText.text = result.title
         }
 
-        for (index in data.size .. 3) {
+        for (index in item.second.size .. 3) {
             when (index) {
                 0 -> {
                     helper.setVisible(R.id.linear1, false)

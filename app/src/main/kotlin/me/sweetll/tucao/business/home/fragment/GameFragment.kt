@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.home.fragment
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import me.sweetll.tucao.business.home.adapter.GameAdapter
 import me.sweetll.tucao.business.home.viewmodel.GameViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentGameBinding
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Game
 
 class GameFragment : Fragment() {
@@ -25,8 +27,9 @@ class GameFragment : Fragment() {
     var isLoad = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_game, container, false)
-        return rootView
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -35,6 +38,7 @@ class GameFragment : Fragment() {
             viewModel.loadData()
         }
         setupRecyclerView()
+        loadWhenNeed()
     }
 
     fun setupRecyclerView() {
@@ -52,8 +56,13 @@ class GameFragment : Fragment() {
         })
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden && !isLoad && !binding.swipeRefresh.isRefreshing) {
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        loadWhenNeed()
+    }
+
+    fun loadWhenNeed() {
+        if (isVisible && userVisibleHint && !isLoad && !binding.swipeRefresh.isRefreshing) {
             viewModel.loadData()
         }
     }

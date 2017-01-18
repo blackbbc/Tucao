@@ -55,7 +55,7 @@ class RecommendAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
             titleText.text = result.title
         }
 
-        for (index in data.size .. 3) {
+        for (index in item.second.size .. 3) {
             when (index) {
                 0 -> {
                     helper.setVisible(R.id.linear1, false)

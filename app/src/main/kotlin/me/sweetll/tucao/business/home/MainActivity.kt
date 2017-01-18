@@ -3,6 +3,7 @@ package me.sweetll.tucao.business.home
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
+import me.sweetll.tucao.extension.logD
 
 class MainActivity : BaseActivity() {
 
