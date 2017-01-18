@@ -23,9 +23,11 @@ import me.sweetll.tucao.model.raw.Index
 class RecommendFragment : Fragment() {
     lateinit var binding: FragmentRecommendBinding
     lateinit var headerView: View
-    val viewModel: RecommendViewModel by lazy { RecommendViewModel(this) }
+    val viewModel = RecommendViewModel(this)
 
     val recommendAdapter = RecommendAdapter(null)
+
+    var isLoad = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recommend, container, false)
@@ -66,7 +68,14 @@ class RecommendFragment : Fragment() {
         })
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        if (!hidden && !isLoad) {
+            viewModel.loadData()
+        }
+    }
+
     fun loadIndex(index: Index) {
+        isLoad = true
         (headerView as ConvenientBanner<Banner>).setPages({ BannerHolder() }, index.banners)
                 .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)

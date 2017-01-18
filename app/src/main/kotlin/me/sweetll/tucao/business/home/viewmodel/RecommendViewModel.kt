@@ -18,10 +18,6 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     val HID_PATTERN = "/play/h([0-9]+)/".toRegex()
     val TID_PATTERN = "/list/([0-9]+)/".toRegex()
 
-    init {
-        loadData()
-    }
-
     fun loadData() {
         fragment.setRefreshing(true)
         rawApiService.index()
