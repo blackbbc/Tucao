@@ -8,7 +8,7 @@
     <color name="primary_text">#DE000000</color>
     <color name="secondary_text">#8A000000</color>
     <color name="hint_text">#60000000</color>
-    <color name="divider">#1E000000</color>
+    <color name="divider">#EEEEEE</color>
 
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_100">#F5F5F5</color>
