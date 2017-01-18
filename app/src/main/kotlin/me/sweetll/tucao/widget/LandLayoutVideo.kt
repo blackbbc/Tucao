@@ -97,7 +97,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     danmakuView.postDelayed({
                         danmakuView.pause()
-                    }, 10)
+                    }, 20)
                 }
             }
 
