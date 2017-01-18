@@ -1,6 +1,8 @@
 package me.sweetll.tucao.business.home.viewmodel
 
+import android.view.View
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.fragment.GameFragment
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
@@ -91,5 +93,9 @@ class GameViewModel(val fragment: GameFragment): BaseViewModel() {
 
 
         return recommends
+    }
+
+    fun onClickChannel(view: View) {
+        ChannelDetailActivity.intentTo(fragment.activity, view.tag as Int )
     }
 }
