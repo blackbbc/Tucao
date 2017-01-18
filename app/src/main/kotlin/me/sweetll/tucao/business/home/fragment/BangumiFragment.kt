@@ -51,10 +51,10 @@ class BangumiFragment : Fragment() {
         headerBinding.viewModel = viewModel
         bangumiAdapter.addHeaderView(headerBinding.root)
 
-        binding.gameRecycler.layoutManager = LinearLayoutManager(activity)
-        binding.gameRecycler.adapter = bangumiAdapter
+        binding.bangumiRecycler.layoutManager = LinearLayoutManager(activity)
+        binding.bangumiRecycler.adapter = bangumiAdapter
 
-        binding.gameRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
+        binding.bangumiRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {

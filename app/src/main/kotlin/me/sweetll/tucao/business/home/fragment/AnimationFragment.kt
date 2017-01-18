@@ -47,10 +47,10 @@ lateinit var binding: FragmentAnimationBinding
         headerBinding.viewModel = viewModel
         animationAdapter.addHeaderView(headerBinding.root)
 
-        binding.gameRecycler.layoutManager = LinearLayoutManager(activity)
-        binding.gameRecycler.adapter = animationAdapter
+        binding.animationRecycler.layoutManager = LinearLayoutManager(activity)
+        binding.animationRecycler.adapter = animationAdapter
 
-        binding.gameRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
+        binding.animationRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
