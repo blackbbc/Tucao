@@ -73,6 +73,10 @@ class VideoActivity : BaseActivity() {
             loadResult(result)
         }
         binding.viewModel = viewModel
+
+        orientationUtils = OrientationUtils(this, binding.player)
+        orientationUtils.isEnable = false
+
     }
 
     fun setupRecyclerView(result: Result) {
@@ -104,9 +108,6 @@ class VideoActivity : BaseActivity() {
         binding.player.loadText?.let {
             it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
         }
-
-        orientationUtils = OrientationUtils(this, binding.player)
-        orientationUtils.isEnable = false
 
         GSYVideoManager.instance().optionModelList = mutableListOf(
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "safe", 0),
