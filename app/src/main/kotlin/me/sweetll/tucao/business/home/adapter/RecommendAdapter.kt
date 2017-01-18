@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.home.adapter
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -58,16 +59,16 @@ class RecommendAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
         for (index in item.second.size .. 3) {
             when (index) {
                 0 -> {
-                    helper.setVisible(R.id.linear1, false)
+                    helper.getView<View>(R.id.linear1).visibility = View.INVISIBLE
                 }
                 1 -> {
-                    helper.setVisible(R.id.linear2, false)
+                    helper.getView<View>(R.id.linear2).visibility = View.INVISIBLE
                 }
                 2 -> {
-                    helper.setVisible(R.id.linear3, false)
+                    helper.getView<View>(R.id.linear3).visibility = View.INVISIBLE
                 }
                 else -> {
-                    helper.setVisible(R.id.linear4, false)
+                    helper.getView<View>(R.id.linear4).visibility = View.INVISIBLE
                 }
             }
         }

@@ -14,6 +14,7 @@ import me.sweetll.tucao.business.home.adapter.GameAdapter
 import me.sweetll.tucao.business.home.viewmodel.GameViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentGameBinding
+import me.sweetll.tucao.databinding.HeaderGameBinding
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Game
 
@@ -42,6 +43,10 @@ class GameFragment : Fragment() {
     }
 
     fun setupRecyclerView() {
+        val headerBinding: HeaderGameBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.header_game, binding.root as ViewGroup, false)
+        headerBinding.viewModel = viewModel
+        gameAdapter.addHeaderView(headerBinding.root)
+
         binding.gameRecycler.layoutManager = LinearLayoutManager(activity)
         binding.gameRecycler.adapter = gameAdapter
 
