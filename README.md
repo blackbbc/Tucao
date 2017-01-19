@@ -11,36 +11,38 @@
 
 ## Screenshots
 <a href="art/1.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/2.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/3.png"><img src="art/1.png" width="30%"/></a>
+<a href="art/2.png"><img src="art/2.png" width="30%"/></a>
+<a href="art/3.png"><img src="art/3.png" width="30%"/></a>
 
-<a href="art/4.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/5.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/6.png"><img src="art/1.png" width="30%"/></a>
+<a href="art/4.png"><img src="art/4.png" width="30%"/></a>
+<a href="art/5.png"><img src="art/5.png" width="30%"/></a>
+<a href="art/6.png"><img src="art/6.png" width="30%"/></a>
 
-<a href="art/7.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/8.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/9.png"><img src="art/1.png" width="30%"/></a>
+<a href="art/7.png"><img src="art/7.png" width="30%"/></a>
+<a href="art/8.png"><img src="art/8.png" width="30%"/></a>
+<a href="art/9.png"><img src="art/9.png" width="30%"/></a>
 
-<a href="art/10.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/11.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/12.png"><img src="art/1.png" width="30%"/></a>
+<a href="art/10.png"><img src="art/10.png" width="30%"/></a>
+<a href="art/11.png"><img src="art/11.png" width="30%"/></a>
+<a href="art/12.png"><img src="art/12.png" width="30%"/></a>
 
-<a href="art/13.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/14.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/15.png"><img src="art/1.png" width="30%"/></a>
+<a href="art/13.png"><img src="art/13.png" width="30%"/></a>
+<a href="art/14.png"><img src="art/14.png" width="30%"/></a>
+<a href="art/15.png"><img src="art/15.png" width="30%"/></a>
 
-![](https://github.com/blackbbc/Tucao/blob/master/art/16.png)
+<a href="art/16.png"><img src="art/16.png" width="30%"/></a>
 
 ## TODO
-- [  ] 搜索历史
-- [  ] 播放历史
-- [  ] 播放位置
-- [  ] 离线缓冲
-- [  ] 收藏
+- [ ] 搜索历史
+- [ ] 播放历史
+- [ ] 播放位置
+- [ ] 离线缓冲
+- [ ] 收藏
 
 ## UpdateLog
 
+### V1.0.0
+- beta测试
 
 ## Instructions
 - 设计编码均独自完成，如果你觉得太丑，欢迎砸设计稿
