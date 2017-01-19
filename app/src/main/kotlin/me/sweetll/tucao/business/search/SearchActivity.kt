@@ -103,7 +103,7 @@ class SearchActivity : BaseActivity() {
             binding.swipeRefresh.isRefreshing = refreshing
     }
 
-    fun showChannelDropDownList() {
+    fun showDropDownList(view: View) {
         binding.maskView.animate()
                 .alpha(1f)
                 .setDuration(200)
@@ -118,7 +118,7 @@ class SearchActivity : BaseActivity() {
         scaleIn.duration = 200L
         scaleIn.setAnimationListener(object: Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
-                binding.channelDropLinear.visibility = View.VISIBLE
+
             }
 
             override fun onAnimationEnd(animation: Animation?) {
@@ -126,13 +126,13 @@ class SearchActivity : BaseActivity() {
             }
 
             override fun onAnimationStart(animation: Animation?) {
-
+                view.visibility = View.VISIBLE
             }
         })
-        binding.channelDropLinear.startAnimation(scaleIn)
+        view.startAnimation(scaleIn)
     }
 
-    fun hideChannelDropDownList() {
+    fun hideDropDownList(view: View) {
         binding.maskView.animate()
                 .alpha(0f)
                 .setDuration(200)
@@ -151,14 +151,30 @@ class SearchActivity : BaseActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation?) {
-                binding.channelDropLinear.visibility = View.INVISIBLE
+                view.visibility = View.INVISIBLE
             }
 
             override fun onAnimationStart(animation: Animation?) {
 
             }
         })
-        binding.channelDropLinear.startAnimation(scaleOut)
+        view.startAnimation(scaleOut)
+    }
+
+    fun showChannelDropDownList() {
+        showDropDownList(binding.channelDropLinear)
+    }
+
+    fun hideChannelDropDownList() {
+        hideDropDownList(binding.channelDropLinear)
+    }
+
+    fun showOrderDropDownList() {
+
+    }
+
+    fun hideOrderDropDownList() {
+
     }
 
 }

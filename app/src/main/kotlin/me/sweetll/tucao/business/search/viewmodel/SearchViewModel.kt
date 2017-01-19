@@ -18,6 +18,9 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
     var pageSize = 10
     var order = "date"
 
+    var isShowChannelDropDown = false
+    var isShowOrderDropDown = false
+
     init {
         keyword?.let {
             lastKeyword = it
@@ -72,11 +75,49 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         }
     }
 
-    fun onFilterChannel(view: View) {
+    fun hideAllDropDown(): Boolean {
+        if (isShowChannelDropDown) {
+            isShowChannelDropDown = false
+            activity.hideChannelDropDownList()
+            return true
+        }
+        if (isShowOrderDropDown) {
+            isShowOrderDropDown = false
+            activity.hideOrderDropDownList()
+            return true
+        }
+        return false
+    }
 
+    fun onClickMask(view: View) {
+        hideAllDropDown()
+    }
+
+    fun onToggleChannelFilter(view: View) {
+        if (!hideAllDropDown()) {
+            isShowChannelDropDown = true
+            activity.showChannelDropDownList()
+        }
+    }
+
+    fun onToggleOrderFilter(view: View) {
+        if (!hideAllDropDown()) {
+            isShowOrderDropDown = true
+            activity.showOrderDropDownList()
+        }
+    }
+
+    fun onFilterChannel(view: View) {
+        if (view.tag != null) {
+            tid = (view.tag as String).toInt()
+        } else {
+            tid = null
+        }
+        activity.hideChannelDropDownList()
+        loadData()
     }
 
     fun onFilterOrder(view: View) {
-
+        activity.hideOrderDropDownList()
     }
 }
