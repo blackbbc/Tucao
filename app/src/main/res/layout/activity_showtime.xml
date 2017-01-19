@@ -31,24 +31,30 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <FrameLayout
+            android:id="@+id/indicatorFrame"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorPrimary">
+            android:background="@color/colorPrimary"
+            tools:visibility="visible"
+            android:visibility="invisible">
 
             <View
+                android:id="@+id/indicatorView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                tools:layout_gravity="center"
                 android:layout_gravity="center_vertical"
+                tools:layout_gravity="center"
                 android:background="@drawable/bg_round_dark_pink_circle_white_border" />
 
             <LinearLayout
+                android:id="@+id/weekLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:tag="0"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -56,9 +62,11 @@
                     android:text="一"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -66,9 +74,11 @@
                     android:text="二"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -76,9 +86,11 @@
                     android:text="三"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -86,9 +98,11 @@
                     android:text="四"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -96,9 +110,11 @@
                     android:text="五"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -106,9 +122,11 @@
                     android:text="六"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
                 <TextView
+                    android:tag="6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -116,7 +134,8 @@
                     android:text="日"
                     android:textStyle="bold"
                     android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:onClick="@{viewModel::onClickWeek}"/>
 
             </LinearLayout>
 

@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.showtimes.viewmodel
 
+import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.showtimes.ShowtimeActivity
@@ -10,6 +11,7 @@ import me.sweetll.tucao.model.raw.ShowtimeSection
 import org.jsoup.nodes.Document
 
 class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
+
     init {
         loadData()
     }
@@ -53,5 +55,9 @@ class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
             total
         }
         return showtime
+    }
+
+    fun onClickWeek(view: View) {
+        activity.showWeek((view.tag as String).toInt(), view)
     }
 }
