@@ -1,5 +1,7 @@
 package me.sweetll.tucao.business.search
 
+import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -22,6 +24,18 @@ class SearchActivity : BaseActivity() {
     lateinit var binding: ActivitySearchBinding
 
     val videoAdapter = VideoAdapter(null)
+
+    companion object {
+        val ARG_KEYWORD = "keyword"
+        val ARG_TID = "tid"
+
+        fun intentTo(context: Context, keyword: String? = null, tid: Int? = null) {
+            val intent = Intent(context, SearchActivity::class.java)
+            intent.putExtra(ARG_KEYWORD, keyword)
+            intent.putExtra(ARG_TID, tid)
+            context.startActivity(intent)
+        }
+    }
 
     override fun getStatusBar(): View = binding.statusBar
 

@@ -22,7 +22,7 @@ class RankActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-    override fun getStatusBar(): View? = binding.statusBar
+    override fun getStatusBar(): View = binding.statusBar
 
     companion object {
         fun intentTo(context: Context) {

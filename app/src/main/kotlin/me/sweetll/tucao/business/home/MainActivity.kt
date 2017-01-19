@@ -39,8 +39,7 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.action_search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                startActivity(intent)
+                SearchActivity.intentTo(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)

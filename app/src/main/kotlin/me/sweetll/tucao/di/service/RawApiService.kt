@@ -16,4 +16,8 @@ interface RawApiService {
 
     @GET(ApiConfig.LIST_URL)
     fun list(@Path("tid") tid: Int): Observable<ResponseBody>
+
+    @GET(ApiConfig.BGM_URL)
+    fun bgm(@Path("year") year: Int,
+            @Path("month") month: Int): Observable<ResponseBody>
 }

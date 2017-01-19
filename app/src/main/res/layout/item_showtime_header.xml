@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        tools:layout_marginTop="25dp">
+
+        <TextView
+            android:id="@+id/text_week"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_showtime2"
+            android:gravity="center"
+            tools:text="木耀日"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <View
+            android:id="@+id/dot_left"
+            android:layout_width="2dp"
+            android:layout_height="1.5dp"
+            android:layout_toLeftOf="@+id/text_week"
+            android:layout_toStartOf="@+id/text_week"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <View
+            android:id="@+id/line_left"
+            android:layout_width="30dp"
+            android:layout_height="1.5dp"
+            android:layout_toLeftOf="@+id/dot_left"
+            android:layout_toStartOf="@+id/dot_left"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <View
+            android:id="@+id/dot_right"
+            android:layout_width="2dp"
+            android:layout_height="1.5dp"
+            android:layout_toRightOf="@+id/text_week"
+            android:layout_toEndOf="@+id/text_week"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <View
+            android:id="@+id/line_right"
+            android:layout_width="30dp"
+            android:layout_height="1.5dp"
+            android:layout_toRightOf="@+id/dot_right"
+            android:layout_toEndOf="@+id/dot_right"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
