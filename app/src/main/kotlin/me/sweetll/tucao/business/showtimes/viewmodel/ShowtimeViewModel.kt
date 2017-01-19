@@ -15,11 +15,13 @@ class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
     }
 
     fun loadData() {
+        activity.setRefreshing(true)
         rawApiService.bgm(2017, 1)
                 .bindToLifecycle(activity)
                 .sanitizeHtml {
                     parseShowtime(this)
                 }
+                .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
                     showtime ->
                     activity.loadShowtime(showtime)

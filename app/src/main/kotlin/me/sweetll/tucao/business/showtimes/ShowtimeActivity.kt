@@ -13,7 +13,6 @@ import me.sweetll.tucao.business.showtimes.adapter.ShowtimeAdapter
 import me.sweetll.tucao.business.showtimes.viewmodel.ShowtimeViewModel
 import me.sweetll.tucao.databinding.ActivityShowtimeBinding
 import me.sweetll.tucao.model.raw.ShowtimeSection
-import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class ShowtimeActivity : BaseActivity() {
     lateinit var binding: ActivityShowtimeBinding
@@ -52,6 +51,11 @@ class ShowtimeActivity : BaseActivity() {
             it.title = "本季新番"
             it.setDisplayHomeAsUpEnabled(true)
         }
+    }
+
+    fun setRefreshing(isRefreshing: Boolean) {
+        binding.swipeRefresh.isEnabled = isRefreshing
+        binding.swipeRefresh.isRefreshing = isRefreshing
     }
 
     fun loadShowtime(data: MutableList<ShowtimeSection>) {
