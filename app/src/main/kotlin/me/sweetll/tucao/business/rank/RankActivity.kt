@@ -44,7 +44,7 @@ class RankActivity : BaseActivity() {
     override fun initToolbar() {
         super.initToolbar()
         supportActionBar?.let {
-            it.title = "排行榜"
+            it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
         }
     }

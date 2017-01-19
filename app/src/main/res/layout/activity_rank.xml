@@ -35,6 +35,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="全站排行榜"
+                    tools:textColor="@color/white"
+                    style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
                 <CheckedTextView
                     android:id="@+id/text_day"
                     android:tag="0"
