@@ -4,6 +4,7 @@ import android.view.View
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.fragment.BangumiFragment
+import me.sweetll.tucao.business.showtimes.ShowtimeActivity
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Channel
@@ -97,7 +98,7 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
         ChannelDetailActivity.intentTo(fragment.activity, (view.tag as String).toInt())
     }
 
-    fun onClickShowtimes(view: View) {
-
+    fun onClickShowtime(view: View) {
+        ShowtimeActivity.intentTo(fragment.activity)
     }
 }

@@ -41,8 +41,11 @@
         <activity
             android:name=".business.rank.RankActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.browser.BrowserActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".business.browser.BrowserActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.showtimes.ShowtimeActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="UMENG_APPKEY"

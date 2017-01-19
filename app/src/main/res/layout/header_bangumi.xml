@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.home.viewmodel.BangumiViewModel" />
@@ -11,16 +12,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:paddingTop="25dp"
+        android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:orientation="vertical">
+        tools:paddingTop="25dp">
 
         <com.bigkoo.convenientbanner.ConvenientBanner
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="150dp" />
 
-       <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
@@ -70,8 +71,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="0.5dp"
             android:layout_marginBottom="0.5dp"
+            android:layout_marginTop="0.5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -107,10 +108,11 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/bg_showtimes"
+            android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
+            android:onClick="@{viewModel::onClickShowtime}"
             android:scaleType="centerInside"
-            android:onClick="@{viewModel::onClickShowtimes}"/>
+            android:src="@drawable/bg_showtime" />
 
     </LinearLayout>
 
