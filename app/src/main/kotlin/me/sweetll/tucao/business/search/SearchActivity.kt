@@ -24,7 +24,7 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 
 class SearchActivity : BaseActivity() {
-    val viewModel = SearchViewModel(this)
+    lateinit var viewModel: SearchViewModel
     lateinit var binding: ActivitySearchBinding
 
     val videoAdapter = VideoAdapter(null)
@@ -44,7 +44,12 @@ class SearchActivity : BaseActivity() {
     override fun getStatusBar(): View = binding.statusBar
 
     override fun initView(savedInstanceState: Bundle?) {
+        val keyword = intent.getStringExtra(ARG_KEYWORD)
+        var tid: Int? = intent.getIntExtra(ARG_TID, 0)
+        if (tid == 0) tid = null
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
+        viewModel = SearchViewModel(this, keyword, tid)
         binding.viewModel = viewModel
 
         binding.searchEdit.setOnEditorActionListener {
@@ -99,8 +104,10 @@ class SearchActivity : BaseActivity() {
     }
 
     fun setRefreshing(refreshing: Boolean) {
+        binding.swipeRefresh.post {
             binding.swipeRefresh.isEnabled = refreshing
             binding.swipeRefresh.isRefreshing = refreshing
+        }
     }
 
     fun showDropDownList(view: View) {
@@ -170,11 +177,11 @@ class SearchActivity : BaseActivity() {
     }
 
     fun showOrderDropDownList() {
-
+        showDropDownList(binding.orderDropLinear)
     }
 
     fun hideOrderDropDownList() {
-
+        hideDropDownList(binding.orderDropLinear)
     }
 
 }

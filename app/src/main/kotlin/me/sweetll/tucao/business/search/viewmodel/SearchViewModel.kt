@@ -1,6 +1,7 @@
 package me.sweetll.tucao.business.search.viewmodel
 
 import android.databinding.ObservableField
+import android.databinding.ObservableInt
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
@@ -10,31 +11,42 @@ import me.sweetll.tucao.extension.hideSoftKeyboard
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
 
-class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var tid: Int? = null): BaseViewModel()  {
+class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var tid: Int? = null, var order: String? = "date"): BaseViewModel()  {
     val searchText = ObservableField<String>()
+    val channelFilterText = ObservableField<String>("全部分类")
+    val orderFilterText = ObservableField<String>("发布时间")
+    val totalCountVisibility = ObservableInt(View.INVISIBLE) // total_count没有用. Fuck!
+    val totalCount = ObservableInt(0)
     var lastKeyword = ""
 
     var pageIndex = 1
     var pageSize = 10
-    var order = "date"
 
     var isShowChannelDropDown = false
     var isShowOrderDropDown = false
 
     init {
+        updateFilterText()
         keyword?.let {
             lastKeyword = it
+            searchText.set(it)
             loadData()
         }
     }
 
     fun loadData() {
+        if (lastKeyword.isEmpty()) return
         activity.setRefreshing(true)
         pageIndex = 1
         jsonApiService.search(tid, pageIndex, pageSize, order, lastKeyword)
                 .bindToLifecycle(activity)
                 .sanitizeJsonList()
                 .doAfterTerminate { activity.setRefreshing(false) }
+                .map{
+                    response ->
+                    totalCount.set(response.totalCount)
+                    response.result!!
+                }
                 .subscribe({
                     data ->
                     pageIndex++
@@ -49,9 +61,13 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         jsonApiService.search(tid, pageIndex, pageSize, order, lastKeyword)
                 .bindToLifecycle(activity)
                 .sanitizeJsonList()
+                .map{
+                    response ->
+                    response.result!!
+                }
                 .subscribe({
                     data ->
-                    if (data!!.size < pageSize) {
+                    if (data.size < pageSize) {
                         activity.loadMoreData(data, Const.LOAD_MORE_END)
                     } else {
                         activity.loadMoreData(data, Const.LOAD_MORE_COMPLETE)
@@ -113,11 +129,32 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         } else {
             tid = null
         }
-        activity.hideChannelDropDownList()
+        updateFilterText()
+        onToggleChannelFilter(view)
         loadData()
     }
 
     fun onFilterOrder(view: View) {
-        activity.hideOrderDropDownList()
+        order = view.tag as String
+        updateFilterText()
+        onToggleOrderFilter(view)
+        loadData()
+    }
+
+    fun updateFilterText() {
+        channelFilterText.set(when(tid) {
+            19 -> "动画"
+            20 -> "音乐"
+            21 -> "游戏"
+            22 -> "三次元"
+            23 -> "影剧"
+            24 -> "新番"
+            else -> "全部分类"
+        })
+        orderFilterText.set(when(order) {
+            "date" -> "发布时间"
+            "mukio" -> "弹幕数"
+            else -> "播放数"
+        })
     }
 }

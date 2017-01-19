@@ -20,6 +20,7 @@ import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.json.ListResponse
 import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -104,6 +105,7 @@ class ChannelDetailFragment : RxFragment() {
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
+                .map(ListResponse<Result>::result)
                 .subscribe({
                     data ->
                     pageIndex++
@@ -118,6 +120,7 @@ class ChannelDetailFragment : RxFragment() {
         jsonApiService.list(tid, pageIndex, pageSize, order)
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
+                .map(ListResponse<Result>::result)
                 .subscribe({
                     data ->
                     pageIndex++

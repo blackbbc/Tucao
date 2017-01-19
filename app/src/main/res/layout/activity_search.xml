@@ -77,7 +77,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="@{viewModel.totalCountVisibility}"
                 tools:text="共:274个相关结果"
+                android:text='@{"共：" + viewModel.totalCount + "个相关结果"}'
                 android:textSize="12sp"
                 android:textColor="@color/secondary_text"/>
 
@@ -88,6 +90,7 @@
                 android:paddingRight="8dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
+                android:layout_marginRight="8dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_round_white_rectangle_grey_border"
                 android:gravity="center"
@@ -96,7 +99,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部分类"
+                    tools:text="全部分类"
+                    android:text="@{viewModel.channelFilterText}"
                     android:textSize="12sp"
                     android:textColor="@color/primary_text"/>
 
@@ -123,7 +127,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="发布时间"
+                    tools:text="发布时间"
+                    android:text="@{viewModel.orderFilterText}"
                     android:textSize="12sp"
                     android:textColor="@color/primary_text"/>
 
@@ -175,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                tools:visibility="visible"
+                tools:visibility="invisible"
                 android:visibility="invisible">
 
                 <View
@@ -188,6 +193,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="全部分类"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -204,6 +210,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="动画"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -220,6 +227,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="音乐"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -236,6 +244,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="游戏"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -252,6 +261,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="三次元"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -268,6 +278,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="影剧"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -284,6 +295,7 @@
                     android:layout_height="40dp"
                     android:paddingLeft="16dp"
                     android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
                     android:text="新番"
                     android:textSize="14sp"
                     android:textColor="@color/primary_text"
@@ -293,10 +305,64 @@
 
             <!--排序选择项-->
             <LinearLayout
+                android:id="@+id/orderDropLinear"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                tools:visibility="visible"
+                android:visibility="invisible">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="发布时间"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterOrder}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="mukio"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="弹幕数"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterOrder}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="views"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="播放数"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterOrder}"/>
 
             </LinearLayout>
 

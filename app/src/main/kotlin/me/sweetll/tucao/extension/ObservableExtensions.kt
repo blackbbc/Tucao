@@ -22,12 +22,13 @@ fun <T> Observable<BaseResponse<T>>.sanitizeJson(): Observable<T> = this
         }
         .observeOn(AndroidSchedulers.mainThread())
 
-fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<MutableList<T>> = this
+fun <T> Observable<ListResponse<T>>.sanitizeJsonList(): Observable<ListResponse<T>> = this
         .subscribeOn(Schedulers.io())
         .retryWhen(ApiConfig.RetryWithDelay())
         .flatMap { response ->
             if (response.code == "200") {
-                Observable.just(response.result ?: mutableListOf())
+                response.result = response.result ?: mutableListOf()
+                Observable.just(response)
             } else {
                 Observable.error(Throwable(response.msg))
             }
