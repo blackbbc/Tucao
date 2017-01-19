@@ -10,8 +10,11 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.business.showtimes.adapter.ShowtimeAdapter
 import me.sweetll.tucao.business.showtimes.viewmodel.ShowtimeViewModel
 import me.sweetll.tucao.databinding.ActivityShowtimeBinding
@@ -61,6 +64,16 @@ class ShowtimeActivity : BaseActivity() {
         staggeredLayoutManager.isItemPrefetchEnabled = false
         binding.showtimeRecycler.layoutManager = staggeredLayoutManager
         binding.showtimeRecycler.adapter = showtimeAdapter
+
+        binding.showtimeRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val showtimeSection = helper.getItem(position) as ShowtimeSection
+                if (!showtimeSection.isHeader) {
+                    SearchActivity.intentTo(this@ShowtimeActivity, showtimeSection.t.title, 24)
+                }
+            }
+
+        })
 
         binding.showtimeRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
