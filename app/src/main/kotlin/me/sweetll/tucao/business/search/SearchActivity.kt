@@ -1,11 +1,15 @@
 package me.sweetll.tucao.business.search
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -97,6 +101,64 @@ class SearchActivity : BaseActivity() {
     fun setRefreshing(refreshing: Boolean) {
             binding.swipeRefresh.isEnabled = refreshing
             binding.swipeRefresh.isRefreshing = refreshing
+    }
+
+    fun showChannelDropDownList() {
+        binding.maskView.animate()
+                .alpha(1f)
+                .setDuration(200)
+                .setListener(object: AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        binding.maskView.visibility = View.VISIBLE
+                    }
+                })
+                .start()
+
+        val scaleIn = ScaleAnimation(1f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0f)
+        scaleIn.duration = 200L
+        scaleIn.setAnimationListener(object: Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+                binding.channelDropLinear.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+        })
+        binding.channelDropLinear.startAnimation(scaleIn)
+    }
+
+    fun hideChannelDropDownList() {
+        binding.maskView.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .setListener(object: AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        binding.maskView.visibility = View.INVISIBLE
+                    }
+                })
+                .start()
+
+        val scaleOut = ScaleAnimation(1f, 1f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0f)
+        scaleOut.duration = 200L
+        scaleOut.setAnimationListener(object: Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.channelDropLinear.visibility = View.INVISIBLE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+        })
+        binding.channelDropLinear.startAnimation(scaleOut)
     }
 
 }

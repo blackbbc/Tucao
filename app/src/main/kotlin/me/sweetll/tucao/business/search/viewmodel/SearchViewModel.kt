@@ -10,17 +10,25 @@ import me.sweetll.tucao.extension.hideSoftKeyboard
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
 
-class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
+class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var tid: Int? = null): BaseViewModel()  {
     val searchText = ObservableField<String>()
     var lastKeyword = ""
 
     var pageIndex = 1
     var pageSize = 10
+    var order = "date"
+
+    init {
+        keyword?.let {
+            lastKeyword = it
+            loadData()
+        }
+    }
 
     fun loadData() {
         activity.setRefreshing(true)
         pageIndex = 1
-        jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
+        jsonApiService.search(tid, pageIndex, pageSize, order, lastKeyword)
                 .bindToLifecycle(activity)
                 .sanitizeJsonList()
                 .doAfterTerminate { activity.setRefreshing(false) }
@@ -35,7 +43,7 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
     }
 
     fun loadMoreData() {
-        jsonApiService.search(null, pageIndex, pageSize, null, lastKeyword)
+        jsonApiService.search(tid, pageIndex, pageSize, order, lastKeyword)
                 .bindToLifecycle(activity)
                 .sanitizeJsonList()
                 .subscribe({
@@ -62,5 +70,13 @@ class SearchViewModel(val activity: SearchActivity): BaseViewModel()  {
             lastKeyword = searchText.get()
             loadData()
         }
+    }
+
+    fun onFilterChannel(view: View) {
+
+    }
+
+    fun onFilterOrder(view: View) {
+
     }
 }

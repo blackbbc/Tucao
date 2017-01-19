@@ -64,16 +64,235 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="共:274个相关结果"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_round_white_rectangle_grey_border"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="全部分类"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary_text"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_keyboard_arrow_down"
+                    android:scaleType="centerInside"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_round_white_rectangle_grey_border"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="发布时间"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary_text"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_keyboard_arrow_down"
+                    android:scaleType="centerInside"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/searchRecycler"
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_video"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:background="@color/white">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/searchRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_video"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <!--遮罩层-->
+            <View
+                android:id="@+id/maskView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mask"
+                tools:visibility="visible"
+                android:visibility="invisible"/>
+
+            <!--分类选择项-->
+            <LinearLayout
+                android:id="@+id/channelDropLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                tools:visibility="visible"
+                android:visibility="invisible">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="全部分类"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="19"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="动画"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="20"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="音乐"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="21"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="游戏"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="22"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="三次元"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="23"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="影剧"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_300"/>
+
+                <TextView
+                    android:tag="24"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="新番"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary_text"
+                    android:onClick="@{viewModel::onFilterChannel}"/>
+
+            </LinearLayout>
+
+            <!--排序选择项-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 </layout>
