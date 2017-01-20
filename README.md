@@ -45,7 +45,7 @@
 - beta测试
 
 ## Instructions
-- 设计编码均独自完成，如果你觉得太丑，欢迎砸设计稿
+- 设计编码均独立完成，如果你觉得太丑，欢迎砸设计稿
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
 ## Statement
@@ -57,7 +57,7 @@
 - [RxLifecycle](https://github.com/trello/RxLifecycle)
 - [Retrofit](https://github.com/square/retrofit)
 - [Dagger2](https://github.com/google/dagger)
-- [Eventbus](https://github.com/greenrobot/EventBus)
+- [EventBus](https://github.com/greenrobot/EventBus)
 - [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
 - [ijkplayer](https://github.com/Bilibili/ijkplayer)
 - [DanmakuFlameMaster](https://github.com/Bilibili/DanmakuFlameMaster)
