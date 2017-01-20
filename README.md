@@ -46,6 +46,7 @@
 
 ## Instructions
 - 设计编码均独自完成，如果你觉得太丑，欢迎砸设计稿
+- 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
 ## Statement
 该项目仅供交流学习使用，如果该项目有侵犯Tucao版权问题，本人会及时删除此页面与整个项目。
