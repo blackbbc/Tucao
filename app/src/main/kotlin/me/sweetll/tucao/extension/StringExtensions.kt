@@ -1,5 +1,6 @@
 package me.sweetll.tucao.extension
 
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import me.sweetll.tucao.AppApplication
@@ -28,3 +29,5 @@ fun String.decode(): String {
     }
     return decodeString
 }
+
+fun String.getSharedPreference(): SharedPreferences = AppApplication.get().getSharedPreferences(this, 0)

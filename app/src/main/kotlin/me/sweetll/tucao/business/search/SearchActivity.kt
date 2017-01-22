@@ -17,6 +17,7 @@ import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
+import me.sweetll.tucao.business.search.adapter.SearchHistoryAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
@@ -27,6 +28,7 @@ class SearchActivity : BaseActivity() {
     lateinit var viewModel: SearchViewModel
     lateinit var binding: ActivitySearchBinding
 
+    val searchHistoryAdapter = SearchHistoryAdapter(null)
     val videoAdapter = VideoAdapter(null)
 
     companion object {
@@ -61,6 +63,10 @@ class SearchActivity : BaseActivity() {
             false
         }
 
+        setupRecyclerView()
+    }
+
+    fun setupRecyclerView() {
         videoAdapter.setOnLoadMoreListener {
             viewModel.loadMoreData()
         }
@@ -75,6 +81,9 @@ class SearchActivity : BaseActivity() {
         })
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)
         binding.searchRecycler.adapter = videoAdapter
+
+        binding.historyRecycler.layoutManager = LinearLayoutManager(this)
+        binding.historyRecycler.adapter = searchHistoryAdapter
     }
 
     fun loadData(data: MutableList<Result>) {
@@ -101,6 +110,10 @@ class SearchActivity : BaseActivity() {
                 videoAdapter.loadMoreFail()
             }
         }
+    }
+
+    fun loadHistory(histories: MutableList<Result>) {
+        searchHistoryAdapter.setNewData(histories)
     }
 
     fun setRefreshing(refreshing: Boolean) {

@@ -1,6 +1,7 @@
 package me.sweetll.tucao.base
 
 import android.databinding.BaseObservable
+import com.google.gson.Gson
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.di.service.RawApiService

@@ -51,6 +51,7 @@
                 android:textColor="@color/primary_text"
                 android:textSize="15sp"
                 android:text="@={viewModel.searchText}"
+                android:onTextChanged="@{viewModel::onSearchTextChanged}"
                 android:hint="输入关键词"
                 android:textColorHint="@color/hint_text"/>
 
@@ -155,7 +156,8 @@
                 android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="@{viewModel.searchHistoryVisibility}">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/searchRecycler"
                     android:layout_width="match_parent"
@@ -163,13 +165,21 @@
                     tools:listitem="@layout/item_video"/>
             </android.support.v4.widget.SwipeRefreshLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/historyRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:visibility="@{viewModel.searchResultVisibility}"
+                tools:listitem="@layout/item_search_history"/>
+
             <!--遮罩层-->
             <View
                 android:id="@+id/maskView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/mask"
-                tools:visibility="visible"
+                tools:visibility="gone"
                 android:visibility="invisible"
                 android:onClick="@{viewModel::onClickMask}"/>
 
@@ -180,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                tools:visibility="invisible"
+                tools:visibility="gone"
                 android:visibility="invisible">
 
                 <View
@@ -310,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                tools:visibility="visible"
+                tools:visibility="gone"
                 android:visibility="invisible">
 
                 <View

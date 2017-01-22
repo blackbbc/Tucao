@@ -7,15 +7,19 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.search.SearchActivity
+import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.hideSoftKeyboard
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.json.Result
 
 class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var tid: Int? = null, var order: String? = "date"): BaseViewModel()  {
     val searchText = ObservableField<String>()
     val channelFilterText = ObservableField<String>("全部分类")
     val orderFilterText = ObservableField<String>("发布时间")
     val totalCountVisibility = ObservableInt(View.INVISIBLE) // total_count没有用. Fuck!
+    val searchResultVisibility = ObservableInt(View.GONE)
+    val searchHistoryVisibility = ObservableInt(View.VISIBLE)
     val totalCount = ObservableInt(0)
     var lastKeyword = ""
 
@@ -27,6 +31,7 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
 
     init {
         updateFilterText()
+        activity.loadHistory(HistoryHelpers.loadSearchHistory())
         keyword?.let {
             lastKeyword = it
             searchText.set(it)
@@ -87,7 +92,19 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         if (searchText.get().isNotEmpty()) {
             activity.hideSoftKeyboard()
             lastKeyword = searchText.get()
+            HistoryHelpers.saveSearchHistory(Result(title = lastKeyword))
+            activity.loadHistory(HistoryHelpers.loadSearchHistory())
             loadData()
+        }
+    }
+
+    fun onSearchTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        if (s.isEmpty()) {
+            searchHistoryVisibility.set(View.VISIBLE)
+            searchHistoryVisibility.set(View.GONE)
+        } else {
+            searchHistoryVisibility.set(View.GONE)
+            searchHistoryVisibility.set(View.VISIBLE)
         }
     }
 
@@ -157,4 +174,5 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
             else -> "播放数"
         })
     }
+
 }
