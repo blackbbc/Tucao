@@ -23,6 +23,7 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class SearchActivity : BaseActivity() {
     lateinit var viewModel: SearchViewModel
@@ -84,6 +85,11 @@ class SearchActivity : BaseActivity() {
 
         binding.historyRecycler.layoutManager = LinearLayoutManager(this)
         binding.historyRecycler.adapter = searchHistoryAdapter
+        binding.historyRecycler.addItemDecoration(
+                HorizontalDividerBuilder.newInstance(this)
+                        .setDivider(R.drawable.divider_small)
+                        .build()
+        )
     }
 
     fun loadData(data: MutableList<Result>) {

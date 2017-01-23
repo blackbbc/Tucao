@@ -157,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:visibility="@{viewModel.searchHistoryVisibility}">
+                android:visibility="@{viewModel.searchResultVisibility}">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/searchRecycler"
                     android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:visibility="@{viewModel.searchResultVisibility}"
+                android:visibility="@{viewModel.searchHistoryVisibility}"
                 tools:listitem="@layout/item_search_history"/>
 
             <!--遮罩层-->

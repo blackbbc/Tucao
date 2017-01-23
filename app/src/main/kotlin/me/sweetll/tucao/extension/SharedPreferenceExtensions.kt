@@ -20,7 +20,7 @@ object HistoryHelpers {
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
         val jsonString = sp.getString(key, "[]")
-        return Gson().fromListJson(jsonString)
+        return Gson().fromListJson(jsonString, Result::class.java)
     }
 
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
@@ -32,7 +32,7 @@ object HistoryHelpers {
         histories.removeAll {
             it == result
         }
-        histories.add(result)
+        histories.add(0, result)
         val jsonString = Gson().toJson(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
