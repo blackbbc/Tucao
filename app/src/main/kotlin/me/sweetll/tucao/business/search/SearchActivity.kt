@@ -12,6 +12,7 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
@@ -21,6 +22,7 @@ import me.sweetll.tucao.business.search.adapter.SearchHistoryAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
+import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
@@ -83,6 +85,23 @@ class SearchActivity : BaseActivity() {
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)
         binding.searchRecycler.adapter = videoAdapter
 
+        binding.historyRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val result = helper.getItem(position) as Result
+                viewModel.searchText.set(result.title)
+                viewModel.onClickSearch(view)
+            }
+        })
+        binding.historyRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
+            override fun onSimpleItemChildClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                if (view.id == R.id.img_delete) {
+                    val result = helper.getItem(position) as Result
+                    val removedIndex = HistoryHelpers.removeSearchHistory(result)
+                    searchHistoryAdapter.remove(removedIndex)
+                }
+            }
+        })
+
         binding.historyRecycler.layoutManager = LinearLayoutManager(this)
         binding.historyRecycler.adapter = searchHistoryAdapter
         binding.historyRecycler.addItemDecoration(
@@ -90,6 +109,10 @@ class SearchActivity : BaseActivity() {
                         .setDivider(R.drawable.divider_small)
                         .build()
         )
+    }
+
+    fun clearData() {
+        videoAdapter.setNewData(mutableListOf())
     }
 
     fun loadData(data: MutableList<Result>) {

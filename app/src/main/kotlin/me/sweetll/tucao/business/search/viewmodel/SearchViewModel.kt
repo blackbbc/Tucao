@@ -99,6 +99,7 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
     }
 
     fun onSearchTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        activity.clearData()
         if (s.isEmpty()) {
             searchHistoryVisibility.set(View.VISIBLE)
             searchResultVisibility.set(View.GONE)
