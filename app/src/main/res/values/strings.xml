@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">吐槽</string>
+    <string name="drawer_open">打开抽屉式导航栏</string>
+    <string name="drawer_close">关闭抽屉式导航栏</string>
 </resources>

@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_common">
+        <item android:id="@+id/nav_star"
+            android:title="我的收藏"
+            android:icon="@drawable/ic_star" />
+        <item android:id="@+id/nav_play_history"
+            android:title="历史记录"
+            android:icon="@drawable/ic_history_black" />
+        <item android:id="@+id/nav_download"
+            android:title="离线缓存"
+            android:icon="@drawable/ic_file_download_white" />
+    </group>
+    <group android:id="@+id/group_setting">
+        <item android:id="@+id/nav_setting"
+            android:title="设置"
+            android:icon="@drawable/ic_settings"/>
+        <item android:id="@+id/nav_about"
+            android:title="关于"
+            android:icon="@drawable/ic_info_outline"/>
+    </group>
 
 </menu>
