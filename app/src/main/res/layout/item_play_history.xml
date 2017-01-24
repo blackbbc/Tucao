@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:paddingTop="25dp">
+
+    <ImageView
+        android:id="@+id/img_thumb"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_thumb"
+        android:layout_toEndOf="@+id/img_thumb"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="[日本/SP]朝本年末SP 大叔的爱 [日本/SP]朝本年末SP 大叔的爱"
+        android:textSize="15sp"
+        android:textColor="@color/primary_text"/>
+
+    <TextView
+        android:id="@+id/text_creat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:layout_marginTop="64dp"
+        tools:text="2017-01-24 00:46:29"
+        android:textSize="14sp"
+        android:textColor="@color/secondary_text"/>
+
+</RelativeLayout>

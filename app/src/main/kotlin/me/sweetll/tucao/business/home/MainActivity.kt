@@ -43,7 +43,7 @@ class MainActivity : BaseActivity() {
             menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_play_history -> {
-
+                    PlayHistoryActivity.intentTo(this)
                 }
             }
             binding.drawer.closeDrawers()

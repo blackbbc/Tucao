@@ -44,7 +44,10 @@
         <activity
             android:name=".business.browser.BrowserActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.showtimes.ShowtimeActivity"
+        <activity
+            android:name=".business.showtimes.ShowtimeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.home.PlayHistoryActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

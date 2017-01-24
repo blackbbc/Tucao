@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.text.format.DateFormat
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -23,6 +24,7 @@ import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.setUp
 import me.sweetll.tucao.extension.toast
@@ -31,6 +33,7 @@ import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.model.xml.Durl
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.io.InputStream
+import java.util.*
 
 class VideoActivity : BaseActivity() {
     lateinit var viewModel: VideoViewModel
@@ -145,6 +148,10 @@ class VideoActivity : BaseActivity() {
                 orientationUtils.backToProtVideo()
             }
 
+            override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
+                super.onClickStartIcon(p0, *p1)
+                HistoryHelpers.savePlayHistory(result.copy(creat = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString()))
+            }
         })
 
         binding.player.setLockClickListener {
