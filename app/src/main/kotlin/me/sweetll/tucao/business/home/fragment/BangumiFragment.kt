@@ -11,6 +11,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.adapter.BangumiAdapter
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.viewmodel.BangumiViewModel
@@ -21,7 +22,7 @@ import me.sweetll.tucao.model.raw.Bangumi
 import me.sweetll.tucao.model.raw.Banner
 
 
-class BangumiFragment : Fragment() {
+class BangumiFragment : BaseFragment() {
     lateinit var binding: FragmentBangumiBinding
     lateinit var headerBinding: HeaderBangumiBinding
 

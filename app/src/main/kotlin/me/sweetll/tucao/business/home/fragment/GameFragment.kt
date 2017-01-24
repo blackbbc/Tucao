@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.adapter.GameAdapter
 import me.sweetll.tucao.business.home.viewmodel.GameViewModel
 import me.sweetll.tucao.business.video.VideoActivity
@@ -18,7 +19,7 @@ import me.sweetll.tucao.databinding.HeaderGameBinding
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Game
 
-class GameFragment : Fragment() {
+class GameFragment : BaseFragment() {
     lateinit var binding: FragmentGameBinding
 
     val viewModel = GameViewModel(this)

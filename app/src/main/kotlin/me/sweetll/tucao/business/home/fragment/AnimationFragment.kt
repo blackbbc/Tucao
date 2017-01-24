@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.adapter.AnimationAdapter
 import me.sweetll.tucao.business.home.viewmodel.AnimationViewModel
 import me.sweetll.tucao.business.video.VideoActivity
@@ -18,7 +19,7 @@ import me.sweetll.tucao.databinding.HeaderAnimationBinding
 import me.sweetll.tucao.model.raw.Animation
 
 
-class AnimationFragment : Fragment() {
+class AnimationFragment : BaseFragment() {
 lateinit var binding: FragmentAnimationBinding
 
     val viewModel = AnimationViewModel(this)

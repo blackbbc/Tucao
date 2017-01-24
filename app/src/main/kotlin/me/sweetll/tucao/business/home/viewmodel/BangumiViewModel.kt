@@ -1,6 +1,7 @@
 package me.sweetll.tucao.business.home.viewmodel
 
 import android.view.View
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.fragment.BangumiFragment
@@ -21,6 +22,7 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
     fun loadData() {
         fragment.setRefreshing(true)
         rawApiService.list(24)
+                .bindToLifecycle(fragment)
                 .sanitizeHtml {
                     val banners = parseBanners(this)
                     val recommends = parseRecommends(this)

@@ -11,6 +11,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.MovieAdapter
 import me.sweetll.tucao.business.home.viewmodel.MovieViewModel
@@ -20,7 +21,7 @@ import me.sweetll.tucao.databinding.HeaderMovieBinding
 import me.sweetll.tucao.model.raw.Movie
 
 
-class MovieFragment : Fragment() {
+class MovieFragment : BaseFragment() {
     lateinit var binding: FragmentMovieBinding
     lateinit var headerBinding: HeaderMovieBinding
 

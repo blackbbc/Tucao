@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.viewmodel.ChannelListViewModel
 import me.sweetll.tucao.databinding.FragmentChannelListBinding
 
 
-class ChannelListFragment : Fragment() {
+class ChannelListFragment : BaseFragment() {
     val listViewModel: ChannelListViewModel by lazy { ChannelListViewModel(this) }
     lateinit var binding: FragmentChannelListBinding
 

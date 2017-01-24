@@ -20,6 +20,7 @@ class GameViewModel(val fragment: GameFragment): BaseViewModel() {
     fun loadData() {
         fragment.setRefreshing(true)
         rawApiService.list(21)
+                .bindToLifecycle(fragment)
                 .sanitizeHtml {
                     val recommends = parseRecommends(this)
                     Game(recommends)

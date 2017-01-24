@@ -13,6 +13,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.channel.event.ChangeChannelFilterEvent
 import me.sweetll.tucao.business.video.VideoActivity
@@ -26,7 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
-class ChannelDetailFragment : RxFragment() {
+class ChannelDetailFragment : BaseFragment() {
     lateinit var binding: FragmentChannelDetailBinding
     var tid = 0
 

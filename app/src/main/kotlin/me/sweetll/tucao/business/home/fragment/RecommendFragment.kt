@@ -11,6 +11,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.RecommendAdapter
@@ -21,7 +22,7 @@ import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 
-class RecommendFragment : Fragment() {
+class RecommendFragment : BaseFragment() {
     lateinit var binding: FragmentRecommendBinding
     lateinit var headerView: View
     val viewModel = RecommendViewModel(this)
