@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
@@ -42,8 +43,23 @@ class MainActivity : BaseActivity() {
         binding.navigation.setNavigationItemSelectedListener({
             menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_star -> {
+                    "这个功能尚未实现，请期待下一个版本~"
+                }
                 R.id.nav_play_history -> {
                     PlayHistoryActivity.intentTo(this)
+                }
+                R.id.nav_download -> {
+                    DownloadActivity.intentTo(this)
+                }
+                R.id.nav_upgrade -> {
+                    "这个功能尚未实现，请期待下一个版本~"
+                }
+                R.id.nav_setting -> {
+                    "这个功能尚未实现，请期待下一个版本~"
+                }
+                R.id.nav_about -> {
+                    "这个功能尚未实现，请期待下一个版本~"
                 }
             }
             binding.drawer.closeDrawers()

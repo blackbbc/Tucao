@@ -57,6 +57,10 @@ dependencies {
     /* RxLifecycle */
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.0.1'
+    /* RxPermissions */
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.1@aar'
+    /* RxDownload */
+    compile 'zlc.season:rxdownload2:1.1.1'
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'

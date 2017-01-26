@@ -3,12 +3,12 @@ package me.sweetll.tucao.extension
 import com.google.gson.Gson
 import me.sweetll.tucao.model.json.Result
 
-private val HISTORY_FILE_NAME = "history"
-
-private val KEY_S_SEARCH_HISTORY ="search_history"
-private val KEY_S_PLAY_HISTORY = "play_history"
 
 object HistoryHelpers {
+    private val HISTORY_FILE_NAME = "history"
+
+    private val KEY_S_SEARCH_HISTORY ="search_history"
+    private val KEY_S_PLAY_HISTORY = "play_history"
 
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()

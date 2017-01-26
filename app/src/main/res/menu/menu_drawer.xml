@@ -12,6 +12,9 @@
             android:icon="@drawable/ic_file_download_white" />
     </group>
     <group android:id="@+id/group_setting">
+        <item android:id="@+id/nav_upgrade"
+            android:title="检查更新"
+            android:icon="@drawable/ic_sync" />
         <item android:id="@+id/nav_setting"
             android:title="设置"
             android:icon="@drawable/ic_settings"/>

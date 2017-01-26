@@ -7,5 +7,6 @@ import org.simpleframework.xml.Root
 data class Durl(
         @field:Element(name = "order") var order: Int = 0,
         @field:Element(name = "length") var length: Long = 0L,
-        @field:Element(name = "url") var url: String = ""
+        @field:Element(name = "url") var url: String = "",
+        var size: Int = 0
 )
