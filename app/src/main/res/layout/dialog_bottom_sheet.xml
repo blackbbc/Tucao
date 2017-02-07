@@ -17,7 +17,7 @@
         android:id="@+id/design_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="40dp"
+        android:paddingBottom="45dp"
         android:layout_gravity="center_horizontal|top"
         android:clickable="true"
         app:layout_behavior="me.sweetll.tucao.widget.CustomBottomSheetBehavior"
@@ -26,11 +26,10 @@
     <LinearLayout
         android:id="@+id/linear_bottom"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:elevation="@dimen/design_bottom_sheet_modal_elevation"
-        android:backgroundTint="@color/blue_500"
         android:background="@drawable/bg_white_rectangle_grey_border">
 
         <TextView
@@ -58,7 +57,7 @@
             android:gravity="center"
             android:text="开始下载"
             android:textSize="14sp"
-            android:textColor="@color/primary_text"/>
+            android:textColor="@color/selector_start_download"/>
 
     </LinearLayout>
 

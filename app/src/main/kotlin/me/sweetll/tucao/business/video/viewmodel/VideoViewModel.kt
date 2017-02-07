@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -143,6 +145,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     fun onClickDownload(view: View) {
         val dialog = CustomBottomSheetDialog(activity)
         val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_pick_download_video, null)
+        dialog.setContentView(dialogView)
 
         dialogView.findViewById(R.id.img_close).setOnClickListener {
             dialog.dismiss()
@@ -151,10 +154,35 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
         val partAdapter = PartAdapter(result.get().video)
 
+        val startDownloadText = dialog.findViewById(R.id.text_start_download)
+        startDownloadText!!.setOnClickListener {
+            view ->
+        }
+
+        partRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val video = helper.getItem(position) as Video
+                video.checked = !video.checked
+                helper.notifyItemChanged(position)
+                startDownloadText.isEnabled = partAdapter.data.any { it.checked }
+            }
+
+        })
+
         partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         partRecycler.adapter = partAdapter
 
-        dialog.setContentView(dialogView)
+        val pickAllText = dialog.findViewById(R.id.text_pick_all)
+        pickAllText!!.setOnClickListener {
+            view ->
+            partAdapter.data.forEach {
+                item ->
+                item.checked = true
+            }
+            partAdapter.notifyDataSetChanged()
+            startDownloadText.isEnabled = true
+        }
+
         dialog.show()
     }
 

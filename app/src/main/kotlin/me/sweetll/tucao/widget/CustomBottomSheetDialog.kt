@@ -160,8 +160,9 @@ class CustomBottomSheetDialog: AppCompatDialog {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            if (slideOffset <= 0 && mBottomLinear != null) {
-                ViewCompat.setTranslationY(mBottomLinear, -slideOffset)
+            val translationY = Math.max(0f, -slideOffset)
+            mBottomLinear?.let {
+                ViewCompat.setTranslationY(mBottomLinear, translationY)
             }
         }
     }
