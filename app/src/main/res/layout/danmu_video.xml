@@ -216,6 +216,6 @@
         android:layout_marginBottom="16dp"
         android:lineSpacingExtra="2dp"
         android:text="播放器初始化...[完成]\n获取视频信息...\n解析视频地址...\n全舰弹幕装填..."
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="@android:color/white"/>
 </RelativeLayout>

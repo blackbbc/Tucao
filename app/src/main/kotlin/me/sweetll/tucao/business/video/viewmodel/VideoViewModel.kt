@@ -1,18 +1,27 @@
 package me.sweetll.tucao.business.video.viewmodel
 
 import android.databinding.ObservableField
+import android.support.design.widget.BottomSheetDialog
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.LayoutInflater
+import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
+import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
+import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeJson
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.json.Video
+import me.sweetll.tucao.widget.CustomBottomSheetDialog
 import java.io.File
 import java.io.FileOutputStream
 
@@ -24,6 +33,46 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun queryResult(hid: String) {
+        val result = Result("title")
+        result.video.addAll(arrayOf(
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123"),
+                Video("title1", "189", "123")
+        ))
+        this.result.set(result)
+        activity.loadResult(result)
+        /*
         jsonApiService.view(hid)
                 .bindToLifecycle(activity)
                 .sanitizeJson()
@@ -34,8 +83,11 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 }, {
                     error ->
                     error.printStackTrace()
-                    error.message?.toast()
+                    activity.binding.player.loadText?.let {
+                        it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[失败]")
+                    }
                 })
+        */
     }
 
     fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
@@ -86,6 +138,28 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                         it.text = it.text.replace("全舰弹幕装填...".toRegex(), "全舰弹幕装填...[失败]")
                     }
                 })
+    }
+
+    fun onClickDownload(view: View) {
+        val dialog = CustomBottomSheetDialog(activity)
+        val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_pick_download_video, null)
+
+        dialogView.findViewById(R.id.img_close).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
+        val partAdapter = PartAdapter(result.get().video)
+
+        partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        partRecycler.adapter = partAdapter
+
+        dialog.setContentView(dialogView)
+        dialog.show()
+    }
+
+    fun onClickStar(view: View) {
+
     }
 
 }

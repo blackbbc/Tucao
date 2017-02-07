@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="120dp"
+    android:layout_width="match_parent"
     android:layout_height="50dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
@@ -11,7 +11,7 @@
     android:maxLines="2"
     android:ellipsize="end"
     android:textAlignment="center"
-    tools:checked="true"
+    tools:checked="false"
     tools:text="今天天气真好哈哈啊哈哈哈哈哈哈哈哈哈哈啊哈哈"
     android:textSize="12sp"
     android:textColor="@color/selector_part"/>

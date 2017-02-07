@@ -1,6 +1,6 @@
 package me.sweetll.tucao
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
 import me.drakeet.library.CrashWoodpecker
@@ -12,7 +12,7 @@ import me.sweetll.tucao.di.module.ApiModule
 import me.sweetll.tucao.di.module.BaseModule
 import me.sweetll.tucao.di.service.ApiConfig
 
-class AppApplication : Application() {
+class AppApplication : MultiDexApplication() {
     companion object {
         private lateinit var INSTANCE: AppApplication
 

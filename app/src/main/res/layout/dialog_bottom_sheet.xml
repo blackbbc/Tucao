@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/touch_outside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:soundEffectsEnabled="false"/>
+
+    <FrameLayout
+        android:id="@+id/design_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp"
+        android:layout_gravity="center_horizontal|top"
+        android:clickable="true"
+        app:layout_behavior="me.sweetll.tucao.widget.CustomBottomSheetBehavior"
+        style="?attr/bottomSheetStyle"/>
+
+    <LinearLayout
+        android:id="@+id/linear_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:elevation="@dimen/design_bottom_sheet_modal_elevation"
+        android:backgroundTint="@color/blue_500"
+        android:background="@drawable/bg_white_rectangle_grey_border">
+
+        <TextView
+            android:id="@+id/text_pick_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全部选择"
+            android:textSize="14sp"
+            android:textColor="@color/primary_text"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/text_start_download"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="开始下载"
+            android:textSize="14sp"
+            android:textColor="@color/primary_text"/>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

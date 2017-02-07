@@ -67,6 +67,85 @@
                 android:text="@{viewModel.result.description}"
                 android:textColor="@color/secondary_text"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:onClick="@{viewModel::onClickStar}">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:elevation="6dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@color/white"
+                            android:tint="@color/pink_500"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_star_border"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="收藏"
+                        android:textSize="12sp"
+                        android:textColor="@color/primary_text"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:onClick="@{viewModel::onClickDownload}">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_white_circle"
+                        android:elevation="6dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@color/white"
+                            android:tint="@color/blue_500"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_file_download_black"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="缓存"
+                        android:textSize="12sp"
+                        android:textColor="@color/primary_text"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <View
