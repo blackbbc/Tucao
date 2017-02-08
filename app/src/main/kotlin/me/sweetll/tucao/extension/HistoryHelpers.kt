@@ -2,7 +2,7 @@ package me.sweetll.tucao.extension
 
 import com.google.gson.Gson
 import me.sweetll.tucao.model.json.Result
-
+import com.github.salomonbrys.kotson.*
 
 object HistoryHelpers {
     private val HISTORY_FILE_NAME = "history"
@@ -13,7 +13,7 @@ object HistoryHelpers {
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
         val jsonString = sp.getString(key, "[]")
-        return Gson().fromListJson(jsonString, Result::class.java)
+        return Gson().fromJson<List<Result>>(jsonString).toMutableList()
     }
 
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)

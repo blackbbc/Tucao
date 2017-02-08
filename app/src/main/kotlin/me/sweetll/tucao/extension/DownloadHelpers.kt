@@ -5,7 +5,6 @@ import android.app.Activity
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.google.gson.Gson
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,6 +21,8 @@ import zlc.season.rxdownload2.entity.DownloadFlag
 import java.util.*
 import javax.inject.Inject
 import com.github.salomonbrys.kotson.*
+import com.google.gson.GsonBuilder
+import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
 
 object DownloadHelpers {
     private val DOWNLOAD_FILE_NAME = "download"
@@ -32,6 +33,10 @@ object DownloadHelpers {
     private val rxDownload: RxDownload = RxDownload.getInstance().context(AppApplication.get())
 
     private val serviceInstance = ServiceInstance()
+
+    private val gson = GsonBuilder()
+            .setExclusionStrategies(ExcludeStateConstrollerStrategy())
+            .create()
 
     private fun loadDownloadVideos(): MutableList<MultiItemEntity> {
         /*
@@ -50,11 +55,10 @@ object DownloadHelpers {
         */
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         val jsonString = sp.getString(KEY_S_DOWNLOAD_VIDEO, "[]")
-        return Gson().fromJson<List<Video>>(jsonString).toMutableList()
-//        return Gson().fromListJson(jsonString, Video::class.java).map { it }.toMutableList()
+        return gson.fromJson<List<Video>>(jsonString).toMutableList()
     }
 
-    fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadedVideos()
+    fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
             .filter {
                 video ->
                 (video as Video).subItems.any {
@@ -97,7 +101,7 @@ object DownloadHelpers {
             videos.add(0, video)
         }
 
-        val jsonString = Gson().toJson(videos)
+        val jsonString = gson.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
@@ -124,7 +128,7 @@ object DownloadHelpers {
     }
 
     fun startDownload(part: Part) {
-        rxDownload.serviceDownload(part.durls[0].url, part.durls[0].downloadPath.substring(defaultPath.length), defaultPath)
+        rxDownload.serviceDownload(part.durls[0].url, part.durls[0].downloadPath.substring(defaultPath.length + 1), defaultPath)
     }
 
     private fun download(video: Video, part: Part, type: String, vid: String) {

@@ -28,7 +28,7 @@ class DownloadedFragment: BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        setupRecyclerView()
+        setupRecyclerView()
     }
 
     fun setupRecyclerView() {

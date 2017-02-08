@@ -32,9 +32,16 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         state.handleClick(callback)
     }
 
-    abstract class DownloadState {
+    inner abstract class DownloadState {
+        init {
+            statusImg.visibility = View.VISIBLE
+        }
+
         abstract fun handleClick(callback: DownloadHelpers.Callback)
-        open fun setStatus(status: DownloadStatus) {}
+        open fun setStatus(status: DownloadStatus) {
+            progressBar.max = status.totalSize.toInt()
+            progressBar.progress = status.downloadSize.toInt()
+        }
     }
 
     inner class Normal : DownloadState() {
