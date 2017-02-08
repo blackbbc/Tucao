@@ -112,6 +112,10 @@ class VideoActivity : BaseActivity() {
     }
 
     fun loadResult(result: Result) {
+        result.video.forEachIndexed {
+            index, video ->
+            video.order = index
+        }
 
         binding.player.loadText?.let {
             it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
@@ -150,7 +154,7 @@ class VideoActivity : BaseActivity() {
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
-                HistoryHelpers.savePlayHistory(result.copy(creat = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString()))
+                HistoryHelpers.savePlayHistory(result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString()))
             }
         })
 

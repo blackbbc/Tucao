@@ -6,11 +6,11 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import me.sweetll.tucao.converter.JacksonConverterFactory
 import me.sweetll.tucao.di.service.ApiConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
@@ -77,7 +77,7 @@ class BaseModule(val apiKey: String) {
     @Named("json")
     fun provideJsonRetrofit(gson: Gson, @Named("json") client: OkHttpClient) : Retrofit = Retrofit.Builder()
             .baseUrl(ApiConfig.BASE_JSON_API_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(JacksonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()

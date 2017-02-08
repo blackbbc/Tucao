@@ -18,6 +18,7 @@ import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeJson
 import me.sweetll.tucao.extension.toast
@@ -163,6 +164,9 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         val startDownloadText = dialog.findViewById(R.id.text_start_download)
         startDownloadText!!.setOnClickListener {
             view ->
+            DownloadHelpers.startDownload(activity, result.get().copy(
+                    video = partAdapter.data.filter(Video::checked).toMutableList()
+            ))
         }
 
         partRecycler.addOnItemTouchListener(object: OnItemClickListener() {

@@ -7,7 +7,7 @@ data class Result(val hid: String = "",
                   val title: String = "",
                   val play: Int = 0,
                   val mukio: Int = 0,
-                  val creat: String = "",
+                  val create: String = "",
                   val thumb: String = "",
                   val typename: String = "",
                   val typeid: Int = 0,
@@ -33,7 +33,7 @@ data class Result(val hid: String = "",
         dest?.writeString(title)
         dest?.writeInt(play)
         dest?.writeInt(mukio)
-        dest?.writeString(creat)
+        dest?.writeString(create)
         dest?.writeString(thumb)
         dest?.writeString(typename)
         dest?.writeInt(typeid)

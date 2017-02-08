@@ -31,6 +31,9 @@ android {
     dataBinding {
         enabled = true
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+    }
 }
 
 dependencies {
@@ -66,6 +69,7 @@ dependencies {
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.4'
     compile ('com.squareup.retrofit2:converter-simplexml:2.1.0') {
         exclude module: 'stax'
         exclude module: 'stax-api'
