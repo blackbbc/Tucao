@@ -13,7 +13,7 @@ class RankViewModel(rankActivity: RankActivity): BaseViewModel() {
     fun onClickFilterDate(view: View) {
         if (view is CheckedTextView && !view.isChecked) {
             val parentView = view.parent as ViewGroup
-            (0 .. parentView.childCount - 1)
+            (1 .. parentView.childCount - 1)
                     .map { parentView.getChildAt(it) as CheckedTextView }
                     .forEach {
                         it.isChecked = view == it
