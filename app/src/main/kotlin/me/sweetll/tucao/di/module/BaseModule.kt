@@ -18,13 +18,6 @@ import javax.inject.Singleton
 
 @Module
 class BaseModule(val apiKey: String) {
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
-            .create()
-
     @Provides
     @Singleton
     @Named("raw")
@@ -75,7 +68,7 @@ class BaseModule(val apiKey: String) {
     @Provides
     @Singleton
     @Named("json")
-    fun provideJsonRetrofit(gson: Gson, @Named("json") client: OkHttpClient) : Retrofit = Retrofit.Builder()
+    fun provideJsonRetrofit(@Named("json") client: OkHttpClient) : Retrofit = Retrofit.Builder()
             .baseUrl(ApiConfig.BASE_JSON_API_URL)
             .addConverterFactory(JacksonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

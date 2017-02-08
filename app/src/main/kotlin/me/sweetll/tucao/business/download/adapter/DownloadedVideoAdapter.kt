@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.Video
-import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.load
 
 class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
@@ -26,7 +25,7 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
             TYPE_VIDEO -> {
                 val video = item as Video
                 helper.setText(R.id.text_title, video.title)
-                helper.setText(R.id.text_size, video.size.formatWithUnit())
+                helper.setText(R.id.text_size, video.status.formatStatusString)
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(video.thumb)
                 helper.itemView.setOnClickListener {
@@ -40,7 +39,7 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
             TYPE_PART -> {
                 (item as Part).let {
                     helper.setText(R.id.text_title, it.title)
-                    helper.setText(R.id.text_size, it.size.formatWithUnit())
+                    helper.setText(R.id.text_size, it.status.formatTotalSize)
                 }
             }
         }

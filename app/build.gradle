@@ -68,7 +68,7 @@ dependencies {
     compile 'zlc.season:rxdownload2:1.1.1'
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.4'
     compile ('com.squareup.retrofit2:converter-simplexml:2.1.0') {
         exclude module: 'stax'

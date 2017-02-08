@@ -144,6 +144,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun onClickDownload(view: View) {
+        if (result.get() == null) return
         val dialog = CustomBottomSheetDialog(activity)
         val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_pick_download_video, null)
         dialog.setContentView(dialogView)
@@ -167,6 +168,8 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
             DownloadHelpers.startDownload(activity, result.get().copy(
                     video = partAdapter.data.filter(Video::checked).toMutableList()
             ))
+            "已开始下载".toast()
+            dialog.dismiss()
         }
 
         partRecycler.addOnItemTouchListener(object: OnItemClickListener() {
