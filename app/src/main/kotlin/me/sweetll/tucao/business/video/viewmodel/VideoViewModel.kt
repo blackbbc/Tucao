@@ -35,6 +35,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun queryResult(hid: String) {
+        /*
         val result = Result("title")
         result.video.addAll(arrayOf(
                 Video("title1", "189", "123"),
@@ -74,7 +75,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         ))
         this.result.set(result)
         activity.loadResult(result)
-        /*
+        */
         jsonApiService.view(hid)
                 .bindToLifecycle(activity)
                 .sanitizeJson()
@@ -89,7 +90,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                         it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[失败]")
                     }
                 })
-        */
     }
 
     fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
@@ -152,7 +152,13 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         }
 
         val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
-        val partAdapter = PartAdapter(result.get().video)
+        val partAdapter = PartAdapter(
+                result.get().video
+                        .map {
+                            it.copy(checked = false)
+                        }
+                        .toMutableList()
+        )
 
         val startDownloadText = dialog.findViewById(R.id.text_start_download)
         startDownloadText!!.setOnClickListener {
@@ -175,12 +181,12 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         val pickAllText = dialog.findViewById(R.id.text_pick_all)
         pickAllText!!.setOnClickListener {
             view ->
+            startDownloadText.isEnabled = !startDownloadText.isEnabled
             partAdapter.data.forEach {
                 item ->
-                item.checked = true
+                item.checked = startDownloadText.isEnabled
             }
             partAdapter.notifyDataSetChanged()
-            startDownloadText.isEnabled = true
         }
 
         dialog.show()
