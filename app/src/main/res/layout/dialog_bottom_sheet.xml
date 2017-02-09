@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:paddingBottom="45dp">
 
     <View
         android:id="@+id/touch_outside"
@@ -32,11 +33,12 @@
         android:elevation="@dimen/design_bottom_sheet_modal_elevation"
         android:background="@drawable/bg_white_rectangle_grey_border">
 
-        <TextView
-            android:id="@+id/text_pick_all"
+        <Button
+            android:id="@+id/btn_pick_all"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
             android:gravity="center"
             android:text="全部选择"
             android:textSize="14sp"
@@ -49,11 +51,12 @@
             android:layout_marginBottom="12dp"
             android:background="@color/divider" />
 
-        <TextView
-            android:id="@+id/text_start_download"
+        <Button
+            android:id="@+id/btn_start_download"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
             android:enabled="false"
             android:gravity="center"
             android:text="开始下载"

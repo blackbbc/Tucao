@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -162,8 +163,8 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                         .toMutableList()
         )
 
-        val startDownloadText = dialog.findViewById(R.id.text_start_download)
-        startDownloadText!!.setOnClickListener {
+        val startDownloadButton = dialog.findViewById(R.id.btn_start_download) as Button
+        startDownloadButton.setOnClickListener {
             view ->
             DownloadHelpers.startDownload(activity, result.get().copy(
                     video = partAdapter.data.filter(Video::checked).toMutableList()
@@ -177,7 +178,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 val video = helper.getItem(position) as Video
                 video.checked = !video.checked
                 helper.notifyItemChanged(position)
-                startDownloadText.isEnabled = partAdapter.data.any { it.checked }
+                startDownloadButton.isEnabled = partAdapter.data.any { it.checked }
             }
 
         })
@@ -185,13 +186,25 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         partRecycler.adapter = partAdapter
 
-        val pickAllText = dialog.findViewById(R.id.text_pick_all)
-        pickAllText!!.setOnClickListener {
+        val pickAllButton = dialog.findViewById(R.id.btn_pick_all) as Button
+        pickAllButton.setOnClickListener {
             view ->
-            startDownloadText.isEnabled = !startDownloadText.isEnabled
-            partAdapter.data.forEach {
-                item ->
-                item.checked = startDownloadText.isEnabled
+            if (partAdapter.data.all { it.checked }) {
+                // 取消全选
+                startDownloadButton.isEnabled = false
+                pickAllButton.text = "全部选择"
+                partAdapter.data.forEach {
+                    item ->
+                    item.checked = false
+                }
+            } else {
+                // 全选
+                startDownloadButton.isEnabled = true
+                pickAllButton.text = "取消全选"
+                partAdapter.data.forEach {
+                    item ->
+                    item.checked = true
+                }
             }
             partAdapter.notifyDataSetChanged()
         }
