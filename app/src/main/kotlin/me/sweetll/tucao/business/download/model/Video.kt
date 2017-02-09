@@ -14,7 +14,8 @@ class Video(val hid: String,
             val flag: Int = DownloadFlag.NORMAL,
             val status: DownloadStatus = DownloadStatus(),
             var checkable: Boolean = false,
-            var checked: Boolean = false): AbstractExpandableItem<Part>(), MultiItemEntity, Parcelable {
+            var checked: Boolean = false,
+            var singlePart: Boolean = false): AbstractExpandableItem<Part>(), MultiItemEntity, Parcelable {
     override fun getLevel(): Int = 0
 
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_VIDEO
@@ -26,7 +27,7 @@ class Video(val hid: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), 1.equals(source.readInt()), 1.equals(source.readInt()))
+    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), 1.equals(source.readInt()), 1.equals(source.readInt()), 1.equals(source.readInt()))
 
     override fun describeContents() = 0
 
@@ -38,5 +39,6 @@ class Video(val hid: String,
         dest?.writeParcelable(status, 0)
         dest?.writeInt((if (checkable) 1 else 0))
         dest?.writeInt((if (checked) 1 else 0))
+        dest?.writeInt((if (singlePart) 1 else 0))
     }
 }

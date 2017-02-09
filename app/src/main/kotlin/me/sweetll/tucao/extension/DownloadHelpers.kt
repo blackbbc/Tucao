@@ -142,7 +142,7 @@ object DownloadHelpers {
                 }
                 .subscribe({
                     video ->
-                    download(Video(result.hid, result.title, result.thumb), Part(video.title, video.order, video.vid), video.type, video.vid)
+                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid), video.type, video.vid)
                 })
     }
 

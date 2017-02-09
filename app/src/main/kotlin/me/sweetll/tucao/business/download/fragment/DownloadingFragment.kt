@@ -22,8 +22,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback {
-
-
     lateinit var binding: FragmentDownloadingBinding
 
     val videoAdapter: DownloadingVideoAdapter by lazy {
