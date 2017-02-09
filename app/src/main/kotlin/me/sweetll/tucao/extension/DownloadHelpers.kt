@@ -39,7 +39,7 @@ object DownloadHelpers {
             .setExclusionStrategies(ExcludeStateConstrollerStrategy())
             .create()
 
-    private fun loadDownloadVideos(): MutableList<MultiItemEntity> {
+    fun loadDownloadVideos(): MutableList<MultiItemEntity> {
         /*
         val part1 = Part("P1", 1024)
         val part2 = Part("P2", 1024)

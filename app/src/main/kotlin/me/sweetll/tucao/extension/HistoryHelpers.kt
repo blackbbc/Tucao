@@ -23,7 +23,7 @@ object HistoryHelpers {
     private fun saveHistory(fileName: String, key: String, result: Result) {
         val histories = loadHistory(fileName, key)
         histories.removeAll {
-            it == result
+            it.hid == result.hid
         }
         histories.add(0, result)
         val jsonString = Gson().toJson(histories)

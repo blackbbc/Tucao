@@ -44,6 +44,8 @@ class VideoActivity : BaseActivity() {
     var isPlay = false
     var isPause = false
 
+    var selectedVideo: Video? = null
+
     lateinit var partAdapter: PartAdapter
 
     companion object {
@@ -82,24 +84,23 @@ class VideoActivity : BaseActivity() {
     }
 
     fun setupRecyclerView(result: Result) {
-        result.video[0].checked = true
         partAdapter = PartAdapter(result.video)
 
         binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val selectedVideo = helper.getItem(position) as Video
-                if (!selectedVideo.checked) {
+                selectedVideo = helper.getItem(position) as Video
+                if (!selectedVideo!!.checked) {
                     binding.player.loadText?.let {
                         binding.player.startButton.visibility = View.GONE
                         it.visibility = View.VISIBLE
                         it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
                     }
                     partAdapter.data.forEach { it.checked = false }
-                    selectedVideo.checked = true
+                    selectedVideo!!.checked = true
                     partAdapter.notifyDataSetChanged()
 
-                    if (selectedVideo.vid != null) {
-                        viewModel.queryPlayUrls(result.hid, position, selectedVideo.type, selectedVideo.vid)
+                    if (selectedVideo!!.vid.isNotEmpty()) {
+                        viewModel.queryPlayUrls(result.hid, selectedVideo!!.order, selectedVideo!!.type, selectedVideo!!.vid)
                     } else {
                         "所选视频已失效".toast()
                     }
@@ -114,6 +115,12 @@ class VideoActivity : BaseActivity() {
         result.video.forEachIndexed {
             index, video ->
             video.order = index
+        }
+
+        selectedVideo = result.video.find { it.checked }
+        if (selectedVideo == null) {
+            result.video[0].checked = true
+            selectedVideo = result.video[0]
         }
 
         binding.player.loadText?.let {
@@ -162,10 +169,8 @@ class VideoActivity : BaseActivity() {
             orientationUtils.isEnable = !lock
         }
 
-        val firstVid = result.video[0].vid
-        if (firstVid != null) {
-//             载入第一个视频
-            viewModel.queryPlayUrls(result.hid, 0, result.video[0].type, firstVid)
+        if (selectedVideo!!.vid.isNotEmpty()) {
+            viewModel.queryPlayUrls(result.hid, selectedVideo!!.order, selectedVideo!!.type, selectedVideo!!.vid)
         } else {
             "所选视频已失效".toast()
         }

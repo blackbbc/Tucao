@@ -43,5 +43,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="@color/grey_100"
-        tools:listitem="@layout/item_part"/>
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_download_part"/>
 </LinearLayout>

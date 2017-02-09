@@ -17,6 +17,7 @@ import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
+import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
@@ -155,7 +156,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         }
 
         val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
-        val partAdapter = PartAdapter(
+        val partAdapter = DownloadPartAdapter(
                 result.get().video
                         .map {
                             it.copy(checked = false)
@@ -213,7 +214,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun onClickStar(view: View) {
-
+        "这个功能尚未实现，请期待下一个版本~".toast()
     }
 
 }

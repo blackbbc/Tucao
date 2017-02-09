@@ -16,6 +16,7 @@ import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
+import me.sweetll.tucao.extension.toast
 
 class MainActivity : BaseActivity() {
 
@@ -44,7 +45,7 @@ class MainActivity : BaseActivity() {
             menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_star -> {
-                    "这个功能尚未实现，请期待下一个版本~"
+                    "这个功能尚未实现，请期待下一个版本~".toast()
                 }
                 R.id.nav_play_history -> {
                     PlayHistoryActivity.intentTo(this)
@@ -53,13 +54,13 @@ class MainActivity : BaseActivity() {
                     DownloadActivity.intentTo(this)
                 }
                 R.id.nav_upgrade -> {
-                    "这个功能尚未实现，请期待下一个版本~"
+                    "这个功能尚未实现，请期待下一个版本~".toast()
                 }
                 R.id.nav_setting -> {
-                    "这个功能尚未实现，请期待下一个版本~"
+                    "这个功能尚未实现，请期待下一个版本~".toast()
                 }
                 R.id.nav_about -> {
-                    "这个功能尚未实现，请期待下一个版本~"
+                    "这个功能尚未实现，请期待下一个版本~".toast()
                 }
             }
             binding.drawer.closeDrawers()

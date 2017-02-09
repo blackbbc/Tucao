@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <CheckedTextView
+        android:id="@+id/checked_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/selector_part"
+        android:gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textAlignment="center"
+        tools:enabled="false"
+        tools:checked="true"
+        tools:text="今天天气真好哈哈啊哈哈哈哈哈哈哈哈哈哈啊哈哈"
+        android:textSize="12sp"
+        android:textColor="@color/selector_part"/>
+
+    <ImageView
+        android:id="@+id/img_downloaded"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:translationX="5dp"
+        android:translationY="5dp"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:padding="3dp"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/bg_green_circle_border"
+        android:tint="@color/green_500"
+        android:src="@drawable/ic_check"
+        android:scaleType="centerInside"/>
+
+    <ImageView
+        android:id="@+id/img_downloading"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:translationX="5dp"
+        android:translationY="5dp"
+        android:visibility="gone"
+        android:padding="3dp"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/bg_grey_circle_border"
+        android:tint="@color/grey_500"
+        android:src="@drawable/ic_cached"
+        android:scaleType="centerInside"/>
+</FrameLayout>

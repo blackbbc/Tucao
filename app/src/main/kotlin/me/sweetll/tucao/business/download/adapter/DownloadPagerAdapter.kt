@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.download.adapter
 
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import me.sweetll.tucao.business.download.fragment.DownloadedFragment
@@ -10,7 +11,7 @@ class DownloadPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
 
     override fun getCount(): Int = tabTitles.size
 
-    override fun getItem(position: Int) =
+    override fun getItem(position: Int): Fragment =
         when (position) {
             0 -> DownloadedFragment()
             else -> DownloadingFragment()
