@@ -13,8 +13,8 @@ class Video(val hid: String,
             val thumb: String,
             val flag: Int = DownloadFlag.NORMAL,
             val status: DownloadStatus = DownloadStatus(),
-            val checkable: Boolean = false,
-            val checked: Boolean = false): AbstractExpandableItem<Part>(), MultiItemEntity, Parcelable {
+            var checkable: Boolean = false,
+            var checked: Boolean = false): AbstractExpandableItem<Part>(), MultiItemEntity, Parcelable {
     override fun getLevel(): Int = 0
 
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_VIDEO

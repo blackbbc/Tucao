@@ -14,8 +14,8 @@ class Part(val title: String,
            var flag: Int = DownloadFlag.NORMAL,
            var status: DownloadStatus = DownloadStatus(),
            val durls: MutableList<Durl> = mutableListOf(),
-           val checkable: Boolean = false,
-           val checked: Boolean = false,
+           var checkable: Boolean = false,
+           var checked: Boolean = false,
            var stateController: StateController? = null): MultiItemEntity, Parcelable {
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_PART
 

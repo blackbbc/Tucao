@@ -18,6 +18,7 @@ class DownloadActivity : BaseActivity() {
     lateinit var binding: ActivityDownloadBinding
 
     var currentActionMode: ActionMode? = null
+    var currentContextMenuCallback: ContextMenuCallback? = null
 
     val modeCallback = object: ActionMode.Callback {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu?): Boolean {
@@ -26,15 +27,25 @@ class DownloadActivity : BaseActivity() {
         }
 
         override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            binding.bottomLinear.visibility = View.VISIBLE
             return false
         }
 
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
+            when (item.itemId) {
+                R.id.menu_done -> {
+                    currentActionMode?.finish()
+                    return true
+                }
+            }
             return false
         }
 
         override fun onDestroyActionMode(mode: ActionMode?) {
+            binding.bottomLinear.visibility = View.GONE
             currentActionMode = null
+            currentContextMenuCallback?.onDestroyContextMenu()
+            currentContextMenuCallback = null
         }
 
     }
@@ -64,5 +75,39 @@ class DownloadActivity : BaseActivity() {
             it.title = "离线缓存"
             it.setDisplayHomeAsUpEnabled(true)
         }
+    }
+
+    fun openContextMenu(contextMenuCallback: ContextMenuCallback) {
+        currentActionMode = startActionMode(modeCallback)
+        currentContextMenuCallback = contextMenuCallback
+        binding.pickAllBtn.setOnClickListener {
+            val isPickAll = currentContextMenuCallback?.onClickPickAll() ?: false
+            if (isPickAll) {
+                binding.pickAllBtn.text = "取消全选"
+            } else {
+                binding.pickAllBtn.text = "选择全部"
+            }
+        }
+        binding.deleteBtn.setOnClickListener {
+            currentContextMenuCallback?.onClickDelete()
+            currentActionMode?.finish()
+        }
+    }
+
+    fun updateBottomMenu(deleteEnabled: Boolean, isPickAll: Boolean) {
+        binding.deleteBtn.isEnabled = deleteEnabled
+        if (isPickAll) {
+            binding.pickAllBtn.text = "取消全选"
+        } else {
+            binding.pickAllBtn.text = "选择全部"
+        }
+    }
+
+    interface ContextMenuCallback {
+        fun onDestroyContextMenu()
+
+        fun onClickDelete()
+
+        fun onClickPickAll(): Boolean
     }
 }

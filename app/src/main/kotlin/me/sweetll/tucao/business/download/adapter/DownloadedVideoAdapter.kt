@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.download.adapter
 
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
@@ -31,6 +32,14 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
                 helper.setText(R.id.text_size, video.status.formatTotalSize)
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(video.thumb)
+
+                helper.setVisible(R.id.checkbox, video.checkable)
+                helper.getView<CheckBox>(R.id.checkbox).isChecked = video.checked
+//                helper.getView<MaterialCheckBox>(R.id.checkbox).setOnCheckedChangedListener {
+//                    view, isChecked ->
+//                    video.checked = isChecked
+//                }
+
                 helper.itemView.setOnClickListener {
                     if (video.isExpanded) {
                         collapse(helper.adapterPosition)
@@ -43,14 +52,20 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
                 }
             }
             TYPE_PART -> {
-                (item as Part).let {
-                    helper.setText(R.id.text_title, it.title)
-                    helper.setText(R.id.text_size, it.status.formatTotalSize)
+                val part = item as Part
+                helper.setText(R.id.text_title, part.title)
+                helper.setText(R.id.text_size, part.status.formatTotalSize)
 
-                    helper.itemView.setOnClickListener {
-                        view ->
-                        CachedVideoActivity.intentTo(mContext, it)
-                    }
+                helper.setVisible(R.id.checkbox, part.checkable)
+                helper.getView<CheckBox>(R.id.checkbox).isChecked = part.checked
+//                helper.getView<MaterialCheckBox>(R.id.checkbox).setOnCheckedChangedListener {
+//                    view, isChecked ->
+//                    part.checked = isChecked
+//                }
+
+                helper.itemView.setOnClickListener {
+                    view ->
+                    CachedVideoActivity.intentTo(mContext, part)
                 }
             }
         }

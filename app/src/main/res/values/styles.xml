@@ -2,5 +2,12 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
+    </style>
+    
+    <style name="PinkCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/grey_600</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 </resources>

@@ -187,8 +187,37 @@ object DownloadHelpers {
         rxDownload.pauseServiceDownload(part.durls[0].url).subscribe()
     }
 
-    fun cancelDownload(result: Result) {
+    fun cancelDownload(parts: List<Part>) {
+        parts.forEach {
+            rxDownload.cancelServiceDownload(it.durls[0].url).subscribe()
+        }
+        deleteDownload(parts)
+    }
 
+    fun deleteDownload(parts: List<Part>) {
+        val videos = loadDownloadVideos()
+        videos.forEach {
+            video ->
+            (video as Video).subItems.removeAll {
+                part ->
+                parts.any { it.vid == part.vid }
+            }
+        }
+        videos.removeAll {
+            (it as Video).subItems.isEmpty()
+        }
+
+        val jsonString = gson.toJson(videos)
+        val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
+        sp.edit {
+            putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
+        }
+
+        parts.forEach {
+            rxDownload.deleteServiceDownload(it.durls[0].url, true).subscribe()
+        }
+        EventBus.getDefault().post(RefreshDownloadingVideoEvent())
+        EventBus.getDefault().post(RefreshDownloadedVideoEvent())
     }
 
     interface Callback {
