@@ -147,11 +147,9 @@ object DownloadHelpers {
     }
 
     fun startDownload(part: Part) {
-        rxDownload
-                .serviceDownload(part.durls[0].url, part.durls[0].downloadPath.substring(defaultPath.length + 1), defaultPath)
-                .subscribe({
-
-                })
+        part.durls.forEach {
+            rxDownload.serviceDownload(it.url, it.downloadPath.substring(defaultPath.length + 1), defaultPath).subscribe()
+        }
     }
 
     private fun download(video: Video, part: Part, type: String, vid: String) {
@@ -165,12 +163,16 @@ object DownloadHelpers {
                             Observable.error(Throwable("请求视频接口出错"))
                         }
                     }
-                    .flatMap {
+                    .doOnNext {
                         durls ->
-                        val fileName = UUID.randomUUID().toString().replace("-", "")
-                        durls[0].downloadPath = "$defaultPath/$fileName"
+                        durls.forEach {
+                            val fileName = UUID.randomUUID().toString().replace("-", "")
+                            it.downloadPath = "$defaultPath/$fileName"
+                        }
                         part.durls.addAll(durls)
-                        rxDownload.serviceDownload(durls[0].url, fileName, defaultPath)
+                        durls.forEach {
+                            rxDownload.serviceDownload(it.url, it.downloadPath.substring(defaultPath.length + 1), defaultPath).subscribe()
+                        }
                     }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
@@ -184,12 +186,17 @@ object DownloadHelpers {
     }
 
     fun pauseDownload(part: Part) {
-        rxDownload.pauseServiceDownload(part.durls[0].url).subscribe()
+        part.durls.forEach {
+            rxDownload.pauseServiceDownload(it.url).subscribe()
+        }
     }
 
     fun cancelDownload(parts: List<Part>) {
         parts.forEach {
-            rxDownload.cancelServiceDownload(it.durls[0].url).subscribe()
+            part ->
+            part.durls.forEach {
+                rxDownload.cancelServiceDownload(it.url).subscribe()
+            }
         }
         deleteDownload(parts)
     }
@@ -214,7 +221,10 @@ object DownloadHelpers {
         }
 
         parts.forEach {
-            rxDownload.deleteServiceDownload(it.durls[0].url, true).subscribe()
+            part ->
+            part.durls.forEach {
+                rxDownload.deleteServiceDownload(it.url, true).subscribe()
+            }
         }
         EventBus.getDefault().post(RefreshDownloadingVideoEvent())
         EventBus.getDefault().post(RefreshDownloadedVideoEvent())
