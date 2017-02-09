@@ -34,9 +34,10 @@
         <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.video.CachedVideoActivity"
-            android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".business.video.CachedVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
@@ -54,6 +55,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".business.home.PlayHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.home.StarActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".business.download.DownloadActivity"

@@ -138,7 +138,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="缓存"
+                        tools:text="缓存"
+                        android:text='@{viewModel.isStar ? "已缓存" : "缓存"}'
                         android:textSize="12sp"
                         android:textColor="@color/primary_text"/>
 

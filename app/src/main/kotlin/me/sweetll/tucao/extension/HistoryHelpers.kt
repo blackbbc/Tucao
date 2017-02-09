@@ -9,6 +9,7 @@ object HistoryHelpers {
 
     private val KEY_S_SEARCH_HISTORY ="search_history"
     private val KEY_S_PLAY_HISTORY = "play_history"
+    private val KEY_S_STAR = "star"
 
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
@@ -19,6 +20,8 @@ object HistoryHelpers {
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
 
     fun loadPlayHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY)
+
+    fun loadStar(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_STAR)
 
     private fun saveHistory(fileName: String, key: String, result: Result) {
         val histories = loadHistory(fileName, key)
@@ -41,6 +44,10 @@ object HistoryHelpers {
         saveHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, result)
     }
 
+    fun saveStar(result: Result) {
+        saveHistory(HISTORY_FILE_NAME, KEY_S_STAR, result)
+    }
+
     private fun removeHistory(fileName: String, key: String, result: Result): Int {
         val histories = loadHistory(fileName, key)
         val removedIndex = histories.indexOf(result)
@@ -56,4 +63,6 @@ object HistoryHelpers {
     fun removeSearchHistory(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY, result)
 
     fun removePlayHistory(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, result)
+
+    fun removeStar(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_STAR, result)
 }

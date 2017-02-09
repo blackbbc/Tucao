@@ -3,7 +3,6 @@ package me.sweetll.tucao.business.home
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
@@ -45,7 +44,7 @@ class MainActivity : BaseActivity() {
             menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_star -> {
-                    "这个功能尚未实现，请期待下一个版本~".toast()
+                    StarActivity.intentTo(this)
                 }
                 R.id.nav_play_history -> {
                     PlayHistoryActivity.intentTo(this)

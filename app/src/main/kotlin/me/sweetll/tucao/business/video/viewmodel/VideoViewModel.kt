@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.video.viewmodel
 
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.RecyclerView
@@ -20,10 +21,7 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
-import me.sweetll.tucao.extension.DownloadHelpers
-import me.sweetll.tucao.extension.logD
-import me.sweetll.tucao.extension.sanitizeJson
-import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.widget.CustomBottomSheetDialog
@@ -32,9 +30,11 @@ import java.io.FileOutputStream
 
 class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     val result = ObservableField<Result>()
+    val isStar = ObservableBoolean()
 
     constructor(activity: VideoActivity, result: Result) : this(activity) {
         this.result.set(result)
+        this.isStar.set(checkStar(result))
     }
 
     fun queryResult(hid: String) {
@@ -214,7 +214,17 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun onClickStar(view: View) {
-        "这个功能尚未实现，请期待下一个版本~".toast()
+        if (result.get() == null) return
+        if (isStar.get()) {
+            HistoryHelpers.removeStar(result.get())
+            isStar.set(false)
+        } else {
+            HistoryHelpers.saveStar(result.get())
+            isStar.set(true)
+        }
     }
+
+    fun checkStar(result: Result): Boolean = HistoryHelpers.loadStar()
+            .any { it.hid == result.hid }
 
 }
