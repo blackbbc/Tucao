@@ -2,7 +2,6 @@ package me.sweetll.tucao.business.video.viewmodel
 
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
@@ -13,13 +12,13 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
-import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
@@ -31,6 +30,9 @@ import java.io.FileOutputStream
 class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     val result = ObservableField<Result>()
     val isStar = ObservableBoolean()
+
+    var playUrlDisposable: Disposable? = null
+    var danmuDisposable: Disposable? = null
 
     constructor(activity: VideoActivity, result: Result) : this(activity) {
         this.result.set(result)
@@ -96,7 +98,14 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
-        xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
+        if (playUrlDisposable != null && !playUrlDisposable!!.isDisposed) {
+            playUrlDisposable!!.dispose()
+        }
+        if (danmuDisposable != null && !danmuDisposable!!.isDisposed) {
+            danmuDisposable!!.dispose()
+        }
+
+        playUrlDisposable = xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .flatMap {
@@ -119,7 +128,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     }
                 })
 
-        rawApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
+        danmuDisposable = rawApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .map({

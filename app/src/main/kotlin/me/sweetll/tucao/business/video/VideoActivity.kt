@@ -100,6 +100,8 @@ class VideoActivity : BaseActivity() {
                     partAdapter.notifyDataSetChanged()
 
                     if (selectedVideo!!.vid.isNotEmpty()) {
+                        binding.player.onVideoPause()
+                        // TODO: 隐藏播放按钮
                         viewModel.queryPlayUrls(result.hid, selectedVideo!!.order, selectedVideo!!.type, selectedVideo!!.vid)
                     } else {
                         "所选视频已失效".toast()

@@ -29,12 +29,12 @@ class Part(val title: String,
             flag = DownloadFlag.FAILED
         } else if (flags.any { it == DownloadFlag.NORMAL }) {
             flag = DownloadFlag.NORMAL
-        } else if (flags.any { it == DownloadFlag.WAITING }) {
-            flag = DownloadFlag.WAITING
         } else if (flags.all { it == DownloadFlag.STARTED }) {
             flag = DownloadFlag.STARTED
         } else if (flags.all { it == DownloadFlag.PAUSED }) {
             flag = DownloadFlag.PAUSED
+        } else if (flags.any { it == DownloadFlag.WAITING }) {
+            flag = DownloadFlag.WAITING
         } else if (flags.all { it == DownloadFlag.COMPLETED }) {
             flag = DownloadFlag.COMPLETED
         }
