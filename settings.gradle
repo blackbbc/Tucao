@@ -1,4 +1,5 @@
 include ':app'
 include ':gsyVideoPlayer'
+include ':rxdownload2'
 
 project(':gsyVideoPlayer').projectDir = new File(rootDir, 'GSYVideoPlayer/gsyVideoPlayer')

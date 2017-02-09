@@ -80,6 +80,7 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
 
         override fun setStatus(status: DownloadStatus) {
+            super.setStatus(status)
             sizeText.text = status.formatStatusString
         }
     }

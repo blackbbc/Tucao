@@ -45,6 +45,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     /* GSYVideoPlayer */
     compile project(':gsyVideoPlayer')
+    /* RxDownload */
+    compile project(':rxdownload2')
     /* DanmakuFlameMaster */
     compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.6.2'
@@ -64,8 +66,6 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.0.1'
     /* RxPermissions */
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.1@aar'
-    /* RxDownload */
-    compile 'zlc.season:rxdownload2:1.1.1'
     /* Retrofit */
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.github.salomonbrys.kotson:kotson:2.5.0'

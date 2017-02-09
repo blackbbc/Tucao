@@ -22,6 +22,7 @@ import java.util.*
 import javax.inject.Inject
 import com.github.salomonbrys.kotson.*
 import com.google.gson.GsonBuilder
+import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
 
 object DownloadHelpers {
@@ -109,6 +110,24 @@ object DownloadHelpers {
         EventBus.getDefault().post(RefreshDownloadingVideoEvent())
     }
 
+    // 保存已下载的视频
+    fun saveDownloadPart(part: Part) {
+        val videos = loadDownloadVideos()
+        val existVideo = videos.flatMap {
+            (it as Video).subItems
+        }.find { it. vid == part.vid}
+        existVideo?.flag = part.flag
+        existVideo?.status = part.status
+
+        val jsonString = gson.toJson(videos)
+        val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
+        sp.edit {
+            putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
+        }
+        EventBus.getDefault().post(RefreshDownloadingVideoEvent())
+        EventBus.getDefault().post(RefreshDownloadedVideoEvent())
+    }
+
     fun startDownload(activity: Activity, result: Result) {
         RxPermissions(activity)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -123,12 +142,16 @@ object DownloadHelpers {
                 }
                 .subscribe({
                     video ->
-                    download(Video(result.hid, result.title, result.thumb), Part(video.title, video.order), video.type, video.vid)
+                    download(Video(result.hid, result.title, result.thumb), Part(video.title, video.order, video.vid), video.type, video.vid)
                 })
     }
 
     fun startDownload(part: Part) {
-        rxDownload.serviceDownload(part.durls[0].url, part.durls[0].downloadPath.substring(defaultPath.length + 1), defaultPath)
+        rxDownload
+                .serviceDownload(part.durls[0].url, part.durls[0].downloadPath.substring(defaultPath.length + 1), defaultPath)
+                .subscribe({
+
+                })
     }
 
     private fun download(video: Video, part: Part, type: String, vid: String) {

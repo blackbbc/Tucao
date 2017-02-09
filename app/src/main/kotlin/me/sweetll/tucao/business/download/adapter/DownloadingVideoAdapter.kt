@@ -1,18 +1,24 @@
 package me.sweetll.tucao.business.download.adapter
 
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.R
+import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
+import me.sweetll.tucao.business.download.event.RefreshDownloadingVideoEvent
 import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.StateController
 import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.toast
+import org.greenrobot.eventbus.EventBus
 import zlc.season.rxdownload2.RxDownload
+import zlc.season.rxdownload2.entity.DownloadFlag
 
 class DownloadingVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
     companion object {
@@ -44,6 +50,9 @@ class DownloadingVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiIte
                         expand(helper.adapterPosition)
                     }
                 }
+                helper.getView<LinearLayout>(R.id.linear_detail).setOnClickListener {
+                    VideoActivity.intentTo(mContext, video.hid)
+                }
             }
             TYPE_PART -> {
                 (item as Part).let {
@@ -54,7 +63,11 @@ class DownloadingVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiIte
                                 downloadEvent ->
                                 it.flag = downloadEvent.flag
                                 it.status = downloadEvent.downloadStatus
-                                it.stateController?.setEvent(downloadEvent)
+                                if (it.flag == DownloadFlag.COMPLETED) {
+                                    DownloadHelpers.saveDownloadPart(it)
+                                } else {
+                                    it.stateController?.setEvent(downloadEvent)
+                                }
                             }, {
                                 error ->
                                 error.printStackTrace()

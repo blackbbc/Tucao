@@ -10,6 +10,7 @@ import zlc.season.rxdownload2.entity.DownloadStatus
 
 class Part(val title: String,
            val order: Int,
+           val vid: String,
            var flag: Int = DownloadFlag.NORMAL,
            var status: DownloadStatus = DownloadStatus(),
            val durls: MutableList<Durl> = mutableListOf(),
@@ -25,13 +26,14 @@ class Part(val title: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt())
+    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt())
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.writeString(title)
         dest?.writeInt(order)
+        dest?.writeString(vid)
         dest?.writeInt(flag)
         dest?.writeParcelable(status, 0)
         dest?.writeTypedList(durls)

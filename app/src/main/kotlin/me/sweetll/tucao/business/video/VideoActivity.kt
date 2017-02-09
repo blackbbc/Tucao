@@ -64,7 +64,6 @@ class VideoActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         val hid = intent.getStringExtra(ARG_HID)
         if (hid != null) {

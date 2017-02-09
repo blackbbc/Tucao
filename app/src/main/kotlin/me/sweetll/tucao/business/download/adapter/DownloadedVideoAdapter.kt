@@ -1,12 +1,15 @@
 package me.sweetll.tucao.business.download.adapter
 
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.business.video.CachedVideoActivity
+import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.load
 
 class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
@@ -25,7 +28,7 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
             TYPE_VIDEO -> {
                 val video = item as Video
                 helper.setText(R.id.text_title, video.title)
-                helper.setText(R.id.text_size, video.status.formatStatusString)
+                helper.setText(R.id.text_size, video.status.formatTotalSize)
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(video.thumb)
                 helper.itemView.setOnClickListener {
@@ -35,11 +38,19 @@ class DownloadedVideoAdapter(data: MutableList<MultiItemEntity>?): BaseMultiItem
                         expand(helper.adapterPosition)
                     }
                 }
+                helper.getView<LinearLayout>(R.id.linear_detail).setOnClickListener {
+                    VideoActivity.intentTo(mContext, video.hid)
+                }
             }
             TYPE_PART -> {
                 (item as Part).let {
                     helper.setText(R.id.text_title, it.title)
                     helper.setText(R.id.text_size, it.status.formatTotalSize)
+
+                    helper.itemView.setOnClickListener {
+                        view ->
+                        CachedVideoActivity.intentTo(mContext, it)
+                    }
                 }
             }
         }

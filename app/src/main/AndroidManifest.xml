@@ -34,7 +34,7 @@
         <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.video.FullScreenVideoActivity"
+        <activity android:name=".business.video.CachedVideoActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
