@@ -87,6 +87,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 .subscribe({
                     result ->
                     this.result.set(result)
+                    this.isStar.set(checkStar(result))
                     activity.loadResult(result)
                 }, {
                     error ->
@@ -179,7 +180,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
             DownloadHelpers.startDownload(activity, result.get().copy(
                     video = partAdapter.data.filter(Video::checked).toMutableList()
             ))
-            "已开始下载".toast()
             dialog.dismiss()
         }
 

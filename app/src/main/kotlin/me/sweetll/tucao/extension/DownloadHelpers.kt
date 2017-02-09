@@ -136,6 +136,7 @@ object DownloadHelpers {
                     if (!granted) {
                         throw RuntimeException("请给予写存储卡权限以供离线缓存使用")
                     }
+                    "已开始下载".toast()
                 }
                 .flatMap {
                     Observable.fromIterable(result.video)

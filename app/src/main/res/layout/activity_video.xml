@@ -103,7 +103,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="收藏"
+                        android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
+                        tools:text="收藏"
                         android:textSize="12sp"
                         android:textColor="@color/primary_text"/>
 
@@ -138,8 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        tools:text="缓存"
-                        android:text='@{viewModel.isStar ? "已缓存" : "缓存"}'
+                        android:text="缓存"
                         android:textSize="12sp"
                         android:textColor="@color/primary_text"/>
 

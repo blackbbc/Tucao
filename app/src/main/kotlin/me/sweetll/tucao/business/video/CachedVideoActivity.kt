@@ -45,6 +45,7 @@ class CachedVideoActivity : BaseActivity() {
     fun setupPlayer() {
         binding.player.loadText?.let {
             it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
+            it.text = it.text.replace("全舰弹幕装填...".toRegex(), "")
         }
 
         GSYVideoManager.instance().optionModelList = mutableListOf(

@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.home.adapter.PlayHistoryAdapter
+import me.sweetll.tucao.business.home.adapter.StarAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityStarBinding
 import me.sweetll.tucao.extension.HistoryHelpers
@@ -25,7 +26,7 @@ import me.sweetll.tucao.model.json.Result
 class StarActivity : BaseActivity() {
     lateinit var binding: ActivityStarBinding
 
-    val starAdapter = PlayHistoryAdapter(HistoryHelpers.loadStar())
+    val starAdapter = StarAdapter(HistoryHelpers.loadStar())
 
     override fun getStatusBar(): View = binding.statusBar
 

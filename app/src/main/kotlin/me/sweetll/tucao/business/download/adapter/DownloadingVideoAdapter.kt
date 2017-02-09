@@ -78,13 +78,17 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.stateController = StateController(helper.getView(R.id.text_size), helper.getView(R.id.img_status), helper.getView(R.id.progress))
                 helper.setText(R.id.text_title, part.title)
                 part.durls.forEach {
-                    rxDownload.receiveDownloadStatus(it.url)
+                    durl ->
+                    rxDownload.receiveDownloadStatus(durl.url)
                             .subscribe({
                                 downloadEvent ->
-                                it.flag = downloadEvent.flag
-                                it.status = downloadEvent.downloadStatus
+                                durl.flag = downloadEvent.flag
+                                durl.status = downloadEvent.downloadStatus
 
                                 part.update()
+
+                                downloadEvent.flag = part.flag
+                                downloadEvent.downloadStatus = part.status
 
                                 if (part.flag == DownloadFlag.COMPLETED) {
                                     DownloadHelpers.saveDownloadPart(part)

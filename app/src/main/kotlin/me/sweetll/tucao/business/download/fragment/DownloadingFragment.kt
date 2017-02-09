@@ -53,6 +53,10 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
                         is Video -> {
                             it.checkable = true
                             it.checked = false
+                            it.subItems.forEach {
+                                it.checkable = true
+                                it.checked = false
+                            }
                         }
                         is Part -> {
                             it.checkable = true
@@ -83,7 +87,10 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
     override fun onDestroyContextMenu() {
         videoAdapter.data.forEach {
             when (it) {
-                is Video -> it.checkable = false
+                is Video -> {
+                    it.checkable = false
+                    it.subItems.forEach { it.checkable = false }
+                }
                 is Part -> it.checkable = false
             }
         }
@@ -92,11 +99,12 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
 
     override fun onClickDelete() {
         DownloadHelpers.cancelDownload(
-                videoAdapter.data.filter {
-                    (it is Part) && it.checked
-                }.map {
-                    it as Part
-                }
+                videoAdapter.data.flatMap {
+                    when (it) {
+                        is Video -> it.subItems
+                        else -> listOf(it as Part)
+                    }
+                }.distinctBy(Part::vid).filter(Part::checked)
         )
     }
 
@@ -111,7 +119,10 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
             // 取消全选
             videoAdapter.data.forEach {
                 when (it) {
-                    is Video -> it.checked = false
+                    is Video -> {
+                        it.checked = false
+                        it.subItems.forEach { it.checked = false }
+                    }
                     is Part -> it.checked = false
                 }
             }
@@ -121,7 +132,10 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
             // 全选
             videoAdapter.data.forEach {
                 when (it) {
-                    is Video -> it.checked = true
+                    is Video -> {
+                        it.checked = true
+                        it.subItems.forEach { it.checked = true }
+                    }
                     is Part -> it.checked = true
                 }
             }

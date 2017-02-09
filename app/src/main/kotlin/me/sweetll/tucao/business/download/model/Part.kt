@@ -27,14 +27,14 @@ class Part(val title: String,
         val flags = durls.map(Durl::flag)
         if (flags.any { it == DownloadFlag.FAILED }) {
             flag = DownloadFlag.FAILED
-        } else if (flags.any { it == DownloadFlag.NORMAL }) {
-            flag = DownloadFlag.NORMAL
-        } else if (flags.all { it == DownloadFlag.STARTED }) {
+        } else if (flags.any { it == DownloadFlag.STARTED }) {
             flag = DownloadFlag.STARTED
-        } else if (flags.all { it == DownloadFlag.PAUSED }) {
+        } else if (flags.any { it == DownloadFlag.PAUSED }) {
             flag = DownloadFlag.PAUSED
         } else if (flags.any { it == DownloadFlag.WAITING }) {
             flag = DownloadFlag.WAITING
+        } else if (flags.any { it == DownloadFlag.NORMAL }) {
+            flag = DownloadFlag.NORMAL
         } else if (flags.all { it == DownloadFlag.COMPLETED }) {
             flag = DownloadFlag.COMPLETED
         }

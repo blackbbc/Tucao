@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:paddingTop="25dp">
+
+    <ImageView
+        android:id="@+id/img_thumb"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_thumb"
+        android:layout_toEndOf="@+id/img_thumb"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="[日本/SP]朝本年末SP 大叔的爱 [日本/SP]朝本年末SP 大叔的爱"
+        android:textSize="15sp"
+        android:textColor="@color/primary_text"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:layout_marginTop="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img_play"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:tint="@color/grey_500"
+            android:src="@drawable/ic_play_circle_outline"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:id="@+id/text_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            tools:text="22.9万"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"/>
+
+        <ImageView
+            android:id="@+id/img_mukio"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:tint="@color/grey_500"
+            android:src="@drawable/ic_comment"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:id="@+id/text_mukio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            tools:text="2.9万"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
