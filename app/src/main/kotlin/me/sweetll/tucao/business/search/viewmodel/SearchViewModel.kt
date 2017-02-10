@@ -58,6 +58,7 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
                     activity.loadData(data)
                 }, {
                     error ->
+                    error.printStackTrace()
                     error.message?.toast()
                 })
     }

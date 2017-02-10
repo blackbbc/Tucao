@@ -2,8 +2,10 @@ package me.sweetll.tucao.model.json
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import me.sweetll.tucao.model.xml.Durl
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Video(val title: String,
                  val type: String,
                  val vid: String = "",
