@@ -218,6 +218,15 @@ class VideoActivity : BaseActivity() {
         binding.player.onVideoDestroy()
     }
 
+    override fun onBackPressed() {
+        orientationUtils.backToProtVideo()
+
+        if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
+            return
+        }
+        super.onBackPressed()
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (isPlay && !isPause) {
