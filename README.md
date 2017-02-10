@@ -31,6 +31,11 @@
 <a href="art/15.png"><img src="art/15.png" width="30%"/></a>
 
 <a href="art/16.png"><img src="art/16.png" width="30%"/></a>
+<a href="art/17.png"><img src="art/16.png" width="30%"/></a>
+<a href="art/18.png"><img src="art/16.png" width="30%"/></a>
+
+<a href="art/19.png"><img src="art/16.png" width="30%"/></a>
+<a href="art/20.png"><img src="art/16.png" width="30%"/></a>
 
 ## TODO
 - [x] 搜索历史
@@ -43,6 +48,8 @@
 ## UpdateLog
 
 ### V1.0.1
+- 搜索历史
+- 播放历史
 - 离线缓冲（测试）
 - 收藏
 
@@ -50,8 +57,7 @@
 - beta测试
 
 ## 已知Bug
-1. 切换分P时可能会有问题
-2. 如果视频是多段拼接而成，离线缓冲只会下载第一段（在线播放不会出现这个问题）
+- 视频下载在接近完成时，下载进度可能会暴走，确认是库的问题，正在排查
 
 ## Instructions
 - 设计编码均独立完成，如果你觉得太丑，欢迎砸设计稿

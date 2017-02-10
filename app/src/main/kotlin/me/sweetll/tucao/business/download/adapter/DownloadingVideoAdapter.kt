@@ -14,6 +14,7 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import zlc.season.rxdownload2.RxDownload
 import zlc.season.rxdownload2.entity.DownloadFlag
