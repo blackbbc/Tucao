@@ -45,5 +45,5 @@
         android:background="@color/grey_100"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_download_part"/>
+        tools:listitem="@layout/item_part"/>
 </LinearLayout>

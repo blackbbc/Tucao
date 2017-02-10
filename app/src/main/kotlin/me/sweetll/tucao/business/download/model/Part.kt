@@ -11,14 +11,15 @@ import zlc.season.rxdownload2.entity.DownloadStatus
 
 class Part(val title: String,
            val order: Int,
-           val vid: String,
+           val vid: String = "",
+           val type: String = "",
            var flag: Int = DownloadFlag.NORMAL,
            var status: DownloadStatus = DownloadStatus(),
            val durls: MutableList<Durl> = mutableListOf(),
            var checkable: Boolean = false,
            var checked: Boolean = false,
-           var stateController: StateController? = null): MultiItemEntity, Parcelable {
-
+           var hasPlay: Boolean = false,
+           var stateController: StateController? = null): MultiItemEntity, Parcelable{
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_PART
 
     fun update() {
@@ -40,6 +41,8 @@ class Part(val title: String,
         }
     }
 
+    fun copy() = Part(title, order, vid, type, flag, status, durls, checkable, checked, hasPlay)
+
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Part> = object : Parcelable.Creator<Part> {
             override fun createFromParcel(source: Parcel): Part = Part(source)
@@ -47,7 +50,7 @@ class Part(val title: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt())
+    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt(), 1 == source.readInt())
 
     override fun describeContents() = 0
 
@@ -55,10 +58,12 @@ class Part(val title: String,
         dest?.writeString(title)
         dest?.writeInt(order)
         dest?.writeString(vid)
+        dest?.writeString(type)
         dest?.writeInt(flag)
         dest?.writeParcelable(status, 0)
         dest?.writeTypedList(durls)
         dest?.writeInt((if (checkable) 1 else 0))
         dest?.writeInt((if (checked) 1 else 0))
+        dest?.writeInt((if (hasPlay) 1 else 0))
     }
 }

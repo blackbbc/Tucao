@@ -1,16 +1,43 @@
 package me.sweetll.tucao.business.video.adapter
 
+import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.CheckedTextView
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
-import me.sweetll.tucao.model.json.Video
+import me.sweetll.tucao.business.download.model.Part
+import zlc.season.rxdownload2.entity.DownloadFlag
 
-class PartAdapter(data: MutableList<Video>?) : BaseQuickAdapter<Video, BaseViewHolder>(R.layout.item_part, data) {
-    override fun convert(helper: BaseViewHolder, part: Video) {
-        (helper.convertView as CheckedTextView).let {
-            it.text = part.title
-            it.isChecked = part.checked
+class PartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHolder>(R.layout.item_part, data) {
+    override fun convert(helper: BaseViewHolder, part: Part) {
+        val titleText = helper.getView<CheckedTextView>(R.id.checked_text_title)
+        val downloadedImg = helper.getView<ImageView>(R.id.img_downloaded)
+        val downloadingImg = helper.getView<ImageView>(R.id.img_downloading)
+
+        titleText.text = part.title
+        titleText.isChecked = part.checked
+        if (part.durls.isNotEmpty()) {
+            // 存在
+            if (part.flag == DownloadFlag.COMPLETED) {
+                downloadedImg.visibility = View.VISIBLE
+                downloadingImg.visibility = View.GONE
+            } else {
+                downloadedImg.visibility = View.GONE
+                downloadingImg.visibility = View.VISIBLE
+            }
+        } else {
+            // 不存在
+            downloadedImg.visibility = View.GONE
+            downloadingImg.visibility = View.GONE
+        }
+
+        if (part.hasPlay) {
+            titleText.setTextColor(ContextCompat.getColor(mContext, R.color.selector_part2))
+        } else {
+            titleText.setTextColor(ContextCompat.getColor(mContext, R.color.selector_part))
         }
     }
+
 }

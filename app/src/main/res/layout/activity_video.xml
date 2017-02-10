@@ -171,7 +171,9 @@
                 android:id="@+id/partRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clipChildren="false"
+                tools:listitem="@layout/item_part"/>
 
         </LinearLayout>
 

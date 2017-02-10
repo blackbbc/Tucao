@@ -2,7 +2,6 @@ package me.sweetll.tucao.business.video
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -19,20 +18,17 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
-import me.sweetll.tucao.di.service.ApiConfig
-import me.sweetll.tucao.extension.HistoryHelpers
-import me.sweetll.tucao.extension.logD
-import me.sweetll.tucao.extension.setUp
-import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
-import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.model.xml.Durl
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
-import java.io.InputStream
+import zlc.season.rxdownload2.entity.DownloadFlag
 import java.util.*
 
 class VideoActivity : BaseActivity() {
@@ -44,7 +40,8 @@ class VideoActivity : BaseActivity() {
     var isPlay = false
     var isPause = false
 
-    var selectedVideo: Video? = null
+    var parts: MutableList<Part>? = null
+    var selectedPart: Part? = null
 
     lateinit var partAdapter: PartAdapter
 
@@ -84,25 +81,25 @@ class VideoActivity : BaseActivity() {
     }
 
     fun setupRecyclerView(result: Result) {
-        partAdapter = PartAdapter(result.video)
+
 
         binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                selectedVideo = helper.getItem(position) as Video
-                if (!selectedVideo!!.checked) {
+                selectedPart = helper.getItem(position) as Part
+                if (!selectedPart!!.checked) {
                     binding.player.loadText?.let {
                         binding.player.startButton.visibility = View.GONE
                         it.visibility = View.VISIBLE
                         it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
                     }
                     partAdapter.data.forEach { it.checked = false }
-                    selectedVideo!!.checked = true
+                    selectedPart!!.checked = true
                     partAdapter.notifyDataSetChanged()
 
-                    if (selectedVideo!!.vid.isNotEmpty()) {
+                    if (selectedPart!!.vid.isNotEmpty()) {
                         binding.player.onVideoPause()
                         // TODO: 隐藏播放按钮
-                        viewModel.queryPlayUrls(result.hid, selectedVideo!!.order, selectedVideo!!.type, selectedVideo!!.vid)
+                        viewModel.queryPlayUrls(result.hid, selectedPart!!)
                     } else {
                         "所选视频已失效".toast()
                     }
@@ -119,11 +116,27 @@ class VideoActivity : BaseActivity() {
             video.order = index
         }
 
-        selectedVideo = result.video.find { it.checked }
-        if (selectedVideo == null) {
-            result.video[0].checked = true
-            selectedVideo = result.video[0]
-        }
+        val downloadParts = DownloadHelpers.loadDownloadVideos()
+                .flatMap { (it as Video).subItems }
+        val videoHistory = HistoryHelpers.loadPlayHistory().find { it.hid == result.hid }
+
+        parts = result.video.map {
+            video ->
+            downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type)
+        }.map {
+            it.checked = false
+            if (videoHistory != null) {
+                it.hasPlay = videoHistory.video.any {
+                    v ->
+                    v.vid == it.vid
+                }
+            }
+            it
+        }.toMutableList()
+        parts!![0].checked = true
+        selectedPart = parts!![0]
+
+        partAdapter = PartAdapter(parts)
 
         binding.player.loadText?.let {
             it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
@@ -162,7 +175,12 @@ class VideoActivity : BaseActivity() {
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
-                HistoryHelpers.savePlayHistory(result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString()))
+                HistoryHelpers.savePlayHistory(
+                        result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
+                                .apply {
+                                    video = video.filter { it.vid == selectedPart!!.vid }.toMutableList()
+                                }
+                )
             }
         })
 
@@ -171,8 +189,8 @@ class VideoActivity : BaseActivity() {
             orientationUtils.isEnable = !lock
         }
 
-        if (selectedVideo!!.vid.isNotEmpty()) {
-            viewModel.queryPlayUrls(result.hid, selectedVideo!!.order, selectedVideo!!.type, selectedVideo!!.vid)
+        if (selectedPart!!.vid.isNotEmpty()) {
+            viewModel.queryPlayUrls(result.hid, selectedPart!!)
         } else {
             "所选视频已失效".toast()
         }
@@ -187,9 +205,9 @@ class VideoActivity : BaseActivity() {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(durls[0].url, true, null)
+                binding.player.setUp(if (selectedPart!!.flag == DownloadFlag.COMPLETED) durls[0].downloadPath else durls[0].url, true, null)
             } else {
-                binding.player.setUp(durls, true)
+                binding.player.setUp(durls, selectedPart!!.flag == DownloadFlag.COMPLETED)
             }
         }
     }

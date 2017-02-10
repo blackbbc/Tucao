@@ -17,13 +17,15 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
-import me.sweetll.tucao.model.json.Video
+import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.widget.CustomBottomSheetDialog
+import zlc.season.rxdownload2.entity.DownloadFlag
 import java.io.File
 import java.io.FileOutputStream
 
@@ -98,7 +100,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 })
     }
 
-    fun queryPlayUrls(hid: String, part: Int, type: String, vid: String) {
+    fun queryPlayUrls(hid: String, part: Part) {
         if (playUrlDisposable != null && !playUrlDisposable!!.isDisposed) {
             playUrlDisposable!!.dispose()
         }
@@ -106,30 +108,34 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
             danmuDisposable!!.dispose()
         }
 
-        playUrlDisposable = xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
-                .bindToLifecycle(activity)
-                .subscribeOn(Schedulers.io())
-                .flatMap {
-                    response ->
-                    if ("succ" == response.result) {
-                        Observable.just(response.durls)
-                    } else {
-                        Observable.error(Throwable("请求视频接口出错"))
+        if (part.flag == DownloadFlag.COMPLETED) {
+            activity.loadDuals(part.durls)
+        } else {
+            playUrlDisposable = xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
+                    .bindToLifecycle(activity)
+                    .subscribeOn(Schedulers.io())
+                    .flatMap {
+                        response ->
+                        if ("succ" == response.result) {
+                            Observable.just(response.durls)
+                        } else {
+                            Observable.error(Throwable("请求视频接口出错"))
+                        }
                     }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    duals ->
-                    activity.loadDuals(duals)
-                }, {
-                    error ->
-                    error.printStackTrace()
-                    activity.binding.player.loadText?.let {
-                        it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[失败]")
-                    }
-                })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        duals ->
+                        activity.loadDuals(duals)
+                    }, {
+                        error ->
+                        error.printStackTrace()
+                        activity.binding.player.loadText?.let {
+                            it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[失败]")
+                        }
+                    })
+        }
 
-        danmuDisposable = rawApiService.danmu(ApiConfig.generatePlayerId(hid, part), System.currentTimeMillis() / 1000)
+        danmuDisposable = rawApiService.danmu(ApiConfig.generatePlayerId(hid, part.order), System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .map({
@@ -167,9 +173,9 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
         val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
         val partAdapter = DownloadPartAdapter(
-                result.get().video
+                activity.parts!!
                         .map {
-                            it.copy(checked = false)
+                            it.copy().apply { checked = false }
                         }
                         .toMutableList()
         )
@@ -177,18 +183,22 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         val startDownloadButton = dialog.findViewById(R.id.btn_start_download) as Button
         startDownloadButton.setOnClickListener {
             view ->
-            DownloadHelpers.startDownload(activity, result.get().copy(
-                    video = partAdapter.data.filter(Video::checked).toMutableList()
-            ))
+            val checkedParts = partAdapter.data.filter(Part::checked)
+            DownloadHelpers.startDownload(activity, result.get().copy().apply {
+                video = video.filter {
+                    v ->
+                    checkedParts.any { v.vid == it.vid }
+                }.toMutableList()
+            })
             dialog.dismiss()
         }
 
         partRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val video = helper.getItem(position) as Video
-                video.checked = !video.checked
+                val part = helper.getItem(position) as Part
+                part.checked = !part.checked
                 helper.notifyItemChanged(position)
-                startDownloadButton.isEnabled = partAdapter.data.any { it.checked }
+                startDownloadButton.isEnabled = partAdapter.data.any(Part::checked)
             }
 
         })

@@ -18,7 +18,7 @@ data class Result(val hid: String = "",
                   val userid: String = "",
                   val keywords: String = "",
                   val part: Int = 0,
-                  val video: MutableList<Video> = mutableListOf()) : Parcelable {
+                  var video: MutableList<Video> = mutableListOf()) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Result> = object : Parcelable.Creator<Result> {
             override fun createFromParcel(source: Parcel): Result = Result(source)

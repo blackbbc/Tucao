@@ -143,7 +143,7 @@ object DownloadHelpers {
                 }
                 .subscribe({
                     video ->
-                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid), video.type, video.vid)
+                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid, video.type))
                 })
     }
 
@@ -153,8 +153,8 @@ object DownloadHelpers {
         }
     }
 
-    private fun download(video: Video, part: Part, type: String, vid: String) {
-            serviceInstance.xmlApiService.playUrl(type, vid, System.currentTimeMillis() / 1000)
+    private fun download(video: Video, part: Part) {
+            serviceInstance.xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
                     .subscribeOn(Schedulers.io())
                     .flatMap {
                         response ->

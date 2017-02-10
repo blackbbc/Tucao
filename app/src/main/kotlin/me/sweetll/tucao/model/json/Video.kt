@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import me.sweetll.tucao.model.xml.Durl
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Video(val title: String,
-                 val type: String,
+data class Video(val title: String = "",
+                 val type: String = "",
                  val vid: String = "",
                  var checked: Boolean = false,
                  var order: Int = 0,

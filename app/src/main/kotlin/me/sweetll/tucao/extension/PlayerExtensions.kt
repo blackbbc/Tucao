@@ -17,7 +17,7 @@ fun CustomGSYVideoPlayer.setUp(durls: MutableList<Durl>, cache: Boolean, vararg 
         val concatContent = buildString {
             appendln("ffconcat version 1.0")
             for (durl in durls) {
-                appendln("file '${if (durl.downloadPath.isNotEmpty()) durl.downloadPath else durl.url}'")
+                appendln("file '${if (cache) durl.downloadPath else durl.url}'")
                 appendln("duration ${durl.length / 1000f}")
             }
         }

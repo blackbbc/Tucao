@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
@@ -21,7 +20,6 @@ import me.sweetll.tucao.business.home.adapter.PlayHistoryAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityPlayHistoryBinding
 import me.sweetll.tucao.extension.HistoryHelpers
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.json.Result
 
 class PlayHistoryActivity : BaseActivity() {
@@ -73,7 +71,7 @@ class PlayHistoryActivity : BaseActivity() {
         binding.historyRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View?, position: Int) {
                 val result = helper.getItem(position) as Result
-                VideoActivity.intentTo(this@PlayHistoryActivity, result)
+                VideoActivity.intentTo(this@PlayHistoryActivity, result.hid)
             }
         })
         binding.historyRecycler.layoutManager = LinearLayoutManager(this)
