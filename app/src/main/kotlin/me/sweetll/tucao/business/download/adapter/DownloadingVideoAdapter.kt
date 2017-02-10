@@ -17,6 +17,8 @@ import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import zlc.season.rxdownload2.RxDownload
+import zlc.season.rxdownload2.entity.DownloadEvent
+import zlc.season.rxdownload2.entity.DownloadEventFactory
 import zlc.season.rxdownload2.entity.DownloadFlag
 
 class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
@@ -84,17 +86,19 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                             .subscribe({
                                 downloadEvent ->
                                 durl.flag = downloadEvent.flag
-                                durl.status = downloadEvent.downloadStatus
+                                durl.status.totalSize = downloadEvent.downloadStatus.totalSize
+                                durl.status.downloadSize = downloadEvent.downloadStatus.downloadSize
 
                                 part.update()
 
-                                downloadEvent.flag = part.flag
-                                downloadEvent.downloadStatus = part.status
+                                val newEvent = DownloadEvent()
+                                newEvent.flag = part.flag
+                                newEvent.downloadStatus = part.status
 
                                 if (part.flag == DownloadFlag.COMPLETED) {
                                     DownloadHelpers.saveDownloadPart(part)
                                 } else {
-                                    part.stateController?.setEvent(downloadEvent)
+                                    part.stateController?.setEvent(newEvent)
                                 }
                             }, {
                                 error ->
