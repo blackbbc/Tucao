@@ -31,6 +31,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     var mLastState = -1
     var needCorrectDanmu = false
+    var didReszie = false
 
     constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
 
@@ -118,6 +119,18 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         val dataSource = loader.dataSource
         parser.load(dataSource)
         return parser
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+
+        if (!didReszie) {
+            val width = right - left
+
+            layoutParams.width = width
+            layoutParams.height = width / 16 * 9
+            didReszie = true;
+        }
     }
 
     override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
