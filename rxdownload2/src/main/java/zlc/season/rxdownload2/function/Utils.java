@@ -282,7 +282,7 @@ public class Utils {
                 log(DIR_EXISTS_HINT, each);
             } else {
                 log(DIR_NOT_EXISTS_HINT, each);
-                boolean flag = file.mkdir();
+                boolean flag = file.mkdirs();
                 if (flag) {
                     log(DIR_CREATE_SUCCESS, each);
                 } else {

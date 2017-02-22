@@ -1,7 +1,6 @@
 package me.sweetll.tucao.business.explorer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,12 +8,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import me.sweetll.tucao.R;
 
 public class FileExplorerActivity extends AppCompatActivity {
-
     private Toolbar toolbar;
     private FragmentManager fragmentManager = null;
     private FragmentTransaction fragmentTransaction = null;
@@ -24,7 +22,6 @@ public class FileExplorerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_explorer);
-
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle("Directory");
@@ -39,25 +36,26 @@ public class FileExplorerActivity extends AppCompatActivity {
         mDirectoryFragment.setDelegate(new DirectoryFragment.DocumentSelectActivityDelegate() {
 
             @Override
-            public void startDocumentSelectActivity() {
-
+            public void ok(File folder) {
+                Intent intent = new Intent();
+                intent.putExtra("folder", folder);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
 
             @Override
-            public void didSelectFiles(DirectoryFragment activity,
-                                       ArrayList<String> files) {
-                mDirectoryFragment.showErrorBox(files.get(0).toString());
+            public void cancel() {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
             }
 
             @Override
             public void updateToolBarName(String name) {
                 toolbar.setTitle(name);
-
             }
         });
         fragmentTransaction.add(R.id.fragment_container, mDirectoryFragment, "" + mDirectoryFragment.toString());
         fragmentTransaction.commit();
-
     }
 	
     @Override
@@ -73,4 +71,9 @@ public class FileExplorerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

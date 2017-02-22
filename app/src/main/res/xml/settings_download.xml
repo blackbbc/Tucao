@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference android:title="下载位置"
-        android:key="download_path"
-        android:summary="/storage/emulated/0">
+        android:key="download_path" >
     </Preference>
 </PreferenceScreen>

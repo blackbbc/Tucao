@@ -3,6 +3,7 @@ package me.sweetll.tucao.business.explorer;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
@@ -18,8 +19,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +33,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import me.sweetll.tucao.AppApplication;
 import me.sweetll.tucao.R;
 
 public class DirectoryFragment extends Fragment {
@@ -40,6 +45,10 @@ public class DirectoryFragment extends Fragment {
     private ListView listView;
     private ListAdapter listAdapter;
     private TextView emptyView;
+
+    private Button cancelButton;
+    private Button createFolderButton;
+    private Button okButton;
 
     private DocumentSelectActivityDelegate delegate;
 
@@ -58,11 +67,11 @@ public class DirectoryFragment extends Fragment {
     }
 
     public static abstract interface DocumentSelectActivityDelegate {
-        public void didSelectFiles(DirectoryFragment activity, ArrayList<String> files);
+        void ok(File folder);
 
-        public void startDocumentSelectActivity();
+        void cancel();
 
-        public void updateToolBarName(String name);
+        void updateToolBarName(String name);
     }
 
 
@@ -137,7 +146,7 @@ public class DirectoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         if (!receiverRegistered) {
@@ -159,6 +168,68 @@ public class DirectoryFragment extends Fragment {
             fragmentView = inflater.inflate(R.layout.document_select_layout,
 
                     container, false);
+
+            cancelButton = (Button) fragmentView.findViewById(R.id.btn_cancel);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delegate.cancel();
+                }
+            });
+
+            createFolderButton = (Button) fragmentView.findViewById(R.id.btn_create_folder);
+            createFolderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                    final View dialogView = inflater.inflate(R.layout.dialog_create_folder, null);
+                    dialogBuilder.setView(dialogView);
+
+                    final EditText editText = (EditText) dialogView.findViewById(R.id.edit);
+                    dialogBuilder.setTitle("新建目录");
+                    dialogBuilder.setMessage("请输入目录名");
+                    dialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String folderName = editText.getText().toString();
+                            if (folderName.isEmpty()) {
+                                Toast.makeText(AppApplication.Companion.get(), "请输入合法的目录名", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (currentDir == null) {
+                                    Toast.makeText(AppApplication.Companion.get(), "请选择一个目录", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    File newFolder = new File(currentDir, folderName);
+                                    if (!newFolder.exists()) {
+                                        newFolder.mkdirs();
+                                    }
+                                    dialog.dismiss();
+                                    listFiles(currentDir);
+                                }
+                            }
+                        }
+                    });
+                    dialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
+                }
+            });
+
+            okButton = (Button) fragmentView.findViewById(R.id.btn_ok);
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentDir == null) {
+                        Toast.makeText(AppApplication.Companion.get(), "请选择一个目录", Toast.LENGTH_SHORT).show();
+                    } else {
+                        delegate.ok(currentDir);
+                    }
+                }
+            });
 
             listAdapter = new ListAdapter(getActivity());
             emptyView = (TextView) fragmentView
@@ -207,7 +278,7 @@ public class DirectoryFragment extends Fragment {
                         title_ = item.title;
                         updateName(title_);
                         listView.setSelection(0);
-                    } else {
+                    } /* else {
                         if (!file.canRead()) {
                             showErrorBox("AccessError");
                             return;
@@ -236,7 +307,7 @@ public class DirectoryFragment extends Fragment {
                             return;
                         }
 
-                    }
+                    } */
                 }
             });
 

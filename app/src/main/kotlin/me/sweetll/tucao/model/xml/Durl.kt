@@ -12,10 +12,14 @@ data class Durl(
         @field:Element(name = "order") var order: Int = 0,
         @field:Element(name = "length") var length: Long = 0L,
         @field:Element(name = "url") var url: String = "",
-        var downloadPath: String = "",
+        var cacheFolderPath: String = "",
+        var cacheFileName: String = "",
         var flag: Int = DownloadFlag.NORMAL,
         var status: DownloadStatus = DownloadStatus()
 ) : Parcelable {
+
+    fun getCacheAbsolutePath(): String = "$cacheFolderPath/$cacheFileName"
+
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Durl> = object : Parcelable.Creator<Durl> {
             override fun createFromParcel(source: Parcel): Durl = Durl(source)
@@ -23,7 +27,7 @@ data class Durl(
         }
     }
 
-    constructor(source: Parcel) : this(source.readInt(), source.readLong(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader))
+    constructor(source: Parcel) : this(source.readInt(), source.readLong(), source.readString(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader))
 
     override fun describeContents() = 0
 
@@ -31,7 +35,8 @@ data class Durl(
         dest?.writeInt(order)
         dest?.writeLong(length)
         dest?.writeString(url)
-        dest?.writeString(downloadPath)
+        dest?.writeString(cacheFolderPath)
+        dest?.writeString(cacheFileName)
         dest?.writeInt(flag)
         dest?.writeParcelable(status, 0)
     }

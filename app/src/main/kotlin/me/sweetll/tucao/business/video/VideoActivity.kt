@@ -205,7 +205,7 @@ class VideoActivity : BaseActivity() {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(if (selectedPart!!.flag == DownloadFlag.COMPLETED) durls[0].downloadPath else durls[0].url, true, null)
+                binding.player.setUp(if (selectedPart!!.flag == DownloadFlag.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
             } else {
                 binding.player.setUp(durls, selectedPart!!.flag == DownloadFlag.COMPLETED)
             }

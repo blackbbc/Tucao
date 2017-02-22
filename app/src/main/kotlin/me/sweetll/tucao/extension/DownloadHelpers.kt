@@ -18,12 +18,14 @@ import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
 import zlc.season.rxdownload2.RxDownload
 import zlc.season.rxdownload2.entity.DownloadFlag
-import java.util.*
 import javax.inject.Inject
 import com.github.salomonbrys.kotson.*
 import com.google.gson.GsonBuilder
 import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
+import java.io.File
+import android.preference.PreferenceManager
+
 
 object DownloadHelpers {
     private val DOWNLOAD_FILE_NAME = "download"
@@ -38,6 +40,16 @@ object DownloadHelpers {
     private val gson = GsonBuilder()
             .setExclusionStrategies(ExcludeStateConstrollerStrategy())
             .create()
+
+    fun getDownloadFolder(): File {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppApplication.get())
+        val downloadPath = sharedPref.getString("download_path", defaultPath)
+        val downloadFolder = File(downloadPath)
+        if (!downloadFolder.exists()) {
+            downloadFolder.mkdirs()
+        }
+        return downloadFolder
+    }
 
     fun loadDownloadVideos(): MutableList<MultiItemEntity> {
         /*
@@ -149,7 +161,7 @@ object DownloadHelpers {
 
     fun startDownload(part: Part) {
         part.durls.forEach {
-            rxDownload.serviceDownload(it.url, it.downloadPath.substring(defaultPath.length + 1), defaultPath).subscribe()
+            rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
         }
     }
 
@@ -167,12 +179,12 @@ object DownloadHelpers {
                     .doOnNext {
                         durls ->
                         durls.forEach {
-                            val fileName = UUID.randomUUID().toString().replace("-", "")
-                            it.downloadPath = "$defaultPath/$fileName"
+                            it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
+                            it.cacheFileName = "${it.order}"
                         }
                         part.durls.addAll(durls)
                         durls.forEach {
-                            rxDownload.serviceDownload(it.url, it.downloadPath.substring(defaultPath.length + 1), defaultPath).subscribe()
+                            rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
                         }
                     }
                     .observeOn(AndroidSchedulers.mainThread())

@@ -76,7 +76,7 @@ class CachedVideoActivity : BaseActivity() {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls.size == 1) {
-                binding.player.setUp(durls[0].downloadPath, true, null)
+                binding.player.setUp(durls[0].getCacheAbsolutePath(), true, null)
             } else {
                 binding.player.setUp(durls, true)
             }
