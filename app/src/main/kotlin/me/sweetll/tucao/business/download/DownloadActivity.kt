@@ -77,6 +77,23 @@ class DownloadActivity : BaseActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_download, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_setting -> {
+                DownloadSettingActivity.intentTo(this)
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
     fun openContextMenu(contextMenuCallback: ContextMenuCallback) {
         currentActionMode = startActionMode(modeCallback)
         currentContextMenuCallback = contextMenuCallback

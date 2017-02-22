@@ -64,8 +64,6 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         val danmakuContext = DanmakuContext.create()
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
                 .setDuplicateMergingEnabled(false)
-                .setScrollSpeedFactor(1.2f)
-                .setScaleTextSize(1.2f)
                 .preventOverlapping(overlappingEnablePair)
 
         if (!mIfCurrentIsFullscreen) {

@@ -30,7 +30,7 @@ object DownloadHelpers {
 
     private val KEY_S_DOWNLOAD_VIDEO = "download_video"
 
-    private val defaultPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).path + "/tucao"
+    private val defaultPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).path + "/me.sweetll.tucao"
     private val rxDownload: RxDownload = RxDownload.getInstance().context(AppApplication.get())
 
     private val serviceInstance = ServiceInstance()

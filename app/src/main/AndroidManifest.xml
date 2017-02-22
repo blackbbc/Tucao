@@ -61,6 +61,11 @@
         <activity
             android:name=".business.download.DownloadActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".business.download.DownloadSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.explorer.FileExplorerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FileExplorerTheme" />
 
         <meta-data
             android:name="UMENG_APPKEY"
