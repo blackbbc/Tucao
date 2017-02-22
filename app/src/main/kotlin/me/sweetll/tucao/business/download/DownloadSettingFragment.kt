@@ -44,11 +44,11 @@ class DownloadSettingFragment: PreferenceFragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_DOWNLOAD_PATH) {
             if (resultCode == Activity.RESULT_OK) {
-                val folder: File = data.getSerializableExtra("folder") as File
+                val folder: File = data!!.getSerializableExtra("folder") as File
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppApplication.get())
                 sharedPref.edit {
                     putString("download_path", folder.absolutePath)

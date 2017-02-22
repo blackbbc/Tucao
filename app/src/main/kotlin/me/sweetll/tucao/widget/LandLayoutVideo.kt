@@ -27,7 +27,7 @@ import me.sweetll.tucao.extension.logD
 class LandLayoutVideo : CustomGSYVideoPlayer {
     var loadText: TextView? = null
     lateinit var danmakuView: DanmakuView
-    lateinit var danmuUri: String
+    var danmuUri: String? = null
 
     var mLastState = -1
     var needCorrectDanmu = false
@@ -122,7 +122,10 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
         danmakuView.hide()
 
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
-        player.setUpDanmu(danmuUri)
+
+        danmuUri?.let {
+            player.setUpDanmu(it)
+        }
 
         return player
     }
@@ -135,7 +138,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     }
 
     override fun updateStartImage() {
-        if (mIfCurrentIsFullscreen) {
+        if (mStartButton is ImageView) {
             val imageView = mStartButton as ImageView
             if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                 imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_pause_selector)

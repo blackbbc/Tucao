@@ -61,7 +61,7 @@ class RecommendFragment : BaseFragment() {
                         viewModel.onClickRank(view)
                     }
                     R.id.text_more -> {
-                        ChannelDetailActivity.intentTo(activity, (view.tag as String).toInt())
+                        ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
                         VideoActivity.intentTo(activity, view.tag as String)
