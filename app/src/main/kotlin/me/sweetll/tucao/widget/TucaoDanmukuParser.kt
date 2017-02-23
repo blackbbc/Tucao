@@ -21,7 +21,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
 
     companion object {
         init {
-            System.setProperty("org.xml.sax.driver", "org.xmlpull.v1.sax2.Driver");
+            System.setProperty("org.xml.sax.driver", "org.xmlpull.v1.sax2.Driver")
         }
     }
 
@@ -35,7 +35,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
                 val xmlReader = XMLReaderFactory.createXMLReader()
                 val contentHandler = XmlContentHandler()
                 xmlReader.contentHandler = contentHandler
-                xmlReader.parse(InputSource(it.data()))
+                xmlReader.parse(InputSource(source.data()))
                 return contentHandler.result
             } catch (e: SAXException) {
                 e.printStackTrace()
@@ -49,7 +49,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
     inner class XmlContentHandler : DefaultHandler() {
         val TRUE_STRING = "true"
 
-        var result: Danmakus? = null
+        val result: Danmakus = Danmakus()
 
         var item: BaseDanmaku? = null
 
@@ -58,7 +58,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
         var index = 0
 
         override fun startDocument() {
-            result = Danmakus()
+
         }
 
         override fun endDocument() {
@@ -97,16 +97,19 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
         }
 
         override fun endElement(uri: String?, localName: String, qName: String) {
-            if (item != null) {
+            if (item != null && item!!.text != null)
                 if (item!!.duration != null) {
                     val tagName = if (localName.isNotEmpty()) localName else qName
                     if ("d" == tagName) {
                         item!!.timer = mTimer
-                        result!!.addItem(item)
+                        item!!.flags = mContext.mGlobalFlagValues
+                        val lock = result.obtainSynchronizer()
+                        synchronized(lock) {
+                            result.addItem(item)
+                        }
                     }
                 }
                 item = null
-            }
         }
 
         override fun characters(ch: CharArray, start: Int, length: Int) {

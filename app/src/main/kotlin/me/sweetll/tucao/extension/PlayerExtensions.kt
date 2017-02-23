@@ -1,12 +1,12 @@
 package me.sweetll.tucao.extension
 
-import com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.PreviewGSYVideoPlayer
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.model.xml.Durl
 import java.io.File
 import java.io.FileOutputStream
 
-fun CustomGSYVideoPlayer.setUp(durls: MutableList<Durl>, cache: Boolean, vararg objects: Any) {
+fun PreviewGSYVideoPlayer.setUp(durls: MutableList<Durl>, cache: Boolean, vararg objects: Any) {
     /*
      * 使用concat协议拼接多段视频
      */

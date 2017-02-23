@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <me.sweetll.tucao.widget.LandLayoutVideo
+        <me.sweetll.tucao.widget.DanmuVideoPlayer
             android:id="@+id/player"
             android:layout_width="match_parent"
             android:layout_height="200dp" />

@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
 
-import com.shuyu.gsyvideoplayer.video.CustomGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.PreviewGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer
 import master.flame.danmaku.controller.DrawHandler
 import master.flame.danmaku.danmaku.loader.IllegalDataException
@@ -24,7 +24,7 @@ import master.flame.danmaku.ui.widget.DanmakuView
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.logD
 
-class LandLayoutVideo : CustomGSYVideoPlayer {
+class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var loadText: TextView? = null
     lateinit var danmakuView: DanmakuView
     var danmuUri: String? = null
@@ -121,7 +121,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
     override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
         danmakuView.hide()
 
-        val player = super.startWindowFullscreen(context, actionBar, statusBar) as LandLayoutVideo
+        val player = super.startWindowFullscreen(context, actionBar, statusBar) as DanmuVideoPlayer
 
         danmuUri?.let {
             player.setUpDanmu(it)
@@ -154,7 +154,7 @@ class LandLayoutVideo : CustomGSYVideoPlayer {
 
     override fun resolveNormalVideoShow(oldF: View?, vp: ViewGroup?, gsyVideoPlayer: GSYVideoPlayer?) {
         gsyVideoPlayer?.let {
-            (it as LandLayoutVideo).onVideoDestroy()
+            (it as DanmuVideoPlayer).onVideoDestroy()
         }
         super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer)
         danmakuView.show()
