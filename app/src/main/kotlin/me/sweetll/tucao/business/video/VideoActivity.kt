@@ -76,13 +76,9 @@ class VideoActivity : BaseActivity() {
         binding.viewModel = viewModel
 
         orientationUtils = OrientationUtils(this, binding.player)
-        orientationUtils.isEnable = false
-
     }
 
     fun setupRecyclerView(result: Result) {
-
-
         binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 selectedPart = helper.getItem(position) as Part
@@ -151,26 +147,19 @@ class VideoActivity : BaseActivity() {
         // 是否可以滑动界面改变进度，声音
         binding.player.setIsTouchWiget(true)
         //关闭自动旋转
-        binding.player.isRotateViewAuto = false
         binding.player.isLockLand = false
-        binding.player.isShowFullAnimation = false
         binding.player.isNeedLockFull = true
         binding.player.isOpenPreView = true
         binding.player.fullscreenButton.setOnClickListener {
             view ->
             //直接横屏
-            orientationUtils.resolveByClick()
+            orientationUtils.backToLand()
         }
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
                 super.onPrepared(p0, *p1)
                 isPlay = true
-            }
-
-            override fun onQuitFullscreen(p0: String?, vararg p1: Any?) {
-                super.onQuitFullscreen(p0, *p1)
-                orientationUtils.backToProtVideo()
             }
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
@@ -183,11 +172,6 @@ class VideoActivity : BaseActivity() {
                 )
             }
         })
-
-        binding.player.setLockClickListener {
-            view, lock ->
-            orientationUtils.isEnable = !lock
-        }
 
         if (selectedPart!!.vid.isNotEmpty()) {
             viewModel.queryPlayUrls(result.hid, selectedPart!!)
@@ -232,12 +216,11 @@ class VideoActivity : BaseActivity() {
         super.onDestroy()
         GSYVideoPlayer.releaseAllVideos()
         GSYPreViewManager.instance().releaseMediaPlayer()
-        orientationUtils.releaseListener()
         binding.player.onVideoDestroy()
     }
 
     override fun onBackPressed() {
-        orientationUtils.backToProtVideo()
+        orientationUtils.backToPort()
 
         if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
             return
@@ -252,11 +235,11 @@ class VideoActivity : BaseActivity() {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            } /* else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 if (binding.player.isIfCurrentIsFullscreen) {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
-            }
+            } */
         }
     }
 }

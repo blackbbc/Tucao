@@ -53,9 +53,7 @@ class CachedVideoActivity : BaseActivity() {
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "concat,file,subfile,http,https,tls,rtp,tcp,udp,crypto"),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "user-agent", "ijk")
         )
-        binding.player.isRotateViewAuto = false
         binding.player.isLockLand = true
-        binding.player.isShowFullAnimation = false
         binding.player.isNeedLockFull = true
         binding.player.isOpenPreView = true
 

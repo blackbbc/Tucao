@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
+import com.shuyu.gsyvideoplayer.utils.CommonUtil.hideNavKey
+import com.shuyu.gsyvideoplayer.utils.CommonUtil.showNavKey
 
 import com.shuyu.gsyvideoplayer.video.PreviewGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer
@@ -29,8 +31,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
     var danmuUri: String? = null
 
+    lateinit var switchDanmu: TextView
+
     var mLastState = -1
     var needCorrectDanmu = false
+    var isShowDanmu = true
 
     constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
 
@@ -43,6 +48,19 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         initView()
     }
 
+    fun showDanmu(show: Boolean) {
+        isShowDanmu = show
+        if (danmakuView.isPrepared) {
+            if (show) {
+                switchDanmu.text = "弹幕开"
+                danmakuView.show()
+            } else {
+                switchDanmu.text = "弹幕关"
+                danmakuView.hide()
+            }
+        }
+    }
+
     private fun initView() {
         //初始化弹幕控件
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
@@ -52,6 +70,12 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         loadText?.let {
             it.visibility = View.VISIBLE
         }
+
+        switchDanmu = findViewById(R.id.switchDanmu) as TextView
+        switchDanmu.setOnClickListener {
+            showDanmu(!isShowDanmu)
+        }
+        showDanmu(isShowDanmu)
     }
 
     fun setUpDanmu(uri: String) {
@@ -124,6 +148,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as DanmuVideoPlayer
 
         danmuUri?.let {
+            player.showDanmu(isShowDanmu)
             player.setUpDanmu(it)
         }
 
@@ -155,9 +180,9 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     override fun resolveNormalVideoShow(oldF: View?, vp: ViewGroup?, gsyVideoPlayer: GSYVideoPlayer?) {
         gsyVideoPlayer?.let {
             (it as DanmuVideoPlayer).onVideoDestroy()
+            showDanmu(it.isShowDanmu)
         }
         super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer)
-        danmakuView.show()
     }
 
     override fun onVideoPause() {
