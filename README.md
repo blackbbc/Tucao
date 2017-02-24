@@ -39,7 +39,8 @@
 <a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
 ## TODO
-- [x] <del>更新</del>
+- [ ] 更新
+- [ ] 评论
 - [ ] 记录播放位置
 
 ## UpdateLog
