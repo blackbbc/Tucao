@@ -9,8 +9,8 @@ android {
         applicationId "me.sweetll.tucao"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 104
-        versionName "1.0.4"
+        versionCode 105
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -93,6 +93,8 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     /* DialogPlus */
     compile 'com.github.blackbbc:dialogplus:1.12'
+    /* About */
+    compile 'com.github.medyo:android-about-page:1.2'
     /* Leak Canary */
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

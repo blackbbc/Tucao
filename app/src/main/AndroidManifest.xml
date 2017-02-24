@@ -56,16 +56,22 @@
         <activity
             android:name=".business.home.PlayHistoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.home.StarActivity"
+        <activity
+            android:name=".business.home.StarActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".business.download.DownloadActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.download.DownloadSettingActivity"
+        <activity
+            android:name=".business.download.DownloadSettingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".business.explorer.FileExplorerActivity"
+        <activity
+            android:name=".business.explorer.FileExplorerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FileExplorerTheme" />
+        <activity android:name=".business.home.AboutActivity"
+            android:theme="@style/AboutTheme"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="UMENG_APPKEY"

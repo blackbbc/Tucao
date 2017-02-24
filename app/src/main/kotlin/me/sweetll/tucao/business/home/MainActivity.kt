@@ -1,8 +1,11 @@
 package me.sweetll.tucao.business.home
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
@@ -53,13 +56,18 @@ class MainActivity : BaseActivity() {
                     DownloadActivity.intentTo(this)
                 }
                 R.id.nav_upgrade -> {
-                    "这个功能尚未实现，请期待下一个版本~".toast()
+                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
+                            .setAction("打开百度网盘", {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
+                                startActivity(intent)
+                            })
+                            .show()
                 }
                 R.id.nav_setting -> {
-                    "这个功能尚未实现，请期待下一个版本~".toast()
+                    "没什么好设置的啦( ﾟ∀ﾟ)".toast()
                 }
                 R.id.nav_about -> {
-                    "这个功能尚未实现，请期待下一个版本~".toast()
+                    AboutActivity.intentTo(this)
                 }
             }
             binding.drawer.closeDrawers()
