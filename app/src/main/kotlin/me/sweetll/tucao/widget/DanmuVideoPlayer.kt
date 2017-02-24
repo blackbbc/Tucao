@@ -1,15 +1,18 @@
 package me.sweetll.tucao.widget
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.support.v7.widget.SwitchCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.animation.DecelerateInterpolator
+import android.widget.*
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
-import com.shuyu.gsyvideoplayer.utils.CommonUtil.hideNavKey
-import com.shuyu.gsyvideoplayer.utils.CommonUtil.showNavKey
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 
 import com.shuyu.gsyvideoplayer.video.PreviewGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer
@@ -24,14 +27,33 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
 import master.flame.danmaku.ui.widget.DanmakuView
 
 import me.sweetll.tucao.R
+import com.shuyu.gsyvideoplayer.utils.PlayerConfig
+import me.sweetll.tucao.extension.dp2px
 import me.sweetll.tucao.extension.logD
 
 class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var loadText: TextView? = null
     lateinit var danmakuView: DanmakuView
+    var danmakuContext: DanmakuContext? = null
     var danmuUri: String? = null
 
+    lateinit var settingLayout: LinearLayout
     lateinit var switchDanmu: TextView
+    lateinit var settingButton: Button
+    lateinit var danmuOpacityText: TextView
+    lateinit var danmuOpacitySeek: SeekBar
+    lateinit var danmuSizeText: TextView
+    lateinit var danmuSizeSeek: SeekBar
+    lateinit var rotateSwitch: SwitchCompat
+
+    var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
+    var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
+
+    fun Int.formatDanmuSizeToString(): String = String.format("%.2f", this.formatDanmuSizeToFloat())
+    fun Int.formatDanmuSizeToFloat(): Float = (this + 50) / 100f
+
+    fun Int.formatDanmuOpacityToString(): String = String.format("%d%%", this + 20)
+    fun Int.formatDanmuOpacityToFloat(): Float = (this + 20) / 100f
 
     var mLastState = -1
     var needCorrectDanmu = false
@@ -61,12 +83,105 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
     }
 
+    fun showSetting() {
+        settingLayout.animate()
+                .translationX(0f)
+                .setDuration(200)
+                .setInterpolator(DecelerateInterpolator())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        settingLayout.visibility = View.VISIBLE
+                    }
+                })
+                .start()
+        cancelDismissControlViewTimer()
+    }
+
+    fun hideSetting() {
+            settingLayout.animate()
+                .translationX((250f).dp2px())
+                .setDuration(200)
+                .setInterpolator(DecelerateInterpolator())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        settingLayout.visibility = View.INVISIBLE
+                    }
+                })
+                .start()
+    }
+
+    // 重新修改弹幕样式
+    fun configDanmuStyle() {
+        if (isIfCurrentIsFullscreen) {
+            danmuOpacityText.text = danmuOpacityProgress.formatDanmuOpacityToString()
+            danmuOpacitySeek.progress = danmuOpacityProgress
+
+            danmuSizeText.text = danmuSizeProgress.formatDanmuSizeToString()
+            danmuSizeSeek.progress = danmuSizeProgress
+        }
+
+        PlayerConfig.saveDanmuOpacity(danmuOpacityProgress)
+        PlayerConfig.saveDanmuSize(danmuSizeProgress)
+
+        danmakuContext?.setDanmakuTransparency(danmuOpacityProgress.formatDanmuOpacityToFloat())
+        danmakuContext?.setScaleTextSize(danmuSizeProgress.formatDanmuSizeToFloat())
+    }
+
     private fun initView() {
         //初始化弹幕控件
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
         if (!isIfCurrentIsFullscreen) {
             loadText = findViewById(R.id.text_load) as TextView
+        } else {
+            settingLayout = findViewById(R.id.setting_layout) as LinearLayout
+            danmuOpacityText = findViewById(R.id.text_danmu_opacity) as TextView
+            danmuOpacitySeek = findViewById(R.id.seek_danmu_opacity) as SeekBar
+            danmuSizeText = findViewById(R.id.text_danmu_size) as TextView
+            danmuSizeSeek = findViewById(R.id.seek_danmu_size) as SeekBar
+            rotateSwitch = findViewById(R.id.switch_rotate) as SwitchCompat
+
+            settingButton = findViewById(R.id.btn_setting) as Button
+            settingButton.visibility = View.VISIBLE
+            settingButton.setOnClickListener {
+                showSetting()
+            }
+
+            danmuOpacitySeek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser) {
+                        danmuOpacityProgress = progress
+                        configDanmuStyle()
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                }
+            })
+
+            danmuSizeSeek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser) {
+                        danmuSizeProgress = progress
+                        configDanmuStyle()
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                }
+            })
+
         }
+
         loadText?.let {
             it.visibility = View.VISIBLE
         }
@@ -78,6 +193,18 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         showDanmu(isShowDanmu)
     }
 
+    fun setOrientationUtils(orientationUtils: OrientationUtils) {
+        mOrientationUtils = orientationUtils
+
+        if (isIfCurrentIsFullscreen) {
+            rotateSwitch.isChecked = mOrientationUtils.currentScreenType != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            rotateSwitch.setOnCheckedChangeListener {
+                button, checked ->
+                mOrientationUtils.toggleLandReverse()
+            }
+        }
+    }
+
     fun setUpDanmu(uri: String) {
         danmuUri = uri
         val overlappingEnablePair = mapOf(
@@ -85,14 +212,16 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 BaseDanmaku.TYPE_FIX_TOP to true
         )
 
-        val danmakuContext = DanmakuContext.create()
-        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
+        danmakuContext = DanmakuContext.create()
+        danmakuContext!!.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3f)
                 .setDuplicateMergingEnabled(false)
                 .preventOverlapping(overlappingEnablePair)
+                .setScaleTextSize(danmuSizeProgress.formatDanmuSizeToFloat())
+                .setDanmakuTransparency(danmuOpacityProgress.formatDanmuOpacityToFloat())
 
         if (!mIfCurrentIsFullscreen) {
             val maxLinesPair = mapOf(BaseDanmaku.TYPE_SCROLL_RL to 5)
-            danmakuContext.setMaximumLines(maxLinesPair)
+            danmakuContext!!.setMaximumLines(maxLinesPair)
         }
 
         val parser = createParser(uri)
@@ -126,6 +255,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         })
         danmakuView.prepare(parser, danmakuContext)
         danmakuView.enableDanmakuDrawingCache(true)
+        configDanmuStyle()
     }
 
     private fun createParser(uri: String): BaseDanmakuParser {
@@ -149,10 +279,18 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
         danmuUri?.let {
             player.showDanmu(isShowDanmu)
+            player.danmuSizeProgress = danmuSizeProgress
+            player.danmuOpacityProgress = danmuOpacityProgress
             player.setUpDanmu(it)
+            player.configDanmuStyle()
         }
 
         return player
+    }
+
+    override fun resolveFullVideoShow(context: Context?, gsyVideoPlayer: GSYBaseVideoPlayer?, frameLayout: FrameLayout?) {
+        (gsyVideoPlayer as DanmuVideoPlayer).setOrientationUtils(mOrientationUtils)
+        super.resolveFullVideoShow(context, gsyVideoPlayer, frameLayout)
     }
 
     override fun getLayoutId(): Int {
@@ -181,8 +319,42 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         gsyVideoPlayer?.let {
             (it as DanmuVideoPlayer).onVideoDestroy()
             showDanmu(it.isShowDanmu)
+
+            danmuSizeProgress = it.danmuSizeProgress
+            danmuOpacityProgress = it.danmuOpacityProgress
+
+            configDanmuStyle()
         }
         super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer)
+    }
+
+    override fun onClickUiToggle() {
+        super.onClickUiToggle()
+        if (mIfCurrentIsFullscreen && mLockCurScreen && mNeedLockFull) {
+            mLockScreen.visibility = VISIBLE
+            return
+        }
+        if (mIfCurrentIsFullscreen) {
+            if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
+                hideSetting()
+            }
+        }
+    }
+
+//    override fun startDismissControlViewTimer() {
+//        if (mIfCurrentIsFullscreen && settingLayout.visibility == View.VISIBLE) {
+//            return
+//        }
+//        super.startDismissControlViewTimer()
+//    }
+
+    override fun hideAllWidget() {
+        super.hideAllWidget()
+        if (mIfCurrentIsFullscreen) {
+            if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
+                hideSetting()
+            }
+        }
     }
 
     override fun onVideoPause() {

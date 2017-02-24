@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.support.multidex.MultiDexApplication
+import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
 import me.drakeet.library.CrashWoodpecker
@@ -35,6 +36,7 @@ class AppApplication : MultiDexApplication() {
 //            return
 //        }
 //        LeakCanary.install(this)
+        PlayerConfig.init(this)
         initApiComponent()
     }
 

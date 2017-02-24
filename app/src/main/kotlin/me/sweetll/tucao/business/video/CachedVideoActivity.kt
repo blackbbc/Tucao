@@ -9,6 +9,7 @@ import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
+import com.shuyu.gsyvideoplayer.utils.CommonUtil
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -63,6 +64,9 @@ class CachedVideoActivity : BaseActivity() {
                 isPlay = true
             }
         })
+
+        binding.player.fullscreenButton.visibility = View.GONE
+//        CommonUtil.hideNavKey(this)
     }
 
     fun loadPart(part: Part) {

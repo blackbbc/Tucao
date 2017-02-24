@@ -75,7 +75,8 @@ class VideoActivity : BaseActivity() {
         }
         binding.viewModel = viewModel
 
-        orientationUtils = OrientationUtils(this, binding.player)
+        orientationUtils = OrientationUtils(this)
+        binding.player.setOrientationUtils(orientationUtils)
     }
 
     fun setupRecyclerView(result: Result) {
@@ -230,7 +231,7 @@ class VideoActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (isPlay && !isPause) {
+//        if (isPlay && !isPause) {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
@@ -240,6 +241,6 @@ class VideoActivity : BaseActivity() {
                     StandardGSYVideoPlayer.backFromWindowFull(this)
                 }
             } */
-        }
+//        }
     }
 }

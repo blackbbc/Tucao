@@ -105,7 +105,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scaleType="center"
-            android:src="@drawable/video_enlarge" />
+            android:src="@drawable/video_shrink" />
     </LinearLayout>
 
     <ProgressBar
@@ -162,15 +162,17 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/setting"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
+            tools:layout_marginRight="45dp"
             tools:visibility="visible"
             android:visibility="gone"
             android:gravity="center"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:text="设置"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
@@ -186,5 +188,165 @@
         android:layout_marginBottom="30dp"
         tools:visibility="visible"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/setting_layout"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        tools:layout_marginTop="25dp"
+        tools:layout_marginRight="45dp"
+        tools:translationX="0dp"
+        android:translationX="250dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="#99000000"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/layout_bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="弹幕不透明度："
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/text_danmu_opacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
+                android:text="0%"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20%"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <SeekBar
+                android:id="@+id/seek_danmu_opacity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="80"
+                android:progress="80"
+                android:progressDrawable="@drawable/pink_scrubber_progress"
+                android:thumb="@drawable/pink_scrubber_control"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="弹幕字号："
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/text_danmu_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
+                android:text="1.00"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.50"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <SeekBar
+                android:id="@+id/seek_danmu_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="150"
+                android:progress="50"
+                android:progressDrawable="@drawable/pink_scrubber_progress"
+                android:thumb="@drawable/pink_scrubber_control"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.00"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="旋转屏幕"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:checked="true"
+                android:theme="@style/PinkSwitch"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
