@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
+import me.sweetll.tucao.business.channel.ChannelDetailActivity
 import me.sweetll.tucao.business.home.adapter.BannerHolder
 import me.sweetll.tucao.business.home.adapter.MovieAdapter
 import me.sweetll.tucao.business.home.viewmodel.MovieViewModel
@@ -57,6 +58,9 @@ class MovieFragment : BaseFragment() {
         binding.movieRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
+                    R.id.text_more -> {
+                        ChannelDetailActivity.intentTo(activity, view.tag as Int)
+                    }
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
                         VideoActivity.intentTo(activity, view.tag as String)
                     }
