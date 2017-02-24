@@ -8,6 +8,7 @@
 - 频道列表，支持按照发布时间/播放量/弹幕排序
 - 视频搜索，支持分频道搜索
 - 视频查看，使用IjkPlayer播放视频，DanmakuFlameMaster播放弹幕，自动拼接多段视频（使用concat协议）
+- 视频离线缓存
 
 ## Screenshots
 <a href="art/1.png"><img src="art/1.png" width="30%"/></a>
@@ -38,17 +39,16 @@
 <a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
 ## TODO
-- [x] 搜索历史
-- [x] 播放历史
-- [x] 离线缓存
-- [x] 收藏
-- [x] 缓存位置
-- [x] 弹幕字号
-- [x] 翻转
+- [x] <del>更新</del>
 - [ ] 记录播放位置
-- [ ] 更新
 
 ## UpdateLog
+
+### V1.0.5
+- 可以设置弹幕不透明度
+- 可以设置弹幕字体大小
+- 可以显示或隐藏弹幕
+- 可以翻转屏幕
 
 ### V1.0.4
 - 修复首页Api问题
