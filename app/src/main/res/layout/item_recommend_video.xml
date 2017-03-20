@@ -84,18 +84,25 @@
 
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/text_title1"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:textColor="@color/primary_text"
-                    android:textSize="10sp"
-                    tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
+                    android:layout_height="wrap_content">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
+                    <TextView
+                        android:id="@+id/text_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@color/primary_text"
+                        android:textSize="10sp"
+                        tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
+                </FrameLayout>
 
             </LinearLayout>
 

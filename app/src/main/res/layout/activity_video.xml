@@ -32,10 +32,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:transitionName="title"
                 tools:text="千万不要在小狗生气的时候捏他的嘴"
-                android:text="@{viewModel.result.title}"
                 android:textColor="@color/primary_text"/>
 
             <LinearLayout

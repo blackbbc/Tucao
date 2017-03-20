@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -64,13 +65,15 @@ class RecommendFragment : BaseFragment() {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
-                        val imageView = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
-                        val textView = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1)
-                        val p1: Pair<View, String> = Pair.create(imageView, "cover")
-                        val p2: Pair<View, String> = Pair.create(textView, "content")
+                        val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                        val contentView = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(0)
+                        val titleText = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1)
+                        val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                        val p3: Pair<View, String> = Pair.create(contentView, "content")
+                        val p2: Pair<View, String> = Pair.create(titleText, "title")
                         val options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(activity, p1, p2)
-                        VideoActivity.intentTo(activity, view.tag as String, options.toBundle())
+                                .makeSceneTransitionAnimation(activity, p1, p2, p3)
+                        VideoActivity.intentTo(activity, view.tag as String, (titleText as TextView).text.toString(), options.toBundle())
                     }
                 }
             }

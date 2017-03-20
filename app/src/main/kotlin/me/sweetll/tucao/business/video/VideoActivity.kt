@@ -48,6 +48,7 @@ class VideoActivity : BaseActivity() {
     companion object {
         private val ARG_RESULT = "result"
         private val ARG_HID = "hid"
+        private val ARG_TITLE = "title"
 
         fun intentTo(context: Context, result: Result) {
             val intent = Intent(context, VideoActivity::class.java)
@@ -61,9 +62,10 @@ class VideoActivity : BaseActivity() {
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, hid: String, bundle: Bundle) {
+        fun intentTo(context: Context, hid: String, title: String, bundle: Bundle) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_HID, hid)
+            intent.putExtra(ARG_TITLE, title)
             context.startActivity(intent, bundle)
         }
     }
@@ -71,6 +73,8 @@ class VideoActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         val hid = intent.getStringExtra(ARG_HID)
+        val title = intent.getStringExtra(ARG_TITLE)
+
         if (hid != null) {
             viewModel = VideoViewModel(this)
             viewModel.queryResult(hid)
@@ -79,6 +83,11 @@ class VideoActivity : BaseActivity() {
             viewModel = VideoViewModel(this, result)
             loadResult(result)
         }
+
+        if (!title.isNullOrEmpty()) {
+            binding.titleText.text = title
+        }
+
         binding.viewModel = viewModel
 
         orientationUtils = OrientationUtils(this)
