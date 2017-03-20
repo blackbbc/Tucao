@@ -11,7 +11,7 @@ import zlc.season.rxdownload2.entity.DownloadStatus
 
 class Part(val title: String,
            val order: Int,
-           val vid: String = "",
+           var vid: String = "",
            val type: String = "",
            var flag: Int = DownloadFlag.NORMAL,
            var status: DownloadStatus = DownloadStatus(),

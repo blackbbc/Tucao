@@ -11,7 +11,8 @@ data class Video(val title: String = "",
                  val vid: String = "",
                  var checked: Boolean = false,
                  var order: Int = 0,
-                 var durls: MutableList<Durl> = mutableListOf()) : Parcelable {
+                 var durls: MutableList<Durl> = mutableListOf(),
+                 var file: String = "") : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Video> = object : Parcelable.Creator<Video> {
             override fun createFromParcel(source: Parcel): Video = Video(source)
@@ -19,7 +20,7 @@ data class Video(val title: String = "",
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), 1.equals(source.readInt()), source.readInt(), source.createTypedArrayList(Durl.CREATOR))
+    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), 1 == source.readInt(), source.readInt(), source.createTypedArrayList(Durl.CREATOR), source.readString())
 
     override fun describeContents() = 0
 
@@ -30,5 +31,6 @@ data class Video(val title: String = "",
         dest?.writeInt((if (checked) 1 else 0))
         dest?.writeInt(order)
         dest?.writeTypedList(durls)
+        dest?.writeString(file)
     }
 }

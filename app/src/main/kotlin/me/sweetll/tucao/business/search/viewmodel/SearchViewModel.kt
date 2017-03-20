@@ -76,6 +76,7 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
                     if (data.size < pageSize) {
                         activity.loadMoreData(data, Const.LOAD_MORE_END)
                     } else {
+                        pageIndex++
                         activity.loadMoreData(data, Const.LOAD_MORE_COMPLETE)
                     }
                 }, {

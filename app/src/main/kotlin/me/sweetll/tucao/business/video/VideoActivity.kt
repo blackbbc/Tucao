@@ -119,7 +119,13 @@ class VideoActivity : BaseActivity() {
 
         parts = result.video.map {
             video ->
-            downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type)
+            val part = downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type)
+            // 解决直传的问题
+            if (video.file.isNotEmpty()) {
+                part.vid = result.hid
+                part.durls.add(Durl(url = video.file))
+            }
+            part
         }.map {
             it.checked = false
             if (videoHistory != null) {

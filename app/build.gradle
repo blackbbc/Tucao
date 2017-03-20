@@ -47,6 +47,7 @@ dependencies {
     compile project(':gsyVideoPlayer')
     /* RxDownload */
     compile project(':rxdownload2')
+    compile 'com.android.support:multidex:1.0.1'
     /* Support Library */
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
@@ -54,7 +55,7 @@ dependencies {
     compile "com.android.support:design:$support_version"
     /* Kotlin */
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    kapt "com.android.databinding:compiler:2.2.3"
+    kapt "com.android.databinding:compiler:2.3.0"
     /* RxJava2 */
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.3'

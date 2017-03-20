@@ -1,5 +1,6 @@
 package me.sweetll.tucao
 
+import android.content.Context
 import android.support.multidex.MultiDexApplication
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.squareup.leakcanary.LeakCanary
