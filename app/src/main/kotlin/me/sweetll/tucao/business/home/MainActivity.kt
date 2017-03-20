@@ -6,12 +6,18 @@ import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import com.mxn.soul.flowingdrawer_core.ElasticDrawer
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
@@ -23,7 +29,6 @@ import me.sweetll.tucao.extension.toast
 class MainActivity : BaseActivity() {
 
     lateinit var binding : ActivityMainBinding
-    lateinit var drawerToggle: ActionBarDrawerToggle
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
@@ -39,6 +44,10 @@ class MainActivity : BaseActivity() {
 
     override fun initToolbar() {
         super.initToolbar()
+        binding.toolbar.setNavigationIcon(R.drawable.ic_menu)
+        binding.toolbar.setNavigationOnClickListener {
+            binding.drawer.toggleMenu()
+        }
         setupDrawer()
     }
 
@@ -70,21 +79,21 @@ class MainActivity : BaseActivity() {
                     AboutActivity.intentTo(this)
                 }
             }
-            binding.drawer.closeDrawers()
+            binding.drawer.closeMenu()
             true
         })
-        drawerToggle = ActionBarDrawerToggle(this, binding.drawer, binding.toolbar, R.string.drawer_open, R.string.drawer_close)
-        binding.drawer.addDrawerListener(drawerToggle)
-    }
+        binding.drawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL)
+        binding.coordinator.foreground = ContextCompat.getDrawable(AppApplication.get(), R.drawable.window_dim)
+        binding.coordinator.foreground.alpha = 0
+        binding.drawer.setOnDrawerStateChangeListener(object: ElasticDrawer.OnDrawerStateChangeListener {
+            override fun onDrawerStateChange(oldState: Int, newState: Int) {
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        drawerToggle.syncState()
-    }
+            }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
+            override fun onDrawerSlide(openRatio: Float, offsetPixels: Int) {
+                binding.coordinator.foreground.alpha = offsetPixels / 10
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -93,21 +102,17 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        } else {
-            when (item.itemId) {
-                android.R.id.home -> {
-                    binding.drawer.openDrawer(GravityCompat.START)
-                    return true
-                }
-                R.id.action_search -> {
-                    SearchActivity.intentTo(this)
-                    return true
-                }
-                else -> {
-                    return super.onOptionsItemSelected(item)
-                }
+        when (item.itemId) {
+            android.R.id.home -> {
+                binding.drawer.toggleMenu()
+                return true
+            }
+            R.id.action_search -> {
+                SearchActivity.intentTo(this)
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }
