@@ -20,6 +20,7 @@
 
         <me.sweetll.tucao.widget.DanmuVideoPlayer
             android:id="@+id/player"
+            android:transitionName="cover"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 

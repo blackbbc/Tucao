@@ -18,7 +18,7 @@ class PartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHol
 
         titleText.text = part.title
         titleText.isChecked = part.checked
-        if (part.durls.isNotEmpty()) {
+        if (part.durls.isNotEmpty() && part.durls[0].cacheFileName.isNotEmpty()) {
             // 存在
             if (part.flag == DownloadFlag.COMPLETED) {
                 downloadedImg.visibility = View.VISIBLE

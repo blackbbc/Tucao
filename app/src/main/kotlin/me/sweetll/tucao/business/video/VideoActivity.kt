@@ -60,6 +60,12 @@ class VideoActivity : BaseActivity() {
             intent.putExtra(ARG_HID, hid)
             context.startActivity(intent)
         }
+
+        fun intentTo(context: Context, hid: String, bundle: Bundle) {
+            val intent = Intent(context, VideoActivity::class.java)
+            intent.putExtra(ARG_HID, hid)
+            context.startActivity(intent, bundle)
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -121,8 +127,8 @@ class VideoActivity : BaseActivity() {
             video ->
             val part = downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type)
             // 解决直传的问题
-            if (video.file.isNotEmpty()) {
-                part.vid = result.hid
+            if (part.durls.isEmpty() && video.file.isNotEmpty()) {
+                part.vid = "${result.hid}${part.order}"
                 part.durls.add(Durl(url = video.file))
             }
             part
@@ -174,7 +180,7 @@ class VideoActivity : BaseActivity() {
                 HistoryHelpers.savePlayHistory(
                         result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
                                 .apply {
-                                    video = video.filter { it.vid == selectedPart!!.vid }.toMutableList()
+                                    video = video.filter { it.order == selectedPart!!.order }.toMutableList()
                                 }
                 )
             }

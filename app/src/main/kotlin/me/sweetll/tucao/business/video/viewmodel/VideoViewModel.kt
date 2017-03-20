@@ -110,7 +110,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
         if (part.flag == DownloadFlag.COMPLETED) {
             activity.loadDuals(part.durls)
-        } else if (part.vid == hid) {
+        } else if (part.vid.startsWith(hid)) {
             // 这个视频是直传的
             activity.loadDuals(part.durls)
         } else {

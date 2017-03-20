@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.home.fragment
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -64,7 +65,9 @@ class RecommendFragment : BaseFragment() {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
-                        VideoActivity.intentTo(activity, view.tag as String)
+                        val options = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation(activity, view, "cover")
+                        VideoActivity.intentTo(activity, view.tag as String, options.toBundle())
                     }
                 }
             }
