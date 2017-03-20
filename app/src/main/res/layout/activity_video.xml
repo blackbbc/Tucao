@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.sweetll.tucao.business.video.VideoActivity">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoViewModel" />
@@ -18,166 +19,181 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <me.sweetll.tucao.widget.DanmuVideoPlayer
             android:id="@+id/player"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:transitionName="content"
-            android:padding="16dp"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:transitionName="title"
-                tools:text="千万不要在小狗生气的时候捏他的嘴"
-                android:textColor="@color/primary_text"/>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="播放：14.6万"
-                    android:text='@{"播放：" + viewModel.result.play}'
-                    android:textColor="@color/secondary_text"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    tools:text="弹幕：501"
-                    android:text='@{"弹幕：" + viewModel.result.mukio}'
-                    android:textColor="@color/secondary_text"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="BGM是极乐净土。"
-                android:text="@{viewModel.result.description}"
-                android:textColor="@color/secondary_text"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:transitionName="content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:onClick="@{viewModel::onClickStar}">
+                    android:padding="16dp">
 
-                    <FrameLayout
+                    <TextView
+                        android:id="@+id/titleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:background="@drawable/bg_white_circle"
-                        android:elevation="6dp">
+                        android:textColor="@color/primary_text"
+                        android:transitionName="title"
+                        tools:text="千万不要在小狗生气的时候捏他的嘴" />
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/white"
-                            android:tint="@color/pink_500"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_star_border"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
 
-                    </FrameLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{"播放：" + viewModel.result.play}'
+                            android:textColor="@color/secondary_text"
+                            tools:text="播放：14.6万" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text='@{"弹幕：" + viewModel.result.mukio}'
+                            android:textColor="@color/secondary_text"
+                            tools:text="弹幕：501" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@{viewModel.result.description}"
+                        android:textColor="@color/secondary_text"
+                        tools:text="BGM是极乐净土。" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:onClick="@{viewModel::onClickStar}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_white_circle"
+                                android:elevation="6dp"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/white"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_star_border"
+                                    android:tint="@color/pink_500" />
+
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
+                                android:textColor="@color/primary_text"
+                                android:textSize="12sp"
+                                tools:text="收藏" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:onClick="@{viewModel::onClickDownload}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_white_circle"
+                                android:elevation="6dp"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/white"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_file_download_black"
+                                    android:tint="@color/blue_500" />
+
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="缓存"
+                                android:textColor="@color/primary_text"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
+                        tools:text="分集(2)" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/partRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
-                        android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
-                        tools:text="收藏"
-                        android:textSize="12sp"
-                        android:textColor="@color/primary_text"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:onClick="@{viewModel::onClickDownload}">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:background="@drawable/bg_white_circle"
-                        android:elevation="6dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/white"
-                            android:tint="@color/blue_500"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_file_download_black"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="缓存"
-                        android:textSize="12sp"
-                        android:textColor="@color/primary_text"/>
+                        android:clipChildren="false"
+                        tools:listitem="@layout/item_part" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:orientation="vertical"
-            android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
-                tools:text="分集(2)"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/partRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                tools:listitem="@layout/item_part"/>
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 </layout>
