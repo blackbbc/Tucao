@@ -3,12 +3,11 @@ package me.sweetll.tucao.business.home.fragment
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
+import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -20,7 +19,6 @@ import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 
@@ -67,8 +65,11 @@ class RecommendFragment : BaseFragment() {
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
                         val imageView = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                        val textView = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1)
+                        val p1: Pair<View, String> = Pair.create(imageView, "cover")
+                        val p2: Pair<View, String> = Pair.create(textView, "content")
                         val options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(activity, imageView, "cover")
+                                .makeSceneTransitionAnimation(activity, p1, p2)
                         VideoActivity.intentTo(activity, view.tag as String, options.toBundle())
                     }
                 }
