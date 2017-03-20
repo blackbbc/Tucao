@@ -57,6 +57,7 @@ class CachedVideoActivity : BaseActivity() {
         binding.player.isLockLand = true
         binding.player.isNeedLockFull = true
         binding.player.isOpenPreView = true
+        binding.player.isNeedShowWifiTip = false
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
