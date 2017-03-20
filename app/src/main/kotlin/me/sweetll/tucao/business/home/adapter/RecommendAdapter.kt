@@ -51,6 +51,7 @@ class RecommendAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
                     helper.addOnClickListener(R.id.card4)
                 }
             }
+            titleText.tag = result.thumb
             thumbImg.load(result.thumb)
             playText.text = result.play.formatByWan()
             titleText.text = result.title

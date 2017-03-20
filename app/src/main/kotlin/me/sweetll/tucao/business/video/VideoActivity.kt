@@ -4,10 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.format.DateFormat
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
@@ -49,6 +54,7 @@ class VideoActivity : BaseActivity() {
         private val ARG_RESULT = "result"
         private val ARG_HID = "hid"
         private val ARG_TITLE = "title"
+        private val ARG_COVER = "cover"
 
         fun intentTo(context: Context, result: Result) {
             val intent = Intent(context, VideoActivity::class.java)
@@ -62,10 +68,11 @@ class VideoActivity : BaseActivity() {
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, hid: String, title: String, bundle: Bundle) {
+        fun intentTo(context: Context, hid: String, title: String, cover: String, bundle: Bundle) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_HID, hid)
             intent.putExtra(ARG_TITLE, title)
+            intent.putExtra(ARG_COVER, cover)
             context.startActivity(intent, bundle)
         }
     }
@@ -74,6 +81,7 @@ class VideoActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         val hid = intent.getStringExtra(ARG_HID)
         val title = intent.getStringExtra(ARG_TITLE)
+        val cover = intent.getStringExtra(ARG_COVER)
 
         if (hid != null) {
             viewModel = VideoViewModel(this)
@@ -86,6 +94,11 @@ class VideoActivity : BaseActivity() {
 
         if (!title.isNullOrEmpty()) {
             binding.titleText.text = title
+            val thumbImageView = ImageView(this)
+            thumbImageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            thumbImageView.scaleType = ImageView.ScaleType.FIT_XY
+            thumbImageView.load(cover)
+            binding.player.setThumbImageView(thumbImageView)
         }
 
         binding.viewModel = viewModel
@@ -186,6 +199,7 @@ class VideoActivity : BaseActivity() {
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
+                binding.player.clearThumbImageView()
                 HistoryHelpers.savePlayHistory(
                         result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
                                 .apply {
