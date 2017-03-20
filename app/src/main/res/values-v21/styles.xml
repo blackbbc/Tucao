@@ -6,5 +6,7 @@
         <item name="android:actionModeBackground">@color/colorPrimary</item>
         <!--透明状态栏-->
         <item name="android:windowTranslucentStatus">true</item>
+        <!--Transition-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 </resources>
