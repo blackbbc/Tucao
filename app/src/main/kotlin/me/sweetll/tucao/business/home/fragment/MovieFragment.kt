@@ -61,7 +61,7 @@ class MovieFragment : BaseFragment() {
                     R.id.text_more -> {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
-                    R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
+                    R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
                         VideoActivity.intentTo(activity, view.tag as String)
                     }
                 }

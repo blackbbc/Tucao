@@ -26,29 +26,29 @@ class BangumiAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuick
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb1)
                     playText = helper.getView<TextView>(R.id.text_play1)
                     titleText = helper.getView<TextView>(R.id.text_title1)
-                    helper.setTag(R.id.linear1, result.hid)
-                    helper.addOnClickListener(R.id.linear1)
+                    helper.setTag(R.id.card1, result.hid)
+                    helper.addOnClickListener(R.id.card1)
                 }
                 1 -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb2)
                     playText = helper.getView<TextView>(R.id.text_play2)
                     titleText = helper.getView<TextView>(R.id.text_title2)
-                    helper.setTag(R.id.linear2, result.hid)
-                    helper.addOnClickListener(R.id.linear2)
+                    helper.setTag(R.id.card2, result.hid)
+                    helper.addOnClickListener(R.id.card2)
                 }
                 2 -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb3)
                     playText = helper.getView<TextView>(R.id.text_play3)
                     titleText = helper.getView<TextView>(R.id.text_title3)
-                    helper.setTag(R.id.linear3, result.hid)
-                    helper.addOnClickListener(R.id.linear3)
+                    helper.setTag(R.id.card3, result.hid)
+                    helper.addOnClickListener(R.id.card3)
                 }
                 else -> {
                     thumbImg = helper.getView<ImageView>(R.id.img_thumb4)
                     playText = helper.getView<TextView>(R.id.text_play4)
                     titleText = helper.getView<TextView>(R.id.text_title4)
-                    helper.setTag(R.id.linear4, result.hid)
-                    helper.addOnClickListener(R.id.linear4)
+                    helper.setTag(R.id.card4, result.hid)
+                    helper.addOnClickListener(R.id.card4)
                 }
             }
             thumbImg.load(result.thumb)
@@ -59,16 +59,16 @@ class BangumiAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuick
         for (index in item.second.size .. 3) {
             when (index) {
                 0 -> {
-                    helper.getView<View>(R.id.linear1).visibility = View.INVISIBLE
+                    helper.getView<View>(R.id.card1).visibility = View.INVISIBLE
                 }
                 1 -> {
-                    helper.getView<View>(R.id.linear2).visibility = View.INVISIBLE
+                    helper.getView<View>(R.id.card2).visibility = View.INVISIBLE
                 }
                 2 -> {
-                    helper.getView<View>(R.id.linear3).visibility = View.INVISIBLE
+                    helper.getView<View>(R.id.card3).visibility = View.INVISIBLE
                 }
                 else -> {
-                    helper.getView<View>(R.id.linear4).visibility = View.INVISIBLE
+                    helper.getView<View>(R.id.card4).visibility = View.INVISIBLE
                 }
             }
         }

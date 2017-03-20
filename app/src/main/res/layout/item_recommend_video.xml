@@ -3,22 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    tools:paddingTop="33dp"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    tools:paddingTop="33dp">
 
     <TextView
         android:id="@+id/text_channel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="番剧"
+        android:textColor="@color/primary_text"
         android:textSize="14sp"
-        android:textColor="@color/primary_text"/>
+        tools:text="番剧" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,141 +24,157 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear1"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    tools:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/img_thumb1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_round_black_rectangle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="2dp">
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_play_circle_outline" />
+
+                        <TextView
+                            android:id="@+id/text_play1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="8sp"
+                            tools:text="11.8万" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/text_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="10sp"
+                    tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical">
+            android:background="?android:attr/selectableItemBackground">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                tools:background="@color/colorPrimary">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_thumb1"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/bg_round_black_rectangle"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_height="100dp"
+                    tools:background="@color/colorPrimary">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/ic_play_circle_outline"
-                        android:scaleType="centerInside"/>
+                        android:id="@+id/img_thumb2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
 
-                    <TextView
-                        android:id="@+id/text_play1"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
-                        tools:text="11.8万"
-                        android:textSize="8sp"
-                        android:textColor="@android:color/white"/>
+                        android:background="@drawable/bg_round_black_rectangle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="2dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_play_circle_outline" />
 
-            </FrameLayout>
+                        <TextView
+                            android:id="@+id/text_play2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="8sp"
+                            tools:text="11.8万" />
 
-            <TextView
-                android:id="@+id/text_title1"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》"
-                android:textSize="10sp"
-                android:textColor="@color/primary_text"/>
+                    </LinearLayout>
 
-        </LinearLayout>
+                </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/linear2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                tools:background="@color/colorPrimary">
-
-                <ImageView
-                    android:id="@+id/img_thumb2"
+                <TextView
+                    android:id="@+id/text_title2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_height="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/bg_round_black_rectangle"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:textColor="@color/primary_text"
+                    android:textSize="10sp"
+                    tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
 
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/ic_play_circle_outline"
-                        android:scaleType="centerInside"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/text_play2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginStart="4dp"
-                        tools:text="11.8万"
-                        android:textSize="8sp"
-                        android:textColor="@android:color/white"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/text_title2"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》"
-                android:textSize="10sp"
-                android:textColor="@color/primary_text"/>
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
@@ -170,167 +184,192 @@
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear3"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    tools:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/img_thumb3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_round_black_rectangle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="2dp">
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_play_circle_outline" />
+
+                        <TextView
+                            android:id="@+id/text_play3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="8sp"
+                            tools:text="11.8万" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/text_title3"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="10sp"
+                    tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical">
+            android:background="?android:attr/selectableItemBackground">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                tools:background="@color/colorPrimary">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_thumb3"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/bg_round_black_rectangle"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:layout_height="100dp"
+                    tools:background="@color/colorPrimary">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/ic_play_circle_outline"
-                        android:scaleType="centerInside"/>
+                        android:id="@+id/img_thumb4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
 
-                    <TextView
-                        android:id="@+id/text_play3"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
-                        tools:text="11.8万"
-                        android:textSize="8sp"
-                        android:textColor="@android:color/white"/>
+                        android:background="@drawable/bg_round_black_rectangle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="2dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_play_circle_outline" />
 
-            </FrameLayout>
+                        <TextView
+                            android:id="@+id/text_play4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="8sp"
+                            tools:text="11.8万" />
 
-            <TextView
-                android:id="@+id/text_title3"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》"
-                android:textSize="10sp"
-                android:textColor="@color/primary_text"/>
+                    </LinearLayout>
 
-        </LinearLayout>
+                </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/linear4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                tools:background="@color/colorPrimary">
-
-                <ImageView
-                    android:id="@+id/img_thumb4"
+                <TextView
+                    android:id="@+id/text_title4"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_height="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/bg_round_black_rectangle"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:textColor="@color/primary_text"
+                    android:textSize="10sp"
+                    tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》" />
 
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/ic_play_circle_outline"
-                        android:scaleType="centerInside"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/text_play4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginStart="4dp"
-                        tools:text="11.8万"
-                        android:textSize="8sp"
-                        android:textColor="@android:color/white"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/text_title4"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="找不到要是被掏空的合唱团全新发布《春节自救指南》"
-                android:textSize="10sp"
-                android:textColor="@color/primary_text"/>
-
-        </LinearLayout>
-
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_more"
-        tools:visibility="gone"
-        android:visibility="gone"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_marginBottom="8dp"
-        android:layout_gravity="center"
-        tools:text="更多影视内容"
-        android:textSize="13sp"
-        android:textColor="@color/colorPrimary"/>
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/text_more"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="11sp"
+            tools:text="更多影视内容" />
+
+    </android.support.v7.widget.CardView>
 
     <ImageView
         android:id="@+id/img_rank"
-        tools:visibility="visible"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
+        android:scaleType="centerInside"
         android:src="@drawable/bg_rank"
-        android:scaleType="centerInside"/>
+        android:visibility="gone"
+        tools:visibility="gone" />
 
 </LinearLayout>

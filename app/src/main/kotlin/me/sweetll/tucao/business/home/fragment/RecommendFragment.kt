@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -61,12 +62,13 @@ class RecommendFragment : BaseFragment() {
                     R.id.img_rank -> {
                         viewModel.onClickRank(view)
                     }
-                    R.id.text_more -> {
+                    R.id.card_more -> {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
-                    R.id.linear1, R.id.linear2, R.id.linear3, R.id.linear4 -> {
+                    R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
+                        val imageView = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
                         val options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(activity, view, "cover")
+                                .makeSceneTransitionAnimation(activity, imageView, "cover")
                         VideoActivity.intentTo(activity, view.tag as String, options.toBundle())
                     }
                 }
