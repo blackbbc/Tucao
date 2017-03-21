@@ -1,18 +1,22 @@
 package me.sweetll.tucao.business.video
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.format.DateFormat
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionSet
+import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
+import android.view.ViewAnimationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
@@ -94,17 +98,15 @@ class VideoActivity : BaseActivity() {
 
         if (!title.isNullOrEmpty()) {
             binding.titleText.text = title
-            val thumbImageView = ImageView(this)
-            thumbImageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            thumbImageView.scaleType = ImageView.ScaleType.FIT_XY
-            thumbImageView.load(cover)
-            binding.player.setThumbImageView(thumbImageView)
+            binding.thumbImg.load(cover)
         }
 
         binding.viewModel = viewModel
 
         orientationUtils = OrientationUtils(this)
         binding.player.setOrientationUtils(orientationUtils)
+
+        initTransition()
     }
 
     fun setupRecyclerView(result: Result) {
@@ -133,6 +135,63 @@ class VideoActivity : BaseActivity() {
         })
         binding.partRecycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.partRecycler.adapter = partAdapter
+    }
+
+    fun initTransition() {
+        val returnTransition = TransitionSet()
+
+//        val slideUpTransition = Slide(Gravity.TOP)
+//        slideUpTransition.duration = 300
+//        slideUpTransition.addTarget(R.id.playerFrame)
+
+        val slideDownTransition = Slide(Gravity.BOTTOM)
+        slideDownTransition.duration = 300
+        slideDownTransition.addTarget(R.id.mainLinear)
+
+//        returnTransition.addTransition(slideUpTransition)
+//        returnTransition.addTransition(slideDownTransition)
+//        returnTransition.ordering = TransitionSet.ORDERING_TOGETHER
+
+        window.returnTransition = slideDownTransition
+
+        window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
+            override fun onTransitionEnd(transition: Transition?) {
+                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 100f, 0f)
+                val fadeIn1Animator = ObjectAnimator.ofFloat(binding.mainLinear, "alpha", 0f, 1f)
+                val fadeIn2Animator = ObjectAnimator.ofFloat(binding.player, "alpha", 0f, 1f)
+                val enterAnimatorSet = AnimatorSet()
+                enterAnimatorSet.addListener(object: AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        binding.player.visibility = View.VISIBLE
+                        binding.mainLinear.visibility = View.VISIBLE
+                    }
+                })
+
+                val cx = (binding.player.left + binding.player.right) / 2
+                val cy = (binding.player.top + binding.player.bottom)  / 2
+                val radius = maxOf(binding.player.width, binding.player.height)
+                val revealAnimator = ViewAnimationUtils.createCircularReveal(binding.player, cx, cy, 0f, radius.toFloat())
+                enterAnimatorSet.playTogether(slideTopAnimator, fadeIn1Animator, fadeIn2Animator, revealAnimator)
+                enterAnimatorSet.start()
+            }
+
+            override fun onTransitionResume(transition: Transition?) {
+
+            }
+
+            override fun onTransitionPause(transition: Transition?) {
+
+            }
+
+            override fun onTransitionCancel(transition: Transition?) {
+
+            }
+
+            override fun onTransitionStart(transition: Transition?) {
+
+            }
+
+        })
     }
 
     fun loadResult(result: Result) {
@@ -199,7 +258,6 @@ class VideoActivity : BaseActivity() {
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
-                binding.player.clearThumbImageView()
                 HistoryHelpers.savePlayHistory(
                         result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
                                 .apply {
@@ -257,7 +315,6 @@ class VideoActivity : BaseActivity() {
 
     override fun onBackPressed() {
         orientationUtils.backToPort()
-
         if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
             return
         }

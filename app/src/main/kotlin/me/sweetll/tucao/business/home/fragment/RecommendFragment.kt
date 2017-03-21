@@ -45,6 +45,7 @@ class RecommendFragment : BaseFragment() {
         }
         setupRecyclerView()
         loadWhenNeed()
+        initTransition()
     }
 
     fun setupRecyclerView() {
@@ -72,7 +73,7 @@ class RecommendFragment : BaseFragment() {
                         val p3: Pair<View, String> = Pair.create(contentView, "content")
                         val p2: Pair<View, String> = Pair.create(titleText, "title")
                         val options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(activity, p1, p2, p3)
+                                .makeSceneTransitionAnimation(activity, p1)
 
                         val cover = titleText.tag as String
                         VideoActivity.intentTo(activity, view.tag as String, (titleText as TextView).text.toString(), cover, options.toBundle())
@@ -80,6 +81,10 @@ class RecommendFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    fun initTransition() {
+
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

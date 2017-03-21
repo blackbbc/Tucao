@@ -31,7 +31,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:transitionName="cover"
         android:background="#000000"
         android:scaleType="fitCenter" />
 
