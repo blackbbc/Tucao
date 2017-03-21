@@ -45,8 +45,7 @@
             tools:visibility="visible"
             android:visibility="invisible"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:transitionName="content">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"

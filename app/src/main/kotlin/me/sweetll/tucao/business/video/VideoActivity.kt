@@ -143,7 +143,7 @@ class VideoActivity : BaseActivity() {
 
         window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition?) {
-                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 30f.dp2px(), 0f)
+                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 50f.dp2px(), 0f)
                 val fadeIn1Animator = ObjectAnimator.ofFloat(binding.mainLinear, "alpha", 0f, 1f)
                 val fadeIn2Animator = ObjectAnimator.ofFloat(binding.player, "alpha", 0f, 1f)
                 val enterAnimatorSet = AnimatorSet()
