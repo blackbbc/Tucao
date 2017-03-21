@@ -1,15 +1,18 @@
 package me.sweetll.tucao.business.channel.fragment
 
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
+import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import com.trello.rxlifecycle2.components.support.RxFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
@@ -75,7 +78,17 @@ class ChannelDetailFragment : BaseFragment() {
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val result: Result = helper.getItem(position) as Result
-                VideoActivity.intentTo(activity, result)
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val coverImg = view.findViewById(R.id.img_thumb) as ImageView
+                    val titleText = view.findViewById(R.id.text_title)
+                    val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                    val cover = titleText.tag as String
+                    val options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(activity, p1)
+                    VideoActivity.intentTo(activity, result, cover, options.toBundle())
+                } else {
+                    VideoActivity.intentTo(activity, result)
+                }
             }
         })
         binding.videoRecycler.layoutManager = LinearLayoutManager(activity)
