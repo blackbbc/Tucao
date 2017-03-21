@@ -42,47 +42,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     }
 
     fun queryResult(hid: String) {
-        /*
-        val result = Result("title")
-        result.video.addAll(arrayOf(
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123"),
-                Video("title1", "189", "123")
-        ))
-        this.result.set(result)
-        activity.loadResult(result)
-        */
         jsonApiService.view(hid)
                 .bindToLifecycle(activity)
                 .sanitizeJson()

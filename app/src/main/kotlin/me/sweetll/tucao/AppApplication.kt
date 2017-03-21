@@ -30,9 +30,9 @@ class AppApplication : MultiDexApplication() {
         super.onCreate()
         INSTANCE = this
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
-        CrashWoodpecker.instance()
-                .setPatchMode(PatchMode.SHOW_LOG_PAGE)
-                .flyTo(this)
+//        CrashWoodpecker.instance()
+//                .setPatchMode(PatchMode.SHOW_LOG_PAGE)
+//                .flyTo(this)
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            return
 //        }

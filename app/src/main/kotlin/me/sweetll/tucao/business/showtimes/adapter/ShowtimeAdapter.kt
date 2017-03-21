@@ -15,6 +15,6 @@ class ShowtimeAdapter(data: MutableList<ShowtimeSection>?): BaseSectionQuickAdap
     override fun convert(helper: BaseViewHolder, showtimeSection: ShowtimeSection) {
         helper.setText(R.id.text_title, showtimeSection.t.title)
         val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
-        thumbImg.load(showtimeSection.t.thumb)
+        thumbImg.load(mContext, showtimeSection.t.thumb)
     }
 }

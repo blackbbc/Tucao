@@ -99,10 +99,12 @@ class VideoActivity : BaseActivity() {
         }
 
         if (!cover.isNullOrEmpty()) {
-            binding.thumbImg.load(cover)
+            binding.thumbImg.load(this, cover)
             initTransition()
         } else {
             // 5.0以下加载
+            binding.player.visibility = View.VISIBLE
+            binding.mainLinear.visibility = View.VISIBLE
         }
 
         binding.viewModel = viewModel
@@ -214,7 +216,7 @@ class VideoActivity : BaseActivity() {
             if (videoHistory != null) {
                 it.hasPlay = videoHistory.video.any {
                     v ->
-                    v.vid == it.vid
+                    v.order == it.order
                 }
             }
             it

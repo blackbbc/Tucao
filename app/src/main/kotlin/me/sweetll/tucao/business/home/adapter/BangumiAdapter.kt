@@ -52,7 +52,7 @@ class BangumiAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuick
                 }
             }
             titleText.tag = result.thumb
-            thumbImg.load(result.thumb)
+            thumbImg.load(mContext, result.thumb)
             playText.text = result.play.formatByWan()
             titleText.text = result.title
         }

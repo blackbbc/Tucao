@@ -52,7 +52,7 @@ class MovieAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuickAd
                 }
             }
             titleText.tag = result.thumb
-            thumbImg.load(result.thumb)
+            thumbImg.load(mContext, result.thumb)
             playText.text = result.play.formatByWan()
             titleText.text = result.title
         }

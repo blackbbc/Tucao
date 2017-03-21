@@ -43,7 +43,7 @@ class RankVideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, Bas
         }
 
         val thumbImg: ImageView = helper.getView<ImageView>(R.id.img_thumb)
-        thumbImg.load(video.thumb)
+        thumbImg.load(mContext, video.thumb)
     }
 
 }

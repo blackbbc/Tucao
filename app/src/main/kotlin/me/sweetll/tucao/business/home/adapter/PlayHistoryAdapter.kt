@@ -13,6 +13,6 @@ class PlayHistoryAdapter(data: MutableList<Result>?): BaseItemDraggableAdapter<R
         helper.setText(R.id.text_creat, item.create)
 
         val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
-        thumbImg.load(item.thumb)
+        thumbImg.load(mContext, item.thumb)
     }
 }

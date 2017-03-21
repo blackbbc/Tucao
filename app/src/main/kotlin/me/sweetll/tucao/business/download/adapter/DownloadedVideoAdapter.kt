@@ -32,7 +32,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 helper.setText(R.id.text_title, video.title)
                 helper.setText(R.id.text_size, video.status.formatTotalSize)
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
-                thumbImg.load(video.thumb)
+                thumbImg.load(mContext, video.thumb)
 
                 helper.setVisible(R.id.checkbox, video.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)

@@ -15,6 +15,6 @@ class StarAdapter(data: MutableList<Result>?): BaseItemDraggableAdapter<Result, 
         helper.setText(R.id.text_mukio, item.mukio.formatByWan())
 
         val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
-        thumbImg.load(item.thumb)
+        thumbImg.load(mContext, item.thumb)
     }
 }

@@ -25,7 +25,7 @@ class BannerHolder: Holder<Banner> {
 
     override fun UpdateUI(context: Context, position: Int, banner: Banner) {
         val bannerImg = rootView.findViewById(R.id.img_banner) as ImageView
-        bannerImg.load(banner.imgUrl)
+        bannerImg.load(context, banner.imgUrl)
         bannerImg.setOnClickListener {
             view ->
             if (banner.hid != null) {

@@ -18,7 +18,7 @@ class VideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, BaseVie
 
         helper.setTag(R.id.text_title, video.thumb)
         val thumbImg: ImageView = helper.getView<ImageView>(R.id.img_thumb)
-        thumbImg.load(video.thumb)
+        thumbImg.load(mContext, video.thumb)
     }
 
 }

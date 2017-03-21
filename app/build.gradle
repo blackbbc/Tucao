@@ -21,7 +21,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -88,7 +89,7 @@ dependencies {
     /* Crash */
     compile 'me.drakeet.library:crashwoodpecker:2.1.1'
     /* Umeng */
-    compile 'com.umeng.analytics:analytics:6.0.7'
+    compile 'com.umeng.analytics:analytics:6.0.9'
     /* EventBus */
     compile 'org.greenrobot:eventbus:3.0.0'
     /* Banner */

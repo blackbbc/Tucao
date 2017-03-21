@@ -17,7 +17,7 @@ class DownloadPartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, Bas
 
         titleText.text = part.title
         titleText.isChecked = part.checked
-        if (part.durls.isNotEmpty()) {
+        if (part.durls.isNotEmpty() && part.durls[0].cacheFileName.isNotEmpty()) {
             // 存在
             titleText.isEnabled = false
             if (part.flag == DownloadFlag.COMPLETED) {
