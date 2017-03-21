@@ -191,3 +191,10 @@
 -keep class tv.danmaku.ijk.media.player.** {*;}
 -dontwarn tv.danmaku.ijk.media.player.*
 -keep interface tv.danmaku.ijk.media.player.** {*;}
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}

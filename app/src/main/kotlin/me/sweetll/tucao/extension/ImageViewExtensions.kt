@@ -6,5 +6,5 @@ import com.bumptech.glide.Glide
 import me.sweetll.tucao.AppApplication
 
 fun ImageView.load(context: Context, url: String): Unit {
-    Glide.with(AppApplication.get()).load(url).into(this)
+    Glide.with(context).load(url).into(this)
 }

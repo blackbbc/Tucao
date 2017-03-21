@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -46,6 +47,8 @@ class VideoActivity : BaseActivity() {
 
     var isPlay = false
     var isPause = false
+
+    var transitionIn = true
 
     var parts: MutableList<Part>? = null
     var selectedPart: Part? = null
@@ -198,6 +201,16 @@ class VideoActivity : BaseActivity() {
 
             }
 
+        })
+
+        setEnterSharedElementCallback(object: SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
+                if (transitionIn) {
+                    transitionIn = false
+                } else {
+                    sharedElements?.remove("cover")
+                }
+            }
         })
     }
 
