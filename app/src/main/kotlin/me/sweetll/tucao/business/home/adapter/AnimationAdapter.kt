@@ -51,6 +51,7 @@ class AnimationAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
                     helper.addOnClickListener(R.id.card4)
                 }
             }
+            titleText.tag = result.thumb
             thumbImg.load(result.thumb)
             playText.text = result.play.formatByWan()
             titleText.text = result.title
@@ -75,10 +76,10 @@ class AnimationAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQui
 
         if (channel.id != 0) {
             helper.setText(R.id.text_more, "更多${channel.name}内容")
-            helper.setTag(R.id.text_more, channel.id)
-            helper.setVisible(R.id.text_more, true)
+            helper.setTag(R.id.card_more, channel.id)
+            helper.setVisible(R.id.card_more, true)
             helper.setVisible(R.id.img_rank, false)
-            helper.addOnClickListener(R.id.text_more)
+            helper.addOnClickListener(R.id.card_more)
         }
 
     }

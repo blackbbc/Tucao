@@ -1,9 +1,15 @@
 package me.sweetll.tucao.business.home.fragment
 
+import android.annotation.TargetApi
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
+import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.ArcMotion
+import android.transition.ChangeBounds
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +48,10 @@ class GameFragment : BaseFragment() {
         }
         setupRecyclerView()
         loadWhenNeed()
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initTransition()
+        }
     }
 
     fun setupRecyclerView() {
@@ -55,15 +65,36 @@ class GameFragment : BaseFragment() {
         binding.gameRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
-                    R.id.text_more -> {
+                    R.id.card_more -> {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
-                        VideoActivity.intentTo(activity, view.tag as String)
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                            val titleText = (view.getChildAt(0) as ViewGroup).getChildAt(1)
+                            val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                            val cover = titleText.tag as String
+                            val options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation(activity, p1)
+                            VideoActivity.intentTo(activity, view.tag as String, cover, options.toBundle())
+                        } else {
+                            VideoActivity.intentTo(activity, view.tag as String)
+                        }
                     }
                 }
             }
         })
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun initTransition() {
+        val changeBounds = ChangeBounds()
+
+        val arcMotion = ArcMotion()
+        changeBounds.pathMotion = arcMotion
+
+        activity.window.sharedElementExitTransition = changeBounds
+        activity.window.sharedElementReenterTransition = null
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
