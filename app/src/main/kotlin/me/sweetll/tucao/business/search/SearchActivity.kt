@@ -5,12 +5,17 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v4.util.Pair
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -79,7 +84,17 @@ class SearchActivity : BaseActivity() {
         binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val result = helper.getItem(position) as Result
-                VideoActivity.intentTo(this@SearchActivity, result)
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val coverImg = view.findViewById(R.id.img_thumb) as ImageView
+                    val titleText = view.findViewById(R.id.text_title)
+                    val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                    val cover = titleText.tag as String
+                    val options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(this@SearchActivity, p1)
+                    VideoActivity.intentTo(this@SearchActivity, result, cover, options.toBundle())
+                } else {
+                    VideoActivity.intentTo(this@SearchActivity, result)
+                }
             }
         })
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)

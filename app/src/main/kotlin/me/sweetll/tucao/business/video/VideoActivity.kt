@@ -63,6 +63,13 @@ class VideoActivity : BaseActivity() {
             context.startActivity(intent)
         }
 
+        fun intentTo(context: Context, result: Result, cover: String, bundle: Bundle) {
+            val intent = Intent(context, VideoActivity::class.java)
+            intent.putExtra(ARG_RESULT, result)
+            intent.putExtra(ARG_COVER, cover)
+            context.startActivity(intent, bundle)
+        }
+
         fun intentTo(context: Context, hid: String) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_HID, hid)
@@ -91,16 +98,17 @@ class VideoActivity : BaseActivity() {
             loadResult(result)
         }
 
-        if (!title.isNullOrEmpty()) {
+        if (!cover.isNullOrEmpty()) {
             binding.thumbImg.load(cover)
+            initTransition()
+        } else {
+            // 5.0以下加载
         }
 
         binding.viewModel = viewModel
 
         orientationUtils = OrientationUtils(this)
         binding.player.setOrientationUtils(orientationUtils)
-
-        initTransition()
     }
 
     fun setupRecyclerView(result: Result) {
