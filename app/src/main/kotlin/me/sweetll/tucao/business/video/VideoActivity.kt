@@ -149,7 +149,16 @@ class VideoActivity : BaseActivity() {
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
-        window.returnTransition = Explode()
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.addTarget(binding.player.getChildAt(0))
+        val slideDown = Slide(Gravity.BOTTOM)
+        slideDown.addTarget(binding.mainLinear)
+        val slideAll = TransitionSet()
+        slideAll.addTransition(slideUp)
+        slideAll.addTransition(slideDown)
+        slideAll.ordering = TransitionSet.ORDERING_TOGETHER
+
+        window.returnTransition = slideAll
 
         window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition?) {
