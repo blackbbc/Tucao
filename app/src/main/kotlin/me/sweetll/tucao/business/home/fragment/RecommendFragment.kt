@@ -1,17 +1,17 @@
 package me.sweetll.tucao.business.home.fragment
 
+import android.annotation.TargetApi
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.transition.ArcMotion
 import android.transition.ChangeBounds
-import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -48,7 +48,10 @@ class RecommendFragment : BaseFragment() {
         }
         setupRecyclerView()
         loadWhenNeed()
-        initTransition()
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initTransition()
+        }
     }
 
     fun setupRecyclerView() {
@@ -69,20 +72,24 @@ class RecommendFragment : BaseFragment() {
                         ChannelDetailActivity.intentTo(activity, view.tag as Int)
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
-                        val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
-                        val titleText = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1)
-                        val p1: Pair<View, String> = Pair.create(coverImg, "cover")
-                        val options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(activity, p1)
-
-                        val cover = titleText.tag as String
-                        VideoActivity.intentTo(activity, view.tag as String, cover, options.toBundle())
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                            val titleText = (view.getChildAt(0) as ViewGroup).getChildAt(1)
+                            val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                            val cover = titleText.tag as String
+                            val options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation(activity, p1)
+                            VideoActivity.intentTo(activity, view.tag as String, cover, options.toBundle())
+                        } else {
+                            VideoActivity.intentTo(activity, view.tag as String)
+                        }
                     }
                 }
             }
         })
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun initTransition() {
         val changeBounds = ChangeBounds()
 
