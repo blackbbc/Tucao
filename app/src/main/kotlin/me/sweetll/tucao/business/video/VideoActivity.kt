@@ -11,9 +11,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.format.DateFormat
-import android.transition.Slide
-import android.transition.Transition
-import android.transition.TransitionSet
+import android.transition.*
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -138,6 +136,12 @@ class VideoActivity : BaseActivity() {
     }
 
     fun initTransition() {
+        val changeBounds = ChangeBounds()
+        val arcMotion = ArcMotion()
+        changeBounds.pathMotion = arcMotion
+
+        window.sharedElementExitTransition = changeBounds
+
         val returnTransition = TransitionSet()
 
 //        val slideUpTransition = Slide(Gravity.TOP)

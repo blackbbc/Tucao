@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.ArcMotion
+import android.transition.ChangeBounds
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,7 +87,12 @@ class RecommendFragment : BaseFragment() {
     }
 
     fun initTransition() {
+        val changeBounds = ChangeBounds()
 
+        val arcMotion = ArcMotion()
+        changeBounds.pathMotion = arcMotion
+
+        activity.window.sharedElementExitTransition = changeBounds
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
