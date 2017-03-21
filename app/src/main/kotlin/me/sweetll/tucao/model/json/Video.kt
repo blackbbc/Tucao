@@ -8,7 +8,7 @@ import me.sweetll.tucao.model.xml.Durl
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Video(val title: String = "",
                  val type: String = "",
-                 val vid: String = "",
+                 var vid: String = "",
                  var checked: Boolean = false,
                  var order: Int = 0,
                  var durls: MutableList<Durl> = mutableListOf(),

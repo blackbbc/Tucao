@@ -196,6 +196,11 @@ class VideoActivity : BaseActivity() {
         result.video.forEachIndexed {
             index, video ->
             video.order = index
+            // 解决直传的问题
+            if (video.durls.isEmpty() && video.file.isNotEmpty()) {
+                video.vid = "${result.hid}${video.order}"
+                video.durls.add(Durl(url = video.file))
+            }
         }
 
         val downloadParts = DownloadHelpers.loadDownloadVideos()
@@ -204,19 +209,13 @@ class VideoActivity : BaseActivity() {
 
         parts = result.video.map {
             video ->
-            val part = downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type)
-            // 解决直传的问题
-            if (part.durls.isEmpty() && video.file.isNotEmpty()) {
-                part.vid = "${result.hid}${part.order}"
-                part.durls.add(Durl(url = video.file))
-            }
-            part
+            downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type, durls = video.durls)
         }.map {
             it.checked = false
             if (videoHistory != null) {
                 it.hasPlay = videoHistory.video.any {
                     v ->
-                    v.order == it.order
+                    v.vid == it.vid
                 }
             }
             it
@@ -259,7 +258,7 @@ class VideoActivity : BaseActivity() {
                 HistoryHelpers.savePlayHistory(
                         result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
                                 .apply {
-                                    video = video.filter { it.order == selectedPart!!.order }.toMutableList()
+                                    video = video.filter { it.vid == selectedPart!!.vid }.toMutableList()
                                 }
                 )
             }

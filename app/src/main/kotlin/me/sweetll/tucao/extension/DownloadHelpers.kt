@@ -155,7 +155,7 @@ object DownloadHelpers {
                 }
                 .subscribe({
                     video ->
-                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid, video.type))
+                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid, video.type, durls = video.durls))
                 })
     }
 
@@ -166,6 +166,15 @@ object DownloadHelpers {
     }
 
     private fun download(video: Video, part: Part) {
+        if (part.durls.isNotEmpty()) {
+            part.durls.forEach {
+                it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
+                it.cacheFileName = "${it.order}"
+                rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
+            }
+            video.addSubItem(part)
+            saveDownloadVideo(video)
+        } else {
             serviceInstance.xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
                     .subscribeOn(Schedulers.io())
                     .flatMap {
@@ -196,6 +205,7 @@ object DownloadHelpers {
                         error.printStackTrace()
                         error.message?.toast()
                     })
+        }
     }
 
     fun pauseDownload(part: Part) {

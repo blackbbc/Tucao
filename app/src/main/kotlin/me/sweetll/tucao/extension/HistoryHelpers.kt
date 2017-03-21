@@ -44,7 +44,7 @@ object HistoryHelpers {
         val histories = loadHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY)
         val existResult = histories.find { it.hid == result.hid }
         if (existResult != null) {
-            result.video = result.video.plus(existResult.video).distinctBy { it.order }.toMutableList()
+            result.video = result.video.plus(existResult.video).distinctBy { it.vid }.toMutableList()
         }
         saveHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, result)
     }
