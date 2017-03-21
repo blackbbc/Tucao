@@ -70,16 +70,13 @@ class RecommendFragment : BaseFragment() {
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
                         val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
-                        val contentView = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(0)
                         val titleText = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1)
                         val p1: Pair<View, String> = Pair.create(coverImg, "cover")
-                        val p3: Pair<View, String> = Pair.create(contentView, "content")
-                        val p2: Pair<View, String> = Pair.create(titleText, "title")
                         val options = ActivityOptionsCompat
                                 .makeSceneTransitionAnimation(activity, p1)
 
                         val cover = titleText.tag as String
-                        VideoActivity.intentTo(activity, view.tag as String, (titleText as TextView).text.toString(), cover, options.toBundle())
+                        VideoActivity.intentTo(activity, view.tag as String, cover, options.toBundle())
                     }
                 }
             }
@@ -93,6 +90,7 @@ class RecommendFragment : BaseFragment() {
         changeBounds.pathMotion = arcMotion
 
         activity.window.sharedElementExitTransition = changeBounds
+        activity.window.sharedElementReenterTransition = null
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

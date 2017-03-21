@@ -55,7 +55,6 @@ class VideoActivity : BaseActivity() {
     companion object {
         private val ARG_RESULT = "result"
         private val ARG_HID = "hid"
-        private val ARG_TITLE = "title"
         private val ARG_COVER = "cover"
 
         fun intentTo(context: Context, result: Result) {
@@ -70,10 +69,9 @@ class VideoActivity : BaseActivity() {
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, hid: String, title: String, cover: String, bundle: Bundle) {
+        fun intentTo(context: Context, hid: String, cover: String, bundle: Bundle) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_HID, hid)
-            intent.putExtra(ARG_TITLE, title)
             intent.putExtra(ARG_COVER, cover)
             context.startActivity(intent, bundle)
         }
@@ -82,7 +80,6 @@ class VideoActivity : BaseActivity() {
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video)
         val hid = intent.getStringExtra(ARG_HID)
-        val title = intent.getStringExtra(ARG_TITLE)
         val cover = intent.getStringExtra(ARG_COVER)
 
         if (hid != null) {
@@ -95,7 +92,6 @@ class VideoActivity : BaseActivity() {
         }
 
         if (!title.isNullOrEmpty()) {
-            binding.titleText.text = title
             binding.thumbImg.load(cover)
         }
 
@@ -140,27 +136,14 @@ class VideoActivity : BaseActivity() {
         val arcMotion = ArcMotion()
         changeBounds.pathMotion = arcMotion
 
+        window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
-        val returnTransition = TransitionSet()
-
-//        val slideUpTransition = Slide(Gravity.TOP)
-//        slideUpTransition.duration = 300
-//        slideUpTransition.addTarget(R.id.playerFrame)
-
-        val slideDownTransition = Slide(Gravity.BOTTOM)
-        slideDownTransition.duration = 300
-        slideDownTransition.addTarget(R.id.mainLinear)
-
-//        returnTransition.addTransition(slideUpTransition)
-//        returnTransition.addTransition(slideDownTransition)
-//        returnTransition.ordering = TransitionSet.ORDERING_TOGETHER
-
-        window.returnTransition = slideDownTransition
+        window.returnTransition = Explode()
 
         window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition?) {
-                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 100f, 0f)
+                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 30f.dp2px(), 0f)
                 val fadeIn1Animator = ObjectAnimator.ofFloat(binding.mainLinear, "alpha", 0f, 1f)
                 val fadeIn2Animator = ObjectAnimator.ofFloat(binding.player, "alpha", 0f, 1f)
                 val enterAnimatorSet = AnimatorSet()
@@ -175,6 +158,7 @@ class VideoActivity : BaseActivity() {
                 val cy = (binding.player.top + binding.player.bottom)  / 2
                 val radius = maxOf(binding.player.width, binding.player.height)
                 val revealAnimator = ViewAnimationUtils.createCircularReveal(binding.player, cx, cy, 0f, radius.toFloat())
+
                 enterAnimatorSet.playTogether(slideTopAnimator, fadeIn1Animator, fadeIn2Animator, revealAnimator)
                 enterAnimatorSet.start()
             }

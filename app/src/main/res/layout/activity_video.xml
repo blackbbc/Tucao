@@ -20,6 +20,7 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/playerFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -54,11 +55,10 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/primary_text"
-                    android:transitionName="title"
+                    android:text="@{viewModel.result.title}"
                     tools:text="千万不要在小狗生气的时候捏他的嘴" />
 
                 <LinearLayout
