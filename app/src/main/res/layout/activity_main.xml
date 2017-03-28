@@ -3,15 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="me.sweetll.tucao.business.home.MainActivity">
-    <com.mxn.soul.flowingdrawer_core.FlowingDrawer
+    <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:edMenuSize="260dp"
-        app:edPosition="1"
-        app:edMenuBackground="@android:color/transparent">
+        android:layout_height="match_parent">
 
         <!--Main Content-->
         <LinearLayout
@@ -73,17 +68,13 @@
             </android.support.design.widget.CoordinatorLayout>
         </LinearLayout>
 
-        <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.design.widget.NavigationView
-                android:id="@+id/navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                app:headerLayout="@layout/header_nav"
-                app:menu="@menu/menu_drawer"/>
-        </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/header_nav"
+            app:menu="@menu/menu_drawer"/>
 
-    </com.mxn.soul.flowingdrawer_core.FlowingDrawer>
+    </android.support.v4.widget.DrawerLayout>
 </layout>

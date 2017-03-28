@@ -102,9 +102,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    /* FlowingDrawer */
-    compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
-    compile 'com.nineoldandroids:library:2.4.0'
 }
 
 repositories {
