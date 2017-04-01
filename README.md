@@ -38,10 +38,10 @@
 <a href="art/19.png"><img src="art/19.png" width="30%"/></a>
 <a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
-## TODO
+## TODO(V1.0.7)
 - [ ] 更新
 - [ ] 评论
-- [ ] 记录播放位置
+- [ ] 记录播放播放进度
 
 ## UpdateLog
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)

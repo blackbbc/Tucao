@@ -78,7 +78,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     .subscribeOn(Schedulers.io())
                     .flatMap {
                         response ->
-                        if ("succ" == response.result) {
+                        if (response.durls.isNotEmpty()) {
                             Observable.just(response.durls)
                         } else {
                             Observable.error(Throwable("请求视频接口出错"))

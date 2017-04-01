@@ -5,7 +5,7 @@ import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import zlc.season.rxdownload2.entity.DownloadFlag
 
-@Root(name = "video")
+@Root(name = "video", strict = false)
 data class Video(
         @field:Element(name = "result") var result: String = "",
         @field:Element(name = "timelength", required = false) var timeLength: Long = 0L,

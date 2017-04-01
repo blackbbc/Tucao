@@ -7,7 +7,7 @@ import org.simpleframework.xml.Root
 import zlc.season.rxdownload2.entity.DownloadFlag
 import zlc.season.rxdownload2.entity.DownloadStatus
 
-@Root(name = "durl")
+@Root(name = "durl", strict = false)
 data class Durl(
         @field:Element(name = "order") var order: Int = 0,
         @field:Element(name = "length") var length: Long = 0L,
