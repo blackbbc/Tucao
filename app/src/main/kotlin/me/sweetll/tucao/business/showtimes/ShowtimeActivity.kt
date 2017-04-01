@@ -48,7 +48,9 @@ class ShowtimeActivity : BaseActivity() {
         binding.indicatorFrame.viewTreeObserver.addOnGlobalLayoutListener( object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 binding.indicatorFrame.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                var dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2
+                val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"))
+                calendar.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+                var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2
                 if (dayOfWeek < 0) dayOfWeek = 6
                 val targetView = binding.weekLinear.getChildAt(dayOfWeek)
                 moveIndicatorView(targetView)

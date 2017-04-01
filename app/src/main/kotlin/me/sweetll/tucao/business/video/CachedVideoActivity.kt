@@ -52,7 +52,7 @@ class CachedVideoActivity : BaseActivity() {
         GSYVideoManager.instance().optionModelList = mutableListOf(
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "safe", 0),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "concat,file,subfile,http,https,tls,rtp,tcp,udp,crypto"),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "user-agent", "ijk")
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "user_agent", "ijk")
         )
         binding.player.isLockLand = true
         binding.player.isNeedLockFull = true

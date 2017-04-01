@@ -9,6 +9,7 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.raw.ShowtimeSection
 import org.jsoup.nodes.Document
+import java.util.*
 
 class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
 
@@ -18,7 +19,13 @@ class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
 
     fun loadData() {
         activity.setRefreshing(true)
-        rawApiService.bgm(2017, 1)
+
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"))
+        calendar.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) / 3 * 3 + 1
+
+        rawApiService.bgm(year, month)
                 .bindToLifecycle(activity)
                 .sanitizeHtml {
                     parseShowtime(this)
