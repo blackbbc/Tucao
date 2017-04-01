@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/pink_400</color>
+    <color name="colorAccent">@color/pink_400</color>
     <color name="colorPrimaryDark">@color/pink_700</color>
 
     <color name="white">#FFFFFF</color>

@@ -269,6 +269,8 @@ class VideoActivity : BaseActivity() {
             orientationUtils.backToLand()
         }
 
+        binding.player.speed = 1f
+
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
                 super.onPrepared(p0, *p1)

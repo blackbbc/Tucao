@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
 import android.util.AttributeSet
 import android.view.View
@@ -45,6 +46,9 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmuSizeText: TextView
     lateinit var danmuSizeSeek: SeekBar
     lateinit var rotateSwitch: SwitchCompat
+
+    lateinit var speedSeek: BubbleSeekBar
+    lateinit var speedText: TextView
 
     var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
     var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
@@ -180,6 +184,30 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 }
             })
 
+            speedText = findViewById(R.id.text_speed) as TextView
+            speedSeek = findViewById(R.id.seek_speed) as BubbleSeekBar
+            speedSeek.configBuilder
+                    .min(0.5f)
+                    .max(2.0f)
+                    .progress(1.0f)
+                    .floatType()
+                    .trackColor(ContextCompat.getColor(context, R.color.white))
+                    .secondTrackColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .sectionTextColor(ContextCompat.getColor(context, R.color.white))
+                    .thumbTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .thumbTextSize(18)
+                    .showThumbText()
+                    .sectionCount(3)
+                    .showSectionText()
+                    .sectionTextPosition(BubbleSeekBar.TextPosition.BELOW_SECTION_MARK)
+                    .autoAdjustSectionMark()
+                    .build()
+            speedSeek.onProgressChangedListener = object: BubbleSeekBar.OnProgressChangedListenerAdapter() {
+                override fun getProgressOnFinally(progress: Int, progressFloat: Float) {
+                    this@DanmuVideoPlayer.speed = progressFloat
+                    speedText.text = "$progressFloat"
+                }
+            }
         }
 
         loadText?.let {

@@ -35,8 +35,8 @@
 
     <master.flame.danmaku.ui.widget.DanmakuView
         android:id="@+id/danmaku"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/layout_bottom"
@@ -46,23 +46,23 @@
         android:background="#99000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/start"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/video_click_play_selector"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:src="@drawable/video_click_play_selector" />
 
         <TextView
             android:id="@+id/current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -85,8 +85,8 @@
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -164,18 +164,18 @@
 
         <Button
             android:id="@+id/btn_setting"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            tools:layout_marginRight="45dp"
-            tools:visibility="visible"
-            android:visibility="gone"
             android:gravity="center"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:text="设置"
             android:textColor="@android:color/white"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone"
+            tools:layout_marginRight="45dp"
+            tools:visibility="visible" />
     </LinearLayout>
 
 
@@ -186,38 +186,38 @@
         android:layout_above="@+id/layout_bottom"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        tools:visibility="visible"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/setting_layout"
         android:layout_width="250dp"
         android:layout_height="match_parent"
-        tools:layout_marginTop="25dp"
-        tools:layout_marginRight="45dp"
-        tools:translationX="0dp"
-        android:translationX="250dp"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="#99000000"
+        android:orientation="vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:background="#99000000"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/layout_bottom"
-        android:orientation="vertical">
+        android:translationX="250dp"
+        tools:layout_marginRight="45dp"
+        tools:layout_marginTop="25dp"
+        tools:translationX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="弹幕不透明度："
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_danmu_opacity"
@@ -227,7 +227,7 @@
                 android:layout_marginStart="6dp"
                 android:text="0%"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -235,15 +235,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20%"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <SeekBar
                 android:id="@+id/seek_danmu_opacity"
@@ -253,14 +253,14 @@
                 android:max="80"
                 android:progress="80"
                 android:progressDrawable="@drawable/pink_scrubber_progress"
-                android:thumb="@drawable/pink_scrubber_control"/>
+                android:thumb="@drawable/pink_scrubber_control" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100%"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -268,15 +268,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="弹幕字号："
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_danmu_size"
@@ -286,7 +286,7 @@
                 android:layout_marginStart="6dp"
                 android:text="1.00"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -294,15 +294,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.50"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <SeekBar
                 android:id="@+id/seek_danmu_size"
@@ -312,14 +312,14 @@
                 android:max="150"
                 android:progress="50"
                 android:progressDrawable="@drawable/pink_scrubber_progress"
-                android:thumb="@drawable/pink_scrubber_control"/>
+                android:thumb="@drawable/pink_scrubber_control" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.00"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -327,8 +327,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="播放速度："
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
+                android:text="1.0"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <me.sweetll.tucao.widget.BubbleSeekBar
+                android:id="@+id/seek_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -336,14 +374,14 @@
                 android:layout_weight="1"
                 android:text="旋转屏幕"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_rotate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:checked="true"
-                android:theme="@style/PinkSwitch"/>
+                android:theme="@style/PinkSwitch"
+                tools:checked="true" />
 
         </LinearLayout>
 
