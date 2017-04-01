@@ -39,12 +39,13 @@
 <a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
 ## TODO(V1.0.7)
-- [ ] 更新接口
-- [ ] 评论
-- [ ] 记录播放进度
-- [ ] 添加黑科技接口
 - [ ] 修复`天上掉下个小本本`不能播放的问题
 - [ ] 放映时间表随日期动态变化
+- [ ] 发送弹幕
+- [ ] 记录播放进度
+- [ ] 评论
+- [ ] 添加黑科技接口
+- [ ] 更新接口(无限期延后)
 
 ## UpdateLog
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
