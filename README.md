@@ -44,6 +44,7 @@
 - [ ] 记录播放进度
 - [ ] 添加黑科技接口
 - [ ] 修复`天上掉下个小本本`不能播放的问题
+- [ ] 放映时间表随日期动态变化
 
 ## UpdateLog
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
