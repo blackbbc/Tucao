@@ -42,6 +42,7 @@
 - [ ] 更新
 - [ ] 评论
 - [ ] 记录播放播放进度
+- [ ] 添加黑科技接口
 
 ## UpdateLog
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
