@@ -374,12 +374,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
             override fun updateTimer(timer: DanmakuTimer) {
-                /*
-                 * TODO: 为弹幕调速
-                 */
-//                if (speed != 1.0f) {
-//                    timer.update(currentPositionWhenPlaying.toLong())
-//                }
+
             }
 
             override fun drawingFinished() {
@@ -401,8 +396,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
         })
+        danmakuView.bindClockProvider {
+            currentPositionWhenPlaying.toLong()
+        }
         danmakuView.prepare(danmuParser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(true)
+        danmakuView.enableDanmakuDrawingCache(false) // TODO: 改回true
         configDanmuStyle()
     }
 

@@ -146,6 +146,7 @@ public class DanmakuView extends View implements IDanmakuView, IDanmakuViewContr
     public void release() {
         stop();
         if(mDrawTimes!= null) mDrawTimes.clear();
+        SystemClock.releaseClockProvider();
     }
 
     @Override
@@ -540,6 +541,10 @@ public class DanmakuView extends View implements IDanmakuView, IDanmakuViewContr
     @Override
     public OnDanmakuClickListener getOnDanmakuClickListener() {
         return mOnDanmakuClickListener;
+    }
+
+    public void bindClockProvider(SystemClock.ClockProvider clockProvider) {
+        SystemClock.setClockProvider(clockProvider);
     }
 
 }

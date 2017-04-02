@@ -180,7 +180,8 @@ public class DrawHandler extends Handler {
         int what = msg.what;
         switch (what) {
             case PREPARE:
-                mTimeBase = SystemClock.uptimeMillis();
+//                mTimeBase = SystemClock.uptimeMillis();
+                mTimeBase = 0;
                 if (mParser == null || !mDanmakuView.isViewReady()) {
                     sendEmptyMessageDelayed(PREPARE, 100);
                 } else {
@@ -230,8 +231,8 @@ public class DrawHandler extends Handler {
                     quitFlag = true;
                     quitUpdateThread();
                     Long position = (Long) msg.obj;
-                    long deltaMs = position - timer.currMillisecond;
-                    mTimeBase -= deltaMs;
+//                    long deltaMs = position - timer.currMillisecond; // Delete
+//                    mTimeBase -= deltaMs; // Delete
                     timer.update(position);
                     mContext.mGlobalFlagValues.updateMeasureFlag();
                     if (drawTask != null)
@@ -244,7 +245,7 @@ public class DrawHandler extends Handler {
                 if (mReady) {
                     mRenderingState.reset();
                     mDrawTimes.clear();
-                    mTimeBase = SystemClock.uptimeMillis() - pausedPosition;
+//                    mTimeBase = SystemClock.uptimeMillis() - pausedPosition;
                     timer.update(pausedPosition);
                     removeMessages(RESUME);
                     sendEmptyMessage(UPDATE);
@@ -412,7 +413,6 @@ public class DrawHandler extends Handler {
                     }
                     d = mDanmakuView.drawDanmakus();
                     if (d > mCordonTime2) {  // this situation may be cuased by ui-thread waiting of DanmakuView, so we sync-timer at once
-                        Log.d("FFF", "d > mCordonTime2");
                         timer.add(d);
                         mDrawTimes.clear();
                     }
@@ -444,29 +444,25 @@ public class DrawHandler extends Handler {
         } else {
             long gapTime = time - timer.currMillisecond;
             long averageTime = Math.max(mFrameUpdateRate, getAverageRenderingTime());
-            Log.d("FFF", "averageTime = " + averageTime);
             if (gapTime > 2000 || mRenderingState.consumingTime > mCordonTime || averageTime > mCordonTime) {
-                Log.d("FFF", "In If");
                 d = gapTime;
                 gapTime = 0;
             } else {
-                Log.d("FFF", "In Else, gapTime = " + gapTime + " mFrameUpdateRate = " + mFrameUpdateRate + " mCordonTime = " + mCordonTime);
+//                Log.d("FFF", "In Else, gapTime = " + gapTime + " mFrameUpdateRate = " + mFrameUpdateRate + " mCordonTime = " + mCordonTime);
                 d = averageTime + gapTime / mFrameUpdateRate;
                 d = Math.max(mFrameUpdateRate, d);
                 d = Math.min(mCordonTime, d);
-                Log.d("FFF", "After min, d = " + d);
                 long a = d - mLastDeltaTime;
                 if (a > 3 && a < 8  && mLastDeltaTime >= mFrameUpdateRate && mLastDeltaTime <= mCordonTime) {
-                    Log.d("FFF", "In a Else, before d = " + d);
                     d = mLastDeltaTime;
-                    Log.d("FFF", "In a Else, After d = " + d);
                 }
                 gapTime -= d;
                 mLastDeltaTime = d;
             }
             mRemainingTime = gapTime;
-            Log.d("FFF", "syncTimer, d = " + d);
+//            Log.d("FFF", "syncTimer, d = " + d);
             timer.add(d);
+//            Log.d("FFF", "timer = " + timer.currMillisecond);
 //            Log.e("DrawHandler", time+"|d:" + d  + "RemaingTime:" + mRemainingTime + ",gapTime:" + gapTime + ",rtim:" + mRenderingState.consumingTime + ",average:" + averageTime);
         }
         if (mCallback != null) {
@@ -652,7 +648,8 @@ public class DrawHandler extends Handler {
                             }
                             drawTask.requestSync(fromTime, toTime, offset);
                             timer.update(toTime);
-                            mTimeBase = SystemClock.uptimeMillis() - toTime;
+                            // TODO: 这里究竟会不会运行呢？
+//                            mTimeBase = SystemClock.uptimeMillis() - toTime;
                             mRemainingTime = 0;
                         }
                     } else if (syncState == AbsDanmakuSync.SYNC_STATE_HALT) {

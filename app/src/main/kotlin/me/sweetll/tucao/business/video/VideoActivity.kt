@@ -136,7 +136,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
                     if (selectedPart!!.vid.isNotEmpty()) {
                         binding.player.onVideoPause()
-                        // TODO: 隐藏播放按钮
                         viewModel.queryPlayUrls(result.hid, selectedPart!!)
                     } else {
                         "所选视频已失效".toast()
