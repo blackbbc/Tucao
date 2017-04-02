@@ -42,51 +42,74 @@
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#99000000"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:gravity="bottom"
         tools:visibility="visible"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/current"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="40dp"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:background="#99000000"
+            android:gravity="center"
             android:text="00:00"
             android:textColor="#ffffff" />
 
-        <SeekBar
-            android:id="@+id/progress"
+        <com.github.rubensousa.previewseekbar.PreviewSeekBarLayout
+            android:id="@+id/layout_preview_seek_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.0"
-            android:background="@null"
-            android:max="100"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:progressDrawable="@drawable/video_seek_progress"
-            android:thumb="@drawable/video_seek_thumb" />
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/previewFrameLayout"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:padding="2dp"
+                android:background="@drawable/video_frame">
+
+                <FrameLayout
+                    android:id="@+id/preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <com.github.rubensousa.previewseekbar.PreviewSeekBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/previewFrameLayout"
+                android:background="#99000000"
+                android:max="100"
+                android:progressTint="@color/colorPrimary"
+                android:thumbTint="@color/colorPrimary"/>
+
+        </com.github.rubensousa.previewseekbar.PreviewSeekBarLayout>
 
         <TextView
             android:id="@+id/total"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="40dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:background="#99000000"
+            android:gravity="center"
             android:text="00:00"
             android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/switchDanmu"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
+            android:background="#99000000"
             android:gravity="center"
             android:text="弹幕开"
             android:textColor="#ffffff" />
@@ -94,9 +117,10 @@
         <ImageView
             android:id="@+id/fullscreen"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
+            android:background="#99000000"
             android:scaleType="center"
             android:src="@drawable/video_enlarge" />
     </LinearLayout>
@@ -178,16 +202,6 @@
             android:textColor="@android:color/white"
             android:textSize="13sp" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/preview_layout"
-        android:layout_width="@dimen/seek_bar_image"
-        android:layout_height="100dp"
-        android:layout_above="@+id/layout_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        tools:visibility="visible"
-        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text_load"

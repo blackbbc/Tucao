@@ -41,30 +41,49 @@
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#99000000"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <SeekBar
-            android:id="@+id/progress"
+        <com.github.rubensousa.previewseekbar.PreviewSeekBarLayout
+            android:id="@+id/layout_preview_seek_bar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:max="100"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:progressDrawable="@drawable/video_seek_progress"
-            android:thumb="@drawable/video_seek_thumb" />
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/previewFrameLayout"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:padding="2dp"
+                android:background="@drawable/video_frame">
+
+                <FrameLayout
+                    android:id="@+id/preview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <com.github.rubensousa.previewseekbar.PreviewSeekBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/previewFrameLayout"
+                android:background="#99000000"
+                android:max="100"
+                android:progressTint="@color/colorPrimary"
+                android:thumbTint="@color/colorPrimary"/>
+
+        </com.github.rubensousa.previewseekbar.PreviewSeekBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:background="#99000000"
             android:gravity="center_vertical">
 
             <ImageView
@@ -205,15 +224,15 @@
     </LinearLayout>
 
     <!--预览-->
-    <RelativeLayout
-        android:id="@+id/preview_layout"
-        android:layout_width="@dimen/seek_bar_image"
-        android:layout_height="100dp"
-        android:layout_above="@+id/layout_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"
-        android:visibility="gone"
-        tools:visibility="visible" />
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/preview_layout"-->
+        <!--android:layout_width="@dimen/seek_bar_image"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_above="@+id/layout_bottom"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="80dp"-->
+        <!--android:visibility="gone"-->
+        <!--tools:visibility="visible" />-->
 
     <!--右侧设置栏-->
     <LinearLayout
