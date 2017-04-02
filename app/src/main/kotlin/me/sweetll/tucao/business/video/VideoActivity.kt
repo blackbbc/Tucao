@@ -40,7 +40,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import zlc.season.rxdownload2.entity.DownloadFlag
 import java.util.*
 
-class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
+class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     lateinit var viewModel: VideoViewModel
     lateinit var binding: ActivityVideoBinding
 
@@ -51,8 +51,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
 
     var transitionIn = true
 
+    var result: Result? = null
     var parts: MutableList<Part>? = null
     var selectedPart: Part? = null
+
+    var firstPlay = true
 
     lateinit var partAdapter: PartAdapter
 
@@ -216,6 +219,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
     }
 
     fun loadResult(result: Result) {
+        this.result = result
         result.video.forEachIndexed {
             index, video ->
             video.order = index
@@ -236,9 +240,13 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
         }.map {
             it.checked = false
             if (videoHistory != null) {
-                it.hasPlay = videoHistory.video.any {
-                    v ->
-                    v.vid == it.vid
+                val historyVideo = videoHistory.video.find { v -> v.vid == it.vid }
+                if (historyVideo != null) {
+                    it.hasPlay = true
+                    it.lastPlayPosition = historyVideo.lastPlayPosition
+                } else {
+                    it.hasPlay = false
+                    it.lastPlayPosition = 0
                 }
             }
             it
@@ -280,12 +288,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
-                HistoryHelpers.savePlayHistory(
-                        result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
-                                .apply {
-                                    video = video.filter { it.vid == selectedPart!!.vid }.toMutableList()
-                                }
-                )
+                if (firstPlay) {
+                    firstPlay = false
+                    if (selectedPart!!.lastPlayPosition != 0) {
+                        binding.player.showJump(selectedPart!!.lastPlayPosition)
+                    }
+                }
             }
         })
 
@@ -309,6 +317,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
             } else {
                 binding.player.setUp(durls, selectedPart!!.flag == DownloadFlag.COMPLETED)
             }
+            firstPlay = true
         }
     }
 
@@ -345,21 +354,30 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-//        if (isPlay && !isPause) {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (!binding.player.isIfCurrentIsFullscreen) {
                     binding.player.startWindowFullscreen(this, true, true)
                 }
-            } /* else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                if (binding.player.isIfCurrentIsFullscreen) {
-                    StandardGSYVideoPlayer.backFromWindowFull(this)
-                }
-            } */
-//        }
+            }
     }
 
     override fun onSendDanmu(stime: Float, message: String) {
         viewModel.sendDanmu(stime, message)
     }
 
+    override fun onSavePlayHistory(position: Int) {
+        result?.let {
+            HistoryHelpers.savePlayHistory(
+                    it.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
+                            .apply {
+                                video = video.filter {
+                                    it.vid == selectedPart!!.vid
+                                }.map {
+                                    it.lastPlayPosition = position
+                                    it
+                                }.toMutableList()
+                            }
+            )
+        }
+    }
 }

@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
@@ -60,6 +61,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var sendDanmuLinear: LinearLayout
     lateinit var danmuEdit: EditText
     lateinit var sendDanmuImg: ImageView
+
+    lateinit var jumpLinear: LinearLayout
+    lateinit var closeJumpImg: ImageView
+    lateinit var jumpTimeText: TextView
+    lateinit var jumpText: TextView
 
     var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
     var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
@@ -116,13 +122,44 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             settingLayout.animate()
                 .translationX((250f).dp2px())
                 .setDuration(200)
-                .setInterpolator(DecelerateInterpolator())
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         settingLayout.visibility = View.INVISIBLE
                     }
                 })
                 .start()
+    }
+
+    fun showJump(position: Int) {
+        val minute: Int = position / 1000 / 60
+        val seconds: Int = position / 1000 % 60
+        jumpTimeText.text = "记忆您上次播放到%d:%02d".format(minute, seconds)
+        jumpText.setOnClickListener {
+            GSYVideoManager.instance().mediaPlayer.seekTo(position.toLong())
+            hideJump()
+        }
+        jumpLinear.animate()
+                .translationX(0f)
+                .setDuration(400)
+                .setInterpolator(DecelerateInterpolator())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        jumpLinear.visibility = View.VISIBLE
+                    }
+                })
+                .start()
+    }
+
+    fun hideJump() {
+        jumpLinear.animate()
+            .translationX((-250f).dp2px())
+            .setDuration(400)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    jumpLinear.visibility = View.INVISIBLE
+                }
+            })
+            .start()
     }
 
     // 重新修改弹幕样式
@@ -145,6 +182,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     private fun initView() {
         //初始化弹幕控件
         danmakuView = findViewById(R.id.danmaku) as DanmakuView
+
+        jumpLinear = findViewById(R.id.linear_jump) as LinearLayout
+        closeJumpImg = findViewById(R.id.img_close_jump) as ImageView
+        jumpTimeText = findViewById(R.id.text_jump_time) as TextView
+        jumpText = findViewById(R.id.text_jump) as TextView
         if (!isIfCurrentIsFullscreen) {
             loadText = findViewById(R.id.text_load) as TextView
         } else {
@@ -220,6 +262,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 }
             }
 
+            // 顶部发送弹幕栏
             sendDanmuText = findViewById(R.id.text_send_danmu) as TextView
             sendDanmuLinear = findViewById(R.id.linear_send_danmu) as LinearLayout
             danmuEdit = findViewById(R.id.edit_danmu) as EditText
@@ -259,6 +302,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
         }
 
+        // 左侧跳转栏
+        closeJumpImg.setOnClickListener {
+            hideJump()
+        }
+
         loadText?.let {
             it.visibility = View.VISIBLE
         }
@@ -271,7 +319,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     private fun sendDanmu(content: String) {
-        (context as SendDanmuListener).onSendDanmu(currentPositionWhenPlaying/1000f, content)
+        (context as DanmuPlayerHolder).onSendDanmu(currentPositionWhenPlaying/1000f, content)
 
         val danmaku = danmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
         danmaku.text = content
@@ -468,6 +516,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         if (danmakuView.isPrepared) {
             danmakuView.pause()
         }
+        // 在这里保存播放进度
+        (context as DanmuPlayerHolder).onSavePlayHistory(currentPositionWhenPlaying)
     }
 
     override fun onVideoResume() {
@@ -542,7 +592,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         needCorrectDanmu = true
     }
 
-    interface SendDanmuListener {
+    interface DanmuPlayerHolder {
         fun onSendDanmu(stime: Float, message: String)
+        fun onSavePlayHistory(position: Int)
     }
 }

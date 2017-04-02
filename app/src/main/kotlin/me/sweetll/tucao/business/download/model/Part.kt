@@ -19,6 +19,7 @@ class Part(val title: String,
            var checkable: Boolean = false,
            var checked: Boolean = false,
            var hasPlay: Boolean = false,
+           var lastPlayPosition: Int = 0,
            var stateController: StateController? = null): MultiItemEntity, Parcelable{
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_PART
 
@@ -50,7 +51,7 @@ class Part(val title: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt(), 1 == source.readInt())
+    constructor(source: Parcel) : this(source.readString(), source.readInt(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), source.createTypedArrayList(Durl.CREATOR), 1 == source.readInt(), 1 == source.readInt(), 1 == source.readInt(), source.readInt())
 
     override fun describeContents() = 0
 
@@ -65,5 +66,6 @@ class Part(val title: String,
         dest?.writeInt((if (checkable) 1 else 0))
         dest?.writeInt((if (checked) 1 else 0))
         dest?.writeInt((if (hasPlay) 1 else 0))
+        dest?.writeInt(lastPlayPosition)
     }
 }

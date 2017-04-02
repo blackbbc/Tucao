@@ -21,7 +21,7 @@ import me.sweetll.tucao.extension.setUp
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
-class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
+class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     lateinit var binding: ActivityCachedVideoBinding
 
     var isPlay = false
@@ -112,5 +112,9 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
 
     override fun onSendDanmu(stime: Float, message: String) {
         // Do nothing
+    }
+
+    override fun onSavePlayHistory(position: Int) {
+        // DO nothing
     }
 }

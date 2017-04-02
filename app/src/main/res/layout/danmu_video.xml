@@ -203,4 +203,52 @@
         android:text="播放器初始化...[完成]\n获取视频信息...\n解析视频地址...\n全舰弹幕装填..."
         android:textSize="12sp"
         android:textColor="@android:color/white"/>
+
+    <!--左侧跳转栏-->
+    <LinearLayout
+        android:id="@+id/linear_jump"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="#99000000"
+        tools:translationX="0dp"
+        android:translationX="-250dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/img_close_jump"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="12dp"
+            android:tint="@color/white"
+            android:src="@drawable/ic_close"
+            android:scaleType="centerInside"/>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/text_jump_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="记忆您上次播放到125:56"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/text_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:gravity="center"
+            android:text="跳转播放"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
 </RelativeLayout>
