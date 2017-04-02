@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tucao.iml" filepath="$PROJECT_DIR$/Tucao.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" />
