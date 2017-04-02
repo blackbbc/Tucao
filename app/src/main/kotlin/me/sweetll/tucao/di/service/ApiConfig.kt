@@ -31,6 +31,7 @@ object ApiConfig {
     const val INDEX_URL = "http://www.tucao.tv/"
     const val LIST_URL = "http://www.tucao.tv/list/{tid}/"
     const val BGM_URL = "http://www.tucao.tv/bgm/{year}/{month}/"
+    const val SEND_DANMU_URL = "http://www.tucao.tv/index.php?m=mukio&c=index&a=post"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 

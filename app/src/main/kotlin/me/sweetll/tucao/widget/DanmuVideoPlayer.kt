@@ -2,14 +2,18 @@ package me.sweetll.tucao.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
@@ -37,6 +41,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmakuView: DanmakuView
     var danmakuContext: DanmakuContext? = null
     var danmuUri: String? = null
+    var danmuParser: BaseDanmakuParser? = null
 
     lateinit var settingLayout: LinearLayout
     lateinit var switchDanmu: TextView
@@ -49,6 +54,12 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     lateinit var speedSeek: BubbleSeekBar
     lateinit var speedText: TextView
+
+    lateinit var closeImg: ImageView
+    lateinit var sendDanmuText: TextView
+    lateinit var sendDanmuLinear: LinearLayout
+    lateinit var danmuEdit: EditText
+    lateinit var sendDanmuImg: ImageView
 
     var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
     var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
@@ -208,6 +219,44 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                     speedText.text = "$progressFloat"
                 }
             }
+
+            sendDanmuText = findViewById(R.id.text_send_danmu) as TextView
+            sendDanmuLinear = findViewById(R.id.linear_send_danmu) as LinearLayout
+            danmuEdit = findViewById(R.id.edit_danmu) as EditText
+            sendDanmuImg = findViewById(R.id.img_send_danmu) as ImageView
+            closeImg = findViewById(R.id.img_close) as ImageView
+
+            sendDanmuText.setOnClickListener {
+                if (sendDanmuLinear.visibility == View.VISIBLE) {
+                    sendDanmuLinear.visibility = View.GONE
+                } else {
+                    danmuEdit.setText("")
+                    sendDanmuLinear.visibility = View.VISIBLE
+                    danmuEdit.requestFocus()
+                    cancelDismissControlViewTimer()
+                }
+            }
+
+            danmuEdit.setOnEditorActionListener {
+                v, actionId, event ->
+                val danmuContent = danmuEdit.editableText.toString()
+                if (danmuContent.isNotEmpty()) {
+                    sendDanmu(danmuContent)
+                }
+                false
+            }
+
+            sendDanmuImg.setOnClickListener {
+                val danmuContent = danmuEdit.editableText.toString()
+                if (danmuContent.isNotEmpty()) {
+                    sendDanmu(danmuContent)
+                }
+            }
+
+            closeImg.setOnClickListener {
+                hideAllWidget()
+            }
+
         }
 
         loadText?.let {
@@ -219,6 +268,24 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             showDanmu(!isShowDanmu)
         }
         showDanmu(isShowDanmu)
+    }
+
+    private fun sendDanmu(content: String) {
+        (context as SendDanmuListener).onSendDanmu(currentPositionWhenPlaying/1000f, content)
+
+        val danmaku = danmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
+        danmaku.text = content
+        danmaku.padding = 5
+        danmaku.priority = 1  // 一定会显示
+        danmaku.isLive = false
+        danmaku.time = danmakuView.currentTime + 1200
+        danmaku.textSize = 25f * (danmuParser!!.displayer.density - 0.6f)
+        danmaku.textColor = Color.RED
+        danmaku.textShadowColor = Color.WHITE
+        danmaku.borderColor = Color.GREEN
+        danmakuView.addDanmaku(danmaku)
+
+        hideAllWidget()
     }
 
     fun setOrientationUtils(orientationUtils: OrientationUtils) {
@@ -252,14 +319,19 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             danmakuContext!!.setMaximumLines(maxLinesPair)
         }
 
-        val parser = createParser(uri)
+        danmuParser = createParser(uri)
         danmakuView.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
             }
 
-            override fun updateTimer(timer: DanmakuTimer?) {
-
+            override fun updateTimer(timer: DanmakuTimer) {
+                /*
+                 * TODO: 为弹幕调速
+                 */
+//                if (speed != 1.0f) {
+//                    timer.update(currentPositionWhenPlaying.toLong())
+//                }
             }
 
             override fun drawingFinished() {
@@ -281,7 +353,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
         })
-        danmakuView.prepare(parser, danmakuContext)
+        danmakuView.prepare(danmuParser, danmakuContext)
         danmakuView.enableDanmakuDrawingCache(true)
         configDanmuStyle()
     }
@@ -304,6 +376,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         danmakuView.hide()
 
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as DanmuVideoPlayer
+        player.speed = speed
 
         danmuUri?.let {
             player.showDanmu(isShowDanmu)
@@ -352,33 +425,38 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             danmuOpacityProgress = it.danmuOpacityProgress
 
             configDanmuStyle()
+
+            speed = it.speed
         }
         super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer)
     }
 
     override fun onClickUiToggle() {
         super.onClickUiToggle()
-        if (mIfCurrentIsFullscreen && mLockCurScreen && mNeedLockFull) {
-            mLockScreen.visibility = VISIBLE
-            return
-        }
         if (mIfCurrentIsFullscreen) {
-            if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
-                hideSetting()
+            if (mBottomContainer.visibility != View.GONE) {
+                if (settingLayout.visibility == View.VISIBLE) {
+                    hideSetting()
+                }
+                if (sendDanmuLinear.visibility == View.VISIBLE) {
+                    sendDanmuLinear.visibility = View.GONE
+                }
             }
         }
     }
 
-//    override fun startDismissControlViewTimer() {
-//        if (mIfCurrentIsFullscreen && settingLayout.visibility == View.VISIBLE) {
-//            return
-//        }
-//        super.startDismissControlViewTimer()
-//    }
-
     override fun hideAllWidget() {
         super.hideAllWidget()
+
+        val view = (context as Activity).currentFocus
+        view?.let {
+            val imm = context.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+            CommonUtil.hideNavKey(context)
+        }
+
         if (mIfCurrentIsFullscreen) {
+            sendDanmuLinear.visibility = View.GONE
             if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
                 hideSetting()
             }
@@ -462,5 +540,9 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     override fun onSeekComplete() {
         super.onSeekComplete()
         needCorrectDanmu = true
+    }
+
+    interface SendDanmuListener {
+        fun onSendDanmu(stime: Float, message: String)
     }
 }

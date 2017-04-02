@@ -36,6 +36,8 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     var playUrlDisposable: Disposable? = null
     var danmuDisposable: Disposable? = null
 
+    var currentPlayerId: String? = null
+
     constructor(activity: VideoActivity, result: Result) : this(activity) {
         this.result.set(result)
         this.isStar.set(checkStar(result))
@@ -97,7 +99,8 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     })
         }
 
-        danmuDisposable = rawApiService.danmu(ApiConfig.generatePlayerId(hid, part.order), System.currentTimeMillis() / 1000)
+        currentPlayerId = ApiConfig.generatePlayerId(hid, part.order)
+        danmuDisposable = rawApiService.danmu(currentPlayerId!!, System.currentTimeMillis() / 1000)
                 .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .map({
@@ -208,4 +211,15 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     fun checkStar(result: Result): Boolean = HistoryHelpers.loadStar()
             .any { it.hid == result.hid }
 
+    fun sendDanmu(stime: Float, message: String) {
+        currentPlayerId?.let {
+            rawApiService.sendDanmu(it, it, stime, message)
+                    .bindToLifecycle(activity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        // 发送成功
+                    }, Throwable::printStackTrace)
+        }
+    }
 }

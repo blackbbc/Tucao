@@ -18,9 +18,10 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.databinding.ActivityCachedVideoBinding
 import me.sweetll.tucao.extension.setUp
+import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
-class CachedVideoActivity : BaseActivity() {
+class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
     lateinit var binding: ActivityCachedVideoBinding
 
     var isPlay = false
@@ -109,4 +110,7 @@ class CachedVideoActivity : BaseActivity() {
         binding.player.onVideoDestroy()
     }
 
+    override fun onSendDanmu(stime: Float, message: String) {
+        // Do nothing
+    }
 }

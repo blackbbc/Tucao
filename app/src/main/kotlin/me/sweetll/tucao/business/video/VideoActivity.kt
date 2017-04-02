@@ -35,11 +35,12 @@ import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
+import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import zlc.season.rxdownload2.entity.DownloadFlag
 import java.util.*
 
-class VideoActivity : BaseActivity() {
+class VideoActivity : BaseActivity(), DanmuVideoPlayer.SendDanmuListener {
     lateinit var viewModel: VideoViewModel
     lateinit var binding: ActivityVideoBinding
 
@@ -356,4 +357,9 @@ class VideoActivity : BaseActivity() {
             } */
 //        }
     }
+
+    override fun onSendDanmu(stime: Float, message: String) {
+        viewModel.sendDanmu(stime, message)
+    }
+
 }
