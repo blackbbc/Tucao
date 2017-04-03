@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,8 @@ class VideoInfoFragment: Fragment() {
 
     lateinit var partAdapter: PartAdapter
 
+    var canInit = 0
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_video_info, container, false)
         viewModel = VideoInfoViewModel(this)
@@ -43,9 +46,20 @@ class VideoInfoFragment: Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        canInit = canInit or 1
+        checkInit()
     }
 
     fun bindResult(result: Result) {
+        this.result = result
+        canInit = canInit or 2
+        checkInit()
+    }
+
+    private fun checkInit() {
+        if (canInit != 3) {
+            return
+        }
         viewModel.bindResult(result)
         result.video.forEachIndexed {
             index, video ->
@@ -79,6 +93,7 @@ class VideoInfoFragment: Fragment() {
             it
         }.toMutableList()
         parts[0].checked = true
+        parts[0].hasPlay = true
         selectedPart = parts[0]
 
         partAdapter = PartAdapter(parts)
@@ -93,6 +108,7 @@ class VideoInfoFragment: Fragment() {
                 selectedPart = helper.getItem(position) as Part
                 if (!selectedPart.checked) {
                     partAdapter.data.forEach { it.checked = false }
+                    selectedPart.hasPlay = true
                     selectedPart.checked = true
                     partAdapter.notifyDataSetChanged()
 

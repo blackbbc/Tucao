@@ -5,9 +5,6 @@
     tools:context="me.sweetll.tucao.business.video.VideoActivity">
 
     <data>
-
-        <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoViewModel" />
@@ -23,39 +20,41 @@
             android:id="@+id/playerFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/thumbImg"
-                android:transitionName="cover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:transitionName="cover" />
+
             <me.sweetll.tucao.widget.DanmuVideoPlayer
                 android:id="@+id/player"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:visibility="invisible"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
         </FrameLayout>
 
         <LinearLayout
             android:id="@+id/mainLinear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:visibility="visible"
-            android:visibility="invisible"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible"
+            tools:visibility="visible">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                app:tabIndicatorColor="@color/colorPrimary"
                 app:tabMode="scrollable"
-                app:tabTextColor="@color/primary_text"
                 app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabIndicatorColor="@color/colorPrimary" />
+                app:tabTextColor="@color/primary_text" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"

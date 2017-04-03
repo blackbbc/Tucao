@@ -90,6 +90,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         val hid = intent.getStringExtra(ARG_HID)
         val cover = intent.getStringExtra(ARG_COVER)
 
+        videoPagerAdapter = VideoPagerAdapter(supportFragmentManager)
+        binding.viewPager.adapter = videoPagerAdapter
+        binding.viewPager.offscreenPageLimit = 3
+        binding.tab.setupWithViewPager(binding.viewPager)
+
         if (hid != null) {
             viewModel = VideoViewModel(this)
             viewModel.queryResult(hid)
@@ -98,11 +103,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             viewModel = VideoViewModel(this, result)
             loadResult(result)
         }
-
-        videoPagerAdapter = VideoPagerAdapter(supportFragmentManager)
-        binding.viewPager.adapter = videoPagerAdapter
-        binding.viewPager.offscreenPageLimit = 3
-        binding.tab.setupWithViewPager(binding.viewPager)
 
         if (!cover.isNullOrEmpty()) {
             binding.thumbImg.load(this, cover)
@@ -191,8 +191,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     fun loadResult(result: Result) {
         this.result = result
-        videoPagerAdapter.bindResult(result)
         setupPlayer()
+        videoPagerAdapter.bindResult(result)
     }
 
     fun setupPlayer() {
