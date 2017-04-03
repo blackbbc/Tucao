@@ -34,4 +34,9 @@ interface RawApiService {
                   @Field("mode") mode: Int = 1,
                   @Field("color") color: Int = 16777215): Observable<ResponseBody>
 
+    @GET(ApiConfig.COMMENT_URL)
+    @Headers("Cookie: tucao_verify=ok")
+    fun comment(@Query("commentid") commentId: String,
+                @Query("page") page: Int): Observable<ResponseBody>
+
 }

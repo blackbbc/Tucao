@@ -119,7 +119,6 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
         }
         recommends.add(0, channel to results)
 
-
         return recommends
     }
 

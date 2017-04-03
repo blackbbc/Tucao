@@ -90,6 +90,8 @@ class ShowtimeActivity : BaseActivity() {
                 }
             }
         })
+
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
     }
 
     override fun initToolbar() {

@@ -76,6 +76,7 @@ class RankDetailFragment : BaseFragment() {
         })
         binding.rankVideoRecycler.layoutManager = LinearLayoutManager(activity)
         binding.rankVideoRecycler.adapter = rankVideoAdapter
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             loadData()
         }

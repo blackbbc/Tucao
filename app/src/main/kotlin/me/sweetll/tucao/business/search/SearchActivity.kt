@@ -79,6 +79,7 @@ class SearchActivity : BaseActivity() {
             viewModel.loadMoreData()
         }
 
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.isEnabled = false
 
         binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {

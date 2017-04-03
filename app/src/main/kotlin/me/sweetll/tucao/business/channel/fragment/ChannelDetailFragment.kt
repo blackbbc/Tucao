@@ -93,6 +93,7 @@ class ChannelDetailFragment : BaseFragment() {
         })
         binding.videoRecycler.layoutManager = LinearLayoutManager(activity)
         binding.videoRecycler.adapter = videoAdapter
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             loadData()
         }

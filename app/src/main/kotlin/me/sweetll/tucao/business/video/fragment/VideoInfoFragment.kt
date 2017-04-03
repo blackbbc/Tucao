@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
@@ -25,7 +26,7 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
 
 
-class VideoInfoFragment: Fragment() {
+class VideoInfoFragment: BaseFragment() {
     lateinit var binding: FragmentVideoInfoBinding
     lateinit var viewModel: VideoInfoViewModel
     lateinit var result: Result
