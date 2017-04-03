@@ -34,10 +34,17 @@
         android:background="#000000"
         android:scaleType="fitCenter" />
 
-    <master.flame.danmaku.ui.widget.DanmakuView
-        android:id="@+id/danmaku"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+    <FrameLayout
+        android:id="@+id/danmaku_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <!--<master.flame.danmaku.ui.widget.DanmakuView-->
+        <!--android:id="@+id/danmaku"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent"/>-->
 
     <LinearLayout
         android:id="@+id/layout_bottom"

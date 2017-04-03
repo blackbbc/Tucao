@@ -39,10 +39,12 @@ import me.sweetll.tucao.extension.logD
 
 class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var loadText: TextView? = null
-    lateinit var danmakuView: DanmakuView
     var danmakuContext: DanmakuContext? = null
     var danmuUri: String? = null
     var danmuParser: BaseDanmakuParser? = null
+
+    lateinit var danmakuContainer: FrameLayout
+    var danmakuView: DanmakuView? = null
 
     lateinit var settingLayout: LinearLayout
     lateinit var switchDanmu: TextView
@@ -93,13 +95,13 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     fun showDanmu(show: Boolean) {
         isShowDanmu = show
-        if (danmakuView.isPrepared) {
+        if (danmakuView != null && danmakuView!!.isPrepared) {
             if (show) {
                 switchDanmu.text = "弹幕开"
-                danmakuView.show()
+                danmakuView!!.show()
             } else {
                 switchDanmu.text = "弹幕关"
-                danmakuView.hide()
+                danmakuView!!.hide()
             }
         }
     }
@@ -181,7 +183,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     private fun initView() {
         //初始化弹幕控件
-        danmakuView = findViewById(R.id.danmaku) as DanmakuView
+        danmakuContainer = findViewById(R.id.danmaku_container) as FrameLayout
 
         jumpLinear = findViewById(R.id.linear_jump) as LinearLayout
         closeJumpImg = findViewById(R.id.img_close_jump) as ImageView
@@ -315,23 +317,24 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         switchDanmu.setOnClickListener {
             showDanmu(!isShowDanmu)
         }
-        showDanmu(isShowDanmu)
     }
 
     private fun sendDanmu(content: String) {
         (context as DanmuPlayerHolder).onSendDanmu(currentPositionWhenPlaying/1000f, content)
 
-        val danmaku = danmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
-        danmaku.text = content
-        danmaku.padding = 5
-        danmaku.priority = 1  // 一定会显示
-        danmaku.isLive = false
-        danmaku.time = danmakuView.currentTime + 1200
-        danmaku.textSize = 25f * (danmuParser!!.displayer.density - 0.6f)
-        danmaku.textColor = Color.RED
-        danmaku.textShadowColor = Color.WHITE
-        danmaku.borderColor = Color.GREEN
-        danmakuView.addDanmaku(danmaku)
+        danmakuView?.let {
+            val danmaku = danmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
+            danmaku.text = content
+            danmaku.padding = 5
+            danmaku.priority = 1  // 一定会显示
+            danmaku.isLive = false
+            danmaku.time = it.currentTime + 1200
+            danmaku.textSize = 25f * (danmuParser!!.displayer.density - 0.6f)
+            danmaku.textColor = Color.RED
+            danmaku.textShadowColor = Color.WHITE
+            danmaku.borderColor = Color.GREEN
+            it.addDanmaku(danmaku)
+        }
 
         hideAllWidget()
     }
@@ -349,6 +352,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     fun setUpDanmu(uri: String) {
+        danmakuView = DanmakuView(context)
+        val lp = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        danmakuContainer.removeAllViews()
+        danmakuContainer.addView(danmakuView, lp)
+
         danmuUri = uri
         val overlappingEnablePair = mapOf(
                 BaseDanmaku.TYPE_SCROLL_RL to true,
@@ -368,7 +376,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
 
         danmuParser = createParser(uri)
-        danmakuView.setCallback(object : DrawHandler.Callback {
+        danmakuView!!.setCallback(object : DrawHandler.Callback {
             override fun danmakuShown(danmaku: BaseDanmaku?) {
 
             }
@@ -387,20 +395,20 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                         it.text = it.text.replace("全舰弹幕装填...".toRegex(), "全舰弹幕装填...[完成]")
                     }
                 }
-                danmakuView.start(currentPositionWhenPlaying.toLong())
+                danmakuView!!.start(currentPositionWhenPlaying.toLong())
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
-                    danmakuView.postDelayed({
-                        danmakuView.pause()
+                    danmakuView!!.postDelayed({
+                        danmakuView!!.pause()
                     }, 20)
                 }
             }
 
         })
-        danmakuView.bindClockProvider {
+        danmakuView!!.bindClockProvider {
             currentPositionWhenPlaying.toLong()
         }
-        danmakuView.prepare(danmuParser, danmakuContext)
-        danmakuView.enableDanmakuDrawingCache(false) // TODO: 改回true
+        danmakuView!!.prepare(danmuParser, danmakuContext)
+        danmakuView!!.enableDanmakuDrawingCache(false) // TODO: 改回true
         configDanmuStyle()
     }
 
@@ -419,7 +427,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     override fun startWindowFullscreen(context: Context?, actionBar: Boolean, statusBar: Boolean): GSYBaseVideoPlayer {
-        danmakuView.hide()
+        danmakuView?.hide()
 
         val player = super.startWindowFullscreen(context, actionBar, statusBar) as DanmuVideoPlayer
         player.speed = speed
@@ -521,20 +529,20 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     override fun onVideoPause() {
         super.onVideoPause()
-        if (danmakuView.isPrepared) {
-            danmakuView.pause()
+        if (danmakuView != null && danmakuView!!.isPrepared) {
+            danmakuView!!.pause()
         }
     }
 
     override fun onVideoResume() {
         super.onVideoResume()
-        if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_PLAYING && danmakuView.isPrepared && danmakuView.isPaused) {
-            danmakuView.resume()
+        if (mCurrentState == GSYVideoPlayer.CURRENT_STATE_PLAYING && danmakuView != null && danmakuView!!.isPrepared && danmakuView!!.isPaused) {
+            danmakuView!!.resume()
         }
     }
 
     fun onVideoDestroy() {
-        danmakuView.release()
+        danmakuView?.release()
     }
 
     /*
@@ -573,23 +581,21 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     fun resumeDanmu() {
-        if (danmakuView.isPrepared) {
-            "resumeDanmu".logD()
-            danmakuView.resume()
+        if (danmakuView != null && danmakuView!!.isPrepared) {
+            danmakuView!!.resume()
         }
     }
 
     fun pauseDanmu() {
-        if (danmakuView.isPrepared) {
-            "pauseDanmu".logD()
-            danmakuView.pause()
+        if (danmakuView != null && danmakuView!!.isPrepared) {
+            danmakuView!!.pause()
         }
     }
 
     fun seekDanmu() {
-        if (danmakuView.isPrepared) {
+        if (danmakuView != null && danmakuView!!.isPrepared) {
             "seekDanmu".logD()
-            danmakuView.seekTo(currentPositionWhenPlaying.toLong())
+            danmakuView!!.seekTo(currentPositionWhenPlaying.toLong())
         }
     }
 

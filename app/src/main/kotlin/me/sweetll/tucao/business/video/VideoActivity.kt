@@ -218,11 +218,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?, vararg p1: Any?) {
                 super.onPrepared(p0, *p1)
-                isPlay = true
             }
 
             override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
                 super.onClickStartIcon(p0, *p1)
+                isPlay = true
                 if (firstPlay) {
                     firstPlay = false
                     if (selectedPart.lastPlayPosition != 0) {
@@ -253,8 +253,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     }
 
     fun selectPart(selectedPart: Part) {
+        isPlay = false
         this.selectedPart = selectedPart
-        binding.player.onVideoPause(isPlay)
+        binding.player.onVideoPause()
         binding.player.loadText?.let {
             binding.player.startButton.visibility = View.GONE
             it.visibility = View.VISIBLE
