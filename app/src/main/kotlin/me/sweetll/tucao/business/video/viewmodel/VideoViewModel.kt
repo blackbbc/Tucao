@@ -31,7 +31,6 @@ import java.io.FileOutputStream
 
 class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
     val result = ObservableField<Result>()
-    val isStar = ObservableBoolean()
 
     var playUrlDisposable: Disposable? = null
     var danmuDisposable: Disposable? = null
@@ -40,7 +39,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
     constructor(activity: VideoActivity, result: Result) : this(activity) {
         this.result.set(result)
-        this.isStar.set(checkStar(result))
     }
 
     fun queryResult(hid: String) {
@@ -50,7 +48,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                 .subscribe({
                     result ->
                     this.result.set(result)
-                    this.isStar.set(checkStar(result))
                     activity.loadResult(result)
                 }, {
                     error ->
@@ -125,91 +122,6 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     }
                 })
     }
-
-    fun onClickDownload(view: View) {
-        if (result.get() == null) return
-        val dialog = CustomBottomSheetDialog(activity)
-        val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_pick_download_video, null)
-        dialog.setContentView(dialogView)
-
-        dialogView.findViewById(R.id.img_close).setOnClickListener {
-            dialog.dismiss()
-        }
-
-        val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
-        val partAdapter = DownloadPartAdapter(
-                activity.parts!!
-                        .map {
-                            it.copy().apply { checked = false }
-                        }
-                        .toMutableList()
-        )
-
-        val startDownloadButton = dialog.findViewById(R.id.btn_start_download) as Button
-        startDownloadButton.setOnClickListener {
-            view ->
-            val checkedParts = partAdapter.data.filter(Part::checked)
-            DownloadHelpers.startDownload(activity, result.get().copy().apply {
-                video = video.filter {
-                    v ->
-                    checkedParts.any { v.vid == it.vid }
-                }.toMutableList()
-            })
-            dialog.dismiss()
-        }
-
-        partRecycler.addOnItemTouchListener(object: OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val part = helper.getItem(position) as Part
-                part.checked = !part.checked
-                helper.notifyItemChanged(position)
-                startDownloadButton.isEnabled = partAdapter.data.any(Part::checked)
-            }
-
-        })
-
-        partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        partRecycler.adapter = partAdapter
-
-        val pickAllButton = dialog.findViewById(R.id.btn_pick_all) as Button
-        pickAllButton.setOnClickListener {
-            view ->
-            if (partAdapter.data.all { it.checked }) {
-                // 取消全选
-                startDownloadButton.isEnabled = false
-                pickAllButton.text = "全部选择"
-                partAdapter.data.forEach {
-                    item ->
-                    item.checked = false
-                }
-            } else {
-                // 全选
-                startDownloadButton.isEnabled = true
-                pickAllButton.text = "取消全选"
-                partAdapter.data.forEach {
-                    item ->
-                    item.checked = true
-                }
-            }
-            partAdapter.notifyDataSetChanged()
-        }
-
-        dialog.show()
-    }
-
-    fun onClickStar(view: View) {
-        if (result.get() == null) return
-        if (isStar.get()) {
-            HistoryHelpers.removeStar(result.get())
-            isStar.set(false)
-        } else {
-            HistoryHelpers.saveStar(result.get())
-            isStar.set(true)
-        }
-    }
-
-    fun checkStar(result: Result): Boolean = HistoryHelpers.loadStar()
-            .any { it.hid == result.hid }
 
     fun sendDanmu(stime: Float, message: String) {
         currentPlayerId?.let {

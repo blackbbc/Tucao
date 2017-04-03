@@ -26,7 +26,7 @@ import me.sweetll.tucao.model.raw.Animation
 
 
 class AnimationFragment : BaseFragment() {
-lateinit var binding: FragmentAnimationBinding
+    lateinit var binding: FragmentAnimationBinding
 
     val viewModel = AnimationViewModel(this)
 

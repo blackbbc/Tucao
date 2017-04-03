@@ -17,7 +17,7 @@ class HomePagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm) {
             else -> ChannelListFragment()
         }
 
-    override fun getCount(): Int = tabTitles.size
+    override fun getCount() = tabTitles.size
 
     override fun getPageTitle(position: Int) = tabTitles[position]
 }

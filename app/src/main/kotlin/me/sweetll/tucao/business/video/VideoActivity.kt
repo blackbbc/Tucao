@@ -10,14 +10,11 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.text.format.DateFormat
 import android.transition.*
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
@@ -27,9 +24,8 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
-import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
+import me.sweetll.tucao.business.video.adapter.VideoPagerAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.*
@@ -46,18 +42,16 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     lateinit var orientationUtils: OrientationUtils
 
+    lateinit var videoPagerAdapter: VideoPagerAdapter
+
     var isPlay = false
     var isPause = false
 
     var transitionIn = true
 
-    var result: Result? = null
-    var parts: MutableList<Part>? = null
-    var selectedPart: Part? = null
-
+    lateinit var result: Result
+    lateinit var selectedPart: Part
     var firstPlay = true
-
-    lateinit var partAdapter: PartAdapter
 
     companion object {
         private val ARG_RESULT = "result"
@@ -105,6 +99,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             loadResult(result)
         }
 
+        videoPagerAdapter = VideoPagerAdapter(supportFragmentManager)
+        binding.viewPager.adapter = videoPagerAdapter
+        binding.viewPager.offscreenPageLimit = 3
+        binding.tab.setupWithViewPager(binding.viewPager)
+
         if (!cover.isNullOrEmpty()) {
             binding.thumbImg.load(this, cover)
             initTransition()
@@ -118,33 +117,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         orientationUtils = OrientationUtils(this)
         binding.player.setOrientationUtils(orientationUtils)
-    }
-
-    fun setupRecyclerView(result: Result) {
-        binding.partRecycler.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                selectedPart = helper.getItem(position) as Part
-                if (!selectedPart!!.checked) {
-                    binding.player.loadText?.let {
-                        binding.player.startButton.visibility = View.GONE
-                        it.visibility = View.VISIBLE
-                        it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
-                    }
-                    partAdapter.data.forEach { it.checked = false }
-                    selectedPart!!.checked = true
-                    partAdapter.notifyDataSetChanged()
-
-                    if (selectedPart!!.vid.isNotEmpty()) {
-                        binding.player.onVideoPause()
-                        viewModel.queryPlayUrls(result.hid, selectedPart!!)
-                    } else {
-                        "所选视频已失效".toast()
-                    }
-                }
-            }
-        })
-        binding.partRecycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        binding.partRecycler.adapter = partAdapter
     }
 
     fun initTransition() {
@@ -219,46 +191,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     fun loadResult(result: Result) {
         this.result = result
-        result.video.forEachIndexed {
-            index, video ->
-            video.order = index
-            // 解决直传的问题
-            if (video.durls.isEmpty() && video.file.isNotEmpty()) {
-                video.vid = "${result.hid}${video.order}"
-                video.durls.add(Durl(url = video.file))
-            }
-        }
+        videoPagerAdapter.bindResult(result)
+        setupPlayer()
+    }
 
-        val downloadParts = DownloadHelpers.loadDownloadVideos()
-                .flatMap { (it as Video).subItems }
-        val videoHistory = HistoryHelpers.loadPlayHistory().find { it.hid == result.hid }
-
-        parts = result.video.map {
-            video ->
-            downloadParts.find { it.vid == video.vid } ?: Part(video.title, video.order, video.vid, video.type, durls = video.durls)
-        }.map {
-            it.checked = false
-            if (videoHistory != null) {
-                val historyVideo = videoHistory.video.find { v -> v.vid == it.vid }
-                if (historyVideo != null) {
-                    it.hasPlay = true
-                    it.lastPlayPosition = historyVideo.lastPlayPosition
-                } else {
-                    it.hasPlay = false
-                    it.lastPlayPosition = 0
-                }
-            }
-            it
-        }.toMutableList()
-        parts!![0].checked = true
-        selectedPart = parts!![0]
-
-        partAdapter = PartAdapter(parts)
-
-        binding.player.loadText?.let {
-            it.text = it.text.replace("获取视频信息...".toRegex(), "获取视频信息...[完成]")
-        }
-
+    fun setupPlayer() {
         GSYVideoManager.instance().optionModelList = mutableListOf(
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "safe", 0),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "concat,file,subfile,http,https,tls,rtp,tcp,udp,crypto"),
@@ -272,7 +209,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.isNeedLockFull = true
         binding.player.isOpenPreView = true
         binding.player.fullscreenButton.setOnClickListener {
-            view ->
             //直接横屏
             orientationUtils.backToLand()
         }
@@ -289,20 +225,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 super.onClickStartIcon(p0, *p1)
                 if (firstPlay) {
                     firstPlay = false
-                    if (selectedPart!!.lastPlayPosition != 0) {
-                        binding.player.showJump(selectedPart!!.lastPlayPosition)
+                    if (selectedPart.lastPlayPosition != 0) {
+                        binding.player.showJump(selectedPart.lastPlayPosition)
                     }
                 }
             }
         })
-
-        if (selectedPart!!.vid.isNotEmpty()) {
-            viewModel.queryPlayUrls(result.hid, selectedPart!!)
-        } else {
-            "所选视频已失效".toast()
-        }
-
-        setupRecyclerView(result)
     }
 
     fun loadDuals(durls: MutableList<Durl>?) {
@@ -312,9 +240,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(if (selectedPart!!.flag == DownloadFlag.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
+                binding.player.setUp(if (selectedPart.flag == DownloadFlag.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
             } else {
-                binding.player.setUp(durls, selectedPart!!.flag == DownloadFlag.COMPLETED)
+                binding.player.setUp(durls, selectedPart.flag == DownloadFlag.COMPLETED)
             }
             firstPlay = true
         }
@@ -324,9 +252,24 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.setUpDanmu(uri)
     }
 
+    fun selectPart(selectedPart: Part) {
+        this.selectedPart = selectedPart
+        binding.player.onVideoPause(isPlay)
+        binding.player.loadText?.let {
+            binding.player.startButton.visibility = View.GONE
+            it.visibility = View.VISIBLE
+            it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
+        }
+        if (selectedPart.vid.isNotEmpty()) {
+            viewModel.queryPlayUrls(result.hid, selectedPart)
+        } else {
+            "所选视频已失效".toast()
+        }
+    }
+
     override fun onPause() {
         super.onPause()
-        binding.player.onVideoPause()
+        binding.player.onVideoPause(isPlay)
         isPause = true
     }
 
@@ -365,18 +308,16 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     }
 
     override fun onSavePlayHistory(position: Int) {
-        result?.let {
-            HistoryHelpers.savePlayHistory(
-                    it.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
-                            .apply {
-                                video = video.filter {
-                                    it.vid == selectedPart!!.vid
-                                }.map {
-                                    it.lastPlayPosition = position
-                                    it
-                                }.toMutableList()
-                            }
-            )
-        }
+        HistoryHelpers.savePlayHistory(
+                result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
+                        .apply {
+                            video = video.filter {
+                                it.vid == selectedPart.vid
+                            }.map {
+                                it.lastPlayPosition = position
+                                it
+                            }.toMutableList()
+                        }
+        )
     }
 }
