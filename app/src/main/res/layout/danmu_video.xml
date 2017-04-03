@@ -163,6 +163,7 @@
         android:src="@drawable/unlock"
         android:visibility="gone" />
 
+    <!--顶部标题栏-->
     <LinearLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
@@ -203,6 +204,7 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <!--左下角载入信息-->
     <TextView
         android:id="@+id/text_load"
         tools:visibility="visible"
