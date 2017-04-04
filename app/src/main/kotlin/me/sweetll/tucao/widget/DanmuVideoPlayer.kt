@@ -474,7 +474,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     override fun resolveNormalVideoShow(oldF: View?, vp: ViewGroup?, gsyVideoPlayer: GSYVideoPlayer?) {
         gsyVideoPlayer?.let {
-            (it as DanmuVideoPlayer).onVideoDestroy()
+            (it as DanmuVideoPlayer)
             showDanmu(it.isShowDanmu)
 
             danmuSizeProgress = it.danmuSizeProgress
