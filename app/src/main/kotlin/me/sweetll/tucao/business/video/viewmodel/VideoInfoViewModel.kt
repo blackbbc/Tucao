@@ -53,7 +53,10 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
         val startDownloadButton = dialog.findViewById(R.id.btn_start_download) as Button
         startDownloadButton.setOnClickListener {
             view ->
-            val checkedParts = partAdapter.data.filter(Part::checked)
+            val checkedParts = partAdapter.data.filter({
+                p ->
+                !p.checkDownload() && p.checked
+            })
             DownloadHelpers.startDownload(videoInfoFragment.activity, result.get().copy().apply {
                 video = video.filter {
                     v ->
@@ -68,7 +71,10 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 val part = helper.getItem(position) as Part
                 part.checked = !part.checked
                 helper.notifyItemChanged(position)
-                startDownloadButton.isEnabled = partAdapter.data.any(Part::checked)
+                startDownloadButton.isEnabled = partAdapter.data.any({
+                    p ->
+                    !p.checkDownload() && p.checked
+                })
             }
 
         })

@@ -44,9 +44,11 @@
 - [ ] 弹幕屏蔽功能（V1.0.8）
 - [ ] 更新接口(无限期延后)
 
+## 已知问题
+- 移动不能使用客户端，手头没有移动的号，暂时无法调试
+
 ## UpdateLog
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
-
 
 ## Instructions
 - 设计编码均独立完成，如果你觉得太丑，欢迎砸设计稿

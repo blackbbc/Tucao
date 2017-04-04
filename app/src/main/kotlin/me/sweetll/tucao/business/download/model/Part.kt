@@ -42,6 +42,8 @@ class Part(val title: String,
         }
     }
 
+    fun checkDownload(): Boolean = durls.isNotEmpty() && durls[0].cacheFileName.isNotEmpty()
+
     fun copy() = Part(title, order, vid, type, flag, status, durls, checkable, checked, hasPlay)
 
     companion object {
