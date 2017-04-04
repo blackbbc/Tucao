@@ -20,8 +20,7 @@ public class SystemClock {
     }
 
     public static void releaseClockProvider() {
-        // TODO: 不知道会不会内存泄漏 =.=
-//        mClockProvider = null;
+        mClockProvider = null;
     }
 
     public interface ClockProvider {

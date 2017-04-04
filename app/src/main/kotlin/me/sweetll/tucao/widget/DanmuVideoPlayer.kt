@@ -300,6 +300,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
             closeImg.setOnClickListener {
                 hideAllWidget()
+                hideSoftKeyBoard()
             }
 
         }
@@ -337,6 +338,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
 
         hideAllWidget()
+        hideSoftKeyBoard()
     }
 
     fun setOrientationUtils(orientationUtils: OrientationUtils) {
@@ -502,19 +504,21 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     override fun hideAllWidget() {
         super.hideAllWidget()
 
+        if (mIfCurrentIsFullscreen) {
+            sendDanmuLinear.visibility = View.GONE
+            if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
+                hideSetting()
+            }
+        }
+    }
+
+    private fun hideSoftKeyBoard() {
         val view = (context as Activity).currentFocus
         view?.let {
             val imm = context.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             if (mIfCurrentIsFullscreen) {
                 CommonUtil.hideNavKey(context)
-            }
-        }
-
-        if (mIfCurrentIsFullscreen) {
-            sendDanmuLinear.visibility = View.GONE
-            if (mBottomContainer.visibility != View.GONE && settingLayout.visibility == View.VISIBLE) {
-                hideSetting()
             }
         }
     }
