@@ -525,9 +525,9 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         if (isPlay) {
             // 在这里保存播放进度
             if (isComplete) {
-                (context as DanmuPlayerHolder).onSavePlayHistory(currentPositionWhenPlaying)
-            } else {
                 (context as DanmuPlayerHolder).onSavePlayHistory(0)
+            } else {
+                (context as DanmuPlayerHolder).onSavePlayHistory(currentPositionWhenPlaying)
             }
         }
     }
