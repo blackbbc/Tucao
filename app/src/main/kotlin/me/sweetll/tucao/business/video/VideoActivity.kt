@@ -230,6 +230,13 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                     }
                 }
             }
+
+            // 播放完了
+            override fun onAutoComplete(p0: String?, vararg p1: Any?) {
+                super.onAutoComplete(p0, *p1)
+                isPlay = false
+                binding.player.onVideoPause(true, true)
+            }
         })
     }
 

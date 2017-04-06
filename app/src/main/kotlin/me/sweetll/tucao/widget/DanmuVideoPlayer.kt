@@ -523,11 +523,15 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
     }
 
-    fun onVideoPause(isPlay: Boolean) {
+    fun onVideoPause(isPlay: Boolean, isComplete: Boolean = false) {
         onVideoPause()
         if (isPlay) {
             // 在这里保存播放进度
-            (context as DanmuPlayerHolder).onSavePlayHistory(currentPositionWhenPlaying)
+            if (isComplete) {
+                (context as DanmuPlayerHolder).onSavePlayHistory(currentPositionWhenPlaying)
+            } else {
+                (context as DanmuPlayerHolder).onSavePlayHistory(0)
+            }
         }
     }
 
