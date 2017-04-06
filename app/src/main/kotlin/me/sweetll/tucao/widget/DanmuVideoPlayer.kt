@@ -513,14 +513,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     private fun hideSoftKeyBoard() {
-        val view = (context as Activity).currentFocus
-        view?.let {
             val imm = context.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
+            imm.hideSoftInputFromWindow(windowToken, 0)
             if (mIfCurrentIsFullscreen) {
                 CommonUtil.hideNavKey(context)
             }
-        }
     }
 
     fun onVideoPause(isPlay: Boolean, isComplete: Boolean = false) {
