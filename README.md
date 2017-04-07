@@ -1,4 +1,10 @@
 # Tucao
+
+[![Travis](https://img.shields.io/travis/blackbbc/Tucao.svg)](https://travis-ci.org/blackbbc/Tucao)
+[![Dependency Status](https://www.versioneye.com/user/projects/58e730dfd6c98d0041747792/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58e730dfd6c98d0041747792)
+[![GitHub release](https://img.shields.io/github/release/blackbbc/Tucao.svg)](https://github.com/blackbbc/Tucao/releases)
+[![license](https://img.shields.io/github/license/blackbbc/Tucao.svg)](https://github.com/blackbbc/Tucao/blob/master/LICENSE)
+
 ![](http://www.tucao.tv/skin2013/banner.jpg)
 
 ## Features
