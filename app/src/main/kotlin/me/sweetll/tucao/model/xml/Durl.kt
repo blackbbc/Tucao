@@ -4,8 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
-import zlc.season.rxdownload2.entity.DownloadFlag
-import zlc.season.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 @Root(name = "durl", strict = false)
 data class Durl(

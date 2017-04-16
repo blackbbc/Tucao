@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.model.Part
-import zlc.season.rxdownload2.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 
 class PartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHolder>(R.layout.item_part, data) {
     override fun convert(helper: BaseViewHolder, part: Part) {

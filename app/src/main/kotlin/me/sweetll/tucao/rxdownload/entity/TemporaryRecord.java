@@ -19,16 +19,16 @@ import retrofit2.Response;
 
 import static android.text.TextUtils.concat;
 import static java.io.File.separator;
-import static zlc.season.rxdownload2.entity.DownloadFlag.COMPLETED;
-import static zlc.season.rxdownload2.entity.DownloadFlag.FAILED;
-import static zlc.season.rxdownload2.entity.DownloadFlag.PAUSED;
-import static zlc.season.rxdownload2.entity.DownloadFlag.STARTED;
-import static zlc.season.rxdownload2.function.Constant.CACHE;
-import static zlc.season.rxdownload2.function.Constant.RANGE_DOWNLOAD_STARTED;
-import static zlc.season.rxdownload2.function.Utils.empty;
-import static zlc.season.rxdownload2.function.Utils.getPaths;
-import static zlc.season.rxdownload2.function.Utils.log;
-import static zlc.season.rxdownload2.function.Utils.mkdirs;
+import static me.sweetll.tucao.rxdownload.entity.DownloadFlag.COMPLETED;
+import static me.sweetll.tucao.rxdownload.entity.DownloadFlag.FAILED;
+import static me.sweetll.tucao.rxdownload.entity.DownloadFlag.PAUSED;
+import static me.sweetll.tucao.rxdownload.entity.DownloadFlag.STARTED;
+import static me.sweetll.tucao.rxdownload.function.Constant.CACHE;
+import static me.sweetll.tucao.rxdownload.function.Constant.RANGE_DOWNLOAD_STARTED;
+import static me.sweetll.tucao.rxdownload.function.Utils.empty;
+import static me.sweetll.tucao.rxdownload.function.Utils.getPaths;
+import static me.sweetll.tucao.rxdownload.function.Utils.log;
+import static me.sweetll.tucao.rxdownload.function.Utils.mkdirs;
 
 /**
  * Author: Season(ssseasonnn@gmail.com)

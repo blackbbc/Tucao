@@ -33,7 +33,7 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
-import zlc.season.rxdownload2.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 import java.util.*
 
 class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {

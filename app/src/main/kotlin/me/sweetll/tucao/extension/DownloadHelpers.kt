@@ -16,8 +16,8 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.di.service.XmlApiService
 import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
-import zlc.season.rxdownload2.RxDownload
-import zlc.season.rxdownload2.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload.RxDownload
+import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 import javax.inject.Inject
 import com.github.salomonbrys.kotson.*
 import com.google.gson.GsonBuilder

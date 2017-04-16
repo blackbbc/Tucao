@@ -1,6 +1,6 @@
 package me.sweetll.tucao.rxdownload.entity;
 
-import static zlc.season.rxdownload2.entity.DownloadFlag.NORMAL;
+import static me.sweetll.tucao.rxdownload.entity.DownloadFlag.NORMAL;
 
 /**
  * Author: Season(ssseasonnn@gmail.com)
