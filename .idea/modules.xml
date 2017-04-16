@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/previewseekbar/previewseekbar.iml" filepath="$PROJECT_DIR$/previewseekbar/previewseekbar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RxDownload/rxdownload2/rxdownload2.iml" filepath="$PROJECT_DIR$/RxDownload/rxdownload2/rxdownload2.iml" />
     </modules>
   </component>
 </project>

@@ -55,8 +55,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     /* GSYVideoPlayer */
     compile project(':gsyVideoPlayer')
-    /* RxDownload */
-    compile project(':rxdownload2')
     compile 'com.android.support:multidex:1.0.1'
     /* Support Library */
     compile "com.android.support:appcompat-v7:$support_version"
