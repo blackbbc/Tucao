@@ -14,11 +14,9 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import zlc.season.rxdownload2.RxDownload
 import zlc.season.rxdownload2.entity.DownloadEvent
-import zlc.season.rxdownload2.entity.DownloadEventFactory
 import zlc.season.rxdownload2.entity.DownloadFlag
 
 class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
@@ -28,7 +26,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
     }
 
     val rxDownload: RxDownload by lazy {
-        RxDownload.getInstance().context(mContext)
+        RxDownload.getInstance(mContext)
     }
 
     init {

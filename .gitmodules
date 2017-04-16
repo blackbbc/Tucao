@@ -1,3 +1,6 @@
 [submodule "GSYVideoPlayer"]
 	path = GSYVideoPlayer
 	url = https://github.com/blackbbc/GSYVideoPlayer.git
+[submodule "RxDownload"]
+	path = RxDownload
+	url = https://github.com/blackbbc/RxDownload.git
