@@ -1,10 +1,18 @@
 package me.sweetll.tucao.rxdownload.function;
 
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import java.io.File;
 import java.util.List;
@@ -21,6 +29,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.processors.FlowableProcessor;
 import io.reactivex.schedulers.Schedulers;
+import me.sweetll.tucao.R;
+import me.sweetll.tucao.business.download.DownloadActivity;
+import me.sweetll.tucao.business.home.MainActivity;
 import me.sweetll.tucao.rxdownload.db.DataBaseHelper;
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent;
 import me.sweetll.tucao.rxdownload.entity.DownloadFlag;
@@ -45,8 +56,10 @@ import static me.sweetll.tucao.rxdownload.function.Utils.log;
  * Time: 09:49
  * FIXME
  */
-public class DownloadService extends Service {
+public class DownloadService extends IntentService {
     public static final String INTENT_KEY = "zlc_season_rxdownload_max_download_number";
+    public static final int DOWNLOADING_NOTIFICATION_ID = 1;
+    public static final int DOWNLOADED_NOTIFICATION_ID = 2;
 
     private DownloadBinder mBinder;
 
@@ -58,6 +71,15 @@ public class DownloadService extends Service {
     private Disposable disposable;
     private DataBaseHelper dataBaseHelper;
 
+    /**
+     * Creates an IntentService.  Invoked by your subclass's constructor.
+     *
+     * name Used to name the worker thread, important only for debugging.
+     */
+    public DownloadService() {
+        super("DownloadWorker");
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,18 +89,11 @@ public class DownloadService extends Service {
         missionMap = new ConcurrentHashMap<>();
 
         dataBaseHelper = DataBaseHelper.getSingleton(getApplicationContext());
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        log("start Download Service");
         dataBaseHelper.repairErrorFlag();
-        if (intent != null) {
-            int maxDownloadNumber = intent.getIntExtra(INTENT_KEY, 5);
-            semaphore = new Semaphore(maxDownloadNumber);
-        }
 
-        return super.onStartCommand(intent, flags, startId);
+        semaphore = new Semaphore(3);
+
+        startDispatch();
     }
 
     @Override
@@ -93,8 +108,35 @@ public class DownloadService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         log("bind Download Service");
-        startDispatch();
         return mBinder;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        log("start Download Service");
+
+        /*
+        Intent nfIntent = new Intent(this, DownloadActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(DownloadActivity.class);
+        stackBuilder.addNextIntent(nfIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setProgress(100, 50, false)
+                        .setSmallIcon(R.drawable.ic_file_download_black)
+                        .setContentTitle("4个文件下载中")
+                        .setContentText("缘之空")
+                        .setContentIntent(pendingIntent);
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+
+        NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notifyMgr.notify(DOWNLOAD_NOTIFICATION_ID, notification);
+        */
     }
 
 
