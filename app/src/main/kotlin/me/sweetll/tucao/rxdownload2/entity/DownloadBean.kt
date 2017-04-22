@@ -1,12 +1,18 @@
 package me.sweetll.tucao.rxdownload2.entity
 
-data class DownloadBean(val url: String = "",
-                        var etag: String = "",
-                        var lastModified: String = "",
-                        var contentLength: Long = 0L,
-                        var downloadLength: Long = 0L,
-                        val saveName: String = "",
-                        val savePath: String = "") {
+import com.raizlabs.android.dbflow.annotation.Column
+import com.raizlabs.android.dbflow.annotation.PrimaryKey
+import com.raizlabs.android.dbflow.annotation.Table
+import me.sweetll.tucao.rxdownload2.db.TucaoDatabase
+
+@Table(database = TucaoDatabase::class)
+data class DownloadBean(@PrimaryKey val url: String = "",
+                        @Column var etag: String = "",
+                        @Column var lastModified: String = "",
+                        @Column var contentLength: Long = 0L,
+                        @Column var downloadLength: Long = 0L,
+                        @Column val saveName: String = "",
+                        @Column val savePath: String = "") {
     fun getRange(): String {
         return ""
     }

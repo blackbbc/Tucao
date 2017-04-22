@@ -198,3 +198,6 @@
     **[] $VALUES;
     public *;
 }
+
+# DBFlow
+-keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
