@@ -109,6 +109,8 @@ class DownloadService: IntentService("DownloadWorker") {
                         mission.bean.lastModified = header.get("Last-Modified")
                         mission.bean.etag = header.get("ETag")
 
+                        // TODO: 随机存储
+
                         var count: Int
                         val data = ByteArray(1024 * 8)
                         val fileSize: Long = body.contentLength()

@@ -5,6 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
 import me.sweetll.tucao.rxdownload2.db.TucaoDatabase
 import java.io.File
+import java.io.RandomAccessFile
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",
@@ -23,6 +24,9 @@ data class DownloadBean(@PrimaryKey var url: String = "",
     }
 
     fun getFile(): File {
-        return File(savePath, saveName)
+        val file = File(savePath, saveName)
+        val randomFile = RandomAccessFile(file, "rw")
+//        randomFile.write()
+        return file
     }
 }
