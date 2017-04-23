@@ -6,13 +6,11 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Function
 import io.reactivex.processors.BehaviorProcessor
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload2.function.DownloadService
 
-class RxDownload() {
+class RxDownload {
 
     private lateinit var context: Context
 

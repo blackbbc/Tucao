@@ -4,6 +4,7 @@ import android.app.IntentService
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
@@ -12,7 +13,8 @@ import me.sweetll.tucao.rxdownload2.entity.DownloadBean
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload2.entity.DownloadMission
 import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
-import org.reactivestreams.Processor
+import java.io.BufferedInputStream
+import java.io.FileOutputStream
 import java.util.concurrent.Semaphore
 
 class DownloadService: IntentService("DownloadWorker") {
@@ -20,10 +22,10 @@ class DownloadService: IntentService("DownloadWorker") {
 
     lateinit var downloadApi: DownloadApi
 
-    lateinit var semaphore: Semaphore
+    var semaphore: Semaphore = Semaphore(1) // 同时只允许1个任务下载
 
-    lateinit var missionMap: MutableMap<String, DownloadMission>
-    lateinit var processorMap: MutableMap<String, BehaviorProcessor<DownloadEvent>>
+    val missionMap: MutableMap<String, DownloadMission> = mutableMapOf()
+    val processorMap: MutableMap<String, BehaviorProcessor<DownloadEvent>> = mutableMapOf()
 
     init {
         setIntentRedelivery(true) // Make sure service restart when die
@@ -33,15 +35,13 @@ class DownloadService: IntentService("DownloadWorker") {
         super.onCreate()
         binder = DownloadBinder()
 
-        semaphore = Semaphore(1) // 同时只允许一个任务下载
-
-        // TODO: 从数据库同步状态
-        missionMap = mutableMapOf()
+        syncFromDb()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // TODO: 同步状态到数据库
+        stopAllMission()
+        syncToDb()
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -50,6 +50,27 @@ class DownloadService: IntentService("DownloadWorker") {
 
     override fun onHandleIntent(intent: Intent?) {
 
+    }
+
+    private fun stopAllMission() {
+        missionMap.forEach {
+            _, mission ->
+            mission.pause = true
+        }
+    }
+
+    private fun syncFromDb() {
+        val beans = (select from DownloadBean::class).list
+        beans.forEach {
+            missionMap.put(it.url, DownloadMission(it))
+        }
+    }
+
+    private fun syncToDb() {
+        missionMap.forEach {
+            _, mission ->
+            mission.save()
+        }
     }
 
     fun download(url: String, saveName: String, savePath: String) {
@@ -68,16 +89,48 @@ class DownloadService: IntentService("DownloadWorker") {
 
             processor.onNext(DownloadEvent(DownloadStatus.READY))
 
-            semaphore.acquire()
+            while (!semaphore.tryAcquire()) {
+                if (mission.pause) {
+                    processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
+                    return@create
+                }
+            }
+
             processor.onNext(DownloadEvent(DownloadStatus.STARTED))
 
             downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
                     .doAfterTerminate { semaphore.release() }
                     .subscribe({
-                        body ->
+                        response ->
+                        val header = response.headers()
+                        val body = response.body()
 
-                        processor.onComplete()
+                        mission.bean.lastModified = header.get("Last-Modified")
+                        mission.bean.etag = header.get("ETag")
+
+                        var count: Int
+                        val data = ByteArray(1024 * 8)
+                        val fileSize: Long = body.contentLength()
+                        val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
+                        val file = mission.bean.getFile()
+                        val outputStream = FileOutputStream(file)
+
+                        mission.bean.contentLength = fileSize
+                        mission.bean.downloadLength = 0L
+
+                        count = inputStream.read(data)
+                        while (count != -1 && !mission.pause) {
+                            mission.bean.downloadLength += count
+                            outputStream.write(data, 0, count)
+                            processor.onNext(DownloadEvent(DownloadStatus.STARTED))
+
+                            count = inputStream.read(data)
+                        }
+
+                        if (mission.pause) {
+                            processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
+                        }
                     }, {
                         error ->
                         processor.onError(error)

@@ -2,6 +2,7 @@ package me.sweetll.tucao
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
+import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
@@ -37,6 +38,7 @@ class AppApplication : MultiDexApplication() {
 //            return
 //        }
 //        LeakCanary.install(this)
+        FlowManager.init(this)
         PlayerConfig.init(this)
         initApiComponent()
     }

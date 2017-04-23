@@ -1,7 +1,7 @@
 package me.sweetll.tucao.rxdownload2.function
 
 import io.reactivex.Observable
-import okhttp3.ResponseBody
+import okhttp3.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Streaming
@@ -13,5 +13,5 @@ interface DownloadApi {
     fun download(
             @Url url: String,
             @Header("Range") range: String,
-            @Header("If-Range") ifRange: String): Observable<ResponseBody>
+            @Header("If-Range") ifRange: String): Observable<Response>
 }
