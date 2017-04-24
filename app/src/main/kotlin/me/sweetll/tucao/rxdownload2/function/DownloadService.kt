@@ -9,10 +9,15 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.rxdownload2.entity.DownloadBean
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload2.entity.DownloadMission
 import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
 import java.nio.channels.FileChannel
@@ -21,7 +26,18 @@ import java.util.concurrent.Semaphore
 class DownloadService: IntentService("DownloadWorker") {
     lateinit var binder: DownloadBinder
 
-    lateinit var downloadApi: DownloadApi
+    val downloadApi: DownloadApi by lazy {
+        Retrofit.Builder()
+                .baseUrl(ApiConfig.BASE_RAW_API_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(
+                        OkHttpClient.Builder()
+                                .addInterceptor(HttpLoggingInterceptor())
+                                .build()
+                )
+                .build()
+                .create(DownloadApi::class.java)
+    }
 
     var semaphore: Semaphore = Semaphore(1) // 同时只允许1个任务下载
 
@@ -109,8 +125,6 @@ class DownloadService: IntentService("DownloadWorker") {
 
                         mission.bean.lastModified = header.get("Last-Modified")
                         mission.bean.etag = header.get("ETag")
-
-                        // TODO: 随机存储
 
                         var count: Int
                         val data = ByteArray(1024 * 8)

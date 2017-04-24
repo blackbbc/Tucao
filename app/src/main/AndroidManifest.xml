@@ -74,12 +74,13 @@
             android:theme="@style/AboutTheme"
             android:screenOrientation="portrait" />
 
-        <service android:name=".rxdownload.function.DownloadService"
+        <service android:name=".rxdownload2.function.DownloadService"
             android:exported="false"/>
 
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="587653cd310c93051a000ac9" />
+
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Google Play" />

@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import io.reactivex.processors.BehaviorProcessor
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload2.function.DownloadService
 
@@ -40,7 +38,9 @@ class RxDownload {
                 emitter.onComplete()
             } else {
                 val intent = Intent(context, DownloadService::class.java)
+                context.startService(intent)
                 context.bindService(intent, object : ServiceConnection {
+
                     override fun onServiceConnected(name: ComponentName?, binder: IBinder) {
                         downloadService = (binder as DownloadService.DownloadBinder).getService()
                         bound = true
@@ -51,6 +51,7 @@ class RxDownload {
                     override fun onServiceDisconnected(name: ComponentName?) {
                         bound = false
                     }
+
                 }, Context.BIND_AUTO_CREATE)
             }
         }

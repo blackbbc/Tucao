@@ -19,8 +19,9 @@ data class DownloadBean(@PrimaryKey var url: String = "",
         return "bytes=$downloadLength-"
     }
 
-    fun getIfRange(): String {
-        return lastModified
+    fun getIfRange(): String? {
+//        return lastModified
+        return null
     }
 
     private fun getFile(): File {
