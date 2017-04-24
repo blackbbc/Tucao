@@ -6,26 +6,22 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.DownloadHelpers
-import me.sweetll.tucao.model.xml.Durl
-import me.sweetll.tucao.rxdownload.entity.DownloadEvent
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
-import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import me.sweetll.tucao.extension.formatWithUnit
+import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 
 class StateController(val sizeText: TextView, val statusImg: ImageView, val progressBar: ProgressBar) {
-    var state: DownloadState = Normal()
+    var state: DownloadState = READY()
 
     fun setEvent(downloadEvent: DownloadEvent) {
-        state = when (downloadEvent.flag) {
-            DownloadFlag.NORMAL -> Normal()
-            DownloadFlag.WAITING -> Waiting()
-            DownloadFlag.STARTED -> Started()
-            DownloadFlag.PAUSED -> Paused()
-            DownloadFlag.FAILED -> Failed()
-            DownloadFlag.CANCELED -> Canceled()
-            DownloadFlag.DELETED -> Deleted()
+        state = when (downloadEvent.status) {
+            DownloadStatus.READY -> READY()
+            DownloadStatus.STARTED -> Started()
+            DownloadStatus.PAUSED -> Paused()
+            DownloadStatus.FAILED -> Failed()
             else -> Completed()
         }
-        state.setStatus(downloadEvent.downloadStatus)
+        state.setProgress(downloadEvent.downloadSize, downloadEvent.totalSize)
     }
 
     fun handleClick(callback: DownloadHelpers.Callback) {
@@ -38,25 +34,14 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
 
         abstract fun handleClick(callback: DownloadHelpers.Callback)
-        open fun setStatus(status: DownloadStatus) {
-            progressBar.max = status.totalSize.toInt()
-            progressBar.progress = status.downloadSize.toInt()
+
+        open fun setProgress(downloadSize: Long, totalSize: Long) {
+            progressBar.max = totalSize.toInt()
+            progressBar.progress = downloadSize.toInt()
         }
     }
 
-    inner class Normal : DownloadState() {
-        init {
-            sizeText.text = "下载"
-            statusImg.setImageResource(R.drawable.ic_file_download_black)
-            progressBar.visibility = View.GONE
-        }
-
-        override fun handleClick(callback: DownloadHelpers.Callback) {
-            callback.startDownload()
-        }
-    }
-
-    inner class Waiting : DownloadState() {
+    inner class READY : DownloadState() {
         init {
             sizeText.text = "等待中"
             statusImg.setImageResource(R.drawable.ic_pause)
@@ -64,7 +49,7 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
 
         override fun handleClick(callback: DownloadHelpers.Callback) {
-            callback.pauseDownload()
+            callback.startDownload()
         }
     }
 
@@ -79,9 +64,9 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
             callback.pauseDownload()
         }
 
-        override fun setStatus(status: DownloadStatus) {
-            super.setStatus(status)
-            sizeText.text = status.formatStatusString
+        override fun setProgress(downloadSize: Long, totalSize: Long) {
+            super.setProgress(downloadSize, totalSize)
+            sizeText.text = "${downloadSize.formatWithUnit()}/${totalSize.formatWithUnit()}"
         }
     }
 
@@ -109,18 +94,6 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
     }
 
-    inner class Canceled : DownloadState() {
-        init {
-            sizeText.text = "下载已取消"
-            statusImg.setImageResource(R.drawable.ic_file_download_black)
-            progressBar.visibility = View.GONE
-        }
-
-        override fun handleClick(callback: DownloadHelpers.Callback) {
-            callback.startDownload()
-        }
-    }
-
     inner class Completed : DownloadState() {
         init {
             sizeText.text = "完成"
@@ -129,19 +102,7 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
 
         override fun handleClick(callback: DownloadHelpers.Callback) {
-
-        }
-    }
-
-    inner class Deleted : DownloadState() {
-        init {
-            sizeText.text = "下载已取消"
-            statusImg.setImageResource(R.drawable.ic_file_download_black)
-            progressBar.visibility = View.GONE
-        }
-
-        override fun handleClick(callback: DownloadHelpers.Callback) {
-            callback.startDownload()
+            // 永远都不应该进来！
         }
     }
 

@@ -13,7 +13,7 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 import java.io.File
 import java.io.FileOutputStream
 
@@ -54,7 +54,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
             danmuDisposable!!.dispose()
         }
 
-        if (part.flag == DownloadFlag.COMPLETED) {
+        if (part.flag == DownloadStatus.COMPLETED) {
             activity.loadDuals(part.durls)
         } else if (part.vid.startsWith(hid)) {
             // 这个视频是直传的

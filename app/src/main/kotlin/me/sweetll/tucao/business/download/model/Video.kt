@@ -5,14 +5,14 @@ import android.os.Parcelable
 import com.chad.library.adapter.base.entity.AbstractExpandableItem
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
-import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 
 class Video(val hid: String,
             val title: String,
             val thumb: String,
-            val flag: Int = DownloadFlag.NORMAL,
-            val status: DownloadStatus = DownloadStatus(),
+            val flag: Int = DownloadStatus.READY,
+            var downloadSize: Long = 0L,
+            var totalSize: Long = 0L,
             var checkable: Boolean = false,
             var checked: Boolean = false,
             var singlePart: Boolean = false): AbstractExpandableItem<Part>(), MultiItemEntity, Parcelable {
@@ -27,7 +27,7 @@ class Video(val hid: String,
         }
     }
 
-    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), source.readInt(), source.readParcelable<DownloadStatus>(DownloadStatus::class.java.classLoader), 1.equals(source.readInt()), 1.equals(source.readInt()), 1.equals(source.readInt()))
+    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), source.readInt(), source.readLong(), source.readLong(), 1 == source.readInt(), 1 == source.readInt(), 1 == source.readInt())
 
     override fun describeContents() = 0
 
@@ -36,7 +36,8 @@ class Video(val hid: String,
         dest?.writeString(title)
         dest?.writeString(thumb)
         dest?.writeInt(flag)
-        dest?.writeParcelable(status, 0)
+        dest?.writeLong(downloadSize)
+        dest?.writeLong(totalSize)
         dest?.writeInt((if (checkable) 1 else 0))
         dest?.writeInt((if (checked) 1 else 0))
         dest?.writeInt((if (singlePart) 1 else 0))

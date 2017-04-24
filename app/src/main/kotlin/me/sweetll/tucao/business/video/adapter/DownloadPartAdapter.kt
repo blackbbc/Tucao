@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 
 class DownloadPartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHolder>(R.layout.item_part, data) {
     override fun convert(helper: BaseViewHolder, part: Part) {
@@ -20,7 +20,7 @@ class DownloadPartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, Bas
         if (part.checkDownload()) {
             // 存在
             titleText.isEnabled = false
-            if (part.flag == DownloadFlag.COMPLETED) {
+            if (part.flag == DownloadStatus.COMPLETED) {
                 downloadedImg.visibility = View.VISIBLE
                 downloadingImg.visibility = View.GONE
             } else {

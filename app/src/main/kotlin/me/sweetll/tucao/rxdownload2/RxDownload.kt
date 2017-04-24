@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
@@ -76,11 +77,19 @@ class RxDownload {
         }
     }
 
-    fun receive(url: String): Observable<BehaviorProcessor<DownloadEvent>> {
+//    fun receive(url: String): Observable<BehaviorProcessor<DownloadEvent>> {
+//        return ensureBind()
+//                .map {
+//                    service ->
+//                    service.receive(url)
+//                }
+//    }
+
+    fun receive(url: String): Observable<DownloadEvent> {
         return ensureBind()
-                .map {
+                .flatMap {
                     service ->
-                    service.receive(url)
+                    service.receive(url).toObservable()
                 }
     }
 }

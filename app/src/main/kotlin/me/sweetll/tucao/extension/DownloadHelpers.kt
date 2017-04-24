@@ -16,8 +16,6 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.di.service.XmlApiService
 import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
-import me.sweetll.tucao.rxdownload.RxDownload
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 import javax.inject.Inject
 import com.github.salomonbrys.kotson.*
 import com.google.gson.GsonBuilder
@@ -25,7 +23,8 @@ import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
 import java.io.File
 import android.preference.PreferenceManager
-
+import me.sweetll.tucao.rxdownload2.RxDownload
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 
 object DownloadHelpers {
     private val DOWNLOAD_FILE_NAME = "download"
@@ -75,12 +74,12 @@ object DownloadHelpers {
             .filter {
                 video ->
                 (video as Video).subItems.any {
-                    it.flag != DownloadFlag.COMPLETED
+                    it.flag != DownloadStatus.COMPLETED
                 }
             }
             .map {
                 video ->
-                (video as Video).subItems.removeAll { it.flag == DownloadFlag.COMPLETED }
+                (video as Video).subItems.removeAll { it.flag == DownloadStatus.COMPLETED }
                 video
             }
             .toMutableList()
@@ -89,15 +88,15 @@ object DownloadHelpers {
             .filter {
                 video ->
                 (video as Video).subItems.any {
-                    it.flag == DownloadFlag.COMPLETED
+                    it.flag == DownloadStatus.COMPLETED
                 }
             }
             .map {
                 video ->
                 video as Video
-                video.subItems.removeAll { it.flag != DownloadFlag.COMPLETED }
-                video.status.totalSize = video.subItems.sumByLong { it.status.totalSize }
-                video.status.downloadSize = video.status.totalSize
+                video.subItems.removeAll { it.flag != DownloadStatus.COMPLETED }
+                video.totalSize = video.subItems.sumByLong(Part::totalSize)
+                video.downloadSize = video.totalSize
                 video
             }
             .toMutableList()
@@ -129,7 +128,8 @@ object DownloadHelpers {
             (it as Video).subItems
         }.find { it. vid == part.vid}
         existVideo?.flag = part.flag
-        existVideo?.status = part.status
+        existVideo?.downloadSize = part.downloadSize
+        existVideo?.totalSize = part.totalSize
 
         val jsonString = gson.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
@@ -161,7 +161,7 @@ object DownloadHelpers {
 
     fun startDownload(part: Part) {
         part.durls.forEach {
-            rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
+            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
         }
     }
 
@@ -170,7 +170,7 @@ object DownloadHelpers {
             part.durls.forEach {
                 it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
                 it.cacheFileName = "${it.order}"
-                rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
+                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
             }
             video.addSubItem(part)
             saveDownloadVideo(video)
@@ -193,7 +193,7 @@ object DownloadHelpers {
                         }
                         part.durls.addAll(durls)
                         durls.forEach {
-                            rxDownload.serviceDownload(it.url, it.cacheFileName, it.cacheFolderPath).subscribe()
+                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
                         }
                     }
                     .observeOn(AndroidSchedulers.mainThread())
@@ -210,21 +210,11 @@ object DownloadHelpers {
 
     fun pauseDownload(part: Part) {
         part.durls.forEach {
-            rxDownload.pauseServiceDownload(it.url).subscribe()
+            rxDownload.pause(it.url)
         }
     }
 
     fun cancelDownload(parts: List<Part>) {
-        parts.forEach {
-            part ->
-            part.durls.forEach {
-                rxDownload.deleteServiceDownload(it.url, true).subscribe()
-            }
-        }
-        deleteDownload(parts)
-    }
-
-    fun deleteDownload(parts: List<Part>) {
         val videos = loadDownloadVideos()
         videos.forEach {
             video ->
@@ -246,7 +236,7 @@ object DownloadHelpers {
         parts.forEach {
             part ->
             part.durls.forEach {
-                rxDownload.deleteServiceDownload(it.url, true).subscribe()
+                rxDownload.cancel(it.url, true)
             }
         }
         EventBus.getDefault().post(RefreshDownloadingVideoEvent())

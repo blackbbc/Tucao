@@ -1,5 +1,10 @@
 package me.sweetll.tucao.extension
 
+import java.text.DecimalFormat
+
 fun Long.formatWithUnit(): String {
-    return "10.1MB"
+    if(this <= 0) return "0"
+    val units = arrayOf("B", "kB", "MB", "GB", "TB")
+    val digitGroups = (Math.log10(this.toDouble()) / Math.log(1024.0)).toInt()
+    return DecimalFormat("#,##0.#").format(this / Math.pow(1024.0, digitGroups.toDouble())) + units[digitGroups]
 }

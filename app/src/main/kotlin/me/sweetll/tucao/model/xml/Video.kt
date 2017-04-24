@@ -3,7 +3,6 @@ package me.sweetll.tucao.model.xml
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 
 @Root(name = "video", strict = false)
 data class Video(

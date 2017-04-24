@@ -31,9 +31,9 @@ import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
 import java.util.*
 
 class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
@@ -247,9 +247,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(if (selectedPart.flag == DownloadFlag.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
+                binding.player.setUp(if (selectedPart.flag == DownloadStatus.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
             } else {
-                binding.player.setUp(durls, selectedPart.flag == DownloadFlag.COMPLETED)
+                binding.player.setUp(durls, selectedPart.flag == DownloadStatus.COMPLETED)
             }
             firstPlay = true
         }

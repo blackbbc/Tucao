@@ -15,9 +15,9 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.rxdownload.RxDownload
-import me.sweetll.tucao.rxdownload.entity.DownloadEvent
-import me.sweetll.tucao.rxdownload.entity.DownloadFlag
+import me.sweetll.tucao.rxdownload2.RxDownload
+import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 
 class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
     companion object {
@@ -80,20 +80,18 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 helper.setText(R.id.text_title, part.title)
                 part.durls.forEach {
                     durl ->
-                    rxDownload.receiveDownloadStatus(durl.url)
+                    rxDownload.receive(durl.url)
                             .subscribe({
-                                downloadEvent ->
-                                durl.flag = downloadEvent.flag
-                                durl.status.totalSize = downloadEvent.downloadStatus.totalSize
-                                durl.status.downloadSize = downloadEvent.downloadStatus.downloadSize
+                                (status, downloadSize, totalSize) ->
+                                durl.flag = status
+                                durl.downloadSize = downloadSize
+                                durl.totalSize = totalSize
 
                                 part.update()
 
-                                val newEvent = DownloadEvent()
-                                newEvent.flag = part.flag
-                                newEvent.downloadStatus = part.status
+                                val newEvent = DownloadEvent(part.flag, part.downloadSize, part.totalSize)
 
-                                if (part.flag == DownloadFlag.COMPLETED) {
+                                if (part.flag == DownloadStatus.COMPLETED) {
                                     DownloadHelpers.saveDownloadPart(part)
                                 } else {
                                     part.stateController?.setEvent(newEvent)

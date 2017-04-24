@@ -6,7 +6,6 @@ import com.raizlabs.android.dbflow.annotation.Table
 import me.sweetll.tucao.rxdownload2.db.TucaoDatabase
 import java.io.File
 import java.io.RandomAccessFile
-import java.nio.MappedByteBuffer
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",

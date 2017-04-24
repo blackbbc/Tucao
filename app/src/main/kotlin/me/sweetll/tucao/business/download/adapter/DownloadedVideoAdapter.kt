@@ -12,6 +12,7 @@ import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.CachedVideoActivity
 import me.sweetll.tucao.business.video.VideoActivity
+import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.load
 
 class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
@@ -30,7 +31,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
             TYPE_VIDEO -> {
                 val video = item as Video
                 helper.setText(R.id.text_title, video.title)
-                helper.setText(R.id.text_size, video.status.formatTotalSize)
+                helper.setText(R.id.text_size, video.totalSize.formatWithUnit())
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(mContext, video.thumb)
 
@@ -72,7 +73,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
             TYPE_PART -> {
                 val part = item as Part
                 helper.setText(R.id.text_title, part.title)
-                helper.setText(R.id.text_size, part.status.formatTotalSize)
+                helper.setText(R.id.text_size, part.totalSize.formatWithUnit())
 
                 helper.setVisible(R.id.checkbox, part.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
