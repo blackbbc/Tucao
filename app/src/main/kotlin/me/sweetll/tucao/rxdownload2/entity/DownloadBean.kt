@@ -20,12 +20,22 @@ data class DownloadBean(@PrimaryKey var url: String = "",
     }
 
     fun getIfRange(): String? {
-//        return lastModified
-        return null
+        if (etag.isNotEmpty()) {
+            return etag
+        } else if (lastModified.isNotEmpty()) {
+            return lastModified
+        } else {
+            return null
+        }
     }
 
-    private fun getFile(): File {
-        return File(savePath, saveName)
+    fun getFile(): File {
+        val file =  File(savePath, saveName)
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
+            file.createNewFile()
+        }
+        return file
     }
 
     fun getRandomAccessFile(): RandomAccessFile {

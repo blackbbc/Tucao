@@ -120,41 +120,53 @@ class DownloadService: IntentService("DownloadWorker") {
                     .doAfterTerminate { semaphore.release() }
                     .subscribe({
                         response ->
-                        val header = response.headers()
-                        val body = response.body()
+                        try {
+                            val header = response.headers()
+                            val body = response.body()
 
-                        mission.bean.lastModified = header.get("Last-Modified")
-                        mission.bean.etag = header.get("ETag")
+                            mission.bean.lastModified = header.get("Last-Modified")
+                            mission.bean.etag = header.get("ETag")
 
-                        var count: Int
-                        val data = ByteArray(1024 * 8)
-                        val fileSize: Long = body.contentLength()
-                        mission.bean.contentLength = fileSize
-                        mission.bean.prepareFile()
+                            var count: Int
+                            val data = ByteArray(1024 * 8)
+                            val fileSize: Long = body.contentLength()
+                            mission.bean.contentLength = fileSize
+                            mission.bean.prepareFile()
 
-                        val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
-                        val file = mission.bean.getRandomAccessFile()
-                        val fileChannel = file.channel
-                        val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, mission.bean.contentLength - mission.bean.downloadLength)
-
-                        count = inputStream.read(data)
-                        while (count != -1 && !mission.pause) {
-                            mission.bean.downloadLength += count
-                            outputStream.put(data, 0, count)
-                            processor.onNext(DownloadEvent(DownloadStatus.STARTED))
+                            val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
+                            val file = mission.bean.getRandomAccessFile()
+                            val fileChannel = file.channel
+                            val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, mission.bean.contentLength - mission.bean.downloadLength)
 
                             count = inputStream.read(data)
-                        }
+                            while (count != -1 && !mission.pause) {
+                                mission.bean.downloadLength += count
+                                outputStream.put(data, 0, count)
+                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength))
 
-                        if (mission.pause) {
-                            processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
-                        }
+                                count = inputStream.read(data)
+                            }
 
-                        fileChannel.close()
-                        file.close()
+                            if (mission.pause) {
+                                processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
+                            }
+
+                            if (mission.bean.downloadLength == mission.bean.contentLength) {
+                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED))
+                            }
+
+                            fileChannel.close()
+                            file.close()
+                        } catch (error: Exception) {
+                            error.printStackTrace()
+                        } finally {
+                            semaphore.release()
+                        }
                     }, {
                         error ->
-                        processor.onError(error)
+                        error.printStackTrace()
+                        processor.onNext(DownloadEvent(DownloadStatus.FAILED))
+                        semaphore.release()
                     })
         }, BackpressureStrategy.LATEST)
                 .publish()
@@ -172,7 +184,7 @@ class DownloadService: IntentService("DownloadWorker") {
     fun cancel(url: String) {
         missionMap[url]?.let {
             it.pause = true
-            // TODO: 删除文件
+            it.bean.getFile().delete()
         }
     }
 

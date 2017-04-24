@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.download.model.Part
@@ -81,6 +82,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.durls.forEach {
                     durl ->
                     rxDownload.receive(durl.url)
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 (status, downloadSize, totalSize) ->
                                 durl.flag = status
