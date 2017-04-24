@@ -6,6 +6,7 @@ import com.raizlabs.android.dbflow.annotation.Table
 import me.sweetll.tucao.rxdownload2.db.TucaoDatabase
 import java.io.File
 import java.io.RandomAccessFile
+import java.nio.MappedByteBuffer
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",
@@ -23,10 +24,17 @@ data class DownloadBean(@PrimaryKey var url: String = "",
         return lastModified
     }
 
-    fun getFile(): File {
-        val file = File(savePath, saveName)
-        val randomFile = RandomAccessFile(file, "rw")
-//        randomFile.write()
-        return file
+    private fun getFile(): File {
+        return File(savePath, saveName)
+    }
+
+    fun getRandomAccessFile(): RandomAccessFile {
+        return RandomAccessFile(getFile(), "rw")
+    }
+
+    // TODO: 检查可用空间
+    fun prepareFile(): Boolean {
+        getRandomAccessFile().setLength(contentLength)
+        return true
     }
 }

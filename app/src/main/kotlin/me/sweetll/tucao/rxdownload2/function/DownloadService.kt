@@ -15,6 +15,7 @@ import me.sweetll.tucao.rxdownload2.entity.DownloadMission
 import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
+import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
 
 class DownloadService: IntentService("DownloadWorker") {
@@ -114,17 +115,18 @@ class DownloadService: IntentService("DownloadWorker") {
                         var count: Int
                         val data = ByteArray(1024 * 8)
                         val fileSize: Long = body.contentLength()
-                        val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
-                        val file = mission.bean.getFile()
-                        val outputStream = FileOutputStream(file)
-
                         mission.bean.contentLength = fileSize
-                        mission.bean.downloadLength = 0L
+                        mission.bean.prepareFile()
+
+                        val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
+                        val file = mission.bean.getRandomAccessFile()
+                        val fileChannel = file.channel
+                        val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, mission.bean.contentLength - mission.bean.downloadLength)
 
                         count = inputStream.read(data)
                         while (count != -1 && !mission.pause) {
                             mission.bean.downloadLength += count
-                            outputStream.write(data, 0, count)
+                            outputStream.put(data, 0, count)
                             processor.onNext(DownloadEvent(DownloadStatus.STARTED))
 
                             count = inputStream.read(data)
@@ -133,6 +135,9 @@ class DownloadService: IntentService("DownloadWorker") {
                         if (mission.pause) {
                             processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
                         }
+
+                        fileChannel.close()
+                        file.close()
                     }, {
                         error ->
                         processor.onError(error)
