@@ -98,7 +98,9 @@ class DownloadService: IntentService("DownloadWorker") {
             )
         })
 
-        val processor = BehaviorProcessor.create<DownloadEvent>()
+        val processor = processorMap.getOrPut(url, {
+            BehaviorProcessor.create<DownloadEvent>()
+        })
 
         // 开始下载
         Flowable.create<DownloadEvent>({
@@ -171,8 +173,6 @@ class DownloadService: IntentService("DownloadWorker") {
         }, BackpressureStrategy.LATEST)
                 .publish()
                 .connect()
-
-        processorMap.put(url, processor)
     }
 
     fun pause(url: String) {
