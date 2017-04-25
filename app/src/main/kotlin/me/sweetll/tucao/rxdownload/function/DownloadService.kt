@@ -202,6 +202,10 @@ class DownloadService: IntentService("DownloadWorker") {
         missionMap[url]?.let {
             it.pause = true
         }
+        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // TODO: 检查是否还有任务
+        notifyMgr.cancel(ONGOING_NOTIFICATION_ID)
     }
 
     fun cancel(url: String) {
