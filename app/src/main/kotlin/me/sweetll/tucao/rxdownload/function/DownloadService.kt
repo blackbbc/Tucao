@@ -1,14 +1,22 @@
 package me.sweetll.tucao.rxdownload.function
 
 import android.app.IntentService
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.TaskStackBuilder
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.R
+import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
@@ -19,11 +27,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
-import java.io.FileOutputStream
 import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
 
 class DownloadService: IntentService("DownloadWorker") {
+
+    companion object {
+        const val ONGOING_NOTIFICATION_ID = 1
+        const val COMPLETED_NOTIFICATION_ID = 2
+    }
+
     lateinit var binder: DownloadBinder
 
     val downloadApi: DownloadApi by lazy {
@@ -100,14 +113,20 @@ class DownloadService: IntentService("DownloadWorker") {
 
         val processor = processorMap.getOrPut(url, {
             BehaviorProcessor.create<DownloadEvent>()
+                    .apply {
+                        onNext(DownloadEvent(DownloadStatus.READY))
+                        sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
+                                .subscribe {
+                                    // 默认是啥?
+                                    event ->
+                                    sendNotification(event)
+                                }
+                    }
         })
 
         // 开始下载
         Flowable.create<DownloadEvent>({
             // 检查状态
-
-            processor.onNext(DownloadEvent(DownloadStatus.READY))
-
             while (!semaphore.tryAcquire()) {
                 if (mission.pause) {
                     processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
@@ -200,9 +219,64 @@ class DownloadService: IntentService("DownloadWorker") {
             BehaviorProcessor.create<DownloadEvent>()
                     .apply {
                         onNext(DownloadEvent(DownloadStatus.PAUSED, mission.bean.downloadLength, mission.bean.contentLength)) // 默认暂停状态
+                        sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
+                                .subscribe {
+                                    event ->
+                                    sendNotification(event)
+                                }
                     }
         })
         return processor
+    }
+
+    private fun sendNotification(event: DownloadEvent) {
+        when (event.status) {
+            DownloadStatus.STARTED -> {
+                val nfIntent = Intent(this, DownloadActivity::class.java)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(DownloadActivity::class.java)
+                stackBuilder.addNextIntent(nfIntent)
+
+                val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val builder = NotificationCompat.Builder(this)
+                        .setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
+                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setContentTitle("4个任务下载中")
+                        .setContentText("缘之空/P1")
+                        .setContentIntent(pendingIntent)
+                val notification = builder.build()
+                notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
+
+                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notifyMgr.notify(ONGOING_NOTIFICATION_ID, notification)
+            }
+            DownloadStatus.COMPLETED -> {
+                val nfIntent = Intent(this, DownloadActivity::class.java)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(DownloadActivity::class.java)
+                stackBuilder.addNextIntent(nfIntent)
+
+                val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val builder = NotificationCompat.Builder(this)
+                        .setProgress(0, 0, false)
+                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setContentTitle("缘之空/P1")
+                        .setContentText("7.9MB/已完成")
+                        .setContentIntent(pendingIntent)
+                val notification = builder.build()
+
+                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                // TODO: 检查是否还有任务
+                notifyMgr.cancel(ONGOING_NOTIFICATION_ID)
+
+                notifyMgr.notify(COMPLETED_NOTIFICATION_ID, notification)
+            }
+        }
     }
 
     inner class DownloadBinder: Binder() {
