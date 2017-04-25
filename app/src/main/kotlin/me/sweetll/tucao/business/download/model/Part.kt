@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
 import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.model.xml.Durl
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 class Part(val title: String,
            val order: Int,

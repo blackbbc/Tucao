@@ -1,4 +1,4 @@
-package me.sweetll.tucao.rxdownload2.db
+package me.sweetll.tucao.rxdownload.db
 
 import com.raizlabs.android.dbflow.annotation.Database
 

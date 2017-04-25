@@ -23,8 +23,8 @@ import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
 import java.io.File
 import android.preference.PreferenceManager
-import me.sweetll.tucao.rxdownload2.RxDownload
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.RxDownload
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 object DownloadHelpers {
     private val DOWNLOAD_FILE_NAME = "download"

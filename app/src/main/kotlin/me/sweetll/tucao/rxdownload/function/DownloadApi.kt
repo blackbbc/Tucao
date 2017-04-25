@@ -1,4 +1,4 @@
-package me.sweetll.tucao.rxdownload2.function
+package me.sweetll.tucao.rxdownload.function
 
 import io.reactivex.Observable
 import okhttp3.ResponseBody

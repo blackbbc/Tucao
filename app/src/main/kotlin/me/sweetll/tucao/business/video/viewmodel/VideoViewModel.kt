@@ -13,7 +13,7 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import java.io.File
 import java.io.FileOutputStream
 

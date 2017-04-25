@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.chad.library.adapter.base.entity.AbstractExpandableItem
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 class Video(val hid: String,
             val title: String,

@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.download.model.Part
@@ -17,9 +18,10 @@ import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.rxdownload2.RxDownload
-import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.RxDownload
+import me.sweetll.tucao.rxdownload.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import java.util.concurrent.TimeUnit
 
 class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
     companion object {
@@ -83,6 +85,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.durls.forEach {
                     durl ->
                     rxDownload.receive(durl.url)
+                            .sample(16, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 (status, downloadSize, totalSize) ->

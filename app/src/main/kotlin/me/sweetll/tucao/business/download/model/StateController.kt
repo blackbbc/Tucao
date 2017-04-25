@@ -7,8 +7,8 @@ import android.widget.TextView
 import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
-import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 class StateController(val sizeText: TextView, val statusImg: ImageView, val progressBar: ProgressBar) {
     var state: DownloadState = READY()

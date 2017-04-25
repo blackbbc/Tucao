@@ -1,16 +1,16 @@
-package me.sweetll.tucao.rxdownload2.entity
+package me.sweetll.tucao.rxdownload.entity
 
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
-import me.sweetll.tucao.rxdownload2.db.TucaoDatabase
+import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 import java.io.File
 import java.io.RandomAccessFile
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",
                         @Column var etag: String = "",
-                        @Column var lastModified: String = "",
+                        @Column var lastModified: String = "-",
                         @Column var contentLength: Long = 0L,
                         @Column var downloadLength: Long = 0L,
                         @Column var saveName: String = "",
@@ -20,13 +20,8 @@ data class DownloadBean(@PrimaryKey var url: String = "",
     }
 
     fun getIfRange(): String? {
-        if (etag.isNotEmpty()) {
-            return etag
-        } else if (lastModified.isNotEmpty()) {
-            return lastModified
-        } else {
-            return null
-        }
+        // Notice: ETag is not support by some *fucking* server. So we use last-modified here.
+        return lastModified
     }
 
     fun getFile(): File {

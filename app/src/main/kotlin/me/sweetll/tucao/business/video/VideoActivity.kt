@@ -31,7 +31,7 @@ import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.*
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.util.*

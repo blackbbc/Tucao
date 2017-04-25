@@ -74,7 +74,7 @@
             android:theme="@style/AboutTheme"
             android:screenOrientation="portrait" />
 
-        <service android:name=".rxdownload2.function.DownloadService"
+        <service android:name=".rxdownload.function.DownloadService"
             android:exported="false"/>
 
         <meta-data

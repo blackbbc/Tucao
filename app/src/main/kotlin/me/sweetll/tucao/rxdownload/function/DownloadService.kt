@@ -1,4 +1,4 @@
-package me.sweetll.tucao.rxdownload2.function
+package me.sweetll.tucao.rxdownload.function
 
 import android.app.IntentService
 import android.content.Intent
@@ -10,10 +10,10 @@ import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.di.service.ApiConfig
-import me.sweetll.tucao.rxdownload2.entity.DownloadBean
-import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
-import me.sweetll.tucao.rxdownload2.entity.DownloadMission
-import me.sweetll.tucao.rxdownload2.entity.DownloadStatus
+import me.sweetll.tucao.rxdownload.entity.DownloadBean
+import me.sweetll.tucao.rxdownload.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload.entity.DownloadMission
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -96,7 +96,7 @@ class DownloadService: IntentService("DownloadWorker") {
             DownloadMission(
                     DownloadBean(url = url, saveName = saveName, savePath = savePath)
             )
-        })
+        }).apply { pause = false }
 
         val processor = processorMap.getOrPut(url, {
             BehaviorProcessor.create<DownloadEvent>()
@@ -115,7 +115,7 @@ class DownloadService: IntentService("DownloadWorker") {
                 }
             }
 
-            processor.onNext(DownloadEvent(DownloadStatus.STARTED))
+            processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength))
 
             downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
@@ -132,13 +132,17 @@ class DownloadService: IntentService("DownloadWorker") {
                             var count: Int
                             val data = ByteArray(1024 * 8)
                             val fileSize: Long = body.contentLength()
-                            mission.bean.contentLength = fileSize
-                            mission.bean.prepareFile()
+
+                            if (response.code() == 200) {
+                                mission.bean.downloadLength = 0
+                                mission.bean.contentLength = fileSize
+                                mission.bean.prepareFile()
+                            }
 
                             val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
                             val file = mission.bean.getRandomAccessFile()
                             val fileChannel = file.channel
-                            val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, mission.bean.contentLength - mission.bean.downloadLength)
+                            val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, fileSize)
 
                             count = inputStream.read(data)
                             while (count != -1 && !mission.pause) {
@@ -154,7 +158,7 @@ class DownloadService: IntentService("DownloadWorker") {
                             }
 
                             if (mission.bean.downloadLength == mission.bean.contentLength) {
-                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED))
+                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength))
                             }
 
                             fileChannel.close()
@@ -191,7 +195,13 @@ class DownloadService: IntentService("DownloadWorker") {
     }
 
     fun receive(url: String): BehaviorProcessor<DownloadEvent> {
-        val processor = processorMap.getValue(url)
+        val mission = missionMap[url]!! // 可能不存在吗？
+        val processor = processorMap.getOrPut(url, {
+            BehaviorProcessor.create<DownloadEvent>()
+                    .apply {
+                        onNext(DownloadEvent(DownloadStatus.PAUSED, mission.bean.downloadLength, mission.bean.contentLength)) // 默认暂停状态
+                    }
+        })
         return processor
     }
 
