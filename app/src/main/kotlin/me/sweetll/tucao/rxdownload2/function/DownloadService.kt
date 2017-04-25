@@ -185,6 +185,8 @@ class DownloadService: IntentService("DownloadWorker") {
         missionMap[url]?.let {
             it.pause = true
             it.bean.getFile().delete()
+            missionMap.remove(url)
+            processorMap.remove(url)
         }
     }
 

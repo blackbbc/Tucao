@@ -15,6 +15,7 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload2.RxDownload
 import me.sweetll.tucao.rxdownload2.entity.DownloadEvent
@@ -85,6 +86,9 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 (status, downloadSize, totalSize) ->
+
+                                "Receive status ${durl.url}: $status $downloadSize $totalSize".logD()
+
                                 durl.flag = status
                                 durl.downloadSize = downloadSize
                                 durl.totalSize = totalSize
