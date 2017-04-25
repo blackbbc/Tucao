@@ -18,6 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadMission
@@ -35,6 +36,9 @@ class DownloadService: IntentService("DownloadWorker") {
     companion object {
         const val ONGOING_NOTIFICATION_ID = 1
         const val COMPLETED_NOTIFICATION_ID = 2
+
+        const val ACTION_PAUSE = "pause"
+        const val ACTION_CANCEL = "cancel"
     }
 
     lateinit var binder: DownloadBinder
@@ -78,8 +82,15 @@ class DownloadService: IntentService("DownloadWorker") {
         return binder
     }
 
-    override fun onHandleIntent(intent: Intent?) {
-
+    override fun onHandleIntent(intent: Intent) {
+        when (intent.action) {
+            ACTION_PAUSE -> {
+                "暂停任务".toast()
+            }
+            ACTION_CANCEL -> {
+                "取消任务".toast()
+            }
+        }
     }
 
     private fun stopAllMission() {
@@ -152,7 +163,7 @@ class DownloadService: IntentService("DownloadWorker") {
                             val data = ByteArray(1024 * 8)
                             val fileSize: Long = body.contentLength()
 
-                            if (response.code() == 200) {
+                            if (response.code() == 200 || mission.bean.downloadLength == 0L) {
                                 mission.bean.downloadLength = 0
                                 mission.bean.contentLength = fileSize
                                 mission.bean.prepareFile()
