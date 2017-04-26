@@ -57,10 +57,10 @@ class RxDownload {
         }
     }
 
-    fun download(url: String, saveName: String, savePath: String) {
+    fun download(url: String, saveName: String, savePath: String, taskName: String) {
         ensureBind().subscribe({
             service ->
-            service.download(url, saveName, savePath)
+            service.download(url, saveName, savePath, taskName)
         })
     }
 

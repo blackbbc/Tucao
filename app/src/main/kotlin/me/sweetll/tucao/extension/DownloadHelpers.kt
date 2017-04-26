@@ -51,20 +51,6 @@ object DownloadHelpers {
     }
 
     fun loadDownloadVideos(): MutableList<MultiItemEntity> {
-        /*
-        val part1 = Part("P1", 1024)
-        val part2 = Part("P2", 1024)
-        val video1 = Video("11", "Video1", "", 2048)
-        video1.addSubItem(part1)
-        video1.addSubItem(part2)
-        val video2 = Video("22", "Video2", "", 1024)
-        val part3 = Part("P1", 1024)
-        video2.addSubItem(part3)
-
-        val data = mutableListOf<MultiItemEntity>(video1, video2)
-
-        return data
-        */
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         val jsonString = sp.getString(KEY_S_DOWNLOAD_VIDEO, "[]")
         return gson.fromJson<List<Video>>(jsonString).toMutableList()
@@ -159,9 +145,9 @@ object DownloadHelpers {
                 })
     }
 
-    fun startDownload(part: Part) {
+    fun startDownload(video:Video, part: Part) {
         part.durls.forEach {
-            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
+            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
         }
     }
 
@@ -170,7 +156,7 @@ object DownloadHelpers {
             part.durls.forEach {
                 it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
                 it.cacheFileName = "${it.order}"
-                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
+                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
             }
             video.addSubItem(part)
             saveDownloadVideo(video)
@@ -193,7 +179,7 @@ object DownloadHelpers {
                         }
                         part.durls.addAll(durls)
                         durls.forEach {
-                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath)
+                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
                         }
                     }
                     .observeOn(AndroidSchedulers.mainThread())

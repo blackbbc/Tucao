@@ -75,7 +75,6 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".rxdownload.function.DownloadService"
-            android:process=":download"
             android:exported="false"/>
 
         <meta-data

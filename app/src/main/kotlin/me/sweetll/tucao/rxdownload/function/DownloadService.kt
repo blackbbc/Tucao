@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
@@ -116,11 +117,7 @@ class DownloadService: Service() {
         }
     }
 
-    private fun syncToDb(mission: DownloadMission) {
-        mission.save()
-    }
-
-    fun download(url: String, saveName: String, savePath: String) {
+    fun download(url: String, saveName: String, savePath: String, taskName: String) {
         // 检查missionMap中是否存在
         val mission = missionMap.getOrPut(url, {
             DownloadMission(
@@ -151,7 +148,7 @@ class DownloadService: Service() {
                 }
             }
 
-            processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength))
+            processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
             downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
@@ -194,7 +191,7 @@ class DownloadService: Service() {
                             }
 
                             if (mission.bean.downloadLength == mission.bean.contentLength) {
-                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength))
+                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
                             }
 
                             fileChannel.close()
@@ -219,10 +216,9 @@ class DownloadService: Service() {
         missionMap[url]?.let {
             it.pause = true
         }
-        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // TODO: 检查是否还有任务
-        notifyMgr.cancel(ONGOING_NOTIFICATION_ID)
+        stopForeground(true)
     }
 
     fun cancel(url: String, delete: Boolean) {
@@ -244,10 +240,10 @@ class DownloadService: Service() {
     private fun consumeEvent(mission: DownloadMission, event: DownloadEvent) {
         when (event.status) {
             DownloadStatus.PAUSED -> {
-                mission.save()
+                mission.bean.save()
             }
             DownloadStatus.COMPLETED -> {
-                mission.save()
+                mission.bean.save()
                 // TODO: 使用HistoryHelpers保存下载记录
             }
         }
@@ -268,8 +264,8 @@ class DownloadService: Service() {
                 val builder = NotificationCompat.Builder(this)
                         .setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
                         .setSmallIcon(R.drawable.ic_file_download_white)
-                        .setContentTitle("缘之空/P1")
-                        .setContentText("345kB/12MB")
+                        .setContentTitle(event.taskName)
+                        .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
@@ -288,10 +284,11 @@ class DownloadService: Service() {
                 val builder = NotificationCompat.Builder(this)
                         .setProgress(0, 0, false)
                         .setSmallIcon(R.drawable.ic_file_download_white)
-                        .setContentTitle("缘之空/P1")
-                        .setContentText("7.9MB/已完成")
+                        .setContentTitle(event.taskName)
+                        .setContentText("${event.totalSize.formatWithUnit()}/已完成")
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
+                notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
 
                 val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

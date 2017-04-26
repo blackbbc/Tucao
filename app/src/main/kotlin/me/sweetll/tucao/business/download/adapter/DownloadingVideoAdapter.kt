@@ -136,9 +136,13 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                         }
                         updateMenu()
                     } else {
+                        val parentVideo = data.find {
+                            video ->
+                            (video as Video).subItems.any { it.vid == part.vid }
+                        } as Video
                         val callback = object : DownloadHelpers.Callback {
                             override fun startDownload() {
-                                DownloadHelpers.startDownload(part)
+                                DownloadHelpers.startDownload(parentVideo, part)
                             }
 
                             override fun pauseDownload() {
