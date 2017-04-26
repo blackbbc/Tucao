@@ -74,7 +74,7 @@ class RxDownload {
     fun cancel(url: String, delete: Boolean = true) {
         ensureBind().subscribe {
             service ->
-            service.cancel(url)
+            service.cancel(url, delete)
         }
     }
 

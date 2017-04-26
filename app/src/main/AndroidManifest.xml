@@ -75,6 +75,7 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".rxdownload.function.DownloadService"
+            android:process="me.sweetll.tucao.service"
             android:exported="false"/>
 
         <meta-data

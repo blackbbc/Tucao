@@ -1,15 +1,13 @@
 package me.sweetll.tucao.rxdownload.function
 
-import android.app.IntentService
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
+import android.util.Log
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -31,7 +29,7 @@ import java.io.BufferedInputStream
 import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
 
-class DownloadService: IntentService("DownloadWorker") {
+class DownloadService: Service() {
 
     companion object {
         const val ONGOING_NOTIFICATION_ID = 1
@@ -61,11 +59,8 @@ class DownloadService: IntentService("DownloadWorker") {
     val missionMap: MutableMap<String, DownloadMission> = mutableMapOf()
     val processorMap: MutableMap<String, BehaviorProcessor<DownloadEvent>> = mutableMapOf()
 
-    init {
-        setIntentRedelivery(true) // Make sure service restart when die
-    }
-
     override fun onCreate() {
+        Log.d("DownloadService", "On Create")
         super.onCreate()
         binder = DownloadBinder()
 
@@ -73,6 +68,7 @@ class DownloadService: IntentService("DownloadWorker") {
     }
 
     override fun onDestroy() {
+        Log.d("DownloadService", "On Destroy")
         super.onDestroy()
         stopAllMission()
         syncToDb()
@@ -82,15 +78,19 @@ class DownloadService: IntentService("DownloadWorker") {
         return binder
     }
 
-    override fun onHandleIntent(intent: Intent) {
-        when (intent.action) {
-            ACTION_PAUSE -> {
-                "暂停任务".toast()
-            }
-            ACTION_CANCEL -> {
-                "取消任务".toast()
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("DownloadService", "On Start Command")
+        intent?.let {
+            when (it.action) {
+                ACTION_PAUSE -> {
+                    "暂停任务".toast()
+                }
+                ACTION_CANCEL -> {
+                    "取消任务".toast()
+                }
             }
         }
+        return START_STICKY
     }
 
     private fun stopAllMission() {
@@ -219,10 +219,12 @@ class DownloadService: IntentService("DownloadWorker") {
         notifyMgr.cancel(ONGOING_NOTIFICATION_ID)
     }
 
-    fun cancel(url: String) {
+    fun cancel(url: String, delete: Boolean) {
         missionMap[url]?.let {
             it.pause = true
-            it.bean.getFile().delete()
+            if (delete) {
+                it.bean.getFile().delete()
+            }
             missionMap.remove(url)
             processorMap.remove(url)
         }
