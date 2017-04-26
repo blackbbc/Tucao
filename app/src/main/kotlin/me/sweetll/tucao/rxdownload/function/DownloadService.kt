@@ -15,7 +15,9 @@ import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
+import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
@@ -29,6 +31,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
+import java.util.concurrent.TimeUnit
 
 class DownloadService: Service() {
 
@@ -59,6 +62,7 @@ class DownloadService: Service() {
 
     val missionMap: MutableMap<String, DownloadMission> = mutableMapOf()
     val processorMap: MutableMap<String, BehaviorProcessor<DownloadEvent>> = mutableMapOf()
+    val partMap: MutableMap<String, Boolean> = mutableMapOf()
 
     override fun onCreate() {
         Log.d("DownloadService", "On Create")
@@ -108,16 +112,11 @@ class DownloadService: Service() {
             processorMap.put(it.url, BehaviorProcessor.create<DownloadEvent>()
                     .apply {
                          onNext(DownloadEvent(DownloadStatus.PAUSED, 0, 0)) // 默认暂停状态
-                         sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
-                                 .subscribe {
-                                     event ->
-                                     consumeEvent(mission, event)
-                                 }
                     })
         }
     }
 
-    fun download(url: String, saveName: String, savePath: String, taskName: String) {
+    fun download(url: String, saveName: String, savePath: String, taskName: String, part: Part) {
         // 检查missionMap中是否存在
         val mission = missionMap.getOrPut(url, {
             DownloadMission(
@@ -129,14 +128,22 @@ class DownloadService: Service() {
             BehaviorProcessor.create<DownloadEvent>()
                     .apply {
                         onNext(DownloadEvent(DownloadStatus.READY))
-                        sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
+                        sample(500, java.util.concurrent.TimeUnit.MILLISECONDS)
                                 .subscribe {
-                                    // 默认是啥?
                                     event ->
-                                    consumeEvent(mission, event)
+                                    consumeEvent(mission, event, part)
                                 }
                     }
-        })
+        }).apply {
+            if (!partMap.getOrElse(url, {false})) {
+                sample(500, TimeUnit.MILLISECONDS)
+                        .subscribe {
+                            event ->
+                            consumeEvent(mission, event, part)
+                        }
+            }
+        }
+        partMap.put(url, true)
 
         // 开始下载
         Flowable.create<DownloadEvent>({
@@ -159,8 +166,8 @@ class DownloadService: Service() {
                             val header = response.headers()
                             val body = response.body()
 
-                            mission.bean.lastModified = header.get("Last-Modified")
-                            mission.bean.etag = header.get("ETag")
+                            mission.bean.lastModified = header.get("Last-Modified") ?: "Wed, 21 Oct 2015 07:28:00 GMT"
+                            mission.bean.etag = header.get("ETag") ?: "\"\""
 
                             var count: Int
                             val data = ByteArray(1024 * 8)
@@ -181,7 +188,7 @@ class DownloadService: Service() {
                             while (count != -1 && !mission.pause) {
                                 mission.bean.downloadLength += count
                                 outputStream.put(data, 0, count)
-                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength))
+                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
                                 count = inputStream.read(data)
                             }
@@ -198,14 +205,11 @@ class DownloadService: Service() {
                             file.close()
                         } catch (error: Exception) {
                             error.printStackTrace()
-                        } finally {
-                            semaphore.release()
                         }
                     }, {
                         error ->
                         error.printStackTrace()
                         processor.onNext(DownloadEvent(DownloadStatus.FAILED))
-                        semaphore.release()
                     })
         }, BackpressureStrategy.LATEST)
                 .publish()
@@ -229,6 +233,7 @@ class DownloadService: Service() {
             }
             missionMap.remove(url)
             processorMap.remove(url)
+            it.bean.delete()
         }
     }
 
@@ -237,14 +242,22 @@ class DownloadService: Service() {
         return processor
     }
 
-    private fun consumeEvent(mission: DownloadMission, event: DownloadEvent) {
+    private fun consumeEvent(mission: DownloadMission, event: DownloadEvent, part: Part) {
         when (event.status) {
             DownloadStatus.PAUSED -> {
                 mission.bean.save()
             }
             DownloadStatus.COMPLETED -> {
                 mission.bean.save()
-                // TODO: 使用HistoryHelpers保存下载记录
+                part.durls.find {
+                    it.url == mission.bean.url
+                }?.let {
+                    it.flag = DownloadStatus.COMPLETED
+                    it.downloadSize = event.downloadSize
+                    it.totalSize = event.totalSize
+                    part.update()
+                }
+                DownloadHelpers.saveDownloadPart(part)
             }
         }
         sendNotification(event)

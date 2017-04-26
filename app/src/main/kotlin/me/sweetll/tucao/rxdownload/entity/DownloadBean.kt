@@ -9,7 +9,7 @@ import java.io.RandomAccessFile
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",
-                        @Column var etag: String = "",
+                        @Column var etag: String = "\"\"",
                         @Column var lastModified: String = "Wed, 21 Oct 2015 07:28:00 GMT",
                         @Column var contentLength: Long = 0L,
                         @Column var downloadLength: Long = 0L,

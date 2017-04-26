@@ -84,12 +84,10 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.durls.forEach {
                     durl ->
                     rxDownload.receive(durl.url)
-                            .sample(16, TimeUnit.MILLISECONDS)
+                            .sample(32, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 (status, downloadSize, totalSize) ->
-
-                                "Receive status ${durl.url}: $status $downloadSize $totalSize".logD()
 
                                 durl.flag = status
                                 durl.downloadSize = downloadSize
@@ -100,7 +98,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                                 val newEvent = DownloadEvent(part.flag, part.downloadSize, part.totalSize)
 
                                 if (part.flag == DownloadStatus.COMPLETED) {
-                                    DownloadHelpers.saveDownloadPart(part)
+//                                    DownloadHelpers.saveDownloadPart(part)
                                 } else {
                                     part.stateController?.setEvent(newEvent)
                                 }

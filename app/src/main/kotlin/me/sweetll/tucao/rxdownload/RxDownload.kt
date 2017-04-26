@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import io.reactivex.Observable
+import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.function.DownloadService
 
@@ -57,10 +58,10 @@ class RxDownload {
         }
     }
 
-    fun download(url: String, saveName: String, savePath: String, taskName: String) {
+    fun download(url: String, saveName: String, savePath: String, taskName: String, part: Part) {
         ensureBind().subscribe({
             service ->
-            service.download(url, saveName, savePath, taskName)
+            service.download(url, saveName, savePath, taskName, part)
         })
     }
 

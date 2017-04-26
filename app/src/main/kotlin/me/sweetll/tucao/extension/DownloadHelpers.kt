@@ -112,7 +112,7 @@ object DownloadHelpers {
         val videos = loadDownloadVideos()
         val existVideo = videos.flatMap {
             (it as Video).subItems
-        }.find { it. vid == part.vid}
+        }.find { it.vid == part.vid}
         existVideo?.flag = part.flag
         existVideo?.downloadSize = part.downloadSize
         existVideo?.totalSize = part.totalSize
@@ -147,7 +147,7 @@ object DownloadHelpers {
 
     fun startDownload(video:Video, part: Part) {
         part.durls.forEach {
-            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
+            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
         }
     }
 
@@ -156,7 +156,7 @@ object DownloadHelpers {
             part.durls.forEach {
                 it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
                 it.cacheFileName = "${it.order}"
-                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
+                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
             }
             video.addSubItem(part)
             saveDownloadVideo(video)
@@ -179,7 +179,7 @@ object DownloadHelpers {
                         }
                         part.durls.addAll(durls)
                         durls.forEach {
-                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}")
+                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
                         }
                     }
                     .observeOn(AndroidSchedulers.mainThread())

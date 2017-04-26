@@ -3,14 +3,12 @@ package me.sweetll.tucao.rxdownload.function
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Streaming
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface DownloadApi {
     @GET
     @Streaming
+    @Headers("User-Agent: bilibili")
     fun download(
             @Url url: String,
             @Header("Range") range: String?,
