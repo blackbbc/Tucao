@@ -67,11 +67,10 @@ class DownloadService: Service() {
         syncFromDb()
     }
 
+    // Warning: Not guarantee to call
     override fun onDestroy() {
         Log.d("DownloadService", "On Destroy")
         super.onDestroy()
-        stopAllMission()
-        syncToDb()
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -103,15 +102,22 @@ class DownloadService: Service() {
     private fun syncFromDb() {
         val beans = (select from DownloadBean::class).list
         beans.forEach {
-            missionMap.put(it.url, DownloadMission(it))
+            val mission = DownloadMission(it)
+            missionMap.put(it.url, mission)
+            processorMap.put(it.url, BehaviorProcessor.create<DownloadEvent>()
+                    .apply {
+                         onNext(DownloadEvent(DownloadStatus.PAUSED, 0, 0)) // 默认暂停状态
+                         sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
+                                 .subscribe {
+                                     event ->
+                                     consumeEvent(mission, event)
+                                 }
+                    })
         }
     }
 
-    private fun syncToDb() {
-        missionMap.forEach {
-            _, mission ->
-            mission.save()
-        }
+    private fun syncToDb(mission: DownloadMission) {
+        mission.save()
     }
 
     fun download(url: String, saveName: String, savePath: String) {
@@ -120,7 +126,7 @@ class DownloadService: Service() {
             DownloadMission(
                     DownloadBean(url = url, saveName = saveName, savePath = savePath)
             )
-        }).apply { pause = false }
+        }).apply { pause = false } // 置为false
 
         val processor = processorMap.getOrPut(url, {
             BehaviorProcessor.create<DownloadEvent>()
@@ -130,7 +136,7 @@ class DownloadService: Service() {
                                 .subscribe {
                                     // 默认是啥?
                                     event ->
-                                    sendNotification(event)
+                                    consumeEvent(mission, event)
                                 }
                     }
         })
@@ -231,19 +237,21 @@ class DownloadService: Service() {
     }
 
     fun receive(url: String): BehaviorProcessor<DownloadEvent> {
-        val mission = missionMap[url]!! // 可能不存在吗？
-        val processor = processorMap.getOrPut(url, {
-            BehaviorProcessor.create<DownloadEvent>()
-                    .apply {
-                        onNext(DownloadEvent(DownloadStatus.PAUSED, mission.bean.downloadLength, mission.bean.contentLength)) // 默认暂停状态
-                        sample(100, java.util.concurrent.TimeUnit.MILLISECONDS)
-                                .subscribe {
-                                    event ->
-                                    sendNotification(event)
-                                }
-                    }
-        })
+        val processor = processorMap[url]!! // 可能不存在吗？
         return processor
+    }
+
+    private fun consumeEvent(mission: DownloadMission, event: DownloadEvent) {
+        when (event.status) {
+            DownloadStatus.PAUSED -> {
+                mission.save()
+            }
+            DownloadStatus.COMPLETED -> {
+                mission.save()
+                // TODO: 使用HistoryHelpers保存下载记录
+            }
+        }
+        sendNotification(event)
     }
 
     private fun sendNotification(event: DownloadEvent) {
@@ -260,14 +268,13 @@ class DownloadService: Service() {
                 val builder = NotificationCompat.Builder(this)
                         .setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
                         .setSmallIcon(R.drawable.ic_file_download_white)
-                        .setContentTitle("4个任务下载中")
-                        .setContentText("缘之空/P1")
+                        .setContentTitle("缘之空/P1")
+                        .setContentText("345kB/12MB")
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
 
-                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notifyMgr.notify(ONGOING_NOTIFICATION_ID, notification)
+                startForeground(ONGOING_NOTIFICATION_ID, notification)
             }
             DownloadStatus.COMPLETED -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
@@ -288,8 +295,8 @@ class DownloadService: Service() {
 
                 val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-                // TODO: 检查是否还有任务
-                notifyMgr.cancel(ONGOING_NOTIFICATION_ID)
+                // TODO: 检查是否还有下载任务
+                stopForeground(true)
 
                 notifyMgr.notify(COMPLETED_NOTIFICATION_ID, notification)
             }
