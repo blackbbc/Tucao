@@ -235,6 +235,7 @@ class DownloadService: Service() {
             processorMap.remove(url)
             it.bean.delete()
         }
+        stopForeground(true)
     }
 
     fun receive(url: String): BehaviorProcessor<DownloadEvent> {

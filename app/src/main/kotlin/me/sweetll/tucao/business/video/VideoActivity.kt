@@ -17,12 +17,14 @@ import android.transition.*
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.model.Part
@@ -107,7 +109,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         }
 
         if (!cover.isNullOrEmpty()) {
-            binding.thumbImg.load(this, cover)
+            val thumbImg = ImageView(this)
+            thumbImg.scaleType = ImageView.ScaleType.CENTER_CROP
+            binding.player.setThumbImageView(thumbImg)
+            thumbImg.load(this, cover)
+            thumbImg.transitionName = "cover"
+
             initTransition()
         } else {
             // 5.0以下加载
@@ -124,15 +131,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun initTransition() {
         val changeBounds = ChangeBounds()
-        val arcMotion = ArcMotion()
-        changeBounds.pathMotion = arcMotion
 
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.player.getChildAt(0))
-        slideUp.addTarget(binding.thumbImg)
         val slideDown = Slide(Gravity.BOTTOM)
         slideDown.addTarget(binding.mainLinear)
         val slideAll = TransitionSet()
@@ -146,24 +150,22 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             override fun onTransitionEnd(transition: Transition?) {
                 val slideBottomAnimator = ObjectAnimator.ofFloat(binding.viewPager, "translationY", -50f.dp2px(), 0f)
                 val fadeIn1Animator = ObjectAnimator.ofFloat(binding.viewPager, "alpha", 0f, 1f)
-                val fadeIn2Animator = ObjectAnimator.ofFloat(binding.player, "alpha", 0f, 1f)
-                val fadeIn3Animator = ObjectAnimator.ofFloat(binding.tab, "alpha", 0f, 1f)
-                fadeIn3Animator.startDelay = 150
+                val fadeIn2Animator = ObjectAnimator.ofFloat(binding.tab, "alpha", 0f, 1f)
+                fadeIn2Animator.startDelay = 150
                 val enterAnimatorSet = AnimatorSet()
                 enterAnimatorSet.addListener(object: AnimatorListenerAdapter() {
                     override fun onAnimationStart(animation: Animator?) {
                         binding.tab.alpha = 0f
-                        binding.player.visibility = View.VISIBLE
                         binding.mainLinear.visibility = View.VISIBLE
                     }
                 })
 
-                val cx = (binding.player.left + binding.player.right) / 2
-                val cy = (binding.player.top + binding.player.bottom)  / 2
-                val radius = maxOf(binding.player.width, binding.player.height)
-                val revealAnimator = ViewAnimationUtils.createCircularReveal(binding.player, cx, cy, 0f, radius.toFloat())
+//                val cx = (binding.player.left + binding.player.right) / 2
+//                val cy = (binding.player.top + binding.player.bottom)  / 2
+//                val radius = maxOf(binding.player.width, binding.player.height)
+//                val revealAnimator = ViewAnimationUtils.createCircularReveal(binding.player, cx, cy, 0f, radius.toFloat())
 
-                enterAnimatorSet.playTogether(slideBottomAnimator, fadeIn1Animator, fadeIn2Animator, fadeIn3Animator, revealAnimator)
+                enterAnimatorSet.playTogether(slideBottomAnimator, fadeIn1Animator, fadeIn2Animator /*, revealAnimator */)
                 enterAnimatorSet.start()
             }
 
