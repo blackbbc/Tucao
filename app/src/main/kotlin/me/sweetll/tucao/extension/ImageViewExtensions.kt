@@ -8,3 +8,8 @@ import me.sweetll.tucao.AppApplication
 fun ImageView.load(context: Context, url: String): Unit {
     Glide.with(context).load(url).into(this)
 }
+
+fun ImageView.load(context: Context, url: String, callback: () -> Unit) {
+    this.load(context, url)
+    callback()
+}

@@ -4,11 +4,13 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.TargetApi
 import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.transition.*
@@ -105,8 +107,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         }
 
         if (!cover.isNullOrEmpty()) {
-            binding.thumbImg.load(this, cover)
-            initTransition()
+            postponeEnterTransition()
+            binding.thumbImg.load(this, cover, {
+                initTransition()
+                startPostponedEnterTransition()
+            })
         } else {
             // 5.0以下加载
             binding.player.visibility = View.VISIBLE
@@ -119,6 +124,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.setOrientationUtils(orientationUtils)
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun initTransition() {
         val changeBounds = ChangeBounds()
         val arcMotion = ArcMotion()
