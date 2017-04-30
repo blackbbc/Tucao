@@ -92,6 +92,9 @@
 -keep public class me.sweetll.tucao.business.*.event.** {
     *;
 }
+-keep public class me.sweetll.tucao.rxdownload.entity.** {
+    *;
+}
 # 依赖注入
 -keep public class me.sweetll.tucao.di.** {
     *;

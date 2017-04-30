@@ -124,7 +124,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                         checkBox.isChecked = !checkBox.isChecked
                         val parentVideo = data.find {
                             video ->
-                            (video as Video).subItems.any { it.vid == part.vid }
+                            (video is Video) && video.subItems.any { it.vid == part.vid }
                         } as Video
                         val currentPosition = parentVideo.subItems.indexOf(part)
                         val newParentChecked = parentVideo.subItems.all(Part::checked)
@@ -136,7 +136,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                     } else {
                         val parentVideo = data.find {
                             video ->
-                            (video as Video).subItems.any { it.vid == part.vid }
+                            (video is Video) && video.subItems.any { it.vid == part.vid }
                         } as Video
                         val callback = object : DownloadHelpers.Callback {
                             override fun startDownload() {
