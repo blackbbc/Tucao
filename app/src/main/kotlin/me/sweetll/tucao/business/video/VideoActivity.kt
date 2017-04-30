@@ -111,11 +111,14 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         if (!cover.isNullOrEmpty()) {
             val thumbImg = ImageView(this)
             thumbImg.scaleType = ImageView.ScaleType.FIT_XY
-            binding.player.setThumbImageView(thumbImg)
-            thumbImg.load(this, cover)
             thumbImg.transitionName = "cover"
+            binding.player.setThumbImageView(thumbImg)
 
             initTransition()
+            postponeEnterTransition()
+            thumbImg.load(this, cover, {
+                startPostponedEnterTransition()
+            })
         } else {
             // 5.0以下加载
             binding.player.visibility = View.VISIBLE

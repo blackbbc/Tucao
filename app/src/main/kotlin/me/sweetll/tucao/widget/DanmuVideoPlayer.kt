@@ -401,7 +401,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
                     danmakuView!!.postDelayed({
                         danmakuView!!.pause()
-                    }, 20)
+                    }, 32)
                 }
             }
 
