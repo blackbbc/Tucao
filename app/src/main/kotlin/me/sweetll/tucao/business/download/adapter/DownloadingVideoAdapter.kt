@@ -84,7 +84,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.durls.forEach {
                     durl ->
                     rxDownload.receive(durl.url)
-                            .sample(32, TimeUnit.MILLISECONDS)
+                            .sample(500, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 (status, downloadSize, totalSize) ->

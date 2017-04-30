@@ -49,7 +49,7 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         }
 
         override fun handleClick(callback: DownloadHelpers.Callback) {
-            callback.startDownload()
+            callback.pauseDownload()
         }
     }
 

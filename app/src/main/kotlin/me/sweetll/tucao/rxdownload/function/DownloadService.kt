@@ -127,15 +127,19 @@ class DownloadService: Service() {
         val processor = processorMap.getOrPut(url, {
             BehaviorProcessor.create<DownloadEvent>()
                     .apply {
-                        onNext(DownloadEvent(DownloadStatus.READY))
                         sample(500, java.util.concurrent.TimeUnit.MILLISECONDS)
                                 .subscribe {
                                     event ->
                                     consumeEvent(mission, event, part)
                                 }
+                        partMap.put(url, true)
                     }
         }).apply {
-            if (!partMap.getOrElse(url, {false})) {
+            onNext(DownloadEvent(DownloadStatus.READY))
+            if (!partMap.getOrElse(url, {
+                partMap.put(url, true)
+                false
+            })) {
                 sample(500, TimeUnit.MILLISECONDS)
                         .subscribe {
                             event ->
@@ -143,7 +147,6 @@ class DownloadService: Service() {
                         }
             }
         }
-        partMap.put(url, true)
 
         // 开始下载
         Flowable.create<DownloadEvent>({
@@ -212,6 +215,7 @@ class DownloadService: Service() {
                         processor.onNext(DownloadEvent(DownloadStatus.FAILED))
                     })
         }, BackpressureStrategy.LATEST)
+                .subscribeOn(Schedulers.newThread())
                 .publish()
                 .connect()
     }
@@ -221,7 +225,6 @@ class DownloadService: Service() {
             it.pause = true
         }
 
-        // TODO: 检查是否还有任务
         stopForeground(true)
     }
 
@@ -235,6 +238,7 @@ class DownloadService: Service() {
             processorMap.remove(url)
             it.bean.delete()
         }
+
         stopForeground(true)
     }
 
@@ -268,6 +272,8 @@ class DownloadService: Service() {
         when (event.status) {
             DownloadStatus.STARTED -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
+                nfIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                nfIntent.action = DownloadActivity.ACTION_DOWNLOADING
 
                 val stackBuilder = TaskStackBuilder.create(this)
                 stackBuilder.addParentStack(DownloadActivity::class.java)
@@ -288,6 +294,8 @@ class DownloadService: Service() {
             }
             DownloadStatus.COMPLETED -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
+                nfIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                nfIntent.action = DownloadActivity.ACTION_DOWNLOADED
 
                 val stackBuilder = TaskStackBuilder.create(this)
                 stackBuilder.addParentStack(DownloadActivity::class.java)
@@ -306,7 +314,6 @@ class DownloadService: Service() {
 
                 val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-                // TODO: 检查是否还有下载任务
                 stopForeground(true)
 
                 notifyMgr.notify(COMPLETED_NOTIFICATION_ID, notification)

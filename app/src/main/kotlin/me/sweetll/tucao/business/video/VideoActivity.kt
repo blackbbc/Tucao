@@ -110,7 +110,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         if (!cover.isNullOrEmpty()) {
             val thumbImg = ImageView(this)
-            thumbImg.scaleType = ImageView.ScaleType.CENTER_CROP
+            thumbImg.scaleType = ImageView.ScaleType.FIT_XY
             binding.player.setThumbImageView(thumbImg)
             thumbImg.load(this, cover)
             thumbImg.transitionName = "cover"

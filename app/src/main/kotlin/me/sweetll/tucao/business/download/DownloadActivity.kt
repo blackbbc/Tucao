@@ -55,6 +55,9 @@ class DownloadActivity : BaseActivity() {
     override fun getToolbar(): Toolbar = binding.toolbar
 
     companion object {
+        const val ACTION_DOWNLOADED = "downloaded";
+        const val ACTION_DOWNLOADING = "downloading";
+
         fun intentTo(context: Context) {
             val intent = Intent(context, DownloadActivity::class.java)
             context.startActivity(intent)
@@ -67,6 +70,17 @@ class DownloadActivity : BaseActivity() {
         binding.viewPager.adapter = DownloadPagerAdapter(supportFragmentManager)
         binding.viewPager.offscreenPageLimit = 2
         binding.tab.setupWithViewPager(binding.viewPager)
+
+        intent.action?.let {
+            when (it) {
+                ACTION_DOWNLOADING -> {
+                    binding.viewPager.currentItem = 1
+                }
+                ACTION_DOWNLOADED -> {
+                    binding.viewPager.currentItem = 0
+                }
+            }
+        }
     }
 
     override fun initToolbar() {
