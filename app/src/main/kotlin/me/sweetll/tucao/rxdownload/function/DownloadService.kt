@@ -41,6 +41,7 @@ class DownloadService: Service() {
 
         const val ACTION_PAUSE = "pause"
         const val ACTION_CANCEL = "cancel"
+        const val ACTION_URL = "url"
     }
 
     lateinit var binder: DownloadBinder
@@ -87,10 +88,12 @@ class DownloadService: Service() {
         intent?.let {
             when (it.action) {
                 ACTION_PAUSE -> {
-                    "暂停任务".toast()
+                    val url = it.getStringExtra(ACTION_URL)
+                    pause(url)
                 }
                 ACTION_CANCEL -> {
-                    "取消任务".toast()
+                    val url = it.getStringExtra(ACTION_URL)
+                    DownloadHelpers.cancelDownload(url)
                 }
             }
         }
@@ -224,8 +227,6 @@ class DownloadService: Service() {
         missionMap[url]?.let {
             it.pause = true
         }
-
-        stopForeground(true)
     }
 
     fun cancel(url: String, delete: Boolean) {
@@ -238,8 +239,6 @@ class DownloadService: Service() {
             processorMap.remove(url)
             it.bean.delete()
         }
-
-        stopForeground(true)
     }
 
     fun receive(url: String): BehaviorProcessor<DownloadEvent> {
@@ -251,6 +250,7 @@ class DownloadService: Service() {
         when (event.status) {
             DownloadStatus.PAUSED -> {
                 mission.bean.save()
+                stopForeground(true)
             }
             DownloadStatus.COMPLETED -> {
                 mission.bean.save()
@@ -265,14 +265,14 @@ class DownloadService: Service() {
                 DownloadHelpers.saveDownloadPart(part)
             }
         }
-        sendNotification(event)
+        sendNotification(event, mission.bean.url)
     }
 
-    private fun sendNotification(event: DownloadEvent) {
+    private fun sendNotification(event: DownloadEvent, url: String) {
         when (event.status) {
             DownloadStatus.STARTED -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
-                nfIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                nfIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 nfIntent.action = DownloadActivity.ACTION_DOWNLOADING
 
                 val stackBuilder = TaskStackBuilder.create(this)
@@ -281,12 +281,24 @@ class DownloadService: Service() {
 
                 val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
+                val pauseIntent = Intent(this, DownloadService::class.java)
+                pauseIntent.action = ACTION_PAUSE
+                pauseIntent.putExtra(ACTION_URL, url)
+                val piPause = PendingIntent.getService(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val cancelIntent = Intent(this, DownloadService::class.java)
+                cancelIntent.action = ACTION_CANCEL
+                cancelIntent.putExtra(ACTION_URL, url)
+                val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
                 val builder = NotificationCompat.Builder(this)
                         .setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
                         .setSmallIcon(R.drawable.ic_file_download_white)
                         .setContentTitle(event.taskName)
                         .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
                         .setContentIntent(pendingIntent)
+                        .addAction(R.drawable.ic_action_pause, "暂停", piPause)
+                        .addAction(R.drawable.ic_action_cancel, "取消", piCancel)
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
 
@@ -294,7 +306,7 @@ class DownloadService: Service() {
             }
             DownloadStatus.COMPLETED -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
-                nfIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                nfIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 nfIntent.action = DownloadActivity.ACTION_DOWNLOADED
 
                 val stackBuilder = TaskStackBuilder.create(this)

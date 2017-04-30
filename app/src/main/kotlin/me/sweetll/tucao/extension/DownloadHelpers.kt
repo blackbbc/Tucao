@@ -229,6 +229,18 @@ object DownloadHelpers {
         EventBus.getDefault().post(RefreshDownloadedVideoEvent())
     }
 
+    fun cancelDownload(url: String) {
+        val videos = loadDownloadVideos()
+
+        videos.flatMap {
+            (it as Video).subItems
+        }.find {
+            it.durls.any { it.url == url }
+        }?.let {
+            cancelDownload(listOf(it))
+        }
+    }
+
     interface Callback {
         fun startDownload()
 
