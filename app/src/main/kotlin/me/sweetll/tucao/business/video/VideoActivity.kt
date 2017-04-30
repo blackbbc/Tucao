@@ -107,11 +107,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         }
 
         if (!cover.isNullOrEmpty()) {
-            postponeEnterTransition()
-            binding.thumbImg.load(this, cover, {
-                initTransition()
-                startPostponedEnterTransition()
-            })
+            binding.thumbImg.load(this, cover)
+            initTransition()
         } else {
             // 5.0以下加载
             binding.player.visibility = View.VISIBLE
@@ -135,6 +132,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.player.getChildAt(0))
+        slideUp.addTarget(binding.thumbImg)
         val slideDown = Slide(Gravity.BOTTOM)
         slideDown.addTarget(binding.mainLinear)
         val slideAll = TransitionSet()
@@ -146,12 +144,15 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition?) {
-                val slideTopAnimator = ObjectAnimator.ofFloat(binding.mainLinear, "translationY", 50f.dp2px(), 0f)
-                val fadeIn1Animator = ObjectAnimator.ofFloat(binding.mainLinear, "alpha", 0f, 1f)
+                val slideBottomAnimator = ObjectAnimator.ofFloat(binding.viewPager, "translationY", -50f.dp2px(), 0f)
+                val fadeIn1Animator = ObjectAnimator.ofFloat(binding.viewPager, "alpha", 0f, 1f)
                 val fadeIn2Animator = ObjectAnimator.ofFloat(binding.player, "alpha", 0f, 1f)
+                val fadeIn3Animator = ObjectAnimator.ofFloat(binding.tab, "alpha", 0f, 1f)
+                fadeIn3Animator.startDelay = 150
                 val enterAnimatorSet = AnimatorSet()
                 enterAnimatorSet.addListener(object: AnimatorListenerAdapter() {
                     override fun onAnimationStart(animation: Animator?) {
+                        binding.tab.alpha = 0f
                         binding.player.visibility = View.VISIBLE
                         binding.mainLinear.visibility = View.VISIBLE
                     }
@@ -162,7 +163,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 val radius = maxOf(binding.player.width, binding.player.height)
                 val revealAnimator = ViewAnimationUtils.createCircularReveal(binding.player, cx, cy, 0f, radius.toFloat())
 
-                enterAnimatorSet.playTogether(slideTopAnimator, fadeIn1Animator, fadeIn2Animator, revealAnimator)
+                enterAnimatorSet.playTogether(slideBottomAnimator, fadeIn1Animator, fadeIn2Animator, fadeIn3Animator, revealAnimator)
                 enterAnimatorSet.start()
             }
 

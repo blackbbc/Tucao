@@ -21,20 +21,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/thumbImg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:transitionName="cover" />
-
             <me.sweetll.tucao.widget.DanmuVideoPlayer
                 android:id="@+id/player"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:visibility="invisible"
                 tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/thumbImg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:transitionName="cover" />
+
         </FrameLayout>
 
         <LinearLayout

@@ -41,11 +41,6 @@
 
     </FrameLayout>
 
-    <!--<master.flame.danmaku.ui.widget.DanmakuView-->
-        <!--android:id="@+id/danmaku"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_width="match_parent"/>-->
-
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
