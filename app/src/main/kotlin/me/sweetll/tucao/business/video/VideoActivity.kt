@@ -114,6 +114,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             thumbImg.transitionName = "cover"
             binding.player.setThumbImageView(thumbImg)
 
+            binding.mainLinear.transitionName = "bg"
+
             initTransition()
             postponeEnterTransition()
             thumbImg.load(this, cover, {
@@ -122,7 +124,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         } else {
             // 5.0以下加载
             binding.player.visibility = View.VISIBLE
-            binding.mainLinear.visibility = View.VISIBLE
+            binding.tab.alpha = 1f
+            binding.viewPager.alpha = 1f
         }
 
         binding.viewModel = viewModel
@@ -159,7 +162,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 enterAnimatorSet.addListener(object: AnimatorListenerAdapter() {
                     override fun onAnimationStart(animation: Animator?) {
                         binding.tab.alpha = 0f
-                        binding.mainLinear.visibility = View.VISIBLE
                     }
                 })
 
@@ -195,7 +197,10 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 if (transitionIn) {
                     transitionIn = false
                 } else {
-                    sharedElements?.remove("cover")
+                    sharedElements?.run {
+                        remove("cover")
+                        remove("bg")
+                    }
                 }
             }
         })
