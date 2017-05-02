@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
+import android.support.v4.util.ArrayMap
 import android.util.Log
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
@@ -61,9 +62,9 @@ class DownloadService: Service() {
 
     var semaphore: Semaphore = Semaphore(1) // 同时只允许1个任务下载
 
-    val missionMap: MutableMap<String, DownloadMission> = mutableMapOf()
-    val processorMap: MutableMap<String, BehaviorProcessor<DownloadEvent>> = mutableMapOf()
-    val partMap: MutableMap<String, Boolean> = mutableMapOf()
+    val missionMap: ArrayMap<String, DownloadMission> = ArrayMap()
+    val processorMap: ArrayMap<String, BehaviorProcessor<DownloadEvent>> = ArrayMap()
+    val partMap: ArrayMap<String, Boolean> = ArrayMap()
 
     override fun onCreate() {
         Log.d("DownloadService", "On Create")
@@ -98,13 +99,6 @@ class DownloadService: Service() {
             }
         }
         return START_STICKY
-    }
-
-    private fun stopAllMission() {
-        missionMap.forEach {
-            _, mission ->
-            mission.pause = true
-        }
     }
 
     private fun syncFromDb() {
