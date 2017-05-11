@@ -12,6 +12,7 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.ViewCompat
 import android.text.format.DateFormat
 import android.transition.*
 import android.view.Gravity
@@ -111,15 +112,15 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         if (!cover.isNullOrEmpty()) {
             val thumbImg = ImageView(this)
             thumbImg.scaleType = ImageView.ScaleType.FIT_XY
-            thumbImg.transitionName = "cover"
+            ViewCompat.setTransitionName(thumbImg, "cover")
             binding.player.setThumbImageView(thumbImg)
 
-            binding.mainLinear.transitionName = "bg"
+            ViewCompat.setTransitionName(thumbImg, "bg")
 
             initTransition()
-            postponeEnterTransition()
+            supportPostponeEnterTransition()
             thumbImg.load(this, cover, {
-                startPostponedEnterTransition()
+                supportStartPostponedEnterTransition()
             })
         } else {
             // 5.0以下加载
