@@ -17,8 +17,8 @@
 - 视频离线缓存
 
 ## Screenshots
-<a href="art/1.png"><img src="art/1.png" width="30%"/></a>
-<a href="art/2.png"><img src="art/2.png" width="30%"/></a>
+<a href="art/1.gif"><img src="art/1.gif" width="30%"/></a>
+<a href="art/2.gif"><img src="art/2.gif" width="30%"/></a>
 <a href="art/3.png"><img src="art/3.png" width="30%"/></a>
 
 <a href="art/4.png"><img src="art/4.png" width="30%"/></a>
@@ -45,7 +45,7 @@
 <a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
 ## TODO
-- [x] 优化下载功能（V1.0.7.1）
+- [x] 优化下载功能（V1.0.7-1）
 - [ ] 下载弹幕（V1.0.8）
 - [ ] 登陆（V1.0.8）
 - [ ] 发送评论 (V1.0.8)
