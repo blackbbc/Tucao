@@ -119,6 +119,31 @@ class SearchActivity : BaseActivity() {
                 }
             }
         })
+
+        window.sharedElementEnterTransition.addListener(object: Transition.TransitionListener {
+            override fun onTransitionEnd(transition: Transition?) {
+                binding.searchEdit.requestFocus()
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.searchEdit, 0)
+            }
+
+            override fun onTransitionResume(transition: Transition?) {
+
+            }
+
+            override fun onTransitionPause(transition: Transition?) {
+
+            }
+
+            override fun onTransitionCancel(transition: Transition?) {
+
+            }
+
+            override fun onTransitionStart(transition: Transition?) {
+
+            }
+
+        })
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -131,11 +156,11 @@ class SearchActivity : BaseActivity() {
         return transition
     }
 
-    override fun onEnterAnimationComplete() {
-        binding.searchEdit.requestFocus()
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.searchEdit, 0)
-    }
+//    override fun onEnterAnimationComplete() {
+//        binding.searchEdit.requestFocus()
+//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.showSoftInput(binding.searchEdit, 0)
+//    }
 
     fun setupRecyclerView() {
         videoAdapter.setOnLoadMoreListener {
