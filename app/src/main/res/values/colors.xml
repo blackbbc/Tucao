@@ -6,6 +6,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="scrim">#99323232</color>
 
     <color name="primary_text">#DE000000</color>
     <color name="secondary_text">#8A000000</color>
