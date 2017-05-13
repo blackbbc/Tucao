@@ -18,7 +18,6 @@ import android.text.format.DateFormat
 import android.transition.*
 import android.view.Gravity
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.widget.ImageView
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
@@ -116,7 +115,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             ViewCompat.setTransitionName(thumbImg, "cover")
             binding.player.setThumbImageView(thumbImg)
 
-            ViewCompat.setTransitionName(thumbImg, "bg")
+            ViewCompat.setTransitionName(binding.mainLinear, "bg")
 
             initTransition()
             supportPostponeEnterTransition()
@@ -143,7 +142,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
-        // window.sharedElementEnterTransition.interpolator = FastOutSlowInInterpolator() 有Bug?
+        window.sharedElementEnterTransition.interpolator = FastOutSlowInInterpolator()
 
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.player.getChildAt(0))
