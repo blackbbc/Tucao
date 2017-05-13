@@ -6,6 +6,12 @@
     tools:paddingTop="25dp"
     tools:paddingBottom="50dp">
 
+    <View
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"/>
+
     <me.sweetll.tucao.widget.TopCropImageView
         android:id="@+id/img_banner"
         android:layout_width="match_parent"

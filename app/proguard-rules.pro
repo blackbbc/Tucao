@@ -58,7 +58,7 @@
 }
 
 # 保留我们自定义控件（继承自View）不被混淆
--keep public class * extends android.view.View{
+-keep public class * extends android.view.View {
     *** get*();
     void set*(***);
     public <init>(android.content.Context);
@@ -95,6 +95,12 @@
 -keep public class me.sweetll.tucao.rxdownload.entity.** {
     *;
 }
+
+# 过渡动画
+-keep public class me.sweetll.tucao.transition.** {
+    *;
+}
+
 # 依赖注入
 -keep public class me.sweetll.tucao.di.** {
     *;
