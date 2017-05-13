@@ -13,6 +13,7 @@ import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.format.DateFormat
 import android.transition.*
 import android.view.Gravity
@@ -141,6 +142,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
+
+        // window.sharedElementEnterTransition.interpolator = FastOutSlowInInterpolator() 有Bug?
 
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.player.getChildAt(0))
