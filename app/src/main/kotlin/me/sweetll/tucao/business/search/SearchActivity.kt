@@ -156,12 +156,6 @@ class SearchActivity : BaseActivity() {
         return transition
     }
 
-//    override fun onEnterAnimationComplete() {
-//        binding.searchEdit.requestFocus()
-//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(binding.searchEdit, 0)
-//    }
-
     fun setupRecyclerView() {
         videoAdapter.setOnLoadMoreListener {
             viewModel.loadMoreData()
@@ -185,6 +179,11 @@ class SearchActivity : BaseActivity() {
         })
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)
         binding.searchRecycler.adapter = videoAdapter
+        binding.searchRecycler.addItemDecoration(
+                HorizontalDividerBuilder.newInstance(this)
+                        .setDivider(R.drawable.divider_small)
+                        .build()
+        )
 
         binding.historyRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
