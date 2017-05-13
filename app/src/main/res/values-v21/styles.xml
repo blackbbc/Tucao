@@ -23,10 +23,10 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
 
-        <!--<item name="android:windowEnterTransition">@transition/search_enter</item>-->
-        <!--<item name="android:windowReturnTransition">@transition/search_return</item>-->
-        <!--<item name="android:windowSharedElementEnterTransition">@transition/search_shared_enter</item>-->
-        <!--<item name="android:windowSharedElementReturnTransition">@transition/search_shared_return</item>-->
+        <item name="android:windowEnterTransition">@transition/search_enter</item>
+        <item name="android:windowReturnTransition">@transition/search_return</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/search_shared_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/search_shared_return</item>
     </style>
 
 </resources>

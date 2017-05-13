@@ -20,12 +20,12 @@
     android:duration="600"
     android:transitionOrdering="together">
 
-    <!--<targets>-->
-        <!--<target android:targetId="@id/searchback" />-->
-    <!--</targets>-->
-    <!--<changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />-->
-    <!--<transition-->
-        <!--class="me.sweetll.debugspec.transitions.StartAnimatable"-->
-        <!--android:src="@drawable/avd_back_to_search" />-->
+    <targets>
+        <target android:targetId="@id/backImg" />
+    </targets>
+    <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />
+    <transition
+        class="me.sweetll.tucao.transition.StartAnimatable"
+        android:src="@drawable/avd_back_to_search" />
 
 </transitionSet>

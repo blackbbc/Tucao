@@ -2,19 +2,29 @@ package me.sweetll.tucao.business.search
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.TargetApi
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.TransitionRes
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v4.util.Pair
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.transition.TransitionManager
+import android.transition.TransitionSet
+import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemChildClickListener
@@ -30,6 +40,9 @@ import me.sweetll.tucao.databinding.ActivitySearchBinding
 import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.transition.CircularReveal
+import me.sweetll.tucao.util.TransitionUtils
+import me.sweetll.tucao.widget.DisEditText
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class SearchActivity : BaseActivity() {
@@ -39,15 +52,17 @@ class SearchActivity : BaseActivity() {
     val searchHistoryAdapter = SearchHistoryAdapter(null)
     val videoAdapter = VideoAdapter(null)
 
+    private val transitions: SparseArray<Transition> = SparseArray()
+
     companion object {
         val ARG_KEYWORD = "keyword"
         val ARG_TID = "tid"
 
-        fun intentTo(context: Context, keyword: String? = null, tid: Int? = null) {
+        fun intentTo(context: Context, keyword: String? = null, tid: Int? = null, options: Bundle? = null) {
             val intent = Intent(context, SearchActivity::class.java)
             intent.putExtra(ARG_KEYWORD, keyword)
             intent.putExtra(ARG_TID, tid)
-            context.startActivity(intent)
+            context.startActivity(intent, options)
         }
     }
 
@@ -66,21 +81,66 @@ class SearchActivity : BaseActivity() {
             view, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.onClickSearch(view)
+                view.clearFocus()
                 true
             }
             false
         }
 
+        binding.searchEdit.dismissListener = object : DisEditText.KeyboardDismissListener {
+            override fun onKeyboardDismiss() {
+                binding.searchEdit.clearFocus()
+            }
+        }
+
         setupRecyclerView()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initTransition()
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun initTransition() {
+        // grab the position that the search icon transitions in *from*
+        // & use it to configure the return transition
+        setEnterSharedElementCallback(object : SharedElementCallback() {
+            override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
+                if (sharedElements != null && !sharedElements.isEmpty()) {
+                    val searchIcon = sharedElements[0]
+                    if (searchIcon.id != R.id.backImg) return
+                    val centerX = (searchIcon.left + searchIcon.right) / 2
+                    val hideResults = TransitionUtils.findTransition(
+                            (this@SearchActivity).window.returnTransition as TransitionSet,
+                            CircularReveal::class.java, R.id.resultsContainer)
+                    if (hideResults != null) {
+                        (hideResults as CircularReveal).setCenter(Point(centerX, 0))
+                    }
+                }
+            }
+        })
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun getTransition(@TransitionRes transitionId: Int): Transition {
+        var transition = transitions.get(transitionId)
+        if (transition == null) {
+            transition = TransitionInflater.from(this).inflateTransition(transitionId)
+            transitions.put(transitionId, transition)
+        }
+        return transition
+    }
+
+    override fun onEnterAnimationComplete() {
+        binding.searchEdit.requestFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.searchEdit, 0)
     }
 
     fun setupRecyclerView() {
         videoAdapter.setOnLoadMoreListener {
             viewModel.loadMoreData()
         }
-
-        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
-        binding.swipeRefresh.isEnabled = false
 
         binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
@@ -162,9 +222,15 @@ class SearchActivity : BaseActivity() {
     }
 
     fun setRefreshing(refreshing: Boolean) {
-        binding.swipeRefresh.post {
-            binding.swipeRefresh.isEnabled = refreshing
-            binding.swipeRefresh.isRefreshing = refreshing
+        TransitionManager.beginDelayedTransition(
+                binding.root as ViewGroup, getTransition(R.transition.auto)
+        )
+        if (refreshing) {
+            binding.progress.visibility = View.VISIBLE
+            binding.searchResults.visibility = View.GONE
+        } else {
+            binding.progress.visibility = View.GONE
+            binding.searchResults.visibility = View.VISIBLE
         }
     }
 

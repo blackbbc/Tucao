@@ -46,7 +46,11 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         jsonApiService.search(tid, pageIndex, pageSize, order, lastKeyword)
                 .bindToLifecycle(activity)
                 .sanitizeJsonList()
-                .doAfterTerminate { activity.setRefreshing(false) }
+                .doAfterTerminate {
+                    searchResultVisibility.set(View.VISIBLE)
+                    searchHistoryVisibility.set(View.GONE)
+                    activity.setRefreshing(false)
+                }
                 .map{
                     response ->
                     totalCount.set(response.totalCount)
@@ -101,14 +105,14 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
     }
 
     fun onSearchTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        activity.clearData()
         if (s.isEmpty()) {
+            activity.clearData()
             searchHistoryVisibility.set(View.VISIBLE)
             searchResultVisibility.set(View.GONE)
-        } else {
+        } /*else {
             searchHistoryVisibility.set(View.GONE)
             searchResultVisibility.set(View.VISIBLE)
-        }
+        } */
     }
 
     fun hideAllDropDown(): Boolean {

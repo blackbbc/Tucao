@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="me.sweetll.tucao.business.search.SearchActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.sweetll.tucao.business.search.SearchActivity">
 
     <data>
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.search.viewmodel.SearchViewModel" />
@@ -12,371 +14,409 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <View
             android:id="@+id/statusBar"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:layout_height="25dp"
-            android:background="@color/colorPrimary"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal"
-            android:background="@color/colorPrimary">
-
-            <ImageView
-                android:id="@+id/backImg"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_keyboard_arrow_left"
-                android:scaleType="centerInside"
-                android:onClick="@{viewModel::onClickBack}"/>
-
-            <EditText
-                android:id="@+id/searchEdit"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp"
-                android:paddingRight="8dp"
-                android:paddingEnd="8dp"
-                android:background="@drawable/bg_round_white_rectangle"
-                android:inputType="text"
-                android:imeOptions="actionSearch"
-                android:textColor="@color/primary_text"
-                android:textSize="15sp"
-                android:text="@={viewModel.searchText}"
-                android:onTextChanged="@{viewModel::onSearchTextChanged}"
-                android:hint="输入关键词"
-                android:textColorHint="@color/hint_text"/>
-
-            <ImageView
-                android:id="@+id/searchImg"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_search"
-                android:scaleType="centerInside"
-                android:onClick="@{viewModel::onClickSearch}"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="@{viewModel.totalCountVisibility}"
-                tools:text="共:274个相关结果"
-                android:text='@{"共：" + viewModel.totalCount + "个相关结果"}'
-                android:textSize="12sp"
-                android:textColor="@color/secondary_text"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_round_white_rectangle_grey_border"
-                android:gravity="center"
-                android:onClick="@{viewModel::onToggleChannelFilter}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="全部分类"
-                    android:text="@{viewModel.channelFilterText}"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_text"/>
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_keyboard_arrow_down"
-                    android:scaleType="centerInside"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_round_white_rectangle_grey_border"
-                android:gravity="center"
-                android:onClick="@{viewModel::onToggleOrderFilter}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="发布时间"
-                    android:text="@{viewModel.orderFilterText}"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary_text"/>
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_keyboard_arrow_down"
-                    android:scaleType="centerInside"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/grey_300"/>
+            android:background="@color/colorPrimary"
+            tools:layout_height="25dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:visibility="@{viewModel.searchResultVisibility}">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/searchRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_video"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/historyRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:visibility="@{viewModel.searchHistoryVisibility}"
-                tools:listitem="@layout/item_search_history"/>
-
-            <!--遮罩层-->
             <View
-                android:id="@+id/maskView"
+                android:id="@+id/scrim"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/mask"
-                tools:visibility="gone"
-                android:visibility="invisible"
-                android:onClick="@{viewModel::onClickMask}"/>
+                android:background="@color/scrim" />
 
-            <!--分类选择项-->
             <LinearLayout
-                android:id="@+id/channelDropLinear"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                tools:visibility="gone"
-                android:visibility="invisible">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <View
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal">
 
-                <TextView
+                    <View
+                        android:id="@+id/searchBg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/backImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{viewModel::onClickBack}"
+                        android:transitionName="transition_search_back"
+                        app:srcCompat="@drawable/ic_arrow_back_padded" />
+
+                    <me.sweetll.tucao.widget.DisEditText
+                        android:id="@+id/searchEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginRight="48dp"
+                        android:background="@android:color/transparent"
+                        android:hint="输入关键词"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:onTextChanged="@{viewModel::onSearchTextChanged}"
+                        android:paddingEnd="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingStart="8dp"
+                        android:text="@={viewModel.searchText}"
+                        android:textColor="@color/white"
+                        android:textColorHint="#99FFFFFF"
+                        android:textSize="17sp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/resultsContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="全部分类"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:indeterminateTint="?android:colorAccent"
+                        android:indeterminateTintMode="src_in"
+                        android:paddingBottom="64dp"
+                        android:paddingTop="64dp"
+                        android:visibility="gone" />
 
-                <TextView
-                    android:tag="19"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="动画"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                    <FrameLayout
+                        android:id="@+id/searchResults"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="@{viewModel.searchResultVisibility}">
 
-                <TextView
-                    android:tag="20"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="音乐"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text='@{"共：" + viewModel.totalCount + "个相关结果"}'
+                                    android:textColor="@color/secondary_text"
+                                    android:textSize="12sp"
+                                    android:visibility="@{viewModel.totalCountVisibility}"
+                                    tools:text="共:274个相关结果" />
 
-                <TextView
-                    android:tag="21"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="游戏"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="8dp"
+                                    android:background="@drawable/bg_round_white_rectangle_grey_border"
+                                    android:gravity="center"
+                                    android:onClick="@{viewModel::onToggleChannelFilter}"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="4dp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingTop="4dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@{viewModel.channelFilterText}"
+                                        android:textColor="@color/primary_text"
+                                        android:textSize="12sp"
+                                        tools:text="全部分类" />
 
-                <TextView
-                    android:tag="22"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="三次元"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                                    <ImageView
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/ic_keyboard_arrow_down" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                                </LinearLayout>
 
-                <TextView
-                    android:tag="23"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="影剧"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_round_white_rectangle_grey_border"
+                                    android:gravity="center"
+                                    android:onClick="@{viewModel::onToggleOrderFilter}"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="4dp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingTop="4dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@{viewModel.orderFilterText}"
+                                        android:textColor="@color/primary_text"
+                                        android:textSize="12sp"
+                                        tools:text="发布时间" />
 
-                <TextView
-                    android:tag="24"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="新番"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterChannel}"/>
+                                    <ImageView
+                                        android:layout_width="10dp"
+                                        android:layout_height="10dp"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/ic_keyboard_arrow_down" />
 
-            </LinearLayout>
+                                </LinearLayout>
 
-            <!--排序选择项-->
-            <LinearLayout
-                android:id="@+id/orderDropLinear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                tools:visibility="gone"
-                android:visibility="invisible">
+                            </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
 
-                <TextView
-                    android:tag="date"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="发布时间"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterOrder}"/>
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/searchRecycler"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                tools:listitem="@layout/item_video" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                        </LinearLayout>
 
-                <TextView
-                    android:tag="mukio"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="弹幕数"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterOrder}"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/historyRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.searchHistoryVisibility}"
+                            tools:listitem="@layout/item_search_history" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_300"/>
+                        <!--遮罩层-->
+                        <View
+                            android:id="@+id/maskView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/mask"
+                            android:onClick="@{viewModel::onClickMask}"
+                            android:visibility="invisible"
+                            tools:visibility="gone" />
 
-                <TextView
-                    android:tag="views"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="播放数"
-                    android:textSize="14sp"
-                    android:textColor="@color/primary_text"
-                    android:onClick="@{viewModel::onFilterOrder}"/>
+                        <!--分类选择项-->
+                        <LinearLayout
+                            android:id="@+id/channelDropLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="vertical"
+                            android:visibility="invisible"
+                            tools:visibility="gone">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:text="全部分类"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="19"
+                                android:text="动画"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="20"
+                                android:text="音乐"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="21"
+                                android:text="游戏"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="22"
+                                android:text="三次元"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="23"
+                                android:text="影剧"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterChannel}"
+                                android:paddingLeft="16dp"
+                                android:tag="24"
+                                android:text="新番"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <!--排序选择项-->
+                        <LinearLayout
+                            android:id="@+id/orderDropLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="vertical"
+                            android:visibility="invisible"
+                            tools:visibility="gone">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterOrder}"
+                                android:paddingLeft="16dp"
+                                android:tag="date"
+                                android:text="发布时间"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterOrder}"
+                                android:paddingLeft="16dp"
+                                android:tag="mukio"
+                                android:text="弹幕数"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/grey_300" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:onClick="@{viewModel::onFilterOrder}"
+                                android:paddingLeft="16dp"
+                                android:tag="views"
+                                android:text="播放数"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </FrameLayout>
 
             </LinearLayout>
 
         </FrameLayout>
-
     </LinearLayout>
 </layout>

@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
@@ -102,7 +103,10 @@ class MainActivity : BaseActivity() {
                     return true
                 }
                 R.id.action_search -> {
-                    SearchActivity.intentTo(this)
+                    val searchView = getToolbar().findViewById(R.id.action_search)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, searchView,
+                            "transition_search_back").toBundle()
+                    SearchActivity.intentTo(this, options = options)
                     return true
                 }
                 else -> {

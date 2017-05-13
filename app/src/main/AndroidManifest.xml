@@ -43,6 +43,7 @@
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
+            android:theme="@style/Translucent.Search"
             android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
