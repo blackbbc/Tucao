@@ -171,7 +171,7 @@ class DownloadService: Service() {
 
                             var count: Int
                             val data = ByteArray(1024 * 8)
-                            val fileSize: Long = body.contentLength()
+                            val fileSize: Long = body!!.contentLength()
 
                             if (response.code() == 200 || mission.bean.downloadLength == 0L) {
                                 mission.bean.downloadLength = 0

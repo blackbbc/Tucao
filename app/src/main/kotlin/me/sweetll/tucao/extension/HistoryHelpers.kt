@@ -1,8 +1,8 @@
 package me.sweetll.tucao.extension
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import me.sweetll.tucao.model.json.Result
-import com.github.salomonbrys.kotson.*
 
 object HistoryHelpers {
     private val HISTORY_FILE_NAME = "history"
@@ -11,10 +11,12 @@ object HistoryHelpers {
     private val KEY_S_PLAY_HISTORY = "play_history"
     private val KEY_S_STAR = "star"
 
+    private val mapper = jacksonObjectMapper()
+
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
         val jsonString = sp.getString(key, "[]")
-        return Gson().fromJson<List<Result>>(jsonString).toMutableList()
+        return mapper.readValue<List<Result>>(jsonString).toMutableList()
     }
 
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
@@ -35,7 +37,7 @@ object HistoryHelpers {
             }
         }
         histories.add(0, result)
-        val jsonString = Gson().toJson(histories)
+        val jsonString = mapper.writeValueAsString(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
             putString(key, jsonString)
@@ -63,7 +65,7 @@ object HistoryHelpers {
         val histories = loadHistory(fileName, key)
         val removedIndex = histories.indexOf(result)
         histories.remove(result)
-        val jsonString = Gson().toJson(histories)
+        val jsonString = mapper.writeValueAsString(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
             putString(key, jsonString)

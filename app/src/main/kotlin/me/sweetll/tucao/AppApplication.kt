@@ -1,13 +1,9 @@
 package me.sweetll.tucao
 
-import android.content.Context
 import android.support.multidex.MultiDexApplication
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
-import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
-import me.drakeet.library.CrashWoodpecker
-import me.drakeet.library.PatchMode
 import me.sweetll.tucao.di.component.ApiComponent
 import me.sweetll.tucao.di.component.BaseComponent
 import me.sweetll.tucao.di.component.DaggerBaseComponent
@@ -29,6 +25,7 @@ class AppApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
         INSTANCE = this
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
 //        CrashWoodpecker.instance()

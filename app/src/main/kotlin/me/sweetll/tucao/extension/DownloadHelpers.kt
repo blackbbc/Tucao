@@ -17,12 +17,11 @@ import me.sweetll.tucao.di.service.XmlApiService
 import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
-import com.github.salomonbrys.kotson.*
-import com.google.gson.GsonBuilder
 import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
-import me.sweetll.tucao.business.download.model.ExcludeStateConstrollerStrategy
 import java.io.File
 import android.preference.PreferenceManager
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
@@ -36,9 +35,7 @@ object DownloadHelpers {
 
     private val serviceInstance = ServiceInstance()
 
-    private val gson = GsonBuilder()
-            .setExclusionStrategies(ExcludeStateConstrollerStrategy())
-            .create()
+    private val mapper = jacksonObjectMapper()
 
     fun getDownloadFolder(): File {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppApplication.get())
@@ -53,7 +50,7 @@ object DownloadHelpers {
     fun loadDownloadVideos(): MutableList<MultiItemEntity> {
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         val jsonString = sp.getString(KEY_S_DOWNLOAD_VIDEO, "[]")
-        return gson.fromJson<List<Video>>(jsonString).toMutableList()
+        return mapper.readValue<List<Video>>(jsonString).toMutableList()
     }
 
     fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
@@ -99,7 +96,7 @@ object DownloadHelpers {
             videos.add(0, video)
         }
 
-        val jsonString = gson.toJson(videos)
+        val jsonString = mapper.writeValueAsString(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
@@ -117,7 +114,7 @@ object DownloadHelpers {
         existVideo?.downloadSize = part.downloadSize
         existVideo?.totalSize = part.totalSize
 
-        val jsonString = gson.toJson(videos)
+        val jsonString = mapper.writeValueAsString(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
@@ -213,7 +210,7 @@ object DownloadHelpers {
             (it as Video).subItems.isEmpty()
         }
 
-        val jsonString = gson.toJson(videos)
+        val jsonString = mapper.writeValueAsString(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)

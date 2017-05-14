@@ -7,7 +7,7 @@ android {
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId 'me.sweetll.tucao'
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 109
         versionName '1.0.7-2'
@@ -76,16 +76,15 @@ dependencies {
     /* RxPermissions */
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     /* Retrofit */
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0.pr2'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.2.0') {
+    compile ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'
     }
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
     /* Dagger2 */
     compile 'com.google.dagger:dagger:2.10'
@@ -110,6 +109,10 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    /* Block Canary */
+    compile 'com.github.markzhai:blockcanary-android:1.5.0'
+    debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
+    releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
     /* DBFlow */
     kapt 'com.github.Raizlabs.DBFlow:dbflow-processor:4.0.0-beta7'
     compile 'com.github.Raizlabs.DBFlow:dbflow-core:4.0.0-beta7'
