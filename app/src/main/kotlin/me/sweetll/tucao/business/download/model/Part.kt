@@ -3,11 +3,14 @@ package me.sweetll.tucao.business.download.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
 import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Part(val title: String,
            val order: Int,
            var vid: String = "",
@@ -20,7 +23,7 @@ class Part(val title: String,
            var checked: Boolean = false,
            var hasPlay: Boolean = false,
            var lastPlayPosition: Int = 0,
-           var stateController: StateController? = null): MultiItemEntity, Parcelable{
+           @field:JsonIgnore var stateController: StateController? = null): MultiItemEntity, Parcelable{
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_PART
 
     fun update() {

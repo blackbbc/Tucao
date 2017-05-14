@@ -16,7 +16,7 @@ object HistoryHelpers {
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
         val jsonString = sp.getString(key, "[]")
-        return mapper.readValue<List<Result>>(jsonString).toMutableList()
+        return mapper.readValue<MutableList<Result>>(jsonString)
     }
 
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)

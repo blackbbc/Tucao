@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.support.multidex.MultiDexApplication
+import com.github.moduth.blockcanary.BlockCanary
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.umeng.analytics.MobclickAgent
@@ -25,6 +26,8 @@ class AppApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+//        BlockCanary.install(this, AppBlockCanaryContext()).start()
 
         INSTANCE = this
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)

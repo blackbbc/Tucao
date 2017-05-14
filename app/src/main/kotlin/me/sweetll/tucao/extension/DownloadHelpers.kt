@@ -47,10 +47,10 @@ object DownloadHelpers {
         return downloadFolder
     }
 
-    fun loadDownloadVideos(): MutableList<MultiItemEntity> {
+    fun loadDownloadVideos(): MutableList<Video> {
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         val jsonString = sp.getString(KEY_S_DOWNLOAD_VIDEO, "[]")
-        return mapper.readValue<List<Video>>(jsonString).toMutableList()
+        return mapper.readValue<MutableList<Video>>(jsonString)
     }
 
     fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
