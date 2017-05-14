@@ -23,6 +23,7 @@ import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.AppApplication
@@ -232,6 +233,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             //直接横屏
             orientationUtils.backToLand()
         }
+
+        GSYVideoType.enableMediaCodec() // 开启硬解
 
         binding.player.speed = 1f
 
