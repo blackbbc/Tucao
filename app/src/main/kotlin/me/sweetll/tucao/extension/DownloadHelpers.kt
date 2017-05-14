@@ -56,13 +56,13 @@ object DownloadHelpers {
     fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
             .filter {
                 video ->
-                (video as Video).subItems.any {
+                video.subItems.any {
                     it.flag != DownloadStatus.COMPLETED
                 }
             }
             .map {
                 video ->
-                (video as Video).subItems.removeAll { it.flag == DownloadStatus.COMPLETED }
+                video.subItems.removeAll { it.flag == DownloadStatus.COMPLETED }
                 video
             }
             .toMutableList()
@@ -70,13 +70,12 @@ object DownloadHelpers {
     fun loadDownloadedVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
             .filter {
                 video ->
-                (video as Video).subItems.any {
+                video.subItems.any {
                     it.flag == DownloadStatus.COMPLETED
                 }
             }
             .map {
                 video ->
-                video as Video
                 video.subItems.removeAll { it.flag != DownloadStatus.COMPLETED }
                 video.totalSize = video.subItems.sumByLong(Part::totalSize)
                 video.downloadSize = video.totalSize
@@ -87,9 +86,8 @@ object DownloadHelpers {
     fun saveDownloadVideo(video: Video) {
         val videos = loadDownloadVideos()
 
-        val existVideo = videos.find { (it as Video).hid == video.hid }
+        val existVideo = videos.find { it.hid == video.hid }
         if (existVideo != null) {
-            existVideo as Video
             existVideo.addSubItem(video.getSubItem(0))
             existVideo.subItems.sortBy(Part::order)
         } else {
@@ -108,7 +106,7 @@ object DownloadHelpers {
     fun saveDownloadPart(part: Part) {
         val videos = loadDownloadVideos()
         val existVideo = videos.flatMap {
-            (it as Video).subItems
+            it.subItems
         }.find { it.vid == part.vid}
         existVideo?.flag = part.flag
         existVideo?.downloadSize = part.downloadSize
@@ -201,13 +199,13 @@ object DownloadHelpers {
         val videos = loadDownloadVideos()
         videos.forEach {
             video ->
-            (video as Video).subItems.removeAll {
+            video.subItems.removeAll {
                 part ->
                 parts.any { it.vid == part.vid }
             }
         }
         videos.removeAll {
-            (it as Video).subItems.isEmpty()
+            it.subItems.isEmpty()
         }
 
         val jsonString = mapper.writeValueAsString(videos)
@@ -230,7 +228,7 @@ object DownloadHelpers {
         val videos = loadDownloadVideos()
 
         videos.flatMap {
-            (it as Video).subItems
+            it.subItems
         }.find {
             it.durls.any { it.url == url }
         }?.let {

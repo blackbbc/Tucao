@@ -110,7 +110,6 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     /* Block Canary */
-    compile 'com.github.markzhai:blockcanary-android:1.5.0'
     debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
     /* DBFlow */

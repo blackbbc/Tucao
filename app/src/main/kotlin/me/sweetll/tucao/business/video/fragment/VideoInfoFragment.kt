@@ -73,7 +73,7 @@ class VideoInfoFragment: BaseFragment() {
         }
 
         val downloadParts = DownloadHelpers.loadDownloadVideos()
-                .flatMap { (it as Video).subItems }
+                .flatMap { it.subItems }
         val videoHistory = HistoryHelpers.loadPlayHistory().find { it.hid == result.hid }
 
         parts = result.video.map {
