@@ -19,7 +19,7 @@
 ## Screenshots
 <a href="art/1.gif"><img src="art/1.gif" width="30%"/></a>
 <a href="art/2.gif"><img src="art/2.gif" width="30%"/></a>
-<a href="art/3.png"><img src="art/3.png" width="30%"/></a>
+<a href="art/3.gif"><img src="art/3.png" width="40%"/></a>
 
 <a href="art/4.png"><img src="art/4.png" width="30%"/></a>
 <a href="art/5.png"><img src="art/5.png" width="30%"/></a>
@@ -40,9 +40,6 @@
 <a href="art/16.png"><img src="art/16.png" width="30%"/></a>
 <a href="art/17.png"><img src="art/17.png" width="30%"/></a>
 <a href="art/18.png"><img src="art/18.png" width="30%"/></a>
-
-<a href="art/19.png"><img src="art/19.png" width="30%"/></a>
-<a href="art/20.png"><img src="art/20.png" width="30%"/></a>
 
 ## TODO
 - [x] 优化下载功能（V1.0.7-1）
