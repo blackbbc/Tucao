@@ -58,7 +58,7 @@
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
 
 ## Instructions
-- 热烈庆祝Kotlin成为Android开发一级语言，撒花～～～
+- 热烈庆祝[Kotlin](https://kotlinlang.org/)成为Android开发一级语言，撒花～～～
 - 设计编码均独立完成，如果你觉得太丑，欢迎砸设计稿
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
