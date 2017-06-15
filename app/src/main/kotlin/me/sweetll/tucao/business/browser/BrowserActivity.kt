@@ -67,9 +67,7 @@ class BrowserActivity : BaseActivity() {
 
     override fun initToolbar() {
         super.initToolbar()
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 }

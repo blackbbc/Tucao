@@ -66,7 +66,7 @@ dependencies {
     compile "com.android.support:design:$support_version"
     /* Kotlin */
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    kapt "com.android.databinding:compiler:2.3.2"
+    kapt "com.android.databinding:compiler:$plugin_version"
     /* RxJava2 */
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
