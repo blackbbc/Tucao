@@ -37,6 +37,14 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    productFlavors {
+        development {
+            minSdkVersion 21
+        }
+        production {
+
+        }
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -45,6 +53,12 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
+    }
+
+    if (project.hasProperty("devBuild")) {
+        splits.abi.enable = false
+        splits.density.enable = false
+        aaptOptions.cruncherEnabled = false
     }
 }
 
