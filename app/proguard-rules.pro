@@ -57,6 +57,8 @@
     public static ** valueOf(java.lang.String);
 }
 
+-dontwarn javax.annotation.**
+
 # 保留我们自定义控件（继承自View）不被混淆
 -keep public class * extends android.view.View {
     *** get*();

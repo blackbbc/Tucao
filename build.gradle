@@ -3,6 +3,7 @@ buildscript {
     ext.plugin_version = '2.3.2'
     ext.kotlin_version = '1.1.2-5'
     ext.support_version = '25.4.0'
+    ext.arch_version = '1.0.0-alpha2'
     repositories {
         jcenter()
         maven { url "https://maven.google.com"}
