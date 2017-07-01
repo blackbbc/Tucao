@@ -35,7 +35,7 @@ class RxDownload {
         return Observable.create {
             emitter ->
             if (bound) {
-                emitter.onNext(downloadService)
+                emitter.onNext(downloadService!!)
                 emitter.onComplete()
             } else {
                 val intent = Intent(context, DownloadService::class.java)
@@ -45,7 +45,7 @@ class RxDownload {
                     override fun onServiceConnected(name: ComponentName?, binder: IBinder) {
                         downloadService = (binder as DownloadService.DownloadBinder).getService()
                         bound = true
-                        emitter.onNext(downloadService)
+                        emitter.onNext(downloadService!!)
                         emitter.onComplete()
                     }
 

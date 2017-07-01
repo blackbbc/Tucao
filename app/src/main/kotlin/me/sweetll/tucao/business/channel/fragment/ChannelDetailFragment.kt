@@ -120,7 +120,10 @@ class ChannelDetailFragment : BaseFragment() {
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
-                .map(ListResponse<Result>::result)
+                .map({
+                    jsonList ->
+                    jsonList.result!!
+                })
                 .subscribe({
                     data ->
                     pageIndex++
@@ -135,12 +138,15 @@ class ChannelDetailFragment : BaseFragment() {
         jsonApiService.list(tid, pageIndex, pageSize, order)
                 .bindToLifecycle(this)
                 .sanitizeJsonList()
-                .map(ListResponse<Result>::result)
+                .map({
+                    jsonList ->
+                    jsonList.result!!
+                })
                 .subscribe({
                     data ->
                     pageIndex++
                     videoAdapter.addData(data)
-                    if (data!!.size < pageSize) {
+                    if (data.size < pageSize) {
                         videoAdapter.loadMoreEnd()
                     } else {
                         videoAdapter.loadMoreComplete()

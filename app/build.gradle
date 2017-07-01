@@ -38,14 +38,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    productFlavors {
-        development {
-            minSdkVersion 21
-        }
-        production {
-
-        }
-    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -71,81 +63,81 @@ versioneye {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
     })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     /* GSYVideoPlayer */
-    compile project(':gsyVideoPlayer')
-    compile 'com.android.support:multidex:1.0.1'
+    implementation project(':gsyVideoPlayer')
+    implementation 'com.android.support:multidex:1.0.1'
     /* Support Library */
-    compile "com.android.support:appcompat-v7:$support_version"
-    compile "com.android.support:recyclerview-v7:$support_version"
-    compile "com.android.support:cardview-v7:$support_version"
-    compile "com.android.support:gridlayout-v7:$support_version"
-    compile "com.android.support:design:$support_version"
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support:gridlayout-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
     /* Arch Library */
-    compile "android.arch.lifecycle:runtime:$arch_version"
-    compile "android.arch.lifecycle:extensions:$arch_version"
+    implementation "android.arch.lifecycle:runtime:$arch_version"
+    implementation "android.arch.lifecycle:extensions:$arch_version"
     kapt "android.arch.lifecycle:compiler:$arch_version"
-    compile "android.arch.persistence.room:runtime:$arch_version"
+    implementation "android.arch.persistence.room:runtime:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
-    compile "android.arch.persistence.room:rxjava2:$arch_version"
+    implementation "android.arch.persistence.room:rxjava2:$arch_version"
     /* Kotlin */
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "com.android.databinding:compiler:$plugin_version"
     /* RxJava2 */
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.1'
     /* RxLifecycle */
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.1.0'
     /* RxPermissions */
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     /* Retrofit */
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0.pr3'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0.pr4'
+    implementation ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'
     }
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     /* Dagger2 */
-    compile 'com.google.dagger:dagger:2.11'
+    implementation 'com.google.dagger:dagger:2.11'
     kapt 'com.google.dagger:dagger-compiler:2.11'
     /* Glide */
-    compile 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
     /* RecyclerView Adapter */
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
     /* Jsoup */
-    compile 'org.jsoup:jsoup:1.10.2'
+    implementation 'org.jsoup:jsoup:1.10.3'
     /* Crash */
-    compile 'me.drakeet.library:crashwoodpecker:2.1.1'
+    implementation 'me.drakeet.library:crashwoodpecker:2.1.1'
     /* Umeng */
-    compile 'com.umeng.analytics:analytics:6.1.1'
+    implementation 'com.umeng.analytics:analytics:6.1.1'
     /* EventBus */
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     /* Banner */
-    compile 'com.bigkoo:convenientbanner:2.0.5'
+    implementation 'com.bigkoo:convenientbanner:2.0.5'
     /* About */
-    compile 'com.github.medyo:android-about-page:1.2'
+    implementation 'com.github.medyo:android-about-page:1.2'
     /* Leak Canary */
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     /* Block Canary */
-    debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
-    releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
+    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
+    releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
     /* DBFlow */
     kapt 'com.github.Raizlabs.DBFlow:dbflow-processor:4.0.0-beta7'
-    compile 'com.github.Raizlabs.DBFlow:dbflow-core:4.0.0-beta7'
-    compile 'com.github.Raizlabs.DBFlow:dbflow:4.0.0-beta7'
-    compile 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.0-beta7'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.0.0-beta7'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow:4.0.0-beta7'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.0-beta7'
 }
 
 repositories {
