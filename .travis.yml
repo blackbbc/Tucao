@@ -19,7 +19,7 @@ before_install:
   -in keystore.jks.enc -out keystore.jks -d
 - chmod +x gradlew
 script:
-- "./gradlew assembleProductionRelease"
+- "./gradlew assembleRelease"
 deploy:
   provider: releases
   api_key:
