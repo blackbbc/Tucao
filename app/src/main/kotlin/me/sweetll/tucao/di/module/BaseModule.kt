@@ -7,7 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
@@ -67,7 +67,7 @@ class BaseModule(val apiKey: String) {
     @Named("json")
     fun provideJsonRetrofit(@Named("json") client: OkHttpClient) : Retrofit = Retrofit.Builder()
             .baseUrl(ApiConfig.BASE_JSON_API_URL)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()

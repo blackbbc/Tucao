@@ -20,8 +20,9 @@ import javax.inject.Inject
 import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import java.io.File
 import android.preference.PreferenceManager
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
@@ -35,7 +36,13 @@ object DownloadHelpers {
 
     private val serviceInstance = ServiceInstance()
 
-    private val mapper = jacksonObjectMapper()
+    private val adapter by lazy {
+        val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        val type = Types.newParameterizedType(MutableList::class.java, Video::class.java)
+        moshi.adapter<MutableList<Video>>(type)
+    }
 
     fun getDownloadFolder(): File {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppApplication.get())
@@ -50,7 +57,7 @@ object DownloadHelpers {
     fun loadDownloadVideos(): MutableList<Video> {
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         val jsonString = sp.getString(KEY_S_DOWNLOAD_VIDEO, "[]")
-        return mapper.readValue<MutableList<Video>>(jsonString)
+        return adapter.fromJson(jsonString)!!
     }
 
     fun loadDownloadingVideos(): MutableList<MultiItemEntity> = loadDownloadVideos()
@@ -94,7 +101,7 @@ object DownloadHelpers {
             videos.add(0, video)
         }
 
-        val jsonString = mapper.writeValueAsString(videos)
+        val jsonString = adapter.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
@@ -112,7 +119,7 @@ object DownloadHelpers {
         existVideo?.downloadSize = part.downloadSize
         existVideo?.totalSize = part.totalSize
 
-        val jsonString = mapper.writeValueAsString(videos)
+        val jsonString = adapter.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)
@@ -208,7 +215,7 @@ object DownloadHelpers {
             it.subItems.isEmpty()
         }
 
-        val jsonString = mapper.writeValueAsString(videos)
+        val jsonString = adapter.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()
         sp.edit {
             putString(KEY_S_DOWNLOAD_VIDEO, jsonString)

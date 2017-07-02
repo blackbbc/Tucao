@@ -10,8 +10,8 @@ android {
         applicationId 'me.sweetll.tucao'
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 109
-        versionName '1.0.7-2'
+        versionCode 110
+        versionName '1.0.8'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -82,9 +82,6 @@ dependencies {
     implementation "android.arch.lifecycle:runtime:$arch_version"
     implementation "android.arch.lifecycle:extensions:$arch_version"
     kapt "android.arch.lifecycle:compiler:$arch_version"
-    implementation "android.arch.persistence.room:runtime:$arch_version"
-    kapt "android.arch.persistence.room:compiler:$arch_version"
-    implementation "android.arch.persistence.room:rxjava2:$arch_version"
     /* Kotlin */
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "com.android.databinding:compiler:$plugin_version"
@@ -98,8 +95,9 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     /* Retrofit */
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0.pr4'
+    implementation 'com.squareup.moshi:moshi:1.5.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.5.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
     implementation ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
         exclude module: 'stax'
         exclude module: 'stax-api'

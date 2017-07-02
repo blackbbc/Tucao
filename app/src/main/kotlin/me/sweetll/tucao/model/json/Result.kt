@@ -2,9 +2,7 @@ package me.sweetll.tucao.model.json
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class Result(val hid: String = "",
                   val title: String = "",
                   val play: Int = 0,

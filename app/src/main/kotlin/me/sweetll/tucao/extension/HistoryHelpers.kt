@@ -1,7 +1,8 @@
 package me.sweetll.tucao.extension
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import me.sweetll.tucao.model.json.Result
 
 object HistoryHelpers {
@@ -11,12 +12,19 @@ object HistoryHelpers {
     private val KEY_S_PLAY_HISTORY = "play_history"
     private val KEY_S_STAR = "star"
 
-    private val mapper = jacksonObjectMapper()
+    private val adapter by lazy {
+        val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        val type = Types.newParameterizedType(MutableList::class.java, Result::class.java)
+        moshi.adapter<MutableList<Result>>(type)
+    }
 
     private fun loadHistory(fileName: String, key: String): MutableList<Result> {
         val sp = fileName.getSharedPreference()
+
         val jsonString = sp.getString(key, "[]")
-        return mapper.readValue<MutableList<Result>>(jsonString)
+        return adapter.fromJson(jsonString)!!
     }
 
     fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
@@ -37,7 +45,7 @@ object HistoryHelpers {
             }
         }
         histories.add(0, result)
-        val jsonString = mapper.writeValueAsString(histories)
+        val jsonString = adapter.toJson(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
             putString(key, jsonString)
@@ -65,7 +73,8 @@ object HistoryHelpers {
         val histories = loadHistory(fileName, key)
         val removedIndex = histories.indexOf(result)
         histories.remove(result)
-        val jsonString = mapper.writeValueAsString(histories)
+
+        val jsonString = adapter.toJson(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
             putString(key, jsonString)

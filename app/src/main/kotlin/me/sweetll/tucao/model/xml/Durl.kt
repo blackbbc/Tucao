@@ -2,12 +2,10 @@ package me.sweetll.tucao.model.xml
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Root(name = "durl", strict = false)
 data class Durl(
         @field:Element(name = "order") var order: Int = 0,

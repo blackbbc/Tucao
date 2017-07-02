@@ -1,10 +1,8 @@
 package me.sweetll.tucao.model.json
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.squareup.moshi.Json
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 class ListResponse<T> : BaseResponse<MutableList<T>>() {
-    @JsonProperty("total_count")
+    @Json(name = "total_count")
     var totalCount: Int = 0
 }

@@ -4,11 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.chad.library.adapter.base.entity.AbstractExpandableItem
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 class Video(val hid: String,
             val title: String,
             val thumb: String,
