@@ -131,9 +131,13 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
-# Gson
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+# Moshi
+-dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+-keepclasseswithmembers class * {
+    @com.squareup.moshi.* <methods>;
+}
 
 # Parcels
 -keep class * implements android.os.Parcelable {
