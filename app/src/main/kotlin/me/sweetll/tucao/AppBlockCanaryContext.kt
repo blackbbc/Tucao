@@ -52,7 +52,7 @@ class AppBlockCanaryContext : BlockCanaryContext() {
      * @return threshold in mills
      */
     override fun provideBlockThreshold(): Int {
-        return 1000
+        return 200
     }
 
     /**

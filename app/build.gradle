@@ -96,7 +96,6 @@ dependencies {
     /* Retrofit */
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.moshi:moshi:1.5.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.5.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
     implementation ('com.squareup.retrofit2:converter-simplexml:2.3.0') {
         exclude module: 'stax'

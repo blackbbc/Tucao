@@ -20,7 +20,6 @@ import javax.inject.Inject
 import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
 import java.io.File
 import android.preference.PreferenceManager
-import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import me.sweetll.tucao.rxdownload.RxDownload
@@ -38,7 +37,7 @@ object DownloadHelpers {
 
     private val adapter by lazy {
         val moshi = Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
+//                .add(KotlinJsonAdapterFactory())
                 .build()
         val type = Types.newParameterizedType(MutableList::class.java, Video::class.java)
         moshi.adapter<MutableList<Video>>(type)

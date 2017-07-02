@@ -1,6 +1,5 @@
 package me.sweetll.tucao.extension
 
-import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import me.sweetll.tucao.model.json.Result
@@ -14,7 +13,7 @@ object HistoryHelpers {
 
     private val adapter by lazy {
         val moshi = Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
+//                .add(KotlinJsonAdapterFactory())
                 .build()
         val type = Types.newParameterizedType(MutableList::class.java, Result::class.java)
         moshi.adapter<MutableList<Result>>(type)
