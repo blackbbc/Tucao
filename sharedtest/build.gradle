@@ -1,0 +1,9 @@
+// sharedtest module
+
+apply plugin: 'java'
+
+dependencies {
+    compile 'junit:junit:4.12'
+    compile project(':shared')
+}
+// EOF

@@ -1,0 +1,22 @@
+// applier module
+
+apply plugin: 'java'
+
+dependencies {
+    compile project(':shared')
+
+    testCompile 'junit:junit:4.12'
+    testCompile project(':sharedtest')
+}
+
+task copyTestResources(type: Copy) {
+    // AS/IntelliJ workaround: https://code.google.com/p/android/issues/detail?id=64887#c26
+    if (System.properties['idea.platform.prefix'] != null) {
+        from sourceSets.test.resources
+        into sourceSets.test.output.classesDir
+    }
+}
+
+processTestResources.dependsOn copyTestResources
+
+// EOF

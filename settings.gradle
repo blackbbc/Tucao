@@ -2,5 +2,8 @@ include ':app'
 include ':gsyVideoPlayer'
 include ':previewseekbar'
 include ':DanmakuFlameMaster'
+include ':sharedtest'
+include ':shared'
+include ':applier'
 
 project(':gsyVideoPlayer').projectDir = new File(rootDir, 'GSYVideoPlayer/gsyVideoPlayer')
