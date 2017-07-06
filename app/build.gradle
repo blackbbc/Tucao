@@ -69,6 +69,10 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
     testImplementation 'junit:junit:4.12'
+    /* DialogPlus */
+    implementation project(':dialogplus')
+    /* File by file patch */
+    implementation project(':applier')
     /* GSYVideoPlayer */
     implementation project(':gsyVideoPlayer')
     implementation 'com.android.support:multidex:1.0.1'

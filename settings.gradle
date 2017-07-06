@@ -8,4 +8,3 @@ include ':applier'
 include ':dialogplus'
 
 project(':gsyVideoPlayer').projectDir = new File(rootDir, 'GSYVideoPlayer/gsyVideoPlayer')
-//project(':dialogplus').projectDir = new File(rootDir, 'dialogplus/dialogplus')

@@ -7,9 +7,11 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.text.method.ScrollingMovementMethod
+import android.view.*
+import android.widget.TextView
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.ViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
@@ -33,14 +35,31 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var jsonApiService: JsonApiService
 
+    lateinit var updateDialog: DialogPlus
+
     override fun getToolbar(): Toolbar = binding.toolbar
 
     override fun getStatusBar(): View? = binding.statusBar
+
+    fun initDialog() {
+        val updateView = LayoutInflater.from(this).inflate(R.layout.dialog_update, null)
+        val descriptionText = updateView.findViewById(R.id.text_description) as TextView
+        descriptionText.movementMethod = ScrollingMovementMethod()
+        updateDialog = DialogPlus.newDialog(this)
+                .setContentHolder(ViewHolder(updateView))
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(R.drawable.bg_round_white_rectangle)
+                .setOverlayBackgroundResource(R.color.mask)
+                .create()
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         AppApplication.get()
                 .getApiComponent()
                 .inject(this)
+        initDialog()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -69,7 +88,8 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()
-                    checkUpdate()
+                    updateDialog.show()
+//                    checkUpdate()
 //                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
 //                            .setAction("打开百度网盘", {
 //                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
