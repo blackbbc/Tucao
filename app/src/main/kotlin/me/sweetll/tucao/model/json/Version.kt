@@ -8,9 +8,9 @@ data class Version(val status: Int,
                    val versionName: String,
                    val description: String,
                    val apkUrl: String,
-                   val apkSize: Int,
+                   val apkSize: Long,
                    val patchUrl: String,
-                   val patchSize: Int) : Parcelable {
+                   val patchSize: Long) : Parcelable {
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Version> = object : Parcelable.Creator<Version> {
             override fun createFromParcel(source: Parcel): Version = Version(source)
@@ -24,9 +24,9 @@ data class Version(val status: Int,
     source.readString(),
     source.readString(),
     source.readString(),
-    source.readInt(),
+    source.readLong(),
     source.readString(),
-    source.readInt()
+    source.readLong()
     )
 
     override fun describeContents() = 0
@@ -37,8 +37,8 @@ data class Version(val status: Int,
         dest.writeString(versionName)
         dest.writeString(description)
         dest.writeString(apkUrl)
-        dest.writeInt(apkSize)
+        dest.writeLong(apkSize)
         dest.writeString(patchUrl)
-        dest.writeInt(patchSize)
+        dest.writeLong(patchSize)
     }
 }

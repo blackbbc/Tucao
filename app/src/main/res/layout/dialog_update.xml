@@ -44,6 +44,7 @@
             android:gravity="right">
 
             <Button
+                android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
@@ -52,9 +53,10 @@
                 android:textColor="@color/primary_text"/>
 
             <Button
+                android:id="@+id/btn_save_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible"
                 android:layout_marginLeft="16dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -63,6 +65,7 @@
                 android:textColor="@color/colorAccent"/>
 
             <Button
+                android:id="@+id/btn_full_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

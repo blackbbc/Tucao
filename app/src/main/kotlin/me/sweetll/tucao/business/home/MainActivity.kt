@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.text.method.ScrollingMovementMethod
 import android.view.*
+import android.widget.Button
 import android.widget.TextView
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
@@ -24,6 +25,7 @@ import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.JsonApiService
+import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.toast
 import javax.inject.Inject
 
@@ -52,6 +54,18 @@ class MainActivity : BaseActivity() {
                 .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setContentBackgroundResource(R.drawable.bg_round_white_rectangle)
                 .setOverlayBackgroundResource(R.color.mask)
+                .setOnClickListener {
+                    dialog, view ->
+                    when (view.id) {
+                        R.id.btn_cancel -> dialog.dismiss()
+                        R.id.btn_full_update -> {
+                            // 完整更新
+                        }
+                        R.id.btn_save_update -> {
+                            // 省流量更新
+                        }
+                    }
+                }
                 .create()
     }
 
@@ -88,8 +102,7 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()
-                    updateDialog.show()
-//                    checkUpdate()
+                    checkUpdate()
 //                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
 //                            .setAction("打开百度网盘", {
 //                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
@@ -155,7 +168,23 @@ class MainActivity : BaseActivity() {
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-
+                    version ->
+                    if (version.status == 1 && version.versionCode > BuildConfig.VERSION_CODE) {
+                        val titleText = updateDialog.findViewById(R.id.text_title) as TextView
+                        val descriptionText = updateDialog.findViewById(R.id.text_description) as TextView
+                        titleText.text = "发现新版本V${version.versionName}(${version.apkSize.formatWithUnit()})"
+                        descriptionText.text = version.description
+                        val fullUpdateBtn = updateDialog.findViewById(R.id.btn_full_update) as Button
+                        val saveUpdateBtn = updateDialog.findViewById(R.id.btn_save_update) as Button
+                        if (version.patchUrl.isNotEmpty()) {
+                            saveUpdateBtn.text = "省流量更新(${version.patchSize.formatWithUnit()})"
+                            saveUpdateBtn.visibility = View.VISIBLE
+                        } else {
+                            fullUpdateBtn.visibility = View.VISIBLE
+                        }
+                    } else {
+                        "你已经是最新版了".toast()
+                    }
                 }, {
                     error ->
                     error.printStackTrace()
