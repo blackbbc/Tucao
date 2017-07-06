@@ -1,11 +1,8 @@
 package me.sweetll.tucao.business.home
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
-import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -13,24 +10,38 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.AppApplication
+import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
+import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.toast
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
     lateinit var binding : ActivityMainBinding
     lateinit var drawerToggle: ActionBarDrawerToggle
 
+    @Inject
+    lateinit var jsonApiService: JsonApiService
+
     override fun getToolbar(): Toolbar = binding.toolbar
 
     override fun getStatusBar(): View? = binding.statusBar
 
     override fun initView(savedInstanceState: Bundle?) {
+        AppApplication.get()
+                .getApiComponent()
+                .inject(this)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
@@ -57,12 +68,14 @@ class MainActivity : BaseActivity() {
                     DownloadActivity.intentTo(this)
                 }
                 R.id.nav_upgrade -> {
-                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
-                            .setAction("打开百度网盘", {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
-                                startActivity(intent)
-                            })
-                            .show()
+                    "检查更新中...".toast()
+                    checkUpdate()
+//                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
+//                            .setAction("打开百度网盘", {
+//                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
+//                                startActivity(intent)
+//                            })
+//                            .show()
                 }
                 R.id.nav_setting -> {
                     "没什么好设置的啦( ﾟ∀ﾟ)".toast()
@@ -114,5 +127,19 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    fun checkUpdate() {
+        jsonApiService.update("lalala", "lalala", BuildConfig.VERSION_CODE)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    "服务器异常，请稍后再试".toast()
+                })
     }
 }

@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.json.Version
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.*
@@ -28,4 +29,9 @@ interface JsonApiService {
     @GET(ApiConfig.RANK_API_URL)
     fun rank(@Query("tid") tid: Int,
              @Query("date") date: Int): Observable<BaseResponse<HashMap<Int, Result>>>
+
+    @GET(ApiConfig.UPDATE_API_URL)
+    fun update(@Query("appKey") appKey: String,
+               @Query("appSecret") appSecret: String,
+               @Query("versionCode") versionCode: Int): Observable<Version>
 }

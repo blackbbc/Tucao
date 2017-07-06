@@ -19,6 +19,8 @@ object ApiConfig {
     const val VIEW_API_URL = "view.php"
     const val RANK_API_URL = "rank.php"
 
+    const val UPDATE_API_URL = "http://45.63.54.11:5000/api/app-portal/version"
+
     /*
      * XML
      */
