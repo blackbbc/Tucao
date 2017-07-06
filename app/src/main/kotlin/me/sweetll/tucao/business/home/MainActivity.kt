@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.FileProvider
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
@@ -19,6 +21,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
@@ -107,6 +110,8 @@ class MainActivity : BaseActivity() {
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
         binding.viewPager.offscreenPageLimit = 6
         binding.tab.setupWithViewPager(binding.viewPager)
+
+        checkUpdate()
     }
 
     override fun initToolbar() {
@@ -188,44 +193,58 @@ class MainActivity : BaseActivity() {
         processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "新版本"))
         rawApiService.download(downloadUrl)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
+                .flatMap {
                     response ->
-                        val body = response.body()
+                    if (response.code() == 200) {
+                        Observable.just(response.body())
+                    } else {
+                        Observable.error(Error(response.message()))
+                    }
+                }
+                .subscribe({
+                    body ->
+                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "新版本"))
 
-                        processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "新版本"))
+                    var count = 0
+                    var downloadLength = 0L
+                    val contentLength = body.contentLength()
+                    val data = ByteArray(1024 * 8)
 
-                        var count = 0
-                        var downloadLength = 0L
-                        val contentLength = body!!.contentLength()
-                        val data = ByteArray(1024 * 8)
+                    try {
+                        val inputStream = BufferedInputStream(body.byteStream())
+                        val file = File.createTempFile("tucao", ".apk", cacheDir)
+                        val outputStream = BufferedOutputStream(file.outputStream())
 
-                        try {
-                            val inputStream = BufferedInputStream(body.byteStream())
-                            val file = File.createTempFile("tucao", ".apk", cacheDir)
-                            val outputStream = BufferedOutputStream(file.outputStream())
-
+                        count = inputStream.read(data)
+                        while (count != -1) {
+                            outputStream.write(data, 0, count)
+                            downloadLength += count
+                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "新版本"))
                             count = inputStream.read(data)
-                            while (count != -1) {
-                                outputStream.write(data, 0, count)
-                                downloadLength += count
-                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "新版本"))
-                                count = inputStream.read(data)
-                            }
-                            outputStream.flush()
-
-                            processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "新版本"))
-
-                            inputStream.close()
-                            outputStream.close()
-
-                            val intent = Intent(Intent.ACTION_VIEW)
-                            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                        } catch (error: Exception) {
-                            error.printStackTrace()
-                            // TODO: 下载失败
                         }
+                        outputStream.flush()
+
+                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "新版本"))
+
+                        inputStream.close()
+                        outputStream.close()
+
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+                        val uri: Uri
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        } else {
+                            uri = Uri.fromFile(file)
+                        }
+                        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                        startActivity(intent)
+                    } catch (error: Exception) {
+                        error.printStackTrace()
+                        // TODO: 下载失败
+                    }
                 }, {
                     error ->
                     error.printStackTrace()
@@ -240,13 +259,19 @@ class MainActivity : BaseActivity() {
                 .subscribe {
                     event ->
                     // 更新进度
-                    if (event.status == DownloadStatus.COMPLETED) {
-                        notifyMgr.cancel(NOTIFICATION_ID)
-                    } else {
-                        builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
+                    when (event.status) {
+                        DownloadStatus.READY -> {
+                            builder.setContentTitle(event.taskName)
+                                    .setContentText("连接中...")
+                            notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                        }
+                        DownloadStatus.COMPLETED -> notifyMgr.cancel(NOTIFICATION_ID)
+                        DownloadStatus.STARTED -> {
+                            builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
                                 .setContentTitle(event.taskName)
                                 .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
-                        notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                            notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                        }
                     }
                 }
     }
@@ -256,7 +281,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkUpdate() {
-        jsonApiService.update("lalala", "lalala", BuildConfig.VERSION_CODE)
+        jsonApiService.update("3990dcd7-49e1-4040-92e9-912082dc1896", "3d580ea3-54e9-4659-9131-a78c56cf9b86", BuildConfig.VERSION_CODE)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -277,6 +302,7 @@ class MainActivity : BaseActivity() {
                             downloadUrl = version.apkUrl
                             fullUpdateBtn.visibility = View.VISIBLE
                         }
+                        updateDialog.show()
                     } else {
                         "你已经是最新版了".toast()
                     }
