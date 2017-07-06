@@ -1,9 +1,15 @@
 package me.sweetll.tucao.business.home
 
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.app.NotificationCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
@@ -14,6 +20,7 @@ import android.widget.TextView
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.BuildConfig
@@ -25,11 +32,22 @@ import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.JsonApiService
+import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.rxdownload.entity.DownloadEvent
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
+
+    companion object {
+        const val NOTIFICATION_ID = 1
+    }
 
     lateinit var binding : ActivityMainBinding
     lateinit var drawerToggle: ActionBarDrawerToggle
@@ -37,7 +55,12 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var jsonApiService: JsonApiService
 
+    @Inject
+    lateinit var rawApiService: RawApiService
+
     lateinit var updateDialog: DialogPlus
+
+    lateinit var downloadUrl: String
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
@@ -60,9 +83,13 @@ class MainActivity : BaseActivity() {
                         R.id.btn_cancel -> dialog.dismiss()
                         R.id.btn_full_update -> {
                             // 完整更新
+                            fullUpdate()
+                            dialog.dismiss()
                         }
                         R.id.btn_save_update -> {
                             // 省流量更新
+                            saveUpdate()
+                            dialog.dismiss()
                         }
                     }
                 }
@@ -103,12 +130,6 @@ class MainActivity : BaseActivity() {
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()
                     checkUpdate()
-//                    Snackbar.make(binding.root, "请前往百度网盘查看是否有新版本", Snackbar.LENGTH_LONG)
-//                            .setAction("打开百度网盘", {
-//                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
-//                                startActivity(intent)
-//                            })
-//                            .show()
                 }
                 R.id.nav_setting -> {
                     "没什么好设置的啦( ﾟ∀ﾟ)".toast()
@@ -162,6 +183,78 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    fun fullUpdate() {
+        val processor = BehaviorProcessor.create<DownloadEvent>()
+        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "新版本"))
+        rawApiService.download(downloadUrl)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    response ->
+                        val body = response.body()
+
+                        processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "新版本"))
+
+                        var count = 0
+                        var downloadLength = 0L
+                        val contentLength = body!!.contentLength()
+                        val data = ByteArray(1024 * 8)
+
+                        try {
+                            val inputStream = BufferedInputStream(body.byteStream())
+                            val file = File.createTempFile("tucao", ".apk", cacheDir)
+                            val outputStream = BufferedOutputStream(file.outputStream())
+
+                            count = inputStream.read(data)
+                            while (count != -1) {
+                                outputStream.write(data, 0, count)
+                                downloadLength += count
+                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "新版本"))
+                                count = inputStream.read(data)
+                            }
+                            outputStream.flush()
+
+                            processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "新版本"))
+
+                            inputStream.close()
+                            outputStream.close()
+
+                            val intent = Intent(Intent.ACTION_VIEW)
+                            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        } catch (error: Exception) {
+                            error.printStackTrace()
+                            // TODO: 下载失败
+                        }
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    // TODO: 下载失败
+                })
+
+        val builder = NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_file_download_white)
+        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        processor.sample(500, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    event ->
+                    // 更新进度
+                    if (event.status == DownloadStatus.COMPLETED) {
+                        notifyMgr.cancel(NOTIFICATION_ID)
+                    } else {
+                        builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
+                                .setContentTitle(event.taskName)
+                                .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
+                        notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                    }
+                }
+    }
+
+    fun saveUpdate() {
+
+    }
+
     fun checkUpdate() {
         jsonApiService.update("lalala", "lalala", BuildConfig.VERSION_CODE)
                 .subscribeOn(Schedulers.io())
@@ -177,9 +270,11 @@ class MainActivity : BaseActivity() {
                         val fullUpdateBtn = updateDialog.findViewById(R.id.btn_full_update) as Button
                         val saveUpdateBtn = updateDialog.findViewById(R.id.btn_save_update) as Button
                         if (version.patchUrl.isNotEmpty()) {
+                            downloadUrl = version.patchUrl
                             saveUpdateBtn.text = "省流量更新(${version.patchSize.formatWithUnit()})"
                             saveUpdateBtn.visibility = View.VISIBLE
                         } else {
+                            downloadUrl = version.apkUrl
                             fullUpdateBtn.visibility = View.VISIBLE
                         }
                     } else {
@@ -188,7 +283,12 @@ class MainActivity : BaseActivity() {
                 }, {
                     error ->
                     error.printStackTrace()
-                    "服务器异常，请稍后再试".toast()
+                    Snackbar.make(binding.root, "服务器异常，请手动检查更新", Snackbar.LENGTH_LONG)
+                        .setAction("打开百度网盘", {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
+                            startActivity(intent)
+                        })
+                        .show()
                 })
     }
 }

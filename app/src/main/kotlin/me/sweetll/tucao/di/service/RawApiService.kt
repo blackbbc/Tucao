@@ -2,6 +2,7 @@ package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface RawApiService {
@@ -39,4 +40,7 @@ interface RawApiService {
     fun comment(@Query("commentid") commentId: String,
                 @Query("page") page: Int): Observable<ResponseBody>
 
+    @GET
+    @Streaming
+    fun download(@Url url: String): Observable<Response<ResponseBody>>
 }
