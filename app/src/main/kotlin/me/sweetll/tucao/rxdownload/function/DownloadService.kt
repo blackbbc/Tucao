@@ -20,6 +20,7 @@ import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
@@ -155,7 +156,7 @@ class DownloadService: Service() {
                 }
             }
 
-            processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
+            processor.onNext(DownloadEvent(DownloadStatus.READY, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
             downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
@@ -189,6 +190,8 @@ class DownloadService: Service() {
                                 mission.bean.downloadLength += count
                                 outputStream.put(data, 0, count)
                                 processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
+
+                                "Downloading... Reading $count bytes...".logD()
 
                                 count = inputStream.read(data)
                             }
@@ -264,7 +267,7 @@ class DownloadService: Service() {
 
     private fun sendNotification(event: DownloadEvent, url: String) {
         when (event.status) {
-            DownloadStatus.STARTED -> {
+            DownloadStatus.STARTED, DownloadStatus.READY -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
                 nfIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 nfIntent.action = DownloadActivity.ACTION_DOWNLOADING
@@ -286,13 +289,19 @@ class DownloadService: Service() {
                 val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val builder = NotificationCompat.Builder(this)
-                        .setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
                         .setSmallIcon(R.drawable.ic_file_download_white)
                         .setContentTitle(event.taskName)
-                        .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
                         .setContentIntent(pendingIntent)
                         .addAction(R.drawable.ic_action_pause, "暂停", piPause)
                         .addAction(R.drawable.ic_action_cancel, "取消", piCancel)
+                if (event.status == DownloadStatus.STARTED) {
+                    // 下载中
+                    builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
+                            .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
+                } else {
+                    // 连接中
+                    builder.setContentText("连接中...")
+                }
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
 

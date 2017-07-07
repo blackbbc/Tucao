@@ -44,6 +44,8 @@
                 android:layout_weight="1"
                 android:textColor="@color/secondary_text"
                 android:textSize="14sp"
+                android:maxLength="1"
+                android:ellipsize="end"
                 tools:text="P1" />
 
             <TextView
