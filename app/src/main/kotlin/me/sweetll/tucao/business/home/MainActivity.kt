@@ -19,6 +19,7 @@ import android.text.method.ScrollingMovementMethod
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import com.google.archivepatcher.applier.FileByFileV1DeltaApplier
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import io.reactivex.Observable
@@ -277,7 +278,101 @@ class MainActivity : BaseActivity() {
     }
 
     fun saveUpdate() {
+        val processor = BehaviorProcessor.create<DownloadEvent>()
+        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "补丁包"))
+        rawApiService.download(downloadUrl)
+                .subscribeOn(Schedulers.io())
+                .flatMap {
+                    response ->
+                    if (response.code() == 200) {
+                        Observable.just(response.body())
+                    } else {
+                        Observable.error(Error(response.message()))
+                    }
+                }
+                .subscribe({
+                    body ->
+                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "补丁包"))
 
+                    var count = 0
+                    var downloadLength = 0L
+                    val contentLength = body.contentLength()
+                    val data = ByteArray(1024 * 8)
+
+                    try {
+                        val inputStream = BufferedInputStream(body.byteStream())
+                        val file = File.createTempFile("tucao", ".patch", cacheDir)
+                        val outputStream = BufferedOutputStream(file.outputStream())
+
+                        count = inputStream.read(data)
+                        while (count != -1) {
+                            outputStream.write(data, 0, count)
+                            downloadLength += count
+                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "补丁包"))
+                            count = inputStream.read(data)
+                        }
+                        outputStream.flush()
+
+                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "补丁包"))
+
+                        inputStream.close()
+                        outputStream.close()
+
+                        // 合成安装包
+                        val info = packageManager.getApplicationInfo(packageName, 0)
+                        val oldFile = File(info.sourceDir)
+                        val newFile = File.createTempFile("tucao", ".apk", cacheDir)
+                        FileByFileV1DeltaApplier().applyDelta(oldFile, file.inputStream(), newFile.outputStream())
+
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+                        val uri: Uri
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", newFile)
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        } else {
+                            uri = Uri.fromFile(newFile)
+                        }
+                        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                        startActivity(intent)
+                    } catch (error: Exception) {
+                        error.printStackTrace()
+                        // TODO: 下载失败
+                    }
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    // TODO: 下载失败
+                })
+
+        val builder = NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_file_download_white)
+        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        processor.sample(500, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    event ->
+                    // 更新进度
+                    when (event.status) {
+                        DownloadStatus.READY -> {
+                            builder.setContentTitle(event.taskName)
+                                    .setContentText("连接中...")
+                            notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                        }
+                        DownloadStatus.COMPLETED -> {
+                            builder.setContentText("正在合成安装包...")
+                                    .setProgress(0, 0, false)
+                            notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                        }
+                        DownloadStatus.STARTED -> {
+                            builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
+                                .setContentTitle(event.taskName)
+                                .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
+                            notifyMgr.notify(NOTIFICATION_ID, builder.build())
+                        }
+                    }
+                }
     }
 
     fun checkUpdate() {
