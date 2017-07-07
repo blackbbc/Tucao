@@ -55,10 +55,10 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         }
 
         if (part.flag == DownloadStatus.COMPLETED) {
-            activity.loadDuals(part.durls)
+            activity.loadDurls(part.durls)
         } else if (part.vid.startsWith(hid)) {
             // 这个视频是直传的
-            activity.loadDuals(part.durls)
+            activity.loadDurls(part.durls)
         } else {
             playUrlDisposable = xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
                     .bindToLifecycle(activity)
@@ -74,7 +74,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         duals ->
-                        activity.loadDuals(duals)
+                        activity.loadDurls(duals)
                     }, {
                         error ->
                         error.printStackTrace()

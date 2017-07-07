@@ -239,12 +239,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.speed = 1f
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
-            override fun onPrepared(p0: String?, vararg p1: Any?) {
-                super.onPrepared(p0, *p1)
+            override fun onPrepared(p0: String?) {
+                super.onPrepared(p0)
             }
 
-            override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
-                super.onClickStartIcon(p0, *p1)
+            override fun onClickStartIcon(p0: String?) {
+                super.onClickStartIcon(p0)
                 isPlay = true
                 if (firstPlay) {
                     firstPlay = false
@@ -255,22 +255,22 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             }
 
             // 播放完了
-            override fun onAutoComplete(p0: String?, vararg p1: Any?) {
-                super.onAutoComplete(p0, *p1)
+            override fun onAutoComplete(p0: String?) {
+                super.onAutoComplete(p0)
                 isPlay = false
                 binding.player.onVideoPause(true, true)
             }
         })
     }
 
-    fun loadDuals(durls: MutableList<Durl>?) {
+    fun loadDurls(durls: MutableList<Durl>?) {
         durls?.isNotEmpty().let {
             binding.player.loadText?.let {
                 it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[完成]")
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(if (selectedPart.flag == DownloadStatus.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, false, null)
+                binding.player.setUp(if (selectedPart.flag == DownloadStatus.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url)
             } else {
                 binding.player.setUp(durls, selectedPart.flag == DownloadStatus.COMPLETED)
             }

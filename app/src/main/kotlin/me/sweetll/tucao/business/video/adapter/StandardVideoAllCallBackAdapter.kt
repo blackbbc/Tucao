@@ -3,87 +3,61 @@ package me.sweetll.tucao.business.video.adapter
 import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack
 
 open class StandardVideoAllCallBackAdapter: StandardVideoAllCallBack {
-    override fun onClickStartThumb(p0: String?, vararg p1: Any?) {
-
+    override fun onClickStartThumb(url: String?) {
     }
 
-    override fun onClickBlankFullscreen(p0: String?, vararg p1: Any?) {
-
+    override fun onPrepared(url: String?) {
     }
 
-    override fun onClickBlank(p0: String?, vararg p1: Any?) {
-
+    override fun onClickBlank(url: String?) {
     }
 
-    override fun onClickResumeFullscreen(p0: String?, vararg p1: Any?) {
-
+    override fun onClickStartIcon(url: String?) {
     }
 
-    override fun onEnterFullscreen(p0: String?, vararg p1: Any?) {
-
+    override fun onClickBlankFullscreen(url: String?) {
     }
 
-    override fun onClickResume(p0: String?, vararg p1: Any?) {
-
+    override fun onClickStartError(url: String?) {
     }
 
-    override fun onClickSeekbarFullscreen(p0: String?, vararg p1: Any?) {
-
+    override fun onClickStop(url: String?) {
     }
 
-    override fun onClickStartIcon(p0: String?, vararg p1: Any?) {
-
+    override fun onClickStopFullscreen(url: String?) {
     }
 
-    override fun onTouchScreenSeekLight(p0: String?, vararg p1: Any?) {
-
+    override fun onClickResume(url: String?) {
     }
 
-    override fun onQuitFullscreen(p0: String?, vararg p1: Any?) {
-
+    override fun onClickResumeFullscreen(url: String?) {
     }
 
-    override fun onEnterSmallWidget(p0: String?, vararg p1: Any?) {
-
+    override fun onClickSeekbar(url: String?) {
     }
 
-    override fun onClickStartError(p0: String?, vararg p1: Any?) {
-
+    override fun onClickSeekbarFullscreen(url: String?) {
     }
 
-    override fun onPrepared(p0: String?, vararg p1: Any?) {
-
+    override fun onAutoComplete(url: String?) {
     }
 
-    override fun onAutoComplete(p0: String?, vararg p1: Any?) {
-
+    override fun onEnterFullscreen(url: String?) {
     }
 
-    override fun onQuitSmallWidget(p0: String?, vararg p1: Any?) {
-
+    override fun onQuitFullscreen(url: String?) {
     }
 
-    override fun onTouchScreenSeekVolume(p0: String?, vararg p1: Any?) {
-
+    override fun onTouchScreenSeekVolume(url: String?) {
     }
 
-    override fun onClickStop(p0: String?, vararg p1: Any?) {
-
+    override fun onTouchScreenSeekPosition(url: String?) {
     }
 
-    override fun onClickSeekbar(p0: String?, vararg p1: Any?) {
-
+    override fun onTouchScreenSeekLight(url: String?) {
     }
 
-    override fun onPlayError(p0: String?, vararg p1: Any?) {
-
+    override fun onPlayError(url: String?) {
     }
 
-    override fun onClickStopFullscreen(p0: String?, vararg p1: Any?) {
-
-    }
-
-    override fun onTouchScreenSeekPosition(p0: String?, vararg p1: Any?) {
-
-    }
 }

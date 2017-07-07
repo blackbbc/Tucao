@@ -64,8 +64,8 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         GSYVideoType.enableMediaCodec() // 开启硬解
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
-            override fun onPrepared(p0: String?, vararg p1: Any?) {
-                super.onPrepared(p0, *p1)
+            override fun onPrepared(p0: String?) {
+                super.onPrepared(p0)
                 isPlay = true
             }
         })
@@ -83,7 +83,7 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls.size == 1) {
-                binding.player.setUp(durls[0].getCacheAbsolutePath(), true, null)
+                binding.player.setUp(durls[0].getCacheAbsolutePath())
             } else {
                 binding.player.setUp(durls, true)
             }

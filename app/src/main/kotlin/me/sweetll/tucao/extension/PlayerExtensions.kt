@@ -35,7 +35,7 @@ fun PreviewGSYVideoPlayer.setUp(durls: MutableList<Durl>, cache: Boolean, vararg
         outputStream.flush()
         outputStream.close()
 
-        this.setUp(outputFile.absolutePath, false, null)
+        this.setUp(outputFile.absolutePath)
     } catch (e: Exception) {
         e.message?.toast()
         e.printStackTrace()
