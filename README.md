@@ -44,7 +44,7 @@
 
 ## TODO
 - [x] 优化下载功能（V1.0.7-1）
-- [ ] 增量更新（V1.0.8）...正在研究File By File Patch源码...
+- [x] 增量更新（V1.0.8） 增量算法:[Google File By File Patch](https://github.com/andrewhayden/archive-patcher)
 - [ ] 修复下载Bug（V1.0.8）
 - [ ] 修复部分界面错位Bug（V1.0.8）
 - [ ] 适配Android5.0以下（V1.0.8）
