@@ -45,6 +45,7 @@ import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.util.concurrent.TimeUnit
+import java.util.zip.GZIPInputStream
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -112,7 +113,7 @@ class MainActivity : BaseActivity() {
         binding.viewPager.offscreenPageLimit = 6
         binding.tab.setupWithViewPager(binding.viewPager)
 
-        checkUpdate()
+        checkUpdate(true)
     }
 
     override fun initToolbar() {
@@ -135,7 +136,7 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()
-                    checkUpdate()
+                    checkUpdate(false)
                 }
                 R.id.nav_setting -> {
                     "没什么好设置的啦( ﾟ∀ﾟ)".toast()
@@ -321,8 +322,9 @@ class MainActivity : BaseActivity() {
                         // 合成安装包
                         val info = packageManager.getApplicationInfo(packageName, 0)
                         val oldFile = File(info.sourceDir)
+                        val patchIn = GZIPInputStream(file.inputStream())
                         val newFile = File.createTempFile("tucao", ".apk", cacheDir)
-                        FileByFileV1DeltaApplier().applyDelta(oldFile, file.inputStream(), newFile.outputStream())
+                        FileByFileV1DeltaApplier().applyDelta(oldFile, patchIn, newFile.outputStream())
 
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -375,7 +377,7 @@ class MainActivity : BaseActivity() {
                 }
     }
 
-    fun checkUpdate() {
+    fun checkUpdate(quiet: Boolean) {
         jsonApiService.update("3990dcd7-49e1-4040-92e9-912082dc1896", "3d580ea3-54e9-4659-9131-a78c56cf9b86", BuildConfig.VERSION_CODE)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
@@ -399,7 +401,9 @@ class MainActivity : BaseActivity() {
                         }
                         updateDialog.show()
                     } else {
-                        "你已经是最新版了".toast()
+                        if (!quiet) {
+                            "你已经是最新版了".toast()
+                        }
                     }
                 }, {
                     error ->
