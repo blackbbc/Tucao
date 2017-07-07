@@ -270,7 +270,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 binding.player.startButton.visibility = View.VISIBLE
             }
             if (durls!!.size == 1) {
-                binding.player.setUp(if (selectedPart.flag == DownloadStatus.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, true, null)
+                binding.player.setUp(if (selectedPart.flag == DownloadStatus.COMPLETED) durls[0].getCacheAbsolutePath() else durls[0].url, false, null)
             } else {
                 binding.player.setUp(durls, selectedPart.flag == DownloadStatus.COMPLETED)
             }
