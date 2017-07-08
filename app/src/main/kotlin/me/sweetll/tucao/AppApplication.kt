@@ -27,7 +27,7 @@ class AppApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        BlockCanary.install(this, AppBlockCanaryContext()).start()
+//        BlockCanary.install(this, AppBlockCanaryContext()).start()
 
         INSTANCE = this
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)

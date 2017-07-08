@@ -30,9 +30,8 @@ class AboutActivity : AppCompatActivity() {
                 .setDescription("自制第三方吐槽客户端，如果在使用的过程中遇到任何问题，欢迎通过以下任一联系方式向我反馈，我会及时修复。如果你觉得界面有可以改善的地方，也欢迎向我砸设计稿。该项目仅供交流学习使用，如果该项目有侵犯吐槽版权问题，本人会及时删除整个项目。")
                 .addItem(Element().setTitle("版本: ${BuildConfig.VERSION_NAME}"))
                 .addItem(Element().setTitle("更新历史").setOnClickListener { BrowserActivity.intentTo(this, "https://github.com/blackbbc/Tucao/blob/master/changelog.md") })
-                .addWebsite("https://sweetll.me", "欢迎访问我的网站")
-                .addEmail("505968815@qq.com", "联系我")
-                .addGitHub("blackbbc")
+                .addEmail("505968815@qq.com", "反馈")
+                .addWebsite("https://github.com/blackbbc/tucao", "开源地址")
                 .create()
 
         setContentView(aboutPage)
