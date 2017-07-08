@@ -123,7 +123,7 @@ class ShowtimeActivity : BaseActivity() {
             } else {
                 itemCount = (itemCount % 3) + 1
                 if (itemCount == 1) {
-                    yOffset += 150f.dp2px()
+                    yOffset += 120f.dp2px()
                 }
             }
         }

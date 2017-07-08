@@ -47,7 +47,7 @@
 - [x] 检查卡顿，优化动画，优化内存占用（V1.0.8）
 - [x] 增量更新（V1.0.8） 增量算法:[Google File By File Patch](https://github.com/andrewhayden/archive-patcher)
 - [x] 修复部分界面错位Bug（V1.0.8）
-- [ ] 下载弹幕（V1.0.8）
+- [x] 下载弹幕（V1.0.8）
 - [ ] 修复下载Bug（V1.0.8）
 - [ ] 登陆（V1.0.8）
 - [ ] 发送评论 (V1.0.8)

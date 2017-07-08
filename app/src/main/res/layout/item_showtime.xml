@@ -3,21 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="120dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:gravity="center">
 
     <ImageView
         android:id="@+id/img_thumb"
-        android:layout_width="120dp"
-        android:layout_height="74dp"
+        android:layout_width="106dp"
+        android:layout_height="64dp"
         android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/text_title"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
         android:maxLines="2"
         android:ellipsize="end"
         tools:text="画江湖之不良人第二季"

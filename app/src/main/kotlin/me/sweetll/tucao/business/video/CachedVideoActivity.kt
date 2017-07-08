@@ -70,6 +70,7 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             }
         })
 
+        binding.player.startWindowFullscreen(this, true, true)
         binding.player.fullscreenButton.visibility = View.GONE
 //        CommonUtil.hideNavKey(this)
     }

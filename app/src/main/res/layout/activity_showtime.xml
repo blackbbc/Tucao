@@ -150,6 +150,8 @@
                 android:id="@+id/showtimeRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:background="@color/white"
                 tools:listitem="@layout/item_showtime"/>
         </android.support.v4.widget.SwipeRefreshLayout>
