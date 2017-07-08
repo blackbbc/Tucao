@@ -6,16 +6,16 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:src="@drawable/drawer_header"
+        android:layout_height="170dp"
+        android:src="@drawable/nav_header"
         android:scaleType="centerCrop" />
     
     <ImageView
         android:id="@+id/img_avatar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginLeft="32dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginLeft="16dp"
         android:src="@drawable/default_avatar"
         android:scaleType="centerCrop"/>
 
@@ -26,8 +26,8 @@
         android:layout_below="@+id/img_avatar"
         android:layout_alignLeft="@+id/img_avatar"
         android:layout_marginTop="8dp"
-        android:text="立即登陆"
-        android:textSize="18sp"
+        android:text="点击头像登陆"
+        android:textSize="14sp"
         android:textColor="@color/white"/>
 
 </RelativeLayout>
