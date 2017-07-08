@@ -65,6 +65,13 @@ class RxDownload {
         })
     }
 
+    fun downloadDanmu(url: String, saveName: String, savePath: String) {
+        ensureBind().subscribe {
+            service ->
+            service.downloadDanmu(url, saveName, savePath)
+        }
+    }
+
     fun pause(url: String) {
         ensureBind().subscribe {
             service ->

@@ -22,6 +22,7 @@ import java.io.File
 import android.preference.PreferenceManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
@@ -37,7 +38,6 @@ object DownloadHelpers {
 
     private val adapter by lazy {
         val moshi = Moshi.Builder()
-//                .add(KotlinJsonAdapterFactory())
                 .build()
         val type = Types.newParameterizedType(MutableList::class.java, Video::class.java)
         moshi.adapter<MutableList<Video>>(type)
@@ -127,6 +127,7 @@ object DownloadHelpers {
         EventBus.getDefault().post(RefreshDownloadedVideoEvent())
     }
 
+    // 开始下载
     fun startDownload(activity: Activity, result: Result) {
         RxPermissions(activity)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -146,6 +147,7 @@ object DownloadHelpers {
                 })
     }
 
+    // 继续下载
     fun startDownload(video:Video, part: Part) {
         part.durls.forEach {
             rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
@@ -153,6 +155,11 @@ object DownloadHelpers {
     }
 
     private fun download(video: Video, part: Part) {
+        val playerId = ApiConfig.generatePlayerId(video.hid, part.order)
+        val saveName = "danmu.xml"
+        val savePath = "${getDownloadFolder().absolutePath}/${video.hid}"
+        rxDownload.downloadDanmu("${ApiConfig.DANMU_API_URL}&playerID=$playerId&c=${System.currentTimeMillis() / 1000}", saveName, savePath)
+
         if (part.durls.isNotEmpty()) {
             part.durls.forEach {
                 it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"

@@ -13,4 +13,8 @@ interface DownloadApi {
             @Url url: String,
             @Header("Range") range: String?,
             @Header("If-Range") ifRange: String?): Observable<Response<ResponseBody>>
+
+    @GET
+    fun downloadDanmu(
+            @Url url: String): Observable<ResponseBody>
 }

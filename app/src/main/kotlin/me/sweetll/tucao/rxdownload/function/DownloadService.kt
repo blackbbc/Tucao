@@ -31,6 +31,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
@@ -218,6 +220,23 @@ class DownloadService: Service() {
                 .subscribeOn(Schedulers.newThread())
                 .publish()
                 .connect()
+    }
+
+    fun downloadDanmu(url: String, saveName: String, savePath: String) {
+        downloadApi.downloadDanmu(url)
+                .subscribeOn(Schedulers.io())
+                .subscribe ({
+                    responseBody ->
+                    val outputFile = File(savePath, saveName)
+                    val outputStream = FileOutputStream(outputFile)
+
+                    outputStream.write(responseBody.bytes())
+                    outputStream.flush()
+                    outputStream.close()
+                }, {
+                    error ->
+                    error.printStackTrace()
+                })
     }
 
     fun pause(url: String) {
