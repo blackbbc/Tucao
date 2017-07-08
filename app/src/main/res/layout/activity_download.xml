@@ -71,6 +71,28 @@
                 android:textColor="@color/primary_text"/>
 
             <View
+                android:id="@+id/divider1"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/divider" />
+
+            <Button
+                android:id="@+id/updateBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                tools:enabled="true"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="更新弹幕"
+                android:textSize="14sp"
+                android:textColor="@color/selector_delete"/>
+
+            <View
+                android:id="@+id/divider2"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"

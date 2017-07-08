@@ -5,22 +5,23 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import com.shuyu.gsyvideoplayer.GSYPreViewManager
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
-import com.shuyu.gsyvideoplayer.utils.CommonUtil
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.databinding.ActivityCachedVideoBinding
 import me.sweetll.tucao.extension.setUp
+import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.io.File
 
 class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     lateinit var binding: ActivityCachedVideoBinding
@@ -39,10 +40,21 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cached_video)
         val part: Part = intent.getParcelableExtra(ARG_PART)
         setupPlayer()
         loadPart(part)
+
+        val danmuFile = File(part.durls[0].cacheFolderPath, "danmu.xml")
+        if (danmuFile.exists()) {
+            loadDanmuUri(danmuFile.absolutePath)
+        } else {
+            "未发现弹幕文件，请更新弹幕".toast()
+        }
+
+        binding.player.startButton.performClick()
     }
 
     fun setupPlayer() {
@@ -70,9 +82,10 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             }
         })
 
-        binding.player.startWindowFullscreen(this, true, true)
         binding.player.fullscreenButton.visibility = View.GONE
-//        CommonUtil.hideNavKey(this)
+        binding.player.backButton.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     fun loadPart(part: Part) {

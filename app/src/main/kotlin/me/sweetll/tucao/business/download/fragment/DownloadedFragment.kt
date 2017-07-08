@@ -47,7 +47,7 @@ class DownloadedFragment: BaseFragment(), DownloadActivity.ContextMenuCallback {
                 if ((activity as DownloadActivity).currentActionMode != null) {
                     return
                 }
-                (activity as DownloadActivity).openContextMenu(this@DownloadedFragment)
+                (activity as DownloadActivity).openContextMenu(this@DownloadedFragment, true)
                 videoAdapter.data.forEach {
                     when (it) {
                         is Video -> {
@@ -99,6 +99,17 @@ class DownloadedFragment: BaseFragment(), DownloadActivity.ContextMenuCallback {
 
     override fun onClickDelete() {
         DownloadHelpers.cancelDownload(
+                videoAdapter.data.flatMap {
+                    when (it) {
+                        is Video -> it.subItems
+                        else -> listOf(it as Part)
+                    }
+                }.distinctBy(Part::vid).filter(Part::checked)
+        )
+    }
+
+    override fun onClickUpdate() {
+        DownloadHelpers.updateDanmu(
                 videoAdapter.data.flatMap {
                     when (it) {
                         is Video -> it.subItems

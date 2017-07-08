@@ -47,7 +47,7 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
                 if ((activity as DownloadActivity).currentActionMode != null) {
                     return
                 }
-                (activity as DownloadActivity).openContextMenu(this@DownloadingFragment)
+                (activity as DownloadActivity).openContextMenu(this@DownloadingFragment, false)
                 videoAdapter.data.forEach {
                     when (it) {
                         is Video -> {

@@ -108,7 +108,7 @@ class DownloadActivity : BaseActivity() {
         }
     }
 
-    fun openContextMenu(contextMenuCallback: ContextMenuCallback) {
+    fun openContextMenu(contextMenuCallback: ContextMenuCallback, showUpdate: Boolean) {
         currentActionMode = startActionMode(modeCallback)
         currentContextMenuCallback = contextMenuCallback
         binding.pickAllBtn.setOnClickListener {
@@ -119,6 +119,17 @@ class DownloadActivity : BaseActivity() {
                 binding.pickAllBtn.text = "选择全部"
             }
         }
+        if (showUpdate) {
+            binding.divider1.visibility = View.VISIBLE
+            binding.updateBtn.visibility = View.VISIBLE
+            binding.updateBtn.setOnClickListener {
+                currentContextMenuCallback?.onClickUpdate()
+                currentActionMode?.finish()
+            }
+        } else {
+            binding.divider1.visibility = View.GONE
+            binding.updateBtn.visibility = View.GONE
+        }
         binding.deleteBtn.setOnClickListener {
             currentContextMenuCallback?.onClickDelete()
             currentActionMode?.finish()
@@ -127,6 +138,7 @@ class DownloadActivity : BaseActivity() {
 
     fun updateBottomMenu(deleteEnabled: Boolean, isPickAll: Boolean) {
         binding.deleteBtn.isEnabled = deleteEnabled
+        binding.updateBtn.isEnabled = deleteEnabled
         if (isPickAll) {
             binding.pickAllBtn.text = "取消全选"
         } else {
@@ -138,6 +150,8 @@ class DownloadActivity : BaseActivity() {
         fun onDestroyContextMenu()
 
         fun onClickDelete()
+
+        fun onClickUpdate() {}
 
         fun onClickPickAll(): Boolean
     }

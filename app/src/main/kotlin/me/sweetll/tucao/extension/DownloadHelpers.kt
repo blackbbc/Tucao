@@ -23,8 +23,11 @@ import android.preference.PreferenceManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import okhttp3.ResponseBody
+import java.io.FileOutputStream
 
 object DownloadHelpers {
     private val DOWNLOAD_FILE_NAME = "download"
@@ -157,8 +160,8 @@ object DownloadHelpers {
     private fun download(video: Video, part: Part) {
         val playerId = ApiConfig.generatePlayerId(video.hid, part.order)
         val saveName = "danmu.xml"
-        val savePath = "${getDownloadFolder().absolutePath}/${video.hid}"
-        rxDownload.downloadDanmu("${ApiConfig.DANMU_API_URL}&playerID=$playerId&c=${System.currentTimeMillis() / 1000}", saveName, savePath)
+        val savePath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
+        rxDownload.downloadDanmu("${ApiConfig.DANMU_API_URL}&playerID=$playerId&r=${System.currentTimeMillis() / 1000}", saveName, savePath)
 
         if (part.durls.isNotEmpty()) {
             part.durls.forEach {
@@ -206,6 +209,52 @@ object DownloadHelpers {
         part.durls.forEach {
             rxDownload.pause(it.url)
         }
+    }
+
+    fun updateDanmu(parts: List<Part>) {
+        val videos = loadDownloadVideos()
+
+        val requests = videos.fold(mutableListOf<Observable<ResponseBody>>()) {
+            total, video ->
+            video.subItems.filter {
+                part ->
+                parts.any { it.vid == part.vid }
+            }.forEach {
+                val playerId = ApiConfig.generatePlayerId(video.hid, it.order)
+                val saveName = "danmu.xml"
+                val savePath = "${getDownloadFolder().absolutePath}/${video.hid}/p${it.order}"
+                val ob = serviceInstance.rawApiService.danmu(playerId, System.currentTimeMillis() / 1000)
+                        .doOnNext {
+                            responseBody ->
+                            val outputFile = File(savePath, saveName)
+                            val outputStream = FileOutputStream(outputFile)
+
+                            outputStream.write(responseBody.bytes())
+                            outputStream.flush()
+                            outputStream.close()
+                            "pp".logD()
+                        }
+                total.add(ob)
+            }
+            total
+        }
+
+        "更新弹幕中...".toast()
+        Observable.fromIterable(requests)
+                .subscribeOn(Schedulers.io())
+                .flatMap { it }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    "更新弹幕成功".toast()
+                    "更新弹幕成功".logD()
+                }
+                .subscribe ({
+                    // Do nothing
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    "更新弹幕失败".toast()
+                })
     }
 
     fun cancelDownload(parts: List<Part>) {
@@ -259,6 +308,9 @@ object DownloadHelpers {
     class ServiceInstance {
         @Inject
         lateinit var xmlApiService: XmlApiService
+
+        @Inject
+        lateinit var rawApiService: RawApiService
 
         init {
             AppApplication.get()
