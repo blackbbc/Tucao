@@ -1,66 +1,40 @@
 package me.sweetll.tucao.extension
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.data.DataFetcher
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.model.stream.StreamModelLoader
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import me.sweetll.tucao.AppApplication
-import java.io.IOException
-import java.io.InputStream
-import java.lang.Exception
+import me.sweetll.tucao.GlideApp
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 
 fun ImageView.load(context: Context, url: String): Unit {
-    Glide.with(context)
+    GlideApp.with(context)
             .load(url)
-            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            .transition(withCrossFade())
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(this)
 }
 
 fun ImageView.load(context: Context, url: String, completeCallback: () -> Unit) {
-    Glide.with(context)
-            .using(cacheOnlyStreamLoader)
+    GlideApp.with(context)
             .load(url)
             .dontAnimate()
-            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-            .listener(object : RequestListener<String, GlideDrawable> {
-                override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .onlyRetrieveFromCache(true)
+            .listener(object: RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                     completeCallback()
                     return false
                 }
 
-                override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                     completeCallback()
                     return false
                 }
-
             })
             .into(this)
 }
-
-val cacheOnlyStreamLoader = StreamModelLoader<String> {
-    model, _, _ ->
-    object: DataFetcher<InputStream> {
-        override fun cancel() {
-
-        }
-
-        override fun cleanup() {
-
-        }
-
-        override fun getId(): String {
-            return model
-        }
-
-        override fun loadData(priority: Priority?): InputStream {
-            throw IOException()
-        }
-    }
-}
-

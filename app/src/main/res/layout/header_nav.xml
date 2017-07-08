@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="192dp"
-    android:src="@drawable/drawer_header"
-    android:scaleType="centerCrop">
+    android:layout_height="wrap_content">
 
-</ImageView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:src="@drawable/drawer_header"
+        android:scaleType="centerCrop" />
+    
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="32dp"
+        android:src="@drawable/default_avatar"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/text_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_avatar"
+        android:layout_alignLeft="@+id/img_avatar"
+        android:layout_marginTop="8dp"
+        android:text="立即登陆"
+        android:textSize="18sp"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

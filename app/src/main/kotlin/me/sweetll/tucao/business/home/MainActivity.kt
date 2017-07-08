@@ -18,7 +18,10 @@ import android.support.v7.widget.Toolbar
 import android.text.method.ScrollingMovementMethod
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.archivepatcher.applier.FileByFileV1DeltaApplier
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
@@ -32,6 +35,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
+import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig
@@ -62,6 +66,10 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var rawApiService: RawApiService
+
+    lateinit var avatarImg: ImageView
+
+    lateinit var usernameText: TextView
 
     lateinit var updateDialog: DialogPlus
 
@@ -112,6 +120,19 @@ class MainActivity : BaseActivity() {
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
         binding.viewPager.offscreenPageLimit = 6
         binding.tab.setupWithViewPager(binding.viewPager)
+
+        val headerView = binding.navigation.getHeaderView(0)
+        avatarImg = headerView.findViewById(R.id.img_avatar) as ImageView
+        usernameText = headerView.findViewById(R.id.text_username) as TextView
+
+        Glide.with(this)
+                .load(R.drawable.default_avatar)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatarImg)
+
+        avatarImg.setOnClickListener {
+            LoginActivity.intentTo(this)
+        }
 
         checkUpdate(true)
     }
