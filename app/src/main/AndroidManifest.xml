@@ -38,6 +38,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".business.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -103,9 +106,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity
-            android:name=".business.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>
