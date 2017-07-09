@@ -8,8 +8,10 @@ import com.umeng.analytics.MobclickAgent
 import me.sweetll.tucao.di.component.ApiComponent
 import me.sweetll.tucao.di.component.BaseComponent
 import me.sweetll.tucao.di.component.DaggerBaseComponent
+import me.sweetll.tucao.di.component.UserComponent
 import me.sweetll.tucao.di.module.ApiModule
 import me.sweetll.tucao.di.module.BaseModule
+import me.sweetll.tucao.di.module.UserModule
 import me.sweetll.tucao.di.service.ApiConfig
 
 class AppApplication : MultiDexApplication() {
@@ -23,6 +25,7 @@ class AppApplication : MultiDexApplication() {
 
     private lateinit var baseComponent: BaseComponent
     private lateinit var apiComponent: ApiComponent
+    private lateinit var userComponent: UserComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -40,18 +43,22 @@ class AppApplication : MultiDexApplication() {
 //        LeakCanary.install(this)
         FlowManager.init(this)
         PlayerConfig.init(this)
-        initApiComponent()
+        initComponent()
     }
 
-    private fun initApiComponent() {
+    private fun initComponent() {
         baseComponent = DaggerBaseComponent.builder()
                 .baseModule(BaseModule(ApiConfig.API_KEY))
                 .build()
         apiComponent = baseComponent.plus(
                 ApiModule()
         )
+        userComponent = apiComponent.plus(
+                UserModule()
+        )
     }
 
     fun getApiComponent(): ApiComponent = apiComponent
 
+    fun getUserComponent(): UserComponent = userComponent
 }
