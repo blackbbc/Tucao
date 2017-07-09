@@ -42,6 +42,7 @@ class DownloadService: Service() {
     companion object {
         const val ONGOING_NOTIFICATION_ID = 1
         const val COMPLETED_NOTIFICATION_ID = 2
+        const val FAILED_NOTIFICATION_ID =3
 
         const val ACTION_PAUSE = "pause"
         const val ACTION_CANCEL = "cancel"
@@ -210,6 +211,7 @@ class DownloadService: Service() {
                             file.close()
                         } catch (error: Exception) {
                             error.printStackTrace()
+                            processor.onNext(DownloadEvent(DownloadStatus.FAILED))
                         }
                     }, {
                         error ->
@@ -268,6 +270,10 @@ class DownloadService: Service() {
                 mission.bean.save()
                 stopForeground(true)
             }
+            DownloadStatus.FAILED -> {
+                mission.pause = true
+                mission.bean.save()
+            }
             DownloadStatus.COMPLETED -> {
                 mission.bean.save()
                 part.durls.find {
@@ -285,6 +291,7 @@ class DownloadService: Service() {
     }
 
     private fun sendNotification(event: DownloadEvent, url: String) {
+        "Send Notification ${event.status}...".logD()
         when (event.status) {
             DownloadStatus.STARTED, DownloadStatus.READY -> {
                 val nfIntent = Intent(this, DownloadActivity::class.java)
@@ -308,7 +315,7 @@ class DownloadService: Service() {
                 val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val builder = NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(event.taskName)
                         .setContentIntent(pendingIntent)
                         .addAction(R.drawable.ic_action_pause, "暂停", piPause)
@@ -322,7 +329,7 @@ class DownloadService: Service() {
                     builder.setContentText("连接中...")
                 }
                 val notification = builder.build()
-                notification.flags = notification.flags or Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
+                notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
 
                 startForeground(ONGOING_NOTIFICATION_ID, notification)
             }
@@ -339,7 +346,7 @@ class DownloadService: Service() {
 
                 val builder = NotificationCompat.Builder(this)
                         .setProgress(0, 0, false)
-                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(event.taskName)
                         .setContentText("${event.totalSize.formatWithUnit()}/已完成")
                         .setContentIntent(pendingIntent)
@@ -351,6 +358,32 @@ class DownloadService: Service() {
                 stopForeground(true)
 
                 notifyMgr.notify(COMPLETED_NOTIFICATION_ID, notification)
+            }
+            DownloadStatus.FAILED -> {
+                val nfIntent = Intent(this, DownloadActivity::class.java)
+                nfIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                nfIntent.action = DownloadActivity.ACTION_DOWNLOADING
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(DownloadActivity::class.java)
+                stackBuilder.addNextIntent(nfIntent)
+
+                val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val builder = NotificationCompat.Builder(this)
+                        .setProgress(0, 0, false)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(event.taskName)
+                        .setContentText("下载失败")
+                        .setContentIntent(pendingIntent)
+                val notification = builder.build()
+                notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
+
+                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                stopForeground(true)
+
+                notifyMgr.notify(FAILED_NOTIFICATION_ID, notification)
             }
         }
     }

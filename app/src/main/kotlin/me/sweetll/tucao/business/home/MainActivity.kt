@@ -55,7 +55,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
-        const val NOTIFICATION_ID = 1
+        const val NOTIFICATION_ID = 10
     }
 
     lateinit var binding : ActivityMainBinding
@@ -131,7 +131,8 @@ class MainActivity : BaseActivity() {
                 .into(avatarImg)
 
         avatarImg.setOnClickListener {
-            LoginActivity.intentTo(this)
+            "放个入口在这里，下个版本做登陆系统(・∀・)".toast()
+//            LoginActivity.intentTo(this)
         }
 
         checkUpdate(true)
@@ -275,7 +276,7 @@ class MainActivity : BaseActivity() {
                 })
 
         val builder = NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setSmallIcon(R.mipmap.ic_launcher)
         val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         processor.sample(500, TimeUnit.MILLISECONDS)
@@ -370,7 +371,7 @@ class MainActivity : BaseActivity() {
                 })
 
         val builder = NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_file_download_white)
+                        .setSmallIcon(R.mipmap.ic_launcher)
         val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         processor.sample(500, TimeUnit.MILLISECONDS)
