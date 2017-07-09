@@ -7,7 +7,6 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.json.Version
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.*
 
 interface JsonApiService {
     @GET(ApiConfig.VIEW_API_URL)
@@ -28,7 +27,7 @@ interface JsonApiService {
 
     @GET(ApiConfig.RANK_API_URL)
     fun rank(@Query("tid") tid: Int,
-             @Query("date") date: Int): Observable<BaseResponse<HashMap<Int, Result>>>
+             @Query("date") date: Int): Observable<BaseResponse<Map<Int, Result>>>
 
     @GET(ApiConfig.UPDATE_API_URL)
     fun update(@Query("appKey") appKey: String,
