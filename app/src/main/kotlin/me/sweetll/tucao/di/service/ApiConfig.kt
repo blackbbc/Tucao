@@ -36,6 +36,9 @@ object ApiConfig {
     const val SEND_DANMU_URL = "http://www.tucao.tv/index.php?m=mukio&c=index&a=post"
     const val COMMENT_URL = "http://www.tucao.tv/index.php?m=comment&c=index&a=init&hot=0&iframe=1"
 
+    const val LOGIN_URL = "http://www.tucao.tv/index.php?m=member&c=index&a=login"
+    const val REGISTER_URL = "http://www.tucao.tv/index.php?m=member&c=index&a=register&siteid=1"
+
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 
     class RetryWithDelay(val maxRetries: Int = 3, val delayMillis: Long = 2000L) : Function<Observable<in Throwable>, Observable<*>> {

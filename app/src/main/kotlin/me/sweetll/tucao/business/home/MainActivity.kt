@@ -1,5 +1,8 @@
 package me.sweetll.tucao.business.home
 
+import android.accounts.AccountManager
+import android.accounts.AccountManagerCallback
+import android.accounts.AccountManagerFuture
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -33,9 +36,9 @@ import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.authenticate.AccountGeneral
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
-import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig
@@ -66,6 +69,8 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var rawApiService: RawApiService
+
+    lateinit var accountManager: AccountManager
 
     lateinit var avatarImg: ImageView
 
@@ -117,6 +122,8 @@ class MainActivity : BaseActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        accountManager = AccountManager.get(this)
+
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
         binding.viewPager.offscreenPageLimit = 6
         binding.tab.setupWithViewPager(binding.viewPager)
@@ -131,8 +138,12 @@ class MainActivity : BaseActivity() {
                 .into(avatarImg)
 
         avatarImg.setOnClickListener {
-            "放个入口在这里，下个版本做登陆系统(・∀・)".toast()
-//            LoginActivity.intentTo(this)
+            accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, object : AccountManagerCallback<Bundle> {
+                override fun run(future: AccountManagerFuture<Bundle>?) {
+                    "添加新账户成功".toast()
+                }
+
+            }, null)
         }
 
         checkUpdate(true)

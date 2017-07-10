@@ -2,7 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.sweetll.tucao.business.login.LoginActivity">
+    tools:context="me.sweetll.tucao.business.authenticate.AuthenticatorActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.authenticate.viewmodel.AuthenticatorViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,25 +34,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="16dp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
             <!-- Login progress -->
             <ProgressBar
-                android:id="@+id/login_progress"
+                android:id="@+id/loginProgress"
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                tools:visibility="visible"
                 android:visibility="gone" />
 
             <ScrollView
-                android:id="@+id/login_form"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/email_login_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -56,13 +62,14 @@
                         android:layout_height="wrap_content">
 
                         <AutoCompleteTextView
-                            android:id="@+id/email"
+                            android:id="@+id/emailEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="邮箱"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:text="@={viewModel.email}"/>
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -71,7 +78,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/password"
+                            android:id="@+id/passwordEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="密码"
@@ -79,9 +86,43 @@
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:text="@={viewModel.password}"/>
 
                     </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/codeEdit"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:hint="验证码"
+                                android:inputType="number"
+                                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@={viewModel.code}"/>
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            android:id="@+id/codeImg"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:scaleType="fitXY"
+                            android:onClick="@{viewModel::onClickCode}"
+                            app:imageUrl="@{viewModel.codeUrl}"/>
+
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/email_sign_in_button"
@@ -90,7 +131,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="登陆"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:onClick="@{viewModel::onClickLogin}"/>
 
                 </LinearLayout>
             </ScrollView>
