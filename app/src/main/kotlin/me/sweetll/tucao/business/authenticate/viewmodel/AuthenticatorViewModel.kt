@@ -13,7 +13,7 @@ import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.jsoup.nodes.Document
 
-class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: String?): BaseViewModel() {
+class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: String?, val accountType: String?): BaseViewModel() {
 
     val email = ObservableField<String>()
     val password = ObservableField<String>()
@@ -63,6 +63,7 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
                         0 -> {
                             val res = Intent()
                             res.putExtra(AccountManager.KEY_ACCOUNT_NAME, email.get())
+                            res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType)
                             res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken)
                             res.putExtra(AuthenticatorActivity.PARAM_USER_PASS, password.get())
                             activity.finishLogin(res)

@@ -47,12 +47,18 @@ class TucaoAuthenticator(val context: Context): AbstractAccountAuthenticator(con
         return bundle
     }
 
-    override fun getAuthTokenLabel(authTokenType: String?): String? {
-        return null
+    override fun getAuthTokenLabel(authTokenType: String): String? {
+        if (authTokenType == AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS) {
+            return AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS_LABEL
+        } else {
+            return "$authTokenType (Label)"
+        }
     }
 
     override fun hasFeatures(response: AccountAuthenticatorResponse?, account: Account?, features: Array<out String>?): Bundle? {
-        return null
+        val result = Bundle()
+        result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false)
+        return result
     }
 
     override fun confirmCredentials(response: AccountAuthenticatorResponse?, account: Account?, options: Bundle?): Bundle? {

@@ -25,7 +25,6 @@ class AuthenticatorActivity : BaseActivity() {
     override fun getToolbar(): Toolbar = binding.toolbar
 
     private lateinit var accountManager: AccountManager
-    private lateinit var accountType: String
     private lateinit var authTokenType: String
 
     private var accountAuthenticatorResponse: AccountAuthenticatorResponse? = null
@@ -57,11 +56,10 @@ class AuthenticatorActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_authenticator)
-        viewModel = AuthenticatorViewModel(this, intent.getStringExtra(ARG_ACCOUNT_NAME))
+        viewModel = AuthenticatorViewModel(this, intent.getStringExtra(ARG_ACCOUNT_NAME), intent.getStringExtra(ARG_ACCOUNT_TYPE))
         binding.viewModel = viewModel
 
         accountManager = AccountManager.get(this)
-        accountType = intent.getStringExtra(ARG_ACCOUNT_TYPE)
         authTokenType = intent.getStringExtra(ARG_AUTH_TYPE)
 
         accountAuthenticatorResponse = intent.getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE)
@@ -95,7 +93,7 @@ class AuthenticatorActivity : BaseActivity() {
     fun finishLogin(res: Intent) {
         val accountName = res.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
         val accountPassword = res.getStringExtra(PARAM_USER_PASS)
-        val account = Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE))
+        val account = Account(accountName, res.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE))
         if (intent.getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
             val authToken = res.getStringExtra(AccountManager.KEY_AUTHTOKEN)
             accountManager.addAccountExplicitly(account, accountPassword, null)

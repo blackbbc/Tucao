@@ -83,9 +83,9 @@ dependencies {
     implementation "com.android.support:gridlayout-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     /* Arch Library */
-    implementation "android.arch.lifecycle:runtime:$arch_version"
-    implementation "android.arch.lifecycle:extensions:$arch_version"
-    kapt "android.arch.lifecycle:compiler:$arch_version"
+//    implementation "android.arch.lifecycle:runtime:$arch_version"
+//    implementation "android.arch.lifecycle:extensions:$arch_version"
+//    kapt "android.arch.lifecycle:compiler:$arch_version"
     /* Kotlin */
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "com.android.databinding:compiler:$plugin_version"
