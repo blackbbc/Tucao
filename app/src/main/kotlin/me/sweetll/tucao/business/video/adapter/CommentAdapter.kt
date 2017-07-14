@@ -1,5 +1,9 @@
 package me.sweetll.tucao.business.video.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -8,6 +12,10 @@ import me.sweetll.tucao.business.video.model.Comment
 import me.sweetll.tucao.extension.load
 
 class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.item_comment, data) {
+    var lastAnimatedPosition = -1
+    var animationsLocked = false
+    var delayEnterAnimation = true
+
     override fun convert(helper: BaseViewHolder, comment: Comment) {
         helper.getView<ImageView>(R.id.img_avatar).load(mContext, comment.avatar)
         helper.setText(R.id.text_level, comment.level)
@@ -16,5 +24,31 @@ class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, Ba
         helper.setText(R.id.text_time, comment.time)
         helper.setText(R.id.text_thumb_up, "${comment.thumbUp}")
         helper.setText(R.id.text_info, comment.info)
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        runEnterAnimation(holder.itemView, position)
+    }
+
+    private fun runEnterAnimation(view: View, position: Int) {
+        if (animationsLocked) return
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position
+            view.translationY = 100f
+            view.alpha = 0f
+            view.animate()
+                    .translationY(0f)
+                    .alpha(1f)
+                    .setStartDelay(if (delayEnterAnimation) 20L * position else 20L)
+                    .setInterpolator(DecelerateInterpolator(2f))
+                    .setDuration(300)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            animationsLocked = true
+                        }
+                    })
+                    .start()
+        }
     }
 }
