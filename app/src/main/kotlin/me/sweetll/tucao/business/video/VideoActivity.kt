@@ -240,7 +240,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             orientationUtils.backToLand()
         }
 
-//        GSYVideoType.enableMediaCodec() // 开启硬解
+        GSYVideoType.enableMediaCodec() // 开启硬解
 
         binding.player.speed = 1f
 
