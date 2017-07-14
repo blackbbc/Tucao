@@ -70,8 +70,11 @@
                 android:layout_below="@+id/previewFrameLayout"
                 android:background="#99000000"
                 android:max="100"
+                tools:progress="50"
+                tools:secondaryProgress="70"
                 android:progressTint="@color/colorPrimary"
-                android:thumbTint="@color/colorPrimary"/>
+                android:thumbTint="@color/colorPrimary"
+                android:secondaryProgressTint="@color/white"/>
 
         </com.github.rubensousa.previewseekbar.PreviewSeekBarLayout>
 
