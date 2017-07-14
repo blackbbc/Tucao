@@ -33,6 +33,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
@@ -185,13 +186,12 @@ class DownloadService: Service() {
 
                             val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
                             val file = mission.bean.getRandomAccessFile()
-                            val fileChannel = file.channel
-                            val outputStream = fileChannel.map(FileChannel.MapMode.READ_WRITE, mission.bean.downloadLength, fileSize)
+                            file.seek(mission.bean.downloadLength)
 
                             count = inputStream.read(data)
                             while (count != -1 && !mission.pause) {
                                 mission.bean.downloadLength += count
-                                outputStream.put(data, 0, count)
+                                file.write(data, 0, count)
                                 processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
                                 "Downloading... Reading $count bytes...".logD()
@@ -207,7 +207,7 @@ class DownloadService: Service() {
                                 processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
                             }
 
-                            fileChannel.close()
+//                            fileChannel.close()
                             file.close()
                         } catch (error: Exception) {
                             error.printStackTrace()

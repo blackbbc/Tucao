@@ -353,6 +353,10 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
     }
 
+    override fun setUp(url: String): Boolean {
+        return super.setUp(if (url.startsWith("http")) "async:$url" else url)
+    }
+
     fun setUpDanmu(uri: String) {
         danmakuView = DanmakuView(context)
         val lp = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
