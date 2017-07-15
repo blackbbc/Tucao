@@ -16,9 +16,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!--登录-->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name=".AppApplication"
@@ -38,8 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".business.authenticate.AuthenticatorActivity"
-            android:screenOrientation="portrait" />
+            android:name=".business.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Translucent.Login"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
@@ -88,16 +87,6 @@
         <service
             android:name=".rxdownload.function.DownloadService"
             android:exported="false" />
-
-        <service android:name=".business.authenticate.TucaoAuthenticatorService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
 
         <meta-data
             android:name="UMENG_APPKEY"

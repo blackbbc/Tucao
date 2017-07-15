@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.sweetll.tucao.business.login.LoginActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.login.viewmodel.LoginViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:onClick="@{viewModel::dismiss}">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/bg_round_white_rectangle"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingEnd="24dp"
+            android:paddingStart="16dp"
+            android:paddingTop="24dp"
+            android:transitionName="transition_login">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="8dp"
+                android:text="登录到吐槽"
+                android:textColor="@color/primary_text" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:hintTextAppearance="@style/TextAppearance.FloatLabelHint">
+
+                <AutoCompleteTextView
+                    android:id="@+id/emailEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="邮箱"
+                    android:inputType="textEmailAddress"
+                    android:selectAllOnFocus="true"
+                    android:text="@={viewModel.email}"
+                    android:textColor="@color/primary_text"
+                    android:textColorHighlight="@color/colorPrimary" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:hintTextAppearance="@style/TextAppearance.FloatLabelHint"
+                app:passwordToggleDrawable="@drawable/asl_password_visibility"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/primary_text">
+
+                <me.sweetll.tucao.widget.PasswordEntry
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.password}" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearance.FloatLabelHint">
+
+                    <EditText
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                        android:hint="验证码"
+                        android:inputType="number"
+                        android:text="@={viewModel.code}" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:onClick="@{viewModel::onClickCode}"
+                    android:scaleType="fitXY"
+                    app:imageUrl="@{viewModel.codeBytes}" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:onClick="@{viewModel::onClickSignUp}"
+                    android:text="注册"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:enabled="false"
+                    android:onClick="@{viewModel::onClickSignIn}"
+                    android:text="登录"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+            <!-- Login progress -->
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="64dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/grey_300"
+                android:indeterminateTintMode="src_in"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

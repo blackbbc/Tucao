@@ -8,6 +8,11 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!--Transition-->
         <item name="android:windowContentTransitions">true</item>
+        <!--按钮背景颜色-->
+        <item name="android:colorButtonNormal">@color/login_button</item>
+        <item name="android:colorControlActivated">@color/pink_300</item>
+        <item name="android:colorControlNormal">@color/pink_300</item>
+        <item name="android:colorControlHighlight">@color/pink_300</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">
@@ -27,6 +32,20 @@
         <item name="android:windowReturnTransition">@transition/search_return</item>
         <item name="android:windowSharedElementEnterTransition">@transition/search_shared_enter</item>
         <item name="android:windowSharedElementReturnTransition">@transition/search_shared_return</item>
+    </style>
+
+    <style name="Translucent.Login" parent="AppTheme">
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item> <!-- 不让窗口缩小到中间 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

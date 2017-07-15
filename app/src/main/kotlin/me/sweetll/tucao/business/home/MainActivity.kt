@@ -1,8 +1,6 @@
 package me.sweetll.tucao.business.home
 
 import android.accounts.AccountManager
-import android.accounts.AccountManagerCallback
-import android.accounts.AccountManagerFuture
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -36,7 +34,7 @@ import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.authenticate.AccountGeneral
+import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.search.SearchActivity
@@ -138,12 +136,7 @@ class MainActivity : BaseActivity() {
                 .into(avatarImg)
 
         avatarImg.setOnClickListener {
-            accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, object : AccountManagerCallback<Bundle> {
-                override fun run(future: AccountManagerFuture<Bundle>?) {
-                    "添加新账户成功".toast()
-                }
-
-            }, null)
+            LoginActivity.intentTo(this)
         }
 
         checkUpdate(true)

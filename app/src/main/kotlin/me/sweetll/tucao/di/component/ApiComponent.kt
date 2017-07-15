@@ -1,8 +1,6 @@
 package me.sweetll.tucao.di.component
 
 import dagger.Subcomponent
-import me.sweetll.tucao.base.BaseViewModel
-import me.sweetll.tucao.business.authenticate.TucaoAuthenticator
 import me.sweetll.tucao.business.channel.fragment.ChannelDetailFragment
 import me.sweetll.tucao.business.home.MainActivity
 import me.sweetll.tucao.business.rank.fragment.RankDetailFragment

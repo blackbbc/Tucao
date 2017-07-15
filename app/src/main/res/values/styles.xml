@@ -4,12 +4,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
+
+        <item name="colorButtonNormal">@color/login_button</item>
+        <item name="colorControlActivated">@color/pink_300</item>
+        <item name="colorControlNormal">@color/pink_300</item>
+        <item name="colorControlHighlight">@color/pink_300</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item> <!-- 不让窗口缩小到中间 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Translucent.Login" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@color/scrim</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item> <!-- 不让窗口缩小到中间 -->
         <item name="android:windowIsTranslucent">true</item>
@@ -49,5 +64,9 @@
 
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">#42221F1F</item>
+    </style>
+
+    <style name="TextAppearance.FloatLabelHint" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/pink_300</item>
     </style>
 </resources>

@@ -1,23 +1,22 @@
-package me.sweetll.tucao.business.authenticate.viewmodel
+package me.sweetll.tucao.business.login.viewmodel
 
-import android.accounts.AccountManager
 import android.content.Intent
 import android.databinding.BindingAdapter
 import android.databinding.ObservableField
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
-import me.sweetll.tucao.business.authenticate.AuthenticatorActivity
+import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: String?, val accountType: String?): BaseViewModel() {
+class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
 
     val email = ObservableField<String>()
     val password = ObservableField<String>()
@@ -25,7 +24,6 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
     val codeBytes = ObservableField<ByteArray>()
 
     init {
-        email.set(accountName)
         initSession()
     }
 
@@ -65,11 +63,21 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
                 })
     }
 
+    fun dismiss(view: View) {
+        activity.finish()
+    }
+
     fun onClickCode(view: View) {
         checkCode()
     }
 
-    fun onClickLogin(view: View) {
+    fun onClickSignUp(view: View) {
+        val intent = Intent("android.intent.action.VIEW")
+        intent.data = Uri.parse("http://www.tucao.tv/index.php?m=member&c=index&a=register&siteid=1")
+        activity.startActivity(intent)
+    }
+
+    fun onClickSignIn(view: View) {
         rawApiService.login_post(email.get(), password.get(), code.get())
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
@@ -85,11 +93,10 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
                     when (resultCode) {
                         0 -> {
                             val res = Intent()
-                            res.putExtra(AccountManager.KEY_ACCOUNT_NAME, email.get())
-                            res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType)
-                            res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken)
-                            res.putExtra(AuthenticatorActivity.PARAM_USER_PASS, password.get())
-                            activity.finishLogin(res)
+//                            res.putExtra(AccountManager.KEY_ACCOUNT_NAME, email.get())
+//                            res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType)
+//                            res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken)
+//                            res.putExtra(LoginActivity.PARAM_USER_PASS, password.get())
                         }
                         else -> {
                             "登录失败".toast()
