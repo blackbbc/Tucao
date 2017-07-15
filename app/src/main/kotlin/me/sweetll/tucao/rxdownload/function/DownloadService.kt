@@ -12,6 +12,7 @@ import android.util.Log
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
@@ -70,6 +71,8 @@ class DownloadService: Service() {
     val missionMap: ArrayMap<String, DownloadMission> = ArrayMap()
     val processorMap: ArrayMap<String, BehaviorProcessor<DownloadEvent>> = ArrayMap()
     val partMap: ArrayMap<String, Boolean> = ArrayMap()
+
+    var request: Disposable? = null
 
     override fun onCreate() {
         Log.d("DownloadService", "On Create")
@@ -162,7 +165,7 @@ class DownloadService: Service() {
 
             processor.onNext(DownloadEvent(DownloadStatus.READY, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
-            downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
+            request = downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
                     .doAfterTerminate { semaphore.release() }
                     .subscribe({
@@ -207,7 +210,6 @@ class DownloadService: Service() {
                                 processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
                             }
 
-//                            fileChannel.close()
                             file.close()
                         } catch (error: Exception) {
                             error.printStackTrace()
@@ -218,6 +220,7 @@ class DownloadService: Service() {
                         error.printStackTrace()
                         processor.onNext(DownloadEvent(DownloadStatus.FAILED))
                     })
+
         }, BackpressureStrategy.LATEST)
                 .subscribeOn(Schedulers.newThread())
                 .publish()
@@ -244,6 +247,11 @@ class DownloadService: Service() {
     fun pause(url: String) {
         missionMap[url]?.let {
             it.pause = true
+
+            request?.let {
+                if (!it.isDisposed) it.dispose()
+                request = null
+            }
         }
     }
 
@@ -256,6 +264,11 @@ class DownloadService: Service() {
             missionMap.remove(url)
             processorMap.remove(url)
             it.bean.delete()
+        }
+
+        request?.let {
+            if (!it.isDisposed) it.dispose()
+            request = null
         }
     }
 
