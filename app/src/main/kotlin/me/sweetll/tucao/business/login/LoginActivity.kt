@@ -8,6 +8,9 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.transition.TransitionManager
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.BundleCompat
+import android.support.v4.content.ContextCompat
 import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
@@ -18,6 +21,7 @@ import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.login.viewmodel.LoginViewModel
 import me.sweetll.tucao.databinding.ActivityLoginBinding
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.transition.FabTransform
 
 class LoginActivity : BaseActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -26,9 +30,10 @@ class LoginActivity : BaseActivity() {
     private lateinit var accountManager: AccountManager
 
     companion object {
-        fun intentTo(context: Context, requestCode: Int = 1) {
+        fun intentTo(context: Context, requestCode: Int = 1, options: Bundle) {
             val intent = Intent(context, LoginActivity::class.java)
-            (context as Activity).startActivityForResult(intent, requestCode)
+            FabTransform.addExtras(intent, ContextCompat.getColor(context, R.color.colorAccent), R.drawable.default_avatar)
+            ActivityCompat.startActivityForResult(context as Activity, intent, requestCode, options)
         }
     }
 
@@ -36,6 +41,8 @@ class LoginActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         viewModel = LoginViewModel(this)
         binding.viewModel = viewModel
+
+        FabTransform.setup(this, binding.container)
 
         setupAccountAutocomplete()
     }

@@ -150,7 +150,12 @@ class MainActivity : BaseActivity() {
         }
 
         avatarImg.setOnClickListener {
-            LoginActivity.intentTo(this, LOGIN_REQUEST)
+            if (user.email.isEmpty()) {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this, avatarImg, "transition_login"
+                ).toBundle()
+                LoginActivity.intentTo(this, LOGIN_REQUEST, options)
+            }
         }
 
         checkUpdate(true)
