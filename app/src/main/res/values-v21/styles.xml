@@ -8,11 +8,6 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!--Transition-->
         <item name="android:windowContentTransitions">true</item>
-        <!--按钮背景颜色-->
-        <item name="android:colorButtonNormal">@color/login_button</item>
-        <item name="android:colorControlActivated">@color/pink_300</item>
-        <item name="android:colorControlNormal">@color/pink_300</item>
-        <item name="android:colorControlHighlight">@color/pink_300</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">
@@ -46,6 +41,11 @@
         <item name="android:windowIsFloating">false</item> <!-- 不让窗口缩小到中间 -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <!--按钮背景颜色-->
+        <item name="android:colorButtonNormal">@color/login_button</item>
+        <item name="android:colorControlActivated">@color/pink_300</item>
+        <item name="android:colorControlNormal">@color/pink_300</item>
+        <item name="android:colorControlHighlight">@color/pink_300</item>
     </style>
 
 </resources>

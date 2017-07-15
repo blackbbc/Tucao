@@ -56,5 +56,8 @@ interface RawApiService {
                    @Field("password") password: String,
                    @Field("code") code: String,
                    @Field("cookietime") cookietime: Int = 31536000,
-                   @Field("dosubmit") dosubmit: String = "登录"): Observable<Response<ResponseBody>>
+                   @Field("dosubmit") dosubmit: String = "登录"): Observable<ResponseBody>
+
+    @GET(ApiConfig.PERSONAL_URL)
+    fun personal(): Observable<ResponseBody>
 }

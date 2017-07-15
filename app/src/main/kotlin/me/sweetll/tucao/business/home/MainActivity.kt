@@ -1,6 +1,7 @@
 package me.sweetll.tucao.business.home
 
 import android.accounts.AccountManager
+import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -43,9 +44,13 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.extension.formatWithUnit
+import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import org.jsoup.nodes.Document
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -56,6 +61,8 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
+        const val LOGIN_REQUEST = 1
+
         const val NOTIFICATION_ID = 10
     }
 
@@ -67,6 +74,9 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var rawApiService: RawApiService
+
+    @Inject
+    lateinit var user: User
 
     lateinit var accountManager: AccountManager
 
@@ -114,7 +124,7 @@ class MainActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         AppApplication.get()
-                .getApiComponent()
+                .getUserComponent()
                 .inject(this)
         initDialog()
 
@@ -130,13 +140,17 @@ class MainActivity : BaseActivity() {
         avatarImg = headerView.findViewById(R.id.img_avatar) as ImageView
         usernameText = headerView.findViewById(R.id.text_username) as TextView
 
-        Glide.with(this)
-                .load(R.drawable.default_avatar)
-                .apply(RequestOptions.circleCropTransform())
-                .into(avatarImg)
+        if (user.email.isNotEmpty()) {
+            refreshPersonal()
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.default_avatar)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(avatarImg)
+        }
 
         avatarImg.setOnClickListener {
-            LoginActivity.intentTo(this)
+            LoginActivity.intentTo(this, LOGIN_REQUEST)
         }
 
         checkUpdate(true)
@@ -214,6 +228,39 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK) {
+            refreshPersonal()
+        }
+    }
+
+    private fun refreshPersonal() {
+       rawApiService.personal()
+        .sanitizeHtml {
+            parsePersonal(this)
+        }
+        .subscribe({
+            avatarUrl ->
+            avatarImg.load(this, avatarUrl, R.drawable.default_avatar)
+        }, {
+            error ->
+            error.printStackTrace()
+        })
+    }
+
+    private fun parsePersonal(doc: Document): String {
+        // TODO: 解析个人中心
+        val name_div = doc.select("a.name")[0]
+        user.name = name_div.text()
+        usernameText.text = user.name
+
+        // 目前返回个人头像地址
+        val index_div = doc.select("div.index")[0]
+        val avatar_img = index_div.child(0).child(0)
+        return avatar_img.attr("src")
     }
 
     fun fullUpdate() {

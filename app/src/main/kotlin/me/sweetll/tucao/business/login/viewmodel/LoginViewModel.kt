@@ -1,9 +1,12 @@
 package me.sweetll.tucao.business.login.viewmodel
 
+import android.app.Activity
 import android.content.Intent
 import android.databinding.BindingAdapter
 import android.databinding.ObservableField
 import android.net.Uri
+import android.support.design.widget.Snackbar
+import android.support.transition.TransitionManager
 import android.view.View
 import android.widget.ImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,6 +15,7 @@ import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -22,6 +26,9 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     val password = ObservableField<String>()
     val code = ObservableField<String>()
     val codeBytes = ObservableField<ByteArray>()
+
+    val container = ObservableField<Int>(View.VISIBLE)
+    val progress = ObservableField<Int>(View.GONE)
 
     init {
         initSession()
@@ -64,7 +71,8 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     fun dismiss(view: View) {
-        activity.finish()
+        activity.setResult(Activity.RESULT_CANCELED)
+        activity.supportFinishAfterTransition()
     }
 
     fun onClickCode(view: View) {
@@ -78,28 +86,24 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     fun onClickSignIn(view: View) {
+        activity.showLoading()
         rawApiService.login_post(email.get(), password.get(), code.get())
-                .subscribeOn(Schedulers.io())
-                .retryWhen(ApiConfig.RetryWithDelay())
-                .map {
-                    response ->
-                    val doc = Jsoup.parse(response.body()!!.string())
-                    val res = parseLoginResult(doc)
-                    Pair(1, response.headers()["cookie"])
+                .sanitizeHtml {
+                    parseLoginResult(this)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    activity.showLogin()
+                }
                 .subscribe({
-                    (resultCode, authToken) ->
-                    when (resultCode) {
+                    (code, msg) ->
+                    when (code) {
                         0 -> {
-                            val res = Intent()
-//                            res.putExtra(AccountManager.KEY_ACCOUNT_NAME, email.get())
-//                            res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType)
-//                            res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken)
-//                            res.putExtra(LoginActivity.PARAM_USER_PASS, password.get())
+                            user.email = email.get()
+                            activity.setResult(Activity.RESULT_OK)
+                            activity.supportFinishAfterTransition()
                         }
                         else -> {
-                            "登录失败".toast()
+                            Snackbar.make(activity.binding.container, msg, Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 }, {
@@ -109,17 +113,13 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
                 })
     }
 
-    fun parseCode(doc: Document): String {
-        val codeDom = doc.select("img#code_img")
-        if (codeDom != null) {
-            return codeDom.attr("src")
-        } else {
-            throw Error("未知错误，请检查网络")
-        }
-    }
-
     fun parseLoginResult(doc: Document): Pair<Int, String>{
-        return Pair(0, "authToken")
+        val content = doc.body().text()
+        if ("登录成功" in content) {
+            return Pair(0, "")
+        } else {
+            return Pair(1, content)
+        }
     }
 
 }

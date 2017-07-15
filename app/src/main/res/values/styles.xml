@@ -4,11 +4,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
-
-        <item name="colorButtonNormal">@color/login_button</item>
-        <item name="colorControlActivated">@color/pink_300</item>
-        <item name="colorControlNormal">@color/pink_300</item>
-        <item name="colorControlHighlight">@color/pink_300</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">
@@ -22,6 +17,11 @@
     </style>
 
     <style name="Translucent.Login" parent="AppTheme">
+        <item name="colorButtonNormal">@color/login_button</item>
+        <item name="colorControlActivated">@color/pink_300</item>
+        <item name="colorControlNormal">@color/pink_300</item>
+        <item name="colorControlHighlight">@color/pink_300</item>
+        <!--按钮背景颜色-->
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowBackground">@color/scrim</item>

@@ -2,10 +2,12 @@ package me.sweetll.tucao.business.login
 
 import android.Manifest
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
@@ -24,9 +26,9 @@ class LoginActivity : BaseActivity() {
     private lateinit var accountManager: AccountManager
 
     companion object {
-        fun intentTo(context: Context) {
+        fun intentTo(context: Context, requestCode: Int = 1) {
             val intent = Intent(context, LoginActivity::class.java)
-            context.startActivity(intent)
+            (context as Activity).startActivityForResult(intent, requestCode)
         }
     }
 
@@ -61,5 +63,17 @@ class LoginActivity : BaseActivity() {
                         finish()
                     }
                 }
+    }
+
+    fun showLoading() {
+        TransitionManager.beginDelayedTransition(binding.container)
+        viewModel.container.set(View.GONE)
+        viewModel.progress.set(View.VISIBLE)
+    }
+
+    fun showLogin() {
+        TransitionManager.beginDelayedTransition(binding.container)
+        viewModel.container.set(View.VISIBLE)
+        viewModel.progress.set(View.GONE)
     }
 }

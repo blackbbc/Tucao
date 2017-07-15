@@ -10,5 +10,5 @@ class UserModule {
 
     @UserScope
     @Provides
-    fun provideUser() = User()
+    fun provideUser() = User.load()
 }
