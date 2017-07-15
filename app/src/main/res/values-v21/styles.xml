@@ -8,6 +8,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!--Transition-->
         <item name="android:windowContentTransitions">true</item>
+        <!--按钮颜色-->
+        <item name="android:colorButtonNormal">@color/login_button</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">

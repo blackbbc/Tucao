@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="16dp"
+            android:layout_gravity="center"
             tools:visibility="visible"
             android:src="@drawable/bg_comments"
             android:scaleType="centerCrop"/>
@@ -21,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="gone">
+            android:background="#FFFFFF"
+            tools:visibility="visible">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commentRecycler"
@@ -31,5 +34,45 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="8dp"
+            android:elevation="8dp"
+            android:gravity="center_vertical"
+            android:background="@color/white">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="评论评论"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="发射"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/commentFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="32dp"
+            android:src="@drawable/ic_comment"
+            android:tint="@color/white"
+            app:backgroundTint="@color/pink_300"
+            app:fabSize="normal" />
+    </FrameLayout>
 </layout>

@@ -58,7 +58,7 @@
                     android:id="@+id/emailEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="邮箱"
+                    android:hint="登录系统有问题，暂不开放"
                     android:inputType="textEmailAddress"
                     android:selectAllOnFocus="true"
                     android:text="@={viewModel.email}"
@@ -79,7 +79,7 @@
                 <me.sweetll.tucao.widget.PasswordEntry
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="密码"
+                    android:hint="个人中心设计中，暂不开放"
                     android:inputType="textPassword"
                     android:text="@={viewModel.password}" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:onClick="@{viewModel::onClickSignIn}"
                     android:text="登录"
                     android:textColor="@color/white"

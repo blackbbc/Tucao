@@ -4,6 +4,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <!--按钮颜色-->
+        <item name="colorButtonNormal">@color/login_button</item>
     </style>
 
     <style name="Translucent.Search" parent="AppTheme">
