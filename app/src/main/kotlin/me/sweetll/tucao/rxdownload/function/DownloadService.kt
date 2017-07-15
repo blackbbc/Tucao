@@ -73,6 +73,7 @@ class DownloadService: Service() {
     val partMap: ArrayMap<String, Boolean> = ArrayMap()
 
     var request: Disposable? = null
+    var downloading = false
 
     override fun onCreate() {
         Log.d("DownloadService", "On Create")
@@ -165,12 +166,15 @@ class DownloadService: Service() {
 
             processor.onNext(DownloadEvent(DownloadStatus.READY, mission.bean.downloadLength, mission.bean.contentLength, taskName))
 
+            downloading = false
             request = downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
                     .subscribeOn(Schedulers.io())
                     .doAfterTerminate { semaphore.release() }
                     .subscribe({
                         response ->
                         try {
+                            downloading = true
+
                             val header = response.headers()
                             val body = response.body()
 
@@ -249,7 +253,8 @@ class DownloadService: Service() {
             it.pause = true
 
             request?.let {
-                if (!it.isDisposed) it.dispose()
+                if (!downloading && !it.isDisposed) it.dispose()
+                downloading = false
                 request = null
             }
         }
@@ -267,7 +272,8 @@ class DownloadService: Service() {
         }
 
         request?.let {
-            if (!it.isDisposed) it.dispose()
+            if (!downloading && !it.isDisposed) it.dispose()
+            downloading = false
             request = null
         }
     }

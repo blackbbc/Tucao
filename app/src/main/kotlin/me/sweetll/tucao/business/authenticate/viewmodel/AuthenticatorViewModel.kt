@@ -6,11 +6,15 @@ import android.databinding.BindingAdapter
 import android.databinding.ObservableField
 import android.view.View
 import android.widget.ImageView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.authenticate.AuthenticatorActivity
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: String?, val accountType: String?): BaseViewModel() {
@@ -18,29 +22,42 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
     val email = ObservableField<String>()
     val password = ObservableField<String>()
     val code = ObservableField<String>()
-    val codeUrl = ObservableField<String>()
+    val codeBytes = ObservableField<ByteArray>()
 
     init {
         email.set(accountName)
-        checkCode()
+        initSession()
     }
 
     companion object {
         @BindingAdapter("app:imageUrl")
         @JvmStatic
-        fun loadImage(imageView: ImageView, url: String?) {
-            if (!url.isNullOrEmpty()) imageView.load(imageView.context, url!!)
+        fun loadImage(imageView: ImageView, bytes: ByteArray?) {
+            bytes?.let {
+                imageView.load(imageView.context, it)
+            }
         }
+    }
+
+    fun initSession() {
+        rawApiService.login_get()
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .subscribe({
+                    checkCode()
+                }, {
+                    error ->
+                    error.printStackTrace()
+                })
     }
 
     fun checkCode() {
         rawApiService.checkCode()
-                .sanitizeHtml {
-                    parseCode(this)
-                }
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
                 .subscribe({
-                    codeUrl ->
-                    this.codeUrl.set(codeUrl)
+                    body ->
+                    this.codeBytes.set(body.bytes())
                 }, {
                     error ->
                     error.printStackTrace()
@@ -53,10 +70,16 @@ class AuthenticatorViewModel(val activity: AuthenticatorActivity, accountName: S
     }
 
     fun onClickLogin(view: View) {
-        rawApiService.login(email.get(), password.get(), code.get())
-                .sanitizeHtml {
-                    parseLoginResult(this)
+        rawApiService.login_post(email.get(), password.get(), code.get())
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .map {
+                    response ->
+                    val doc = Jsoup.parse(response.body()!!.string())
+                    val res = parseLoginResult(doc)
+                    Pair(1, response.headers()["cookie"])
                 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     (resultCode, authToken) ->
                     when (resultCode) {

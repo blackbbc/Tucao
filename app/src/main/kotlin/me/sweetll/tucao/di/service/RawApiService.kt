@@ -44,16 +44,17 @@ interface RawApiService {
     @Streaming
     fun download(@Url url: String): Observable<Response<ResponseBody>>
 
-    @GET(ApiConfig.LOGIN_URL)
-    @Headers("Cookie: tucao_verify=ok")
+    @GET(ApiConfig.CODE_URL)
     fun checkCode(): Observable<ResponseBody>
+
+    @GET(ApiConfig.LOGIN_URL)
+    fun login_get(): Observable<ResponseBody>
 
     @FormUrlEncoded
     @POST(ApiConfig.LOGIN_URL)
-    @Headers("Cookie: tucao_verify=ok")
-    fun login(@Field("username") username: String,
-              @Field("password") password: String,
-              @Field("code") code: String,
-              @Field("cookietime") cookietime: Int = 31536000,
-              @Field("dosubmit") dosubmit: String = "登录"): Observable<ResponseBody>
+    fun login_post(@Field("username") username: String,
+                   @Field("password") password: String,
+                   @Field("code") code: String,
+                   @Field("cookietime") cookietime: Int = 31536000,
+                   @Field("dosubmit") dosubmit: String = "登录"): Observable<Response<ResponseBody>>
 }

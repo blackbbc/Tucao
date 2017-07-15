@@ -107,6 +107,7 @@ dependencies {
         exclude module: 'xpp3'
     }
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     /* Dagger2 */
     implementation 'com.google.dagger:dagger:2.11'

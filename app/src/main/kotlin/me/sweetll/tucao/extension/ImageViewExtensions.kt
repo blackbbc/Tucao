@@ -19,6 +19,13 @@ fun ImageView.load(context: Context, url: String): Unit {
             .into(this)
 }
 
+fun ImageView.load(context: Context, bytes: ByteArray): Unit {
+    GlideApp.with(context)
+            .load(bytes)
+            .transition(withCrossFade())
+            .into(this)
+}
+
 fun ImageView.load(context: Context, url: String, completeCallback: () -> Unit) {
     GlideApp.with(context)
             .load(url)

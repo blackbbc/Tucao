@@ -30,14 +30,15 @@ object ApiConfig {
     /*
      * Raw
      */
-    const val INDEX_URL = "http://www.tucao.tv/"
-    const val LIST_URL = "http://www.tucao.tv/list/{tid}/"
-    const val BGM_URL = "http://www.tucao.tv/bgm/{year}/{month}/"
-    const val SEND_DANMU_URL = "http://www.tucao.tv/index.php?m=mukio&c=index&a=post"
-    const val COMMENT_URL = "http://www.tucao.tv/index.php?m=comment&c=index&a=init&hot=0&iframe=1"
+    const val INDEX_URL = "/"
+    const val LIST_URL = "list/{tid}/"
+    const val BGM_URL = "bgm/{year}/{month}/"
+    const val SEND_DANMU_URL = "index.php?m=mukio&c=index&a=post"
+    const val COMMENT_URL = "index.php?m=comment&c=index&a=init&hot=0&iframe=1"
 
-    const val LOGIN_URL = "http://www.tucao.tv/index.php?m=member&c=index&a=login"
-    const val REGISTER_URL = "http://www.tucao.tv/index.php?m=member&c=index&a=register&siteid=1"
+    const val CODE_URL = "api.php?op=checkcode&code_len=4&font_size=14&width=446&height=40"
+    const val LOGIN_URL = "index.php?m=member&c=index&a=login"
+    const val REGISTER_URL = "index.php?m=member&c=index&a=register&siteid=1"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 

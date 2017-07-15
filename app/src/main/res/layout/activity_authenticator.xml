@@ -120,7 +120,7 @@
                             android:layout_height="40dp"
                             android:scaleType="fitXY"
                             android:onClick="@{viewModel::onClickCode}"
-                            app:imageUrl="@{viewModel.codeUrl}"/>
+                            app:imageUrl="@{viewModel.codeBytes}"/>
 
                     </LinearLayout>
 

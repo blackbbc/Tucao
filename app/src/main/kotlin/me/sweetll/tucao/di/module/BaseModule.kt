@@ -1,7 +1,11 @@
 package me.sweetll.tucao.di.module
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import dagger.Module
 import dagger.Provides
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.di.service.ApiConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,6 +26,7 @@ class BaseModule(val apiKey: String) {
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
+            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
