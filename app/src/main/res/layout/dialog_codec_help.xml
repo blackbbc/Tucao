@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/mask"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical"
+        tools:background="@drawable/bg_round_white_rectangle">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="硬解和软解的区别"
+                android:textSize="18sp"
+                android:textColor="@color/primary_text"/>
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_close"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_codec_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            android:scrollbars="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Q：什么是硬解？\nA：硬解是要机器中的专门的解码芯片来完成，质量因厂家的技术能力而定，部分厂商技术实力强，兼容性和解码效果做的比较好，而有些厂商技术实力稍差，兼容性和解码效果做的就不尽如意。\n\nQ：什么是软解？\nA: 软解就是用CPU来解码，需要CPU的性能与处理能力较强，但对流媒体格式兼容性比较好，因为软解库是我们自己开发的，质量我们能控制。\n\nQ：硬解比较好还是软解？\nA：一般来说硬解的 画质会更好些，因为硬解是有专门的芯片来解码效率高，理论上来将比软解效果好，并且硬解会减少机器发热。但由于不同芯片厂商的技术不一样可能会导致硬解对码流的兼容性没有软解好，所以会出现一些视频硬解无法播放但软解可以的现象。\n\nQ：废话那么多，我究竟是用硬解还是软解？\nA：优先使用硬解，如果播放有问题切换回软解。"
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/secondary_text"/>
+
+    </LinearLayout>
+
+</LinearLayout>

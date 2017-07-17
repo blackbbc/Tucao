@@ -11,6 +11,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
+import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -73,7 +74,9 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.isOpenPreView = true
         binding.player.isNeedShowWifiTip = false
 
-        GSYVideoType.enableMediaCodec() // 开启硬解
+        if (PlayerConfig.loadHardCodec()) {
+            GSYVideoType.enableMediaCodec() // 开启硬解
+        }
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(p0: String?) {

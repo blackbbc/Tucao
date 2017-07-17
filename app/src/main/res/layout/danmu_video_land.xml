@@ -51,8 +51,8 @@
                 android:id="@+id/previewFrameLayout"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                android:padding="2dp"
-                android:background="@drawable/video_frame">
+                android:background="@drawable/video_frame"
+                android:padding="2dp">
 
                 <FrameLayout
                     android:id="@+id/preview_layout"
@@ -70,11 +70,11 @@
                 android:layout_below="@+id/previewFrameLayout"
                 android:background="#99000000"
                 android:max="100"
-                tools:progress="50"
-                tools:secondaryProgress="70"
                 android:progressTint="@color/colorPrimary"
+                android:secondaryProgressTint="@color/white"
                 android:thumbTint="@color/colorPrimary"
-                android:secondaryProgressTint="@color/white"/>
+                tools:progress="50"
+                tools:secondaryProgress="70" />
 
         </com.github.rubensousa.previewseekbar.PreviewSeekBarLayout>
 
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/total"
@@ -117,17 +117,17 @@
             <TextView
                 android:id="@+id/text_send_danmu"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:background="#22FFFFFF"
                 android:gravity="center"
                 android:text="发射弹幕"
                 android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/switchDanmu"
@@ -183,9 +183,9 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
-        tools:visibility="gone"
         android:background="@drawable/video_title_bg"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/back"
@@ -223,212 +223,263 @@
 
     <!--预览-->
     <!--<RelativeLayout-->
-        <!--android:id="@+id/preview_layout"-->
-        <!--android:layout_width="@dimen/seek_bar_image"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_above="@+id/layout_bottom"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_marginBottom="80dp"-->
-        <!--android:visibility="gone"-->
-        <!--tools:visibility="visible" />-->
+    <!--android:id="@+id/preview_layout"-->
+    <!--android:layout_width="@dimen/seek_bar_image"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_above="@+id/layout_bottom"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="80dp"-->
+    <!--android:visibility="gone"-->
+    <!--tools:visibility="visible"/>-->
 
     <!--右侧设置栏-->
-    <LinearLayout
+    <ScrollView
         android:id="@+id/setting_layout"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="80dp"
-        android:background="#99000000"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:translationX="250dp"
         tools:translationX="0dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="#99000000"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            tools:translationX="0dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="弹幕不透明度："
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/text_danmu_opacity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:text="0%"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20%"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <SeekBar
-                android:id="@+id/seek_danmu_opacity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="80"
-                android:progress="80"
-                android:progressDrawable="@drawable/pink_scrubber_progress"
-                android:thumb="@drawable/pink_scrubber_control" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100%"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="弹幕字号："
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/text_danmu_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:text="1.00"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.50"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <SeekBar
-                android:id="@+id/seek_danmu_size"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="150"
-                android:progress="50"
-                android:progressDrawable="@drawable/pink_scrubber_progress"
-                android:thumb="@drawable/pink_scrubber_control" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2.00"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="播放速度："
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/text_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:text="1.0"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
-
-            <me.sweetll.tucao.widget.BubbleSeekBar
-                android:id="@+id/seek_speed"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="弹幕不透明度："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_danmu_opacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:text="0%"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20%"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <SeekBar
+                    android:id="@+id/seek_danmu_opacity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="80"
+                    android:progress="80"
+                    android:progressDrawable="@drawable/pink_scrubber_progress"
+                    android:thumb="@drawable/pink_scrubber_control" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="弹幕字号："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_danmu_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:text="1.00"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.50"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <SeekBar
+                    android:id="@+id/seek_danmu_size"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="150"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/pink_scrubber_progress"
+                    android:thumb="@drawable/pink_scrubber_control" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.00"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="播放速度："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/text_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="1.0"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <me.sweetll.tucao.widget.BubbleSeekBar
+                    android:id="@+id/seek_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="解码方式："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="软解"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_codec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:theme="@style/PinkSwitch"
+                    tools:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="硬解"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/img_codec_help"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/ic_action_help" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="旋转屏幕"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_rotate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/PinkSwitch"
+                    tools:checked="true" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="旋转屏幕"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/switch_rotate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:theme="@style/PinkSwitch"
-                tools:checked="true" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
     <!--左侧跳转栏-->
     <LinearLayout
         android:id="@+id/linear_jump"
@@ -436,44 +487,49 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:background="#99000000"
-        tools:translationX="0dp"
+        android:orientation="horizontal"
         android:translationX="-250dp"
-        android:orientation="horizontal">
+        tools:translationX="0dp">
+
         <ImageView
             android:id="@+id/img_close_jump"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="12dp"
-            android:tint="@color/white"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_close"
-            android:scaleType="centerInside"/>
+            android:tint="@color/white" />
+
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
+
         <TextView
             android:id="@+id/text_jump_time"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            tools:text="记忆您上次播放到125:56"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            tools:text="记忆您上次播放到125:56" />
+
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
+
         <TextView
             android:id="@+id/text_jump"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:text="跳转播放"
             android:textColor="@color/colorPrimary"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <!--顶部发送弹幕-->
@@ -491,34 +547,34 @@
             android:id="@+id/img_close"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:paddingStart="10dp"
             android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:scaleType="centerInside"
-            android:tint="@color/white"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            android:tint="@color/white" />
 
         <EditText
             android:id="@+id/edit_danmu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:inputType="text"
+            android:hint="在这里输入弹幕"
             android:imeOptions="flagNoExtractUi|actionSend"
+            android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:hint="在这里输入弹幕"
-            android:textColorHint="#AAFFFFFF"/>
+            android:textColorHint="#AAFFFFFF"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/img_send_danmu"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:paddingStart="10dp"
             android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:scaleType="centerInside"
-            android:tint="@color/white"
-            android:src="@drawable/ic_action_send" />
+            android:src="@drawable/ic_action_send"
+            android:tint="@color/white" />
 
     </LinearLayout>
 

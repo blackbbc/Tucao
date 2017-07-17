@@ -25,6 +25,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
@@ -240,7 +241,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             orientationUtils.backToLand()
         }
 
-        GSYVideoType.enableMediaCodec() // 开启硬解
+        if (PlayerConfig.loadHardCodec()) {
+            GSYVideoType.enableMediaCodec() // 开启硬解
+        }
 
         binding.player.speed = 1f
 

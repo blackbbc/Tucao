@@ -2,19 +2,23 @@ package me.sweetll.tucao.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
+import android.text.method.ScrollingMovementMethod
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.ViewHolder
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.CommonUtil
@@ -36,6 +40,7 @@ import me.sweetll.tucao.R
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import me.sweetll.tucao.extension.dp2px
 import me.sweetll.tucao.extension.logD
+import me.sweetll.tucao.extension.toast
 
 class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var loadText: TextView? = null
@@ -46,7 +51,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmakuContainer: FrameLayout
     var danmakuView: DanmakuView? = null
 
-    lateinit var settingLayout: LinearLayout
+    lateinit var settingLayout: View
     lateinit var switchDanmu: TextView
     lateinit var settingButton: Button
     lateinit var danmuOpacityText: TextView
@@ -54,6 +59,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmuSizeText: TextView
     lateinit var danmuSizeSeek: SeekBar
     lateinit var rotateSwitch: SwitchCompat
+    lateinit var codecSwitch: SwitchCompat
+    lateinit var codecHelpImg: ImageView
 
     lateinit var speedSeek: BubbleSeekBar
     lateinit var speedText: TextView
@@ -81,6 +88,26 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var mLastState = -1
     var needCorrectDanmu = false
     var isShowDanmu = true
+
+    val codecHelpDialog: DialogPlus by lazy {
+        val codecHelpView = LayoutInflater.from(context).inflate(R.layout.dialog_codec_help, null)
+        val codecHelpText = codecHelpView.findViewById(R.id.text_codec_help) as TextView
+        codecHelpText.movementMethod = ScrollingMovementMethod()
+        DialogPlus.newDialog(context)
+                .setContentHolder(ViewHolder(codecHelpView))
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(R.drawable.bg_round_white_rectangle)
+                .setOverlayBackgroundResource(R.color.mask)
+                .setOnClickListener {
+                    dialog, view ->
+                    when (view.id) {
+                        R.id.img_close -> dialog.dismiss()
+                    }
+                }
+                .create()
+    }
 
     constructor(context: Context, fullFlag: Boolean?) : super(context, fullFlag)
 
@@ -172,6 +199,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
             danmuSizeText.text = danmuSizeProgress.formatDanmuSizeToString()
             danmuSizeSeek.progress = danmuSizeProgress
+
+            codecSwitch.isChecked = PlayerConfig.loadHardCodec()
         }
 
         PlayerConfig.saveDanmuOpacity(danmuOpacityProgress)
@@ -192,12 +221,14 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         if (!isIfCurrentIsFullscreen) {
             loadText = findViewById(R.id.text_load) as TextView
         } else {
-            settingLayout = findViewById(R.id.setting_layout) as LinearLayout
+            settingLayout = findViewById(R.id.setting_layout)
             danmuOpacityText = findViewById(R.id.text_danmu_opacity) as TextView
             danmuOpacitySeek = findViewById(R.id.seek_danmu_opacity) as SeekBar
             danmuSizeText = findViewById(R.id.text_danmu_size) as TextView
             danmuSizeSeek = findViewById(R.id.seek_danmu_size) as SeekBar
             rotateSwitch = findViewById(R.id.switch_rotate) as SwitchCompat
+            codecSwitch = findViewById(R.id.switch_codec) as SwitchCompat
+            codecHelpImg = findViewById(R.id.img_codec_help) as ImageView
 
             settingButton = findViewById(R.id.btn_setting) as Button
             settingButton.visibility = View.VISIBLE
@@ -262,6 +293,16 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                     this@DanmuVideoPlayer.speed = progressFloat
                     speedText.text = "$progressFloat"
                 }
+            }
+
+            codecSwitch.setOnCheckedChangeListener {
+                button, checked ->
+                PlayerConfig.saveHardCodec(checked)
+                "设置成功，重新打开视频后生效".toast()
+            }
+
+            codecHelpImg.setOnClickListener {
+                codecHelpDialog.show()
             }
 
             // 顶部发送弹幕栏
