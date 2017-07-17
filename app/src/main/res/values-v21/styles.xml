@@ -2,6 +2,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
         <!--透明状态栏-->
@@ -45,9 +47,6 @@
         <item name="android:windowNoTitle">true</item>
         <!--按钮背景颜色-->
         <item name="android:colorButtonNormal">@color/login_button</item>
-        <item name="android:colorControlActivated">@color/pink_300</item>
-        <item name="android:colorControlNormal">@color/pink_300</item>
-        <item name="android:colorControlHighlight">@color/pink_300</item>
     </style>
 
 </resources>

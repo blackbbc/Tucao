@@ -52,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:hintTextAppearance="@style/TextAppearance.FloatLabelHint">
+                android:theme="@style/PinkEdit"
+                android:textColorHint="@color/pink_300">
 
                 <AutoCompleteTextView
                     android:id="@+id/emailEdit"
@@ -62,8 +63,7 @@
                     android:inputType="textEmailAddress"
                     android:selectAllOnFocus="true"
                     android:text="@={viewModel.email}"
-                    android:textColor="@color/primary_text"
-                    android:textColorHighlight="@color/colorPrimary" />
+                    android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -71,7 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:hintTextAppearance="@style/TextAppearance.FloatLabelHint"
+                android:textColorHint="@color/pink_300"
+                android:theme="@style/PinkEdit"
                 app:passwordToggleDrawable="@drawable/asl_password_visibility"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/primary_text">
@@ -79,9 +80,11 @@
                 <me.sweetll.tucao.widget.PasswordEntry
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="个人中心设计中，暂不开放"
+                    android:hint="个人中心设计中"
                     android:inputType="textPassword"
-                    android:text="@={viewModel.password}" />
+                    android:selectAllOnFocus="true"
+                    android:text="@={viewModel.password}"
+                    android:textSize="16sp"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +98,8 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearance.FloatLabelHint">
+                    android:theme="@style/PinkEdit"
+                    android:textColorHint="@color/pink_300">
 
                     <EditText
                         android:layout_width="100dp"
@@ -103,7 +107,9 @@
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:hint="验证码"
                         android:inputType="number"
-                        android:text="@={viewModel.code}" />
+                        android:selectAllOnFocus="true"
+                        android:text="@={viewModel.code}"
+                        android:textSize="16sp"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -128,7 +134,7 @@
                     android:layout_gravity="start"
                     android:onClick="@{viewModel::onClickSignUp}"
                     android:text="注册"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pink_300"
                     android:textStyle="bold" />
 
                 <Button

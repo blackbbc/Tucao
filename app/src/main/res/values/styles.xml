@@ -2,6 +2,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
         <!--按钮颜色-->
@@ -20,9 +22,6 @@
 
     <style name="Translucent.Login" parent="AppTheme">
         <item name="colorButtonNormal">@color/login_button</item>
-        <item name="colorControlActivated">@color/pink_300</item>
-        <item name="colorControlNormal">@color/pink_300</item>
-        <item name="colorControlHighlight">@color/pink_300</item>
         <!--按钮背景颜色-->
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -68,7 +67,11 @@
         <item name="android:colorForeground">#42221F1F</item>
     </style>
 
-    <style name="TextAppearance.FloatLabelHint" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textColor">@color/pink_300</item>
+    <style name="PinkEdit" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/pink_300</item>
+        <item name="colorAccent">@color/pink_300</item>
+        <item name="colorControlNormal">@color/pink_300</item>
+        <item name="colorControlActivated">@color/pink_300</item>
     </style>
+
 </resources>

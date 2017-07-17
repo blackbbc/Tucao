@@ -30,33 +30,47 @@
                 android:id="@+id/commentRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="60dp"
+                android:clipToPadding="false"
                 tools:listitem="@layout/item_comment" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
+            android:id="@+id/commentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_gravity="bottom"
             android:paddingBottom="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="8dp"
             android:elevation="8dp"
+            tools:visibility="visible"
+            android:visibility="invisible"
             android:gravity="center_vertical"
             android:background="@color/white">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                tools:text="评论评论"
-                android:textSize="14sp"
-                android:textColor="@color/secondary_text"/>
+                android:textColorHint="@color/pink_300"
+                android:theme="@style/PinkEdit">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="评论"
+                    tools:text="啦啦啦"
+                    android:textSize="14sp"
+                    android:textColor="@color/secondary_text"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
                 android:text="发射"
                 android:textColor="@color/white"
@@ -72,6 +86,8 @@
             android:layout_margin="32dp"
             android:src="@drawable/ic_comment"
             android:tint="@color/white"
+            tools:visibility="visible"
+            android:visibility="invisible"
             app:backgroundTint="@color/pink_300"
             app:fabSize="normal" />
     </FrameLayout>

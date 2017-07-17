@@ -1,11 +1,23 @@
 package me.sweetll.tucao.business.video.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.databinding.DataBindingUtil
+import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
+import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.ArcMotion
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
@@ -84,12 +96,56 @@ class VideoCommentsFragment: BaseFragment() {
         binding.clickToLoadImg.setOnClickListener {
             binding.clickToLoadImg.visibility = View.GONE
             binding.swipeRefresh.visibility = View.VISIBLE
+            binding.commentFab.show()
             loadData()
         }
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             loadData()
         }
+
+        binding.commentFab.setOnClickListener {
+            startFabTransform()
+        }
+    }
+
+    fun startFabTransform() {
+        binding.commentFab.visibility = View.GONE
+        binding.commentContainer.visibility = View.VISIBLE
+
+        val startBounds = Rect(binding.commentFab.left, binding.commentFab.top, binding.commentFab.right, binding.commentFab.bottom)
+        val endBounds = Rect(binding.commentContainer.left, binding.commentContainer.top, binding.commentContainer.right, binding.commentContainer.bottom)
+
+        val fabColor = ColorDrawable(ContextCompat.getColor(activity, R.color.pink_300))
+        fabColor.setBounds(0, 0, endBounds.width(), endBounds.height())
+        binding.commentContainer.overlay.add(fabColor)
+
+        val circularReveal = ViewAnimationUtils.createCircularReveal(
+                binding.commentContainer, binding.commentContainer.width / 2, binding.commentContainer.height / 2,
+                binding.commentFab.width / 2f, binding.commentContainer.width / 2f)
+        val pathMotion = ArcMotion()
+        circularReveal.interpolator = FastOutSlowInInterpolator()
+        circularReveal.duration = 240
+
+        val translate = ObjectAnimator.ofFloat(binding.commentContainer, View.TRANSLATION_X, View.TRANSLATION_Y,
+                pathMotion.getPath((startBounds.centerX() - endBounds.centerX()).toFloat(), (startBounds.centerY() - endBounds.centerY()).toFloat(), 0f, 0f))
+        translate.interpolator = LinearOutSlowInInterpolator()
+        translate.duration = 240
+
+        val colorFade = ObjectAnimator.ofInt(fabColor, "alpha", 0)
+        colorFade.duration = 120
+        colorFade.interpolator = FastOutSlowInInterpolator()
+
+        val transition = AnimatorSet()
+        transition.duration = 240
+        transition.playTogether(circularReveal, translate, colorFade)
+        transition.addListener(object: AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                binding.commentContainer.overlay.clear()
+            }
+        })
+
+        transition.start()
     }
 
     fun loadData() {
