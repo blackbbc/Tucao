@@ -75,7 +75,8 @@
                 android:textColorHint="@color/pink_300"
                 android:theme="@style/PinkEdit"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/primary_text">
+                app:passwordToggleTint="@color/primary_text"
+                android:orientation="vertical">
 
                 <me.sweetll.tucao.widget.PasswordEntry
                     android:layout_width="match_parent"

@@ -48,6 +48,7 @@ class LoginActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             FabTransform.setup(this, binding.container)
             binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.asl_password_visibility)
+            binding.passwordLayout.setPasswordVisibilityToggleTintList(ContextCompat.getColorStateList(this, R.color.primary_text))
         } else {
             binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.ic_remove_red_eye)
         }
