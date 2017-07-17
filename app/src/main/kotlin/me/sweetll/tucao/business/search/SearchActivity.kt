@@ -246,9 +246,11 @@ class SearchActivity : BaseActivity() {
     }
 
     fun setRefreshing(refreshing: Boolean) {
-        TransitionManager.beginDelayedTransition(
-                binding.root as ViewGroup, getTransition(R.transition.auto)
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            TransitionManager.beginDelayedTransition(
+                    binding.root as ViewGroup, getTransition(R.transition.auto)
+            )
+        }
         if (refreshing) {
             binding.progress.visibility = View.VISIBLE
             binding.searchResults.visibility = View.GONE

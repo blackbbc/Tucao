@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.databinding.DataBindingUtil
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -110,42 +111,47 @@ class VideoCommentsFragment: BaseFragment() {
     }
 
     fun startFabTransform() {
-        binding.commentFab.visibility = View.GONE
-        binding.commentContainer.visibility = View.VISIBLE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding.commentFab.visibility = View.GONE
+            binding.commentContainer.visibility = View.VISIBLE
 
-        val startBounds = Rect(binding.commentFab.left, binding.commentFab.top, binding.commentFab.right, binding.commentFab.bottom)
-        val endBounds = Rect(binding.commentContainer.left, binding.commentContainer.top, binding.commentContainer.right, binding.commentContainer.bottom)
+            val startBounds = Rect(binding.commentFab.left, binding.commentFab.top, binding.commentFab.right, binding.commentFab.bottom)
+            val endBounds = Rect(binding.commentContainer.left, binding.commentContainer.top, binding.commentContainer.right, binding.commentContainer.bottom)
 
-        val fabColor = ColorDrawable(ContextCompat.getColor(activity, R.color.pink_300))
-        fabColor.setBounds(0, 0, endBounds.width(), endBounds.height())
-        binding.commentContainer.overlay.add(fabColor)
+            val fabColor = ColorDrawable(ContextCompat.getColor(activity, R.color.pink_300))
+            fabColor.setBounds(0, 0, endBounds.width(), endBounds.height())
+            binding.commentContainer.overlay.add(fabColor)
 
-        val circularReveal = ViewAnimationUtils.createCircularReveal(
-                binding.commentContainer, binding.commentContainer.width / 2, binding.commentContainer.height / 2,
-                binding.commentFab.width / 2f, binding.commentContainer.width / 2f)
-        val pathMotion = ArcMotion()
-        circularReveal.interpolator = FastOutSlowInInterpolator()
-        circularReveal.duration = 240
+            val circularReveal = ViewAnimationUtils.createCircularReveal(
+                    binding.commentContainer, binding.commentContainer.width / 2, binding.commentContainer.height / 2,
+                    binding.commentFab.width / 2f, binding.commentContainer.width / 2f)
+            val pathMotion = ArcMotion()
+            circularReveal.interpolator = FastOutSlowInInterpolator()
+            circularReveal.duration = 240
 
-        val translate = ObjectAnimator.ofFloat(binding.commentContainer, View.TRANSLATION_X, View.TRANSLATION_Y,
-                pathMotion.getPath((startBounds.centerX() - endBounds.centerX()).toFloat(), (startBounds.centerY() - endBounds.centerY()).toFloat(), 0f, 0f))
-        translate.interpolator = LinearOutSlowInInterpolator()
-        translate.duration = 240
+            val translate = ObjectAnimator.ofFloat(binding.commentContainer, View.TRANSLATION_X, View.TRANSLATION_Y,
+                    pathMotion.getPath((startBounds.centerX() - endBounds.centerX()).toFloat(), (startBounds.centerY() - endBounds.centerY()).toFloat(), 0f, 0f))
+            translate.interpolator = LinearOutSlowInInterpolator()
+            translate.duration = 240
 
-        val colorFade = ObjectAnimator.ofInt(fabColor, "alpha", 0)
-        colorFade.duration = 120
-        colorFade.interpolator = FastOutSlowInInterpolator()
+            val colorFade = ObjectAnimator.ofInt(fabColor, "alpha", 0)
+            colorFade.duration = 120
+            colorFade.interpolator = FastOutSlowInInterpolator()
 
-        val transition = AnimatorSet()
-        transition.duration = 240
-        transition.playTogether(circularReveal, translate, colorFade)
-        transition.addListener(object: AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                binding.commentContainer.overlay.clear()
-            }
-        })
+            val transition = AnimatorSet()
+            transition.duration = 240
+            transition.playTogether(circularReveal, translate, colorFade)
+            transition.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    binding.commentContainer.overlay.clear()
+                }
+            })
 
-        transition.start()
+            transition.start()
+        } else {
+            binding.commentFab.hide()
+            binding.commentContainer.visibility = View.VISIBLE
+        }
     }
 
     fun loadData() {

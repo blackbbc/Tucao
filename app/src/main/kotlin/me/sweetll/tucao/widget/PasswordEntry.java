@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.TextPaint;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -159,7 +160,7 @@ public class PasswordEntry extends TextInputEditText {
                     context.getResources().getInteger(R.integer.show_password_duration);
             hidePasswordDuration =
                     context.getResources().getInteger(R.integer.hide_password_duration);
-            fastOutSlowIn = AnimUtils.getFastOutSlowInInterpolator(context);
+            fastOutSlowIn = new FastOutSlowInInterpolator();
         }
 
         Animator createShowMaskAnimator(CharSequence password) {

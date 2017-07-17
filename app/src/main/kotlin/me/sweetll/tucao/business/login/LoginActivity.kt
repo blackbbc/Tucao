@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.app.ActivityCompat
@@ -30,9 +31,11 @@ class LoginActivity : BaseActivity() {
     private lateinit var accountManager: AccountManager
 
     companion object {
-        fun intentTo(context: Context, requestCode: Int = 1, options: Bundle) {
+        fun intentTo(context: Context, requestCode: Int = 1, options: Bundle?) {
             val intent = Intent(context, LoginActivity::class.java)
-            FabTransform.addExtras(intent, ContextCompat.getColor(context, R.color.colorAccent), R.drawable.default_avatar)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                FabTransform.addExtras(intent, ContextCompat.getColor(context, R.color.colorAccent), R.drawable.default_avatar)
+            }
             ActivityCompat.startActivityForResult(context as Activity, intent, requestCode, options)
         }
     }
@@ -42,7 +45,12 @@ class LoginActivity : BaseActivity() {
         viewModel = LoginViewModel(this)
         binding.viewModel = viewModel
 
-        FabTransform.setup(this, binding.container)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            FabTransform.setup(this, binding.container)
+            binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.asl_password_visibility)
+        } else {
+            binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.ic_remove_red_eye)
+        }
 
         setupAccountAutocomplete()
     }

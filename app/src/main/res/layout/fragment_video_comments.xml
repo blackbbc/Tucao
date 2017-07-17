@@ -61,8 +61,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="评论"
-                    tools:text="啦啦啦"
+                    android:hint="评论系统暂不开放"
                     android:textSize="14sp"
                     android:textColor="@color/secondary_text"/>
 
@@ -72,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
+                android:enabled="false"
                 android:text="发射"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
