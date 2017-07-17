@@ -14,7 +14,8 @@
 - 频道列表，支持按照发布时间/播放量/弹幕排序
 - 视频搜索，支持分频道搜索
 - 视频查看，使用IjkPlayer播放视频，DanmakuFlameMaster播放弹幕，自动拼接多段视频（使用concat协议）
-- 视频离线缓存
+- 视频离线缓存，支持缓存弹幕
+- 增量更新（[Google File By File Patch](https://github.com/andrewhayden/archive-patcher)）
 
 ## Screenshots
 <a href="art/1.gif"><img src="art/1.gif" width="30%"/></a>
@@ -43,17 +44,12 @@
 <a href="art/18.png"><img src="art/18.png" width="30%"/></a>
 
 ## TODO
-- [x] 检查卡顿，优化动画，优化内存占用（V1.0.8）
-- [x] 增量更新（V1.0.8） 增量算法:[Google File By File Patch](https://github.com/andrewhayden/archive-patcher)
-- [x] 修复部分界面错位Bug（V1.0.8）
-- [x] 下载弹幕（V1.0.8）
-- [x] 修复下载Bug（V1.0.8）
-- [x] 适配Android5.0以下（V1.0.8）
 - [x] 修复排行榜闪退问题（V1.0.9）
 - [x] 修复大文件不能下载的问题（V1.0.9）
 - [x] 修复Android 4.4及以下搜索闪退问题（V1.0.9）
 - [x] 添加缓冲进度条（V1.0.9）
 - [x] 减少滑动手势调整的播放进度幅度（V1.0.9）
+- [x] 播放设置新增弹幕速度（V1.0.9）
 - [x] 播放设置新增解码方式（V1.0.9）
 - [x] 优化播放器播放参数，减少视频加载时间（V1.0.9）
 - [ ] 登陆（V1.1.0）

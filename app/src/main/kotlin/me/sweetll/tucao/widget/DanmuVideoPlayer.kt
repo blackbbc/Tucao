@@ -58,6 +58,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var danmuOpacitySeek: SeekBar
     lateinit var danmuSizeText: TextView
     lateinit var danmuSizeSeek: SeekBar
+    lateinit var danmuSpeedText: TextView
+    lateinit var danmuSpeedSeek: SeekBar
     lateinit var rotateSwitch: SwitchCompat
     lateinit var codecSwitch: SwitchCompat
     lateinit var codecHelpImg: ImageView
@@ -78,12 +80,16 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
     var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
+    var danmuSpeedProgress = PlayerConfig.loadDanmuSpeed() // 1.00 0.3~2.00
 
     fun Int.formatDanmuSizeToString(): String = String.format("%.2f", this.formatDanmuSizeToFloat())
     fun Int.formatDanmuSizeToFloat(): Float = (this + 50) / 100f
 
     fun Int.formatDanmuOpacityToString(): String = String.format("%d%%", this + 20)
     fun Int.formatDanmuOpacityToFloat(): Float = (this + 20) / 100f
+
+    fun Int.formatDanmuSpeedToString(): String = String.format("%.2f", this.formatDanmuSpeedToFloat())
+    fun Int.formatDanmuSpeedToFloat(): Float = (this + 30) / 100f
 
     var mLastState = -1
     var needCorrectDanmu = false
@@ -200,14 +206,19 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             danmuSizeText.text = danmuSizeProgress.formatDanmuSizeToString()
             danmuSizeSeek.progress = danmuSizeProgress
 
+            danmuSpeedText.text = danmuSpeedProgress.formatDanmuSpeedToString()
+            danmuSpeedSeek.progress = danmuSpeedProgress
+
             codecSwitch.isChecked = PlayerConfig.loadHardCodec()
         }
 
         PlayerConfig.saveDanmuOpacity(danmuOpacityProgress)
         PlayerConfig.saveDanmuSize(danmuSizeProgress)
+        PlayerConfig.saveDanmuSpeed(danmuSpeedProgress)
 
         danmakuContext?.setDanmakuTransparency(danmuOpacityProgress.formatDanmuOpacityToFloat())
         danmakuContext?.setScaleTextSize(danmuSizeProgress.formatDanmuSizeToFloat())
+        danmakuContext?.setScrollSpeedFactor(danmuSpeedProgress.formatDanmuSpeedToFloat())
     }
 
     private fun initView() {
@@ -226,6 +237,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             danmuOpacitySeek = findViewById(R.id.seek_danmu_opacity) as SeekBar
             danmuSizeText = findViewById(R.id.text_danmu_size) as TextView
             danmuSizeSeek = findViewById(R.id.seek_danmu_size) as SeekBar
+            danmuSpeedText = findViewById(R.id.text_danmu_speed) as TextView
+            danmuSpeedSeek = findViewById(R.id.seek_danmu_speed) as SeekBar
             rotateSwitch = findViewById(R.id.switch_rotate) as SwitchCompat
             codecSwitch = findViewById(R.id.switch_codec) as SwitchCompat
             codecHelpImg = findViewById(R.id.img_codec_help) as ImageView
@@ -270,6 +283,23 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 }
             })
 
+            danmuSpeedSeek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser) {
+                        danmuSpeedProgress = progress
+                        configDanmuStyle()
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                }
+            })
+
             speedText = findViewById(R.id.text_speed) as TextView
             speedSeek = findViewById(R.id.seek_speed) as BubbleSeekBar
             speedSeek.configBuilder
@@ -298,7 +328,6 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             codecSwitch.setOnCheckedChangeListener {
                 button, checked ->
                 PlayerConfig.saveHardCodec(checked)
-                "设置成功，重新打开视频后生效".toast()
             }
 
             codecHelpImg.setOnClickListener {
@@ -415,6 +444,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 .setDuplicateMergingEnabled(false)
                 .preventOverlapping(overlappingEnablePair)
                 .setScaleTextSize(danmuSizeProgress.formatDanmuSizeToFloat())
+                .setScrollSpeedFactor(danmuSpeedProgress.formatDanmuSpeedToFloat())
                 .setDanmakuTransparency(danmuOpacityProgress.formatDanmuOpacityToFloat())
 
         if (!mIfCurrentIsFullscreen) {
@@ -483,6 +513,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             player.showDanmu(isShowDanmu)
             player.danmuSizeProgress = danmuSizeProgress
             player.danmuOpacityProgress = danmuOpacityProgress
+            player.danmuSpeedProgress = danmuSpeedProgress
             player.setUpDanmu(it)
             player.configDanmuStyle()
         }
@@ -523,6 +554,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             showDanmu(it.isShowDanmu)
 
             danmuSizeProgress = it.danmuSizeProgress
+            danmuSpeedProgress = it.danmuSpeedProgress
             danmuOpacityProgress = it.danmuOpacityProgress
 
             configDanmuStyle()
