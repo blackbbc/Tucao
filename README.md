@@ -79,7 +79,7 @@ git clone --recursive -j8 https://github.com/blackbbc/Tucao.git
 ```
 
 如果使用`Windows`进行开发，由于Data Binding在Windows上存在UTF8编码问题，不能编译通过，请参考如下两个Issue自行解决：
-(#4)[https://github.com/blackbbc/Tucao/issues/4](#7)[https://github.com/blackbbc/Tucao/issues/7]
+[#4](https://github.com/blackbbc/Tucao/issues/4)[#7](https://github.com/blackbbc/Tucao/issues/7)
 
 
 ## Statement
