@@ -15,7 +15,12 @@ import android.support.v4.content.ContextCompat
 import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
+import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Observables
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -54,6 +59,20 @@ class LoginActivity : BaseActivity() {
         }
 
         setupAccountAutocomplete()
+
+        val validEmail = RxTextView.textChanges(binding.emailEdit)
+                .map { text -> Patterns.EMAIL_ADDRESS.matcher(text).matches() }
+        val validPassword = RxTextView.textChanges(binding.passwordEdit)
+                .map { text -> text.isNotEmpty() }
+        val validCode = RxTextView.textChanges(binding.codeEdit)
+                .map { text -> text.isNotEmpty() }
+        Observables.combineLatest(validEmail, validPassword, validCode, {a, b, c -> a and b and c})
+                .distinctUntilChanged()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    enable ->
+                    binding.signInBtn.isEnabled = enable
+                }
     }
 
     private fun setupAccountAutocomplete() {

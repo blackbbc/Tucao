@@ -26,6 +26,11 @@ class User() {
             }
         }
 
+    fun invalidate() {
+        email = ""
+        name = ""
+    }
+
     companion object {
         const val SP_USER = "user"
         const val KEY_USER = "user"

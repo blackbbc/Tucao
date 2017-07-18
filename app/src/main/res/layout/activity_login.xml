@@ -59,7 +59,7 @@
                     android:id="@+id/emailEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="登录系统有问题，暂不开放"
+                    android:hint="邮箱"
                     android:inputType="textEmailAddress"
                     android:selectAllOnFocus="true"
                     android:text="@={viewModel.email}"
@@ -79,9 +79,10 @@
                 android:orientation="vertical">
 
                 <me.sweetll.tucao.widget.PasswordEntry
+                    android:id="@+id/passwordEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="个人中心设计中"
+                    android:hint="密码"
                     android:inputType="textPassword"
                     android:selectAllOnFocus="true"
                     android:text="@={viewModel.password}"
@@ -103,6 +104,7 @@
                     android:textColorHint="@color/pink_300">
 
                     <EditText
+                        android:id="@+id/codeEdit"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -139,6 +141,7 @@
                     android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/signInBtn"
                     style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
