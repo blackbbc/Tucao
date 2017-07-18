@@ -13,7 +13,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:onClick="@{viewModel::dismiss}">
 
         <LinearLayout
@@ -75,7 +74,6 @@
                 android:textColorHint="@color/pink_300"
                 android:theme="@style/PinkEdit"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/primary_text"
                 android:orientation="vertical">
 
                 <me.sweetll.tucao.widget.PasswordEntry
@@ -166,7 +164,7 @@
                 android:indeterminateTint="@color/grey_300"
                 android:indeterminateTintMode="src_in"
                 android:visibility="@{viewModel.progress}"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
         </LinearLayout>
 

@@ -49,6 +49,8 @@ fun ImageView.load(context: Context, url: String, errorRes: Int): Unit {
 fun ImageView.load(context: Context, bytes: ByteArray): Unit {
     GlideApp.with(context)
             .load(bytes)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .transition(withCrossFade())
             .into(this)
 }

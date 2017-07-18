@@ -6,10 +6,8 @@ import android.databinding.BindingAdapter
 import android.databinding.ObservableField
 import android.net.Uri
 import android.support.design.widget.Snackbar
-import android.support.transition.TransitionManager
 import android.view.View
 import android.widget.ImageView
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.login.LoginActivity
@@ -17,7 +15,6 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class LoginViewModel(val activity: LoginActivity): BaseViewModel() {

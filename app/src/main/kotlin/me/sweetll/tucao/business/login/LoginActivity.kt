@@ -10,15 +10,12 @@ import android.os.Build
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.BundleCompat
 import android.support.v4.content.ContextCompat
 import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
-import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 
@@ -26,6 +23,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.login.viewmodel.LoginViewModel
 import me.sweetll.tucao.databinding.ActivityLoginBinding
+import me.sweetll.tucao.extension.hideSoftKeyboard
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.transition.FabTransform
 
@@ -52,10 +50,6 @@ class LoginActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             FabTransform.setup(this, binding.container)
-            binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.asl_password_visibility)
-            binding.passwordLayout.setPasswordVisibilityToggleTintList(ContextCompat.getColorStateList(this, R.color.primary_text))
-        } else {
-            binding.passwordLayout.passwordVisibilityToggleDrawable = ContextCompat.getDrawable(this, R.drawable.ic_remove_red_eye)
         }
 
         setupAccountAutocomplete()
