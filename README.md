@@ -72,6 +72,16 @@
 - 设计编码均独立完成，如果你觉得太丑，欢迎砸设计稿
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
+## Development
+由于项目中使用了[submodule](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
+```
+git clone --recursive -j8 https://github.com/blackbbc/Tucao.git
+```
+
+如果使用`Windows`进行开发，由于Data Binding在Windows上存在UTF8编码问题，不能编译通过，请参考如下两个Issue自行解决：
+(#4)[https://github.com/blackbbc/Tucao/issues/4](#7)[https://github.com/blackbbc/Tucao/issues/7]
+
+
 ## Statement
 该项目仅供交流学习使用，如果该项目有侵犯Tucao版权问题，本人会及时删除此页面与整个项目。
 
