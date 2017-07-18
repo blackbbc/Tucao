@@ -67,11 +67,8 @@
         <item name="android:colorForeground">#42221F1F</item>
     </style>
 
-    <style name="PinkEdit" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textColorHint">@color/pink_300</item>
-        <item name="colorAccent">@color/pink_300</item>
+    <style name="PinkEdit">
         <item name="colorControlNormal">@color/pink_300</item>
-        <item name="colorControlActivated">@color/pink_300</item>
     </style>
 
 </resources>

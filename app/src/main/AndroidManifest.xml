@@ -14,7 +14,7 @@
     <!-- 读取手机状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!--登录-->
+    <!-- 登录 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
@@ -38,7 +38,7 @@
             android:name=".business.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Translucent.Login"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
@@ -49,7 +49,7 @@
         <activity
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait"
@@ -105,7 +105,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

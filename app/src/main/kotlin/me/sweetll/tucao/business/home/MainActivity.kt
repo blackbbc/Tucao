@@ -35,9 +35,9 @@ import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
+import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig

@@ -147,6 +147,8 @@ dependencies {
     implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.0.0-beta7'
     implementation 'com.github.Raizlabs.DBFlow:dbflow:4.0.0-beta7'
     implementation 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.0-beta7'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 repositories {

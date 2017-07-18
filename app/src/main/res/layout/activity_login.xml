@@ -61,6 +61,7 @@
                     android:hint="邮箱"
                     android:inputType="textEmailAddress"
                     android:selectAllOnFocus="true"
+                    tools:text="abc"
                     android:text="@={viewModel.email}"
                     android:textSize="16sp" />
 
