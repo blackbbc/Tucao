@@ -52,7 +52,7 @@
 - [x] 播放设置新增弹幕速度（V1.0.9）
 - [x] 播放设置新增解码方式（V1.0.9）
 - [x] 优化播放器播放参数，减少视频加载时间（V1.0.9）
-- [ ] 修复离线播放不能旋转屏幕的Bug（V1.1.0）
+- [x] 修复离线播放不能旋转屏幕的Bug（V1.1.0）
 - [ ] 登陆（V1.1.0）
 - [ ] 发送评论（V1.1.0）
 - [ ] 同步收藏（V1.1.0）
@@ -74,6 +74,8 @@
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
 ## Development
+Android Studio 版本: `[3.0 Canary 7](https://developer.android.com/studio/preview/index.html)`
+
 由于项目中使用了[submodule](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
 ```
 git clone --recursive -j8 https://github.com/blackbbc/Tucao.git
