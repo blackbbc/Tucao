@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
@@ -30,6 +31,7 @@ import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
 import org.jsoup.nodes.Document
 import javax.inject.Inject
@@ -49,13 +51,16 @@ class VideoCommentsFragment: BaseFragment() {
     var canInit = 0
 
     @Inject
+    lateinit var user: User
+
+    @Inject
     lateinit var rawApiService: RawApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         AppApplication.get()
-                .getApiComponent()
+                .getUserComponent()
                 .inject(this)
     }
 
@@ -106,7 +111,23 @@ class VideoCommentsFragment: BaseFragment() {
         }
 
         binding.commentFab.setOnClickListener {
-            startFabTransform()
+            if (user.isValid()) {
+                startFabTransform()
+            } else {
+                // TODO: 打开登陆窗口
+            }
+        }
+
+        RxTextView.textChanges(binding.commentEdit)
+                .map { text -> text.isNotEmpty() }
+                .distinctUntilChanged()
+                .subscribe {
+                    enable ->
+                    binding.sendCommentBtn.isEnabled = enable
+                }
+
+        binding.sendCommentBtn.setOnClickListener {
+
         }
     }
 

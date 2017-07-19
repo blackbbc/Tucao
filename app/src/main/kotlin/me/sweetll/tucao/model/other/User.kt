@@ -26,6 +26,8 @@ class User() {
             }
         }
 
+    fun isValid() = email.isNotEmpty()
+
     fun invalidate() {
         email = ""
         name = ""

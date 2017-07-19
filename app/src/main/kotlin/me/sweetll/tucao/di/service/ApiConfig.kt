@@ -35,6 +35,7 @@ object ApiConfig {
     const val BGM_URL = "bgm/{year}/{month}/"
     const val SEND_DANMU_URL = "index.php?m=mukio&c=index&a=post"
     const val COMMENT_URL = "index.php?m=comment&c=index&a=init&hot=0&iframe=1"
+    const val SEND_COMMENT_URL = "index.php?m=comment&c=index&a=init&iframe=1"
 
     const val CODE_URL = "api.php?op=checkcode&code_len=4&font_size=14&width=446&height=40"
     const val LOGIN_URL = "index.php?m=member&c=index&a=login"

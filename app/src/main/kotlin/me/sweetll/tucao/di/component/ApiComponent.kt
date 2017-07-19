@@ -16,6 +16,5 @@ interface ApiComponent {
 
     fun inject(channelDetailFragment: ChannelDetailFragment)
     fun inject(rankDetailFragment: RankDetailFragment)
-    fun inject(videoCommentsFragment: VideoCommentsFragment)
     fun inject(serviceInstance: DownloadHelpers.ServiceInstance)
 }

@@ -11,6 +11,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.model.VideoOptionModel
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 
 import me.sweetll.tucao.R
@@ -26,6 +27,8 @@ import java.io.File
 
 class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     lateinit var binding: ActivityCachedVideoBinding
+
+    lateinit var orientationUtils: OrientationUtils
 
     var isPlay = false
     var isPause = false
@@ -56,6 +59,9 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         }
 
         binding.player.startButton.performClick()
+
+        orientationUtils = OrientationUtils(this)
+        binding.player.setOrientationUtils(orientationUtils)
     }
 
     fun setupPlayer() {

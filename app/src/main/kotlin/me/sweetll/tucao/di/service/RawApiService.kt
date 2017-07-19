@@ -40,6 +40,11 @@ interface RawApiService {
     fun comment(@Query("commentid") commentId: String,
                 @Query("page") page: Int): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.SEND_COMMENT_URL)
+    fun sendComment(@Query("commentid") commentId: String,
+                    @Query("content") content: String): Observable<ResponseBody>
+
     @GET
     @Streaming
     fun download(@Url url: String): Observable<Response<ResponseBody>>
