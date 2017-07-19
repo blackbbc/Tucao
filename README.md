@@ -61,6 +61,7 @@
 - [ ] 弹幕屏蔽功能（V1.1.1）
 - [ ] 重写播放器（V1.1.1）
 - [ ] 重写弹幕引擎（V1.1.1）
+- [ ] 修复播放时跳回开头的问题（无法重现）
 
 ## FAQ
 - [FAQ](https://github.com/blackbbc/Tucao/blob/master/FAQ.md)
