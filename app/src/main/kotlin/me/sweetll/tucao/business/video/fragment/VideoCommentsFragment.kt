@@ -18,7 +18,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
@@ -91,7 +90,7 @@ class VideoCommentsFragment: BaseFragment() {
             loadMoreData()
         }
 
-        binding.commentRecycler.layoutManager = LinearLayoutManager(activity)
+        binding.commentRecycler.layoutManager = LinearLayoutManager(context)
         binding.commentRecycler.adapter = commentAdapter
         binding.commentRecycler.addItemDecoration(
                 HorizontalDividerBuilder.newInstance(context)
@@ -127,7 +126,26 @@ class VideoCommentsFragment: BaseFragment() {
                 }
 
         binding.sendCommentBtn.setOnClickListener {
+//            commentAdapter.addData(0, Comment())
+            rawApiService.sendComment(commentId, binding.commentEdit.text.toString())
+                    .bindToLifecycle(this)
+                    .sanitizeHtml {
+                        parseSendCommentResult(this)
+                    }
+                    .map {
+                        if (it.first == 0) {
+                            Object()
+                        } else {
+                            throw Error(it.second)
+                        }
+                    }
+                    .subscribe({
 
+                    }, {
+                        error ->
+                        error.printStackTrace()
+                        "发送失败，请检查网络".toast()
+                    })
         }
     }
 
@@ -227,6 +245,15 @@ class VideoCommentsFragment: BaseFragment() {
                 error.printStackTrace()
                 error.message?.toast()
             })
+    }
+
+    private fun parseSendCommentResult(doc: Document): Pair<Int, String> {
+        val result = doc.body().text()
+        if ("成功" in result) {
+            return Pair(0, "")
+        } else {
+            return Pair(1, result)
+        }
     }
 
     private fun parseComments(doc: Document): List<Comment> {

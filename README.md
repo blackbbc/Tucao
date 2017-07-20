@@ -75,9 +75,9 @@
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
 ## Development
-Android Studio 版本: `[3.0 Canary 7](https://developer.android.com/studio/preview/index.html)`
+Android Studio 版本: [3.0 Canary 7](https://developer.android.com/studio/preview/index.html)
 
-由于项目中使用了[submodule](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
+由于项目中使用了[子模块Submodule](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
 ```
 git clone --recursive -j8 https://github.com/blackbbc/Tucao.git
 ```

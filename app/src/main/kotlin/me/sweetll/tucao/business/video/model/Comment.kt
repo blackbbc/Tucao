@@ -6,4 +6,5 @@ data class Comment(val avatar: String,
                    val thumbUp: Int,
                    val lch: String,
                    val time: String,
-                   val info: String)
+                   val info: String,
+                   var hasSend: Boolean = true)
