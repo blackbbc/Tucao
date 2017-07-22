@@ -243,29 +243,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshPersonal() {
-       rawApiService.personal()
-        .sanitizeHtml {
-            parsePersonal(this)
+        if (user.isValid()) {
+            avatarImg.load(this, user.avatar, R.drawable.default_avatar)
+            usernameText.text = user.name
         }
-        .subscribe({
-            avatarUrl ->
-            avatarImg.load(this, avatarUrl, R.drawable.default_avatar)
-        }, {
-            error ->
-            error.printStackTrace()
-        })
-    }
-
-    private fun parsePersonal(doc: Document): String {
-        // TODO: 解析个人中心
-        val name_div = doc.select("a.name")[0]
-        user.name = name_div.text()
-        usernameText.text = user.name
-
-        // 目前返回个人头像地址
-        val index_div = doc.select("div.index")[0]
-        val avatar_img = index_div.child(0).child(0)
-        return avatar_img.attr("src")
     }
 
     fun fullUpdate() {

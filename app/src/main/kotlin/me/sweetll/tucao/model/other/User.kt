@@ -3,34 +3,30 @@ package me.sweetll.tucao.model.other
 import com.squareup.moshi.Moshi
 import me.sweetll.tucao.extension.edit
 import me.sweetll.tucao.extension.getSharedPreference
+import kotlin.reflect.KProperty
 
 class User() {
 
-    var email: String = ""
-        get() = field
-        set(value) {
-            field = value
-            val userJson = adapter.toJson(this)
-            SP_USER.getSharedPreference().edit {
-                putString(KEY_USER, userJson)
-            }
-        }
+    var email: String by SPDelegate()
 
-    var name: String = ""
-        get() = field
-        set(value) {
-            field = value
-            val userJson = adapter.toJson(this)
-            SP_USER.getSharedPreference().edit {
-                putString(KEY_USER, userJson)
-            }
-        }
+    var name: String by SPDelegate()
+
+    var avatar: String by SPDelegate()
 
     fun isValid() = email.isNotEmpty()
 
     fun invalidate() {
         email = ""
         name = ""
+        avatar = ""
+        save()
+    }
+
+    private fun save() {
+        val userJson = adapter.toJson(this)
+        SP_USER.getSharedPreference().edit {
+            putString(KEY_USER, userJson)
+        }
     }
 
     companion object {
@@ -51,6 +47,19 @@ class User() {
             } catch (e: Exception) {
                 return User()
             }
+        }
+    }
+
+    inner class SPDelegate {
+        var value: String = ""
+
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+            return value
+        }
+
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+            this.value = value
+            save()
         }
     }
 }

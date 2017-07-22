@@ -8,6 +8,10 @@ import android.net.Uri
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.ImageView
+import com.trello.rxlifecycle2.kotlin.bind
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.login.LoginActivity
@@ -85,28 +89,33 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     fun onClickSignIn(view: View) {
         activity.showLoading()
         rawApiService.login_post(email.get(), password.get(), code.get())
+                .bindToLifecycle(activity)
                 .sanitizeHtml {
                     parseLoginResult(this)
+                }
+                .flatMap {
+                    (code, msg) ->
+                    if (code == 0) {
+                        rawApiService.personal()
+                    } else {
+                        Observable.error(Error(msg))
+                    }
+                }
+                .observeOn(Schedulers.io())
+                .sanitizeHtml {
+                    parsePersonal(this)
                 }
                 .doAfterTerminate {
                     activity.showLogin()
                 }
                 .subscribe({
-                    (code, msg) ->
-                    when (code) {
-                        0 -> {
-                            user.email = email.get()
-                            activity.setResult(Activity.RESULT_OK)
-                            activity.supportFinishAfterTransition()
-                        }
-                        else -> {
-                            Snackbar.make(activity.binding.container, msg, Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
+                    user.email = email.get()
+                    activity.setResult(Activity.RESULT_OK)
+                    activity.supportFinishAfterTransition()
                 }, {
                     error ->
                     error.printStackTrace()
-                    error.message?.toast()
+                    Snackbar.make(activity.binding.container, error.message!!, Snackbar.LENGTH_SHORT).show()
                 })
     }
 
@@ -118,5 +127,17 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
             return Pair(1, content)
         }
     }
+
+    private fun parsePersonal(doc: Document): Any {
+        val name_div = doc.select("a.name")[0]
+        user.name = name_div.text()
+
+        // 目前返回个人头像地址
+        val index_div = doc.select("div.index")[0]
+        val avatar_img = index_div.child(0).child(0)
+        user.avatar =  avatar_img.attr("src")
+        return Object()
+    }
+
 
 }
