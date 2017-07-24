@@ -3,15 +3,17 @@ package me.sweetll.tucao.model.other
 import com.squareup.moshi.Moshi
 import me.sweetll.tucao.extension.edit
 import me.sweetll.tucao.extension.getSharedPreference
-import kotlin.reflect.KProperty
 
 class User() {
 
-    var email: String by SPDelegate()
-
-    var name: String by SPDelegate()
-
-    var avatar: String by SPDelegate()
+    var email: String = ""
+        set(value) { field = value;save() }
+    var name: String = ""
+        set(value) { field = value;save() }
+    var avatar: String = ""
+        set(value) { field = value;save() }
+    var level: Int = 0
+        set(value) { field = value;save() }
 
     fun isValid() = email.isNotEmpty()
 
@@ -19,6 +21,7 @@ class User() {
         email = ""
         name = ""
         avatar = ""
+        level = 0
         save()
     }
 
@@ -47,19 +50,6 @@ class User() {
             } catch (e: Exception) {
                 return User()
             }
-        }
-    }
-
-    inner class SPDelegate {
-        var value: String = ""
-
-        operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-            return value
-        }
-
-        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
-            this.value = value
-            save()
         }
     }
 }

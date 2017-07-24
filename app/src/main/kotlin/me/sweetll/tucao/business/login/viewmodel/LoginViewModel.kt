@@ -129,13 +129,20 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     private fun parsePersonal(doc: Document): Any {
+        // 获取等级
+        val lv_a = doc.select("a.lv")[0]
+        user.level = lv_a.text().substring(3).toInt()
+
+        // 获取用户名
         val name_div = doc.select("a.name")[0]
         user.name = name_div.text()
 
-        // 目前返回个人头像地址
+        // 获取头像地址
         val index_div = doc.select("div.index")[0]
         val avatar_img = index_div.child(0).child(0)
         user.avatar =  avatar_img.attr("src")
+
+        // 获取
         return Object()
     }
 
