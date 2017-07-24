@@ -42,6 +42,7 @@ object ApiConfig {
     const val LOGOUT_URL = "index.php?m=member&c=index&a=logout&forward=&siteid=1"
     const val REGISTER_URL = "index.php?m=member&c=index&a=register&siteid=1"
     const val PERSONAL_URL = "index.php?m=member&c=index"
+    const val USER_URL = "play/u{userid}/"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 

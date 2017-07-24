@@ -37,7 +37,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     companion object {
-        @BindingAdapter("app:imageUrl")
+        @BindingAdapter("app:imageData")
         @JvmStatic
         fun loadImage(imageView: ImageView, bytes: ByteArray?) {
             bytes?.let {

@@ -70,6 +70,9 @@
             android:name=".business.home.StarActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".business.uploader.UploaderActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".business.download.DownloadActivity"
             android:parentActivityName=".business.home.MainActivity"
             android:screenOrientation="portrait" />

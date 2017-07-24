@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.video.viewmodel
 
+import android.databinding.BindingAdapter
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.support.v7.widget.RecyclerView
@@ -7,25 +8,61 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.business.uploader.UploaderActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.fragment.VideoInfoFragment
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.HistoryHelpers
+import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.widget.CustomBottomSheetDialog
+import org.jsoup.nodes.Document
+import java.text.SimpleDateFormat
+import java.util.*
 
 class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewModel() {
     val result: ObservableField<Result> = ObservableField()
     val isStar = ObservableBoolean()
+    val create = ObservableField<String>()
+    val avatar = ObservableField<String>()
+
+    companion object {
+        @BindingAdapter("app:imageUrl")
+        @JvmStatic
+        fun loadImage(imageView: ImageView, url: String?) {
+            url?.let {
+                imageView.load(imageView.context, it, R.drawable.default_avatar)
+            }
+        }
+    }
 
     fun bindResult(result: Result) {
         this.result.set(result)
         this.isStar.set(checkStar(result))
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+        this.create.set("发布于${sdf.format(Date(result.create.toLong() * 1000))}")
+
+        // 获取头像
+        rawApiService.user(result.userid)
+                .bindToLifecycle(videoInfoFragment)
+                .sanitizeHtml {
+                    parseAvatar(this)
+                }
+                .subscribe({
+                    avatar.set(it)
+                }, {
+                    error ->
+                    error.printStackTrace()
+                })
     }
 
     fun checkStar(result: Result): Boolean = HistoryHelpers.loadStar()
@@ -117,6 +154,15 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
             HistoryHelpers.saveStar(result.get())
             isStar.set(true)
         }
+    }
+
+    fun onClickUser(view: View) {
+        UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid)
+    }
+
+    private fun parseAvatar(doc: Document): String {
+        val avatar_div = doc.select("div.avatar")[0]
+        return avatar_div.child(0).child(0).attr("src")
     }
 
 }

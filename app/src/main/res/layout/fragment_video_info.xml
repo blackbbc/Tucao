@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoInfoViewModel" />
@@ -158,13 +157,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:onClick="@{viewModel::onClickUser}">
 
                 <ImageView
                     android:id="@+id/avatarImg"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/default_avatar" />
+                    app:imageUrl="@{viewModel.avatar}" />
 
                 <TextView
                     android:id="@+id/usernameText"
@@ -173,7 +174,8 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/avatarImg"
-                    android:text="办公室小智"
+                    tools:text="小智"
+                    android:text="@{viewModel.result.user}"
                     android:textColor="@color/primary_text"
                     android:textSize="12sp" />
 
@@ -185,7 +187,8 @@
                     android:layout_below="@+id/usernameText"
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="16dp"
-                    android:text="发布于2017-07-21"
+                    tools:text="发布于2017-07-21"
+                    android:text="@{viewModel.create}"
                     android:textColor="@color/secondary_text"
                     android:textSize="12sp" />
 
