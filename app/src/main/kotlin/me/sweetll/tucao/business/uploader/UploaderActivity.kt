@@ -39,6 +39,9 @@ class UploaderActivity : BaseActivity() {
 
     override fun initToolbar() {
         super.initToolbar()
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.title = ""
+        }
     }
 }
