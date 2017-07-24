@@ -19,6 +19,7 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
@@ -90,9 +91,9 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
         activity.showLoading()
         rawApiService.login_post(email.get(), password.get(), code.get())
                 .bindToLifecycle(activity)
-                .sanitizeHtml {
-                    parseLoginResult(this)
-                }
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .map { parseLoginResult(Jsoup.parse(it.string())) }
                 .flatMap {
                     (code, msg) ->
                     if (code == 0) {
@@ -101,10 +102,8 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
                         Observable.error(Error(msg))
                     }
                 }
-                .observeOn(Schedulers.io())
-                .sanitizeHtml {
-                    parsePersonal(this)
-                }
+                .map { parsePersonal(Jsoup.parse(it.string())) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate {
                     activity.showLogin()
                 }
@@ -115,7 +114,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
                 }, {
                     error ->
                     error.printStackTrace()
-                    Snackbar.make(activity.binding.container, error.message!!, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(activity.binding.container, "登陆失败", Snackbar.LENGTH_SHORT).show()
                 })
     }
 
