@@ -34,6 +34,9 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     val create = ObservableField<String>()
     val avatar = ObservableField<String>()
 
+    var signature = ""
+    var headerBg = ""
+
     companion object {
         @BindingAdapter("app:imageUrl")
         @JvmStatic
@@ -157,10 +160,23 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     }
 
     fun onClickUser(view: View) {
-        UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid)
+        if (headerBg.isNotEmpty()) {
+            UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid, result.get().user, avatar.get(), signature, headerBg)
+        }
     }
 
     private fun parseAvatar(doc: Document): String {
+        val header_div = doc.select("div.header")[0]
+        val style = header_div.child(0).attr("style")
+        headerBg = style.substring(style.indexOf("http://"), style.indexOf(")"))
+
+        val userinfo_div = doc.select("div.userinfo").getOrNull(0)
+        userinfo_div?.let {
+            val lis = userinfo_div.child(0)
+            val signature_li = lis.children().last()
+            signature = signature_li.text().substring(5)
+        }
+
         val avatar_div = doc.select("div.avatar")[0]
         return avatar_div.child(0).child(0).attr("src")
     }

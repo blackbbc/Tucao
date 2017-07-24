@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.uploader.viewmodel.UploaderViewModel" />
+    </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="me.sweetll.tucao.business.uploader.UploaderActivity">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true">
@@ -17,7 +24,8 @@
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:titleEnabled="false"
+                app:titleEnabled="true"
+                app:title=" "
                 app:contentScrim="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -38,9 +46,10 @@
                     app:layout_collapseParallaxMultiplier="0.7">
 
                     <ImageView
+                        android:id="@+id/headerImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/drawer_header"
+                        tools:src="@drawable/drawer_header"
                         android:scaleType="centerCrop" />
 
                     <ImageView
@@ -59,7 +68,7 @@
                         android:layout_alignTop="@+id/avatarImg"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="詹姆×兰尼斯特"
+                        tools:text="詹姆×兰尼斯特"
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -71,7 +80,7 @@
                         android:layout_alignStart="@+id/usernameText"
                         android:layout_below="@+id/usernameText"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/bg_round_pink_retangle"
+                        android:background="@drawable/bg_round_retangle_white_border"
                         android:gravity="center"
                         android:text="发私信"
                         android:textColor="@color/white"
@@ -87,7 +96,7 @@
                         android:layout_marginTop="4dp"
                         android:maxLines="3"
                         android:ellipsize="end"
-                        android:text="Tucao制作组B站官方账号，啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦"
+                        tools:text="Tucao制作组B站官方账号，啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦"
                         android:textSize="12sp"
                         android:textColor="@color/white"/>
 
