@@ -63,6 +63,10 @@ interface RawApiService {
                    @Field("cookietime") cookietime: Int = 31536000,
                    @Field("dosubmit") dosubmit: String = "登录"): Observable<ResponseBody>
 
+    @GET(ApiConfig.LOGOUT_URL)
+    fun logout(): Observable<ResponseBody>
+
+
     @GET(ApiConfig.PERSONAL_URL)
     fun personal(): Observable<ResponseBody>
 }

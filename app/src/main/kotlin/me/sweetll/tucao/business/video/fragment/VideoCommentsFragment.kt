@@ -115,7 +115,7 @@ class VideoCommentsFragment: BaseFragment() {
             if (user.isValid()) {
                 startFabTransform()
             } else {
-                // TODO: 打开登陆窗口
+
             }
         }
 

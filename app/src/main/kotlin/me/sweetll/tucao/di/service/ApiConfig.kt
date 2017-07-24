@@ -39,6 +39,7 @@ object ApiConfig {
 
     const val CODE_URL = "api.php?op=checkcode&code_len=4&font_size=14&width=446&height=40"
     const val LOGIN_URL = "index.php?m=member&c=index&a=login"
+    const val LOGOUT_URL = "index.php?m=member&c=index&a=logout&forward=&siteid=1"
     const val REGISTER_URL = "index.php?m=member&c=index&a=register&siteid=1"
     const val PERSONAL_URL = "index.php?m=member&c=index"
 

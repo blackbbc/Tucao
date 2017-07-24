@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.home
 
 import android.accounts.AccountManager
 import android.app.Activity
+import android.app.Dialog
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -27,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.archivepatcher.applier.FileByFileV1DeltaApplier
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.processors.BehaviorProcessor
@@ -37,6 +39,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
+import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
@@ -50,6 +53,9 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jsoup.nodes.Document
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -86,6 +92,8 @@ class MainActivity : BaseActivity() {
 
     lateinit var updateDialog: DialogPlus
 
+    lateinit var logoutDialog: DialogPlus
+
     lateinit var downloadUrl: String
 
     override fun getToolbar(): Toolbar = binding.toolbar
@@ -120,6 +128,36 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 .create()
+
+        val logoutView = LayoutInflater.from(this).inflate(R.layout.dialog_logout, null)
+        logoutDialog = DialogPlus.newDialog(this)
+                .setContentHolder(ViewHolder(logoutView))
+                .setGravity(Gravity.BOTTOM)
+                .setContentWidth(ViewGroup.LayoutParams.MATCH_PARENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOverlayBackgroundResource(R.color.scrim)
+                .setOnClickListener {
+                    dialog, view ->
+                    when (view.id) {
+                        R.id.btn_logout -> {
+                            rawApiService.logout()
+                                    .bindToLifecycle(this)
+                                    .sanitizeHtml {
+                                        Object()
+                                    }
+                                    .subscribe({
+
+                                    }, {
+
+                                    })
+                            user.invalidate()
+                            refreshPersonal()
+                            dialog.dismiss()
+                        }
+                    }
+                }
+                .create()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -140,21 +178,16 @@ class MainActivity : BaseActivity() {
         avatarImg = headerView.findViewById(R.id.img_avatar) as ImageView
         usernameText = headerView.findViewById(R.id.text_username) as TextView
 
-        if (user.email.isNotEmpty()) {
-            refreshPersonal()
-        } else {
-            Glide.with(this)
-                    .load(R.drawable.default_avatar)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImg)
-        }
+        refreshPersonal()
 
         avatarImg.setOnClickListener {
-            if (user.email.isEmpty()) {
+            if (!user.isValid()) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this, avatarImg, "transition_login"
                 ).toBundle()
                 LoginActivity.intentTo(this, LOGIN_REQUEST, options)
+            } else {
+                logoutDialog.show()
             }
         }
 
@@ -242,10 +275,27 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun refreshPersonal() {
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshPersonal(event: RefreshPersonalEvent? = null) {
         if (user.isValid()) {
             avatarImg.load(this, user.avatar, R.drawable.default_avatar)
             usernameText.text = user.name
+        } else {
+            usernameText.text = "点击头像登录"
+            Glide.with(this)
+                    .load(R.drawable.default_avatar)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(avatarImg)
         }
     }
 
