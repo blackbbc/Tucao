@@ -1,173 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoInfoViewModel" />
     </data>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-            <!--视频信息-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--视频信息-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.result.title}"
+                android:textColor="@color/primary_text"
+                android:textSize="14sp"
+                tools:text="千万不要在小狗生气的时候捏他的嘴" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:text="@{viewModel.result.title}"
-                    tools:text="千万不要在小狗生气的时候捏他的嘴" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text='@{"播放：" + viewModel.result.play}'
-                        android:textColor="@color/secondary_text"
-                        tools:text="播放：14.6万" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text='@{"弹幕：" + viewModel.result.mukio}'
-                        android:textColor="@color/secondary_text"
-                        tools:text="弹幕：501" />
-
-                </LinearLayout>
+                    android:text='@{"播放：" + viewModel.result.play}'
+                    android:textColor="@color/secondary_text"
+                    android:textSize="12sp"
+                    tools:text="播放：14.6万" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{viewModel.result.description}"
+                    android:layout_marginLeft="8dp"
+                    android:text='@{"弹幕：" + viewModel.result.mukio}'
                     android:textColor="@color/secondary_text"
-                    tools:text="BGM是极乐净土。" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:onClick="@{viewModel::onClickStar}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_white_circle"
-                            android:elevation="6dp"
-                            android:padding="8dp">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@color/white"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_star_border"
-                                android:tint="@color/pink_500" />
-
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
-                            android:textColor="@color/primary_text"
-                            android:textSize="12sp"
-                            tools:text="收藏" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:onClick="@{viewModel::onClickDownload}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_white_circle"
-                            android:elevation="6dp"
-                            android:padding="8dp">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@color/white"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_file_download_black"
-                                android:tint="@color/blue_500" />
-
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="缓存"
-                            android:textColor="@color/primary_text"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:textSize="12sp"
+                    tools:text="弹幕：501" />
 
             </LinearLayout>
 
-            <!--分割线-->
-            <View
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/divider" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.result.description}"
+                android:textColor="@color/secondary_text"
+                android:textSize="12sp"
+                tools:text="BGM是极乐净土。" />
 
-            <!--分集列表-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
-                    tools:text="分集(2)" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="center"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:onClick="@{viewModel::onClickStar}"
+                    android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/partRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:clipChildren="false"
-                    tools:listitem="@layout/item_part" />
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@color/white"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_star_border"
+                            android:tint="@color/pink_500" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
+                        android:textColor="@color/pink_500"
+                        android:textSize="12sp"
+                        tools:text="收藏" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:onClick="@{viewModel::onClickDownload}"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@color/white"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_file_download_black"
+                            android:tint="@color/blue_500" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="缓存"
+                        android:textColor="@color/blue_500"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/avatarImg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/default_avatar" />
+
+                <TextView
+                    android:id="@+id/usernameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/avatarImg"
+                    android:text="办公室小智"
+                    android:textColor="@color/primary_text"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/createText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/avatarImg"
+                    android:layout_below="@+id/usernameText"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="16dp"
+                    android:text="发布于2017-07-21"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="12sp" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider" />
+
+        <!--分集列表-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
+                tools:text="分集(2)" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/partRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:clipChildren="false"
+                tools:listitem="@layout/item_part" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
