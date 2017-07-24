@@ -123,15 +123,15 @@
             android:src="@drawable/video_enlarge" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/bottom_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:layout_alignParentBottom="true"
-        android:max="100"
-        android:progressDrawable="@drawable/video_progress" />
+    <!--<ProgressBar-->
+        <!--android:id="@+id/bottom_progressbar"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:visibility="invisible"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1.5dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:max="100"-->
+        <!--android:progressDrawable="@drawable/video_progress" />-->
 
     <moe.codeest.enviews.ENDownloadView
         android:id="@+id/loading"

@@ -188,7 +188,7 @@ class MainActivity : BaseActivity() {
             if (!user.isValid()) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this, avatarImg, "transition_login"
-                ).toBundle()
+                ).toBundle() ?: Bundle()
                 options.putInt(LoginActivity.ARG_FAB_COLOR, ContextCompat.getColor(this, R.color.colorPrimary))
                 options.putInt(LoginActivity.ARG_FAB_RES_ID, R.drawable.default_avatar)
                 LoginActivity.intentTo(this, LOGIN_REQUEST, options)

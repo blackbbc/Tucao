@@ -14,10 +14,8 @@ import android.support.annotation.TransitionRes
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v4.util.Pair
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.transition.TransitionManager
-import android.transition.TransitionSet
+import android.support.v4.view.animation.FastOutSlowInInterpolator
+import android.transition.*
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
@@ -149,7 +147,7 @@ class SearchActivity : BaseActivity() {
         })
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private fun getTransition(@TransitionRes transitionId: Int): Transition {
         var transition = transitions.get(transitionId)
         if (transition == null) {
@@ -250,8 +248,11 @@ class SearchActivity : BaseActivity() {
 
     fun setRefreshing(refreshing: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val autoTransition = AutoTransition()
+            autoTransition.interpolator = FastOutSlowInInterpolator()
+            autoTransition.duration = 300
             TransitionManager.beginDelayedTransition(
-                    binding.root as ViewGroup, getTransition(R.transition.auto)
+                    binding.root as ViewGroup, autoTransition
             )
         }
         if (refreshing) {
