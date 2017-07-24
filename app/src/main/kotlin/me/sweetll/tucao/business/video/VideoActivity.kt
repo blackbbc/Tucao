@@ -12,8 +12,10 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
+import android.support.v7.widget.Toolbar
 import android.text.format.DateFormat
 import android.transition.*
 import android.view.Gravity
@@ -59,6 +61,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     lateinit var result: Result
     lateinit var selectedPart: Part
     var firstPlay = true
+
+    override fun getToolbar(): Toolbar = binding.toolbar
 
     companion object {
         private val ARG_RESULT = "result"
@@ -114,7 +118,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         if (!cover.isNullOrEmpty()) {
             val thumbImg = ImageView(this)
             thumbImg.scaleType = ImageView.ScaleType.FIT_XY
-            ViewCompat.setTransitionName(thumbImg, "cover")
+            ViewCompat.setTransitionName(binding.appBar, "cover")
             binding.player.setThumbImageView(thumbImg)
 
             ViewCompat.setTransitionName(binding.mainLinear, "bg")
@@ -135,6 +139,33 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         orientationUtils = OrientationUtils(this)
         binding.player.setOrientationUtils(orientationUtils)
+
+        binding.appBar.addOnOffsetChangedListener(object: AppBarLayout.OnOffsetChangedListener {
+            val EXPANDED = 1 shl 0
+            val COLLAPSED = 1 shl 1
+            val IDLE = 1 shl 2
+
+            var currentState = IDLE
+
+            override fun onOffsetChanged(appBarLayout: AppBarLayout, i: Int) {
+                if (i == 0) {
+                    if (currentState != EXPANDED) {
+
+                    }
+                    currentState = EXPANDED
+                } else if (Math.abs(i) >= appBarLayout.totalScrollRange) {
+                    if (currentState != COLLAPSED) {
+
+                    }
+                    currentState = COLLAPSED
+                } else {
+                    if (currentState != IDLE) {
+
+                    }
+                    currentState = IDLE
+                }
+            }
+        })
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -147,7 +178,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         window.sharedElementEnterTransition.interpolator = FastOutSlowInInterpolator()
 
         val slideUp = Slide(Gravity.TOP)
-        slideUp.addTarget(binding.player.getChildAt(0))
+        slideUp.addTarget(binding.appBar)
         val slideDown = Slide(Gravity.BOTTOM)
         slideDown.addTarget(binding.mainLinear)
         val slideAll = TransitionSet()
