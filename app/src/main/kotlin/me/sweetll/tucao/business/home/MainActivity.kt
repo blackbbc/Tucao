@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -152,7 +153,7 @@ class MainActivity : BaseActivity() {
 
                                     })
                             user.invalidate()
-                            refreshPersonal()
+                            doRefresh()
                             dialog.dismiss()
                         }
                     }
@@ -164,6 +165,9 @@ class MainActivity : BaseActivity() {
         AppApplication.get()
                 .getUserComponent()
                 .inject(this)
+
+        EventBus.getDefault().register(this)
+
         initDialog()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -178,13 +182,15 @@ class MainActivity : BaseActivity() {
         avatarImg = headerView.findViewById(R.id.img_avatar) as ImageView
         usernameText = headerView.findViewById(R.id.text_username) as TextView
 
-        refreshPersonal()
+        doRefresh()
 
         avatarImg.setOnClickListener {
             if (!user.isValid()) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this, avatarImg, "transition_login"
                 ).toBundle()
+                options.putInt(LoginActivity.ARG_FAB_COLOR, ContextCompat.getColor(this, R.color.colorPrimary))
+                options.putInt(LoginActivity.ARG_FAB_RES_ID, R.drawable.default_avatar)
                 LoginActivity.intentTo(this, LOGIN_REQUEST, options)
             } else {
                 logoutDialog.show()
@@ -271,22 +277,21 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK) {
-            refreshPersonal()
+            doRefresh()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun refreshPersonal(event: RefreshPersonalEvent? = null) {
+    fun refreshPersonal(event: RefreshPersonalEvent) {
+        doRefresh()
+    }
+
+    private fun doRefresh() {
         if (user.isValid()) {
             avatarImg.load(this, user.avatar, R.drawable.default_avatar)
             usernameText.text = user.name

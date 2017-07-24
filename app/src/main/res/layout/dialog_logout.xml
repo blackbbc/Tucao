@@ -13,7 +13,7 @@
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="注销"
             android:textColor="@color/white"

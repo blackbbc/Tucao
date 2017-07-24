@@ -4,11 +4,14 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
@@ -23,6 +26,8 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
+import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
+import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.video.adapter.CommentAdapter
 import me.sweetll.tucao.business.video.model.Comment
 import me.sweetll.tucao.databinding.FragmentVideoCommentsBinding
@@ -31,7 +36,9 @@ import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.other.User
+import me.sweetll.tucao.transition.FabTransform
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
+import org.greenrobot.eventbus.EventBus
 import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,6 +63,10 @@ class VideoCommentsFragment: BaseFragment() {
 
     @Inject
     lateinit var rawApiService: RawApiService
+
+    companion object {
+        const val REQUEST_LOGIN = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +126,14 @@ class VideoCommentsFragment: BaseFragment() {
             if (user.isValid()) {
                 startFabTransform()
             } else {
-
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, binding.commentFab, "transition_login"
+                ).toBundle()
+                val intent = Intent(activity, LoginActivity::class.java)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    FabTransform.addExtras(intent, ContextCompat.getColor(activity, R.color.colorPrimary), R.drawable.ic_comment_white)
+                }
+                startActivityForResult(intent, REQUEST_LOGIN, options)
             }
         }
 
@@ -167,6 +185,13 @@ class VideoCommentsFragment: BaseFragment() {
                         error.printStackTrace()
                         "发送失败，请检查网络".toast()
                     })
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_LOGIN && Activity.RESULT_OK == resultCode) {
+            EventBus.getDefault().post(RefreshPersonalEvent())
         }
     }
 

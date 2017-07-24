@@ -162,7 +162,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="64dp"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/grey_300"
+                android:indeterminateTint="@color/pink_300"
                 android:indeterminateTintMode="src_in"
                 android:visibility="@{viewModel.progress}"
                 tools:visibility="gone" />

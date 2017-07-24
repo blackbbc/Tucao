@@ -34,10 +34,13 @@ class LoginActivity : BaseActivity() {
     private lateinit var accountManager: AccountManager
 
     companion object {
+        const val ARG_FAB_COLOR = "fab_color"
+        const val ARG_FAB_RES_ID = "fab_res_id"
+
         fun intentTo(context: Context, requestCode: Int = 1, options: Bundle?) {
             val intent = Intent(context, LoginActivity::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                FabTransform.addExtras(intent, ContextCompat.getColor(context, R.color.colorAccent), R.drawable.default_avatar)
+                FabTransform.addExtras(intent, options!!.getInt(ARG_FAB_COLOR), options.getInt(ARG_FAB_RES_ID))
             }
             ActivityCompat.startActivityForResult(context as Activity, intent, requestCode, options)
         }

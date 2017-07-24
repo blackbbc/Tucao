@@ -114,7 +114,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
                 }, {
                     error ->
                     error.printStackTrace()
-                    Snackbar.make(activity.binding.container, "登陆失败", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(activity.binding.container, error.message ?: "登陆失败", Snackbar.LENGTH_SHORT).show()
                 })
     }
 
