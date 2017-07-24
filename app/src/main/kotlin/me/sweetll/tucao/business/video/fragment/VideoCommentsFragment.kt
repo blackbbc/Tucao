@@ -33,6 +33,8 @@ import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
 import org.jsoup.nodes.Document
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class VideoCommentsFragment: BaseFragment() {
@@ -126,8 +128,16 @@ class VideoCommentsFragment: BaseFragment() {
                 }
 
         binding.sendCommentBtn.setOnClickListener {
-//            commentAdapter.addData(0, Comment())
-            rawApiService.sendComment(commentId, binding.commentEdit.text.toString())
+            binding.commentEdit.isEnabled = false
+            binding.sendCommentBtn.isEnabled = false
+            binding.sendCommentBtn.text = "发射中"
+            val commentInfo = binding.commentEdit.text.toString()
+            val lastFloor: Int = commentAdapter.data.getOrNull(0)?.lch?.replace("[\\D]".toRegex(), "")?.toInt() ?: 0
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+            val currentDateTime = sdf.format(Date())
+            commentAdapter.addData(0, Comment(user.avatar, "lv${user.level}", user.name, 0, "${lastFloor + 1}楼", currentDateTime, commentInfo, false))
+            binding.commentRecycler.smoothScrollToPosition(0)
+            rawApiService.sendComment(commentId, commentInfo)
                     .bindToLifecycle(this)
                     .sanitizeHtml {
                         parseSendCommentResult(this)
@@ -140,10 +150,20 @@ class VideoCommentsFragment: BaseFragment() {
                             throw Error(msg)
                         }
                     }
+                    .doAfterTerminate {
+                        binding.commentEdit.isEnabled = true
+                        binding.sendCommentBtn.isEnabled = true
+                        binding.sendCommentBtn.text = "发射"
+                    }
                     .subscribe({
-                        //
+                        // 成功
+                        binding.commentEdit.setText("")
+                        commentAdapter.data[0].hasSend = true
+                        commentAdapter.notifyItemChanged(0)
                     }, {
                         error ->
+                        // 失败
+                        commentAdapter.remove(0)
                         error.printStackTrace()
                         "发送失败，请检查网络".toast()
                     })

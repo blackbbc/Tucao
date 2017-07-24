@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.video.adapter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
@@ -24,6 +25,11 @@ class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, Ba
         helper.setText(R.id.text_time, comment.time)
         helper.setText(R.id.text_thumb_up, "${comment.thumbUp}")
         helper.setText(R.id.text_info, comment.info)
+        if (comment.hasSend) {
+            helper.setTextColor(R.id.text_info, ContextCompat.getColor(mContext, R.color.primary_text))
+        } else {
+            helper.setTextColor(R.id.text_info, ContextCompat.getColor(mContext, R.color.secondary_text))
+        }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
