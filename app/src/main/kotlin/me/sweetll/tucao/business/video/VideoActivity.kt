@@ -140,6 +140,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         orientationUtils = OrientationUtils(this)
         binding.player.setOrientationUtils(orientationUtils)
 
+        binding.playBtn.setOnClickListener {
+            binding.appBar.setExpanded(true)
+        }
         binding.appBar.addOnOffsetChangedListener(object: AppBarLayout.OnOffsetChangedListener {
             val EXPANDED = 1 shl 0
             val COLLAPSED = 1 shl 1
@@ -155,12 +158,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                     currentState = EXPANDED
                 } else if (Math.abs(i) >= appBarLayout.totalScrollRange) {
                     if (currentState != COLLAPSED) {
-
+                        binding.playBtn.visibility = View.VISIBLE
                     }
                     currentState = COLLAPSED
                 } else {
                     if (currentState != IDLE) {
-
+                        binding.playBtn.visibility = View.GONE
                     }
                     currentState = IDLE
                 }

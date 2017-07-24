@@ -53,7 +53,33 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:titleTextAppearance="@style/Toolbar.TitleText" />
+                    app:titleTextAppearance="@style/Toolbar.TitleText" >
+
+                    <android.support.v7.widget.ButtonBarLayout
+                        android:id="@+id/playBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        tools:visibility="visible"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_play_circle_outline"
+                            android:layout_gravity="center_horizontal"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="立即播放"
+                            android:textSize="16sp"
+                            android:layout_gravity="center_vertical"/>
+
+                    </android.support.v7.widget.ButtonBarLayout>
+
+                </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
