@@ -133,14 +133,15 @@ class VideoCommentsFragment: BaseFragment() {
                         parseSendCommentResult(this)
                     }
                     .map {
-                        if (it.first == 0) {
+                        (code, msg) ->
+                        if (code == 0) {
                             Object()
                         } else {
-                            throw Error(it.second)
+                            throw Error(msg)
                         }
                     }
                     .subscribe({
-
+                        //
                     }, {
                         error ->
                         error.printStackTrace()

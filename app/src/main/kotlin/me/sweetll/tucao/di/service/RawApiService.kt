@@ -43,7 +43,7 @@ interface RawApiService {
     @FormUrlEncoded
     @POST(ApiConfig.SEND_COMMENT_URL)
     fun sendComment(@Query("commentid") commentId: String,
-                    @Query("content") content: String): Observable<ResponseBody>
+                    @Field("content") content: String): Observable<ResponseBody>
 
     @GET
     @Streaming

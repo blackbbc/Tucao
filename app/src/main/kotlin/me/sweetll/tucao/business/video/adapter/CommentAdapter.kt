@@ -17,7 +17,7 @@ class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, Ba
     var delayEnterAnimation = true
 
     override fun convert(helper: BaseViewHolder, comment: Comment) {
-        helper.getView<ImageView>(R.id.img_avatar).load(mContext, comment.avatar)
+        helper.getView<ImageView>(R.id.img_avatar).load(mContext, comment.avatar, R.drawable.default_avatar)
         helper.setText(R.id.text_level, comment.level)
         helper.setText(R.id.text_nickname, comment.nickname)
         helper.setText(R.id.text_lch, comment.lch)
