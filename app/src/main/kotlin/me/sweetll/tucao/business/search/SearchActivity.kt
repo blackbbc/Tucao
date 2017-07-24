@@ -125,6 +125,9 @@ class SearchActivity : BaseActivity() {
                 binding.searchEdit.requestFocus()
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(binding.searchEdit, 0)
+
+                TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
+                binding.searchResults.visibility = View.VISIBLE
             }
 
             override fun onTransitionResume(transition: Transition?) {

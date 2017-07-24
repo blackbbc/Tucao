@@ -103,12 +103,14 @@
                         android:id="@+id/searchResults"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            tools:visibility="gone"
                             android:visibility="@{viewModel.searchResultVisibility}">
 
                             <LinearLayout
@@ -204,7 +206,7 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/historyRecycler"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:visibility="@{viewModel.searchHistoryVisibility}"
                             tools:listitem="@layout/item_search_history" />
 
