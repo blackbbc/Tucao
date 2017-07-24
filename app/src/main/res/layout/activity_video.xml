@@ -27,8 +27,8 @@
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="true"
-                app:title=" ">
+                app:title=" "
+                app:titleEnabled="true">
 
                 <FrameLayout
                     android:id="@+id/playerFrame"
@@ -53,29 +53,29 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:titleTextAppearance="@style/Toolbar.TitleText" >
+                    app:titleTextAppearance="@style/Toolbar.TitleText">
 
                     <android.support.v7.widget.ButtonBarLayout
                         android:id="@+id/playBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        tools:visibility="visible"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <ImageView
                             android:layout_width="48dp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_play_circle_outline"
-                            android:layout_gravity="center_horizontal"/>
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_play_circle_outline" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:layout_gravity="center_vertical"
                             android:text="立即播放"
-                            android:textSize="16sp"
-                            android:layout_gravity="center_vertical"/>
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
 
                     </android.support.v7.widget.ButtonBarLayout>
 
@@ -84,39 +84,47 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/mainLinear"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/mainContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:visibility="visible">
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0"
-                android:background="@color/white"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/primary_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/divider" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
+            <LinearLayout
+                android:id="@+id/mainLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0" />
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="visible"
+                tools:visibility="visible">
 
-        </LinearLayout>
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextColor="@color/primary_text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/divider" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

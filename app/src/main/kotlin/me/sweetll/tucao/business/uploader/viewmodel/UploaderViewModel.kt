@@ -66,7 +66,7 @@ class UploaderViewModel(val activity: UploaderActivity, val userId: String): Bas
             val thumb = v_div.select("img")[0].attr("src")
 
             val i_div = v_div.select("div.i")[0]
-            val info = i_div.text().replace("[\\D]+".toRegex(), " ")
+            val info = i_div.text().replace(",", "").replace("[\\D]+".toRegex(), " ")
             val nums = info.trim().split(" ").takeLast(4)
 
             val play = nums[0].toInt()

@@ -121,7 +121,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             ViewCompat.setTransitionName(binding.appBar, "cover")
             binding.player.setThumbImageView(thumbImg)
 
-            ViewCompat.setTransitionName(binding.mainLinear, "bg")
+            ViewCompat.setTransitionName(binding.mainContainer, "bg")
 
             initTransition()
             supportPostponeEnterTransition()
@@ -183,7 +183,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.appBar)
         val slideDown = Slide(Gravity.BOTTOM)
-        slideDown.addTarget(binding.mainLinear)
+        slideDown.addTarget(binding.mainContainer)
         val slideAll = TransitionSet()
         slideAll.addTransition(slideUp)
         slideAll.addTransition(slideDown)
