@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -123,6 +124,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
 
         })
 
+        (partRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         partRecycler.adapter = partAdapter
 
