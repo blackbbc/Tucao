@@ -165,7 +165,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
 
     fun onClickUser(view: View) {
         if (headerBg.isNotEmpty()) {
-            val options: Bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            val options: Bundle? = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     videoInfoFragment.activity, view.findViewById(R.id.avatarImg), "transition_avatar"
             ).toBundle()
             UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid, result.get().user, avatar.get(), signature, headerBg, options)

@@ -19,7 +19,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters 'armeabi-v7a' /*, 'x86' */
+            abiFilters 'armeabi-v7a'/* , 'x86' */
         }
     }
     signingConfigs {
@@ -75,7 +75,7 @@ dependencies {
     implementation project(':applier')
     /* GSYVideoPlayer */
     implementation project(':gsyVideoPlayer')
-    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:multidex:1.0.2'
     /* Support Library */
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"

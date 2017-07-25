@@ -56,26 +56,6 @@ class UploaderActivity : BaseActivity() {
     var isAvatarInBounds = true
     var transitionIn = true
 
-    val callback = object: SharedElementCallback() {
-
-        override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
-            super.onMapSharedElements(names, sharedElements)
-            if (transitionIn) {
-                transitionIn = false
-            } else {
-                if (!isAvatarInBounds) {
-                    names.clear()
-                    sharedElements.clear()
-                }
-            }
-        }
-
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>, sharedElementSnapshots: MutableList<View>?) {
-            window.enterTransition = makeEnterTransition(sharedElements.find { it is ImageView }!!)
-        }
-    }
-
     companion object {
         const val ARG_USER_ID = "user_id"
         const val ARG_USERNAME = "username"
@@ -110,23 +90,44 @@ class UploaderActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             initTransition()
-            setEnterSharedElementCallback(callback)
+            setEnterSharedElementCallback(object : SharedElementCallback() {
+
+                override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                    super.onMapSharedElements(names, sharedElements)
+                    if (transitionIn) {
+                        transitionIn = false
+                    } else {
+                        if (!isAvatarInBounds) {
+                            names.clear()
+                            sharedElements.clear()
+                        }
+                    }
+                }
+
+                @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+                override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>, sharedElementSnapshots: MutableList<View>?) {
+                    window.enterTransition = makeEnterTransition(sharedElements.find { it is ImageView }!!)
+                }
+            })
             window.enterTransition.duration = 400
         } else {
             GlideApp.with(this)
                     .load(headerBg)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .listener(object: RequestListener<Drawable> {
+                    .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                             return false
                         }
 
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            if (isFirstResource) {
+                                return false
+                            }
                             binding.headerImg.alpha = 0f
                             binding.headerImg.setImageDrawable(resource)
                             binding.headerImg.animate()
                                     .alpha(1f)
-                                    .setDuration(2000)
+                                    .setDuration(200)
                                     .start()
                             return true
                         }
@@ -137,7 +138,7 @@ class UploaderActivity : BaseActivity() {
         setupRecyclerView()
 
         binding.collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE)
-        binding.appBar.addOnOffsetChangedListener(object: AppBarLayout.OnOffsetChangedListener {
+        binding.appBar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
             val EXPANDED = 1 shl 0
             val COLLAPSED = 1 shl 1
             val IDLE = 1 shl 2
@@ -230,27 +231,27 @@ class UploaderActivity : BaseActivity() {
         circularReveal.addTarget(binding.appBar)
 
         val headerBg = intent.getStringExtra(ARG_HEADER_BG)
-        circularReveal.addListener(object: TransitionListenerAdapter() {
+        circularReveal.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition?) {
                 GlideApp.with(this@UploaderActivity)
-                    .load(headerBg)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .listener(object: RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
+                        .load(headerBg)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .listener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                return false
+                            }
 
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            binding.headerImg.alpha = 0f
-                            binding.headerImg.setImageDrawable(resource)
-                            binding.headerImg.animate()
-                                    .alpha(1f)
-                                    .setDuration(2000)
-                                    .start()
-                            return true
-                        }
-                    })
-                    .into(binding.headerImg)
+                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                binding.headerImg.alpha = 0f
+                                binding.headerImg.setImageDrawable(resource)
+                                binding.headerImg.animate()
+                                        .alpha(1f)
+                                        .setDuration(2000)
+                                        .start()
+                                return true
+                            }
+                        })
+                        .into(binding.headerImg)
             }
         })
 
