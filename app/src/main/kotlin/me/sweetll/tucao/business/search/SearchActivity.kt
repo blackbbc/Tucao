@@ -158,9 +158,9 @@ class SearchActivity : BaseActivity() {
     }
 
     fun setupRecyclerView() {
-        videoAdapter.setOnLoadMoreListener {
+        videoAdapter.setOnLoadMoreListener ({
             viewModel.loadMoreData()
-        }
+        }, binding.searchRecycler)
 
         binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {

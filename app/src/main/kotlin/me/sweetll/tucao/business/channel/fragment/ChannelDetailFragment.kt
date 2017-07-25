@@ -72,9 +72,9 @@ class ChannelDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        videoAdapter.setOnLoadMoreListener {
+        videoAdapter.setOnLoadMoreListener ({
             loadMoreData()
-        }
+        }, binding.videoRecycler)
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val result: Result = helper.getItem(position) as Result

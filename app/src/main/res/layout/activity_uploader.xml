@@ -58,6 +58,7 @@
                         android:layout_height="64dp"
                         android:layout_marginTop="80dp"
                         android:layout_marginStart="32dp"
+                        android:transitionName="transition_avatar"
                         android:src="@drawable/default_avatar"/>
 
                     <TextView
@@ -115,9 +116,11 @@
         </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
+            android:id="@+id/mainLinear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:transitionGroup="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView

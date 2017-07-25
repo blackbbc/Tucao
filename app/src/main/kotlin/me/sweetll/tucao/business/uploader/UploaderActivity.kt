@@ -1,21 +1,36 @@
 package me.sweetll.tucao.business.uploader
 
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.design.widget.AppBarLayout
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.transition.*
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.Const
+import me.sweetll.tucao.GlideApp
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.uploader.adapter.VideoAdapter
@@ -24,6 +39,8 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityUploaderBinding
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.transition.CircularPathReveal
+import me.sweetll.tucao.transition.TransitionListenerAdapter
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
 
 class UploaderActivity : BaseActivity() {
@@ -36,6 +53,29 @@ class UploaderActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
+    var isAvatarInBounds = true
+    var transitionIn = true
+
+    val callback = object: SharedElementCallback() {
+
+        override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+            super.onMapSharedElements(names, sharedElements)
+            if (transitionIn) {
+                transitionIn = false
+            } else {
+                if (!isAvatarInBounds) {
+                    names.clear()
+                    sharedElements.clear()
+                }
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>, sharedElementSnapshots: MutableList<View>?) {
+            window.enterTransition = makeEnterTransition(sharedElements.find { it is ImageView }!!)
+        }
+    }
+
     companion object {
         const val ARG_USER_ID = "user_id"
         const val ARG_USERNAME = "username"
@@ -43,14 +83,14 @@ class UploaderActivity : BaseActivity() {
         const val ARG_SIGNATURE = "signature"
         const val ARG_HEADER_BG = "header_bg"
 
-        fun intentTo(context: Context, userId: String, username: String, avatar: String, signature: String, headerBg: String) {
+        fun intentTo(context: Context, userId: String, username: String, avatar: String, signature: String, headerBg: String, options: Bundle?) {
             val intent = Intent(context, UploaderActivity::class.java)
             intent.putExtra(ARG_USER_ID, userId)
             intent.putExtra(ARG_USERNAME, username)
             intent.putExtra(ARG_AVATAR, avatar)
             intent.putExtra(ARG_SIGNATURE, signature)
             intent.putExtra(ARG_HEADER_BG, headerBg)
-            context.startActivity(intent)
+            context.startActivity(intent, options)
         }
     }
 
@@ -64,10 +104,35 @@ class UploaderActivity : BaseActivity() {
         val signature = intent.getStringExtra(ARG_SIGNATURE)
         val headerBg = intent.getStringExtra(ARG_HEADER_BG)
 
-        binding.avatarImg.load(this, avatar, R.drawable.default_avatar)
         binding.usernameText.text = username
         binding.signatureText.text = signature
-        binding.headerImg.load(this, headerBg)
+        binding.avatarImg.load(this, avatar, R.drawable.default_avatar)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initTransition()
+            setEnterSharedElementCallback(callback)
+            window.enterTransition.duration = 400
+        } else {
+            GlideApp.with(this)
+                    .load(headerBg)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .listener(object: RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            binding.headerImg.alpha = 0f
+                            binding.headerImg.setImageDrawable(resource)
+                            binding.headerImg.animate()
+                                    .alpha(1f)
+                                    .setDuration(2000)
+                                    .start()
+                            return true
+                        }
+                    })
+                    .into(binding.headerImg)
+        }
 
         setupRecyclerView()
 
@@ -83,16 +148,19 @@ class UploaderActivity : BaseActivity() {
                 if (i == 0) {
                     if (currentState != EXPANDED) {
                         binding.collapsingToolbar.title = " "
+                        isAvatarInBounds = true
                     }
                     currentState = EXPANDED
                 } else if (Math.abs(i) >= appBarLayout.totalScrollRange) {
                     if (currentState != COLLAPSED) {
+                        isAvatarInBounds = false
                         binding.collapsingToolbar.title = username
                     }
                     currentState = COLLAPSED
                 } else {
                     if (currentState != IDLE) {
                         binding.collapsingToolbar.title = " "
+                        isAvatarInBounds = true
                     }
                     currentState = IDLE
                 }
@@ -131,6 +199,62 @@ class UploaderActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun initTransition() {
+        val changeBounds = ChangeBounds()
+        changeBounds.pathMotion = ArcMotion()
+        changeBounds.interpolator = FastOutSlowInInterpolator()
+
+        window.sharedElementEnterTransition = changeBounds
+
+        val returnTransition = TransitionSet()
+
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.addTarget(binding.appBar)
+
+        val slideDown = Slide(Gravity.BOTTOM)
+        slideDown.addTarget(binding.mainLinear)
+
+        returnTransition.addTransition(slideUp)
+        returnTransition.addTransition(slideDown)
+        returnTransition.ordering = TransitionSet.ORDERING_TOGETHER
+        returnTransition.duration = 400
+        window.returnTransition = returnTransition
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun makeEnterTransition(sharedElement: View): Transition {
+        val circularReveal = CircularPathReveal(sharedElement)
+        circularReveal.addTarget(binding.appBar)
+
+        val headerBg = intent.getStringExtra(ARG_HEADER_BG)
+        circularReveal.addListener(object: TransitionListenerAdapter() {
+            override fun onTransitionEnd(transition: Transition?) {
+                GlideApp.with(this@UploaderActivity)
+                    .load(headerBg)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .listener(object: RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            binding.headerImg.alpha = 0f
+                            binding.headerImg.setImageDrawable(resource)
+                            binding.headerImg.animate()
+                                    .alpha(1f)
+                                    .setDuration(2000)
+                                    .start()
+                            return true
+                        }
+                    })
+                    .into(binding.headerImg)
+            }
+        })
+
+        return circularReveal
     }
 
     fun loadData(data: MutableList<Result>) {

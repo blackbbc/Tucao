@@ -12,6 +12,7 @@ import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -171,9 +172,10 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         })
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun initTransition() {
         val changeBounds = ChangeBounds()
+        changeBounds.pathMotion = ArcMotion()
 
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds

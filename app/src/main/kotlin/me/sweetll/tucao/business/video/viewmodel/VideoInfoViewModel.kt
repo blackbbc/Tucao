@@ -1,8 +1,12 @@
 package me.sweetll.tucao.business.video.viewmodel
 
+import android.app.ActivityOptions
 import android.databinding.BindingAdapter
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
@@ -161,7 +165,10 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
 
     fun onClickUser(view: View) {
         if (headerBg.isNotEmpty()) {
-            UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid, result.get().user, avatar.get(), signature, headerBg)
+            val options: Bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    videoInfoFragment.activity, view.findViewById(R.id.avatarImg), "transition_avatar"
+            ).toBundle()
+            UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid, result.get().user, avatar.get(), signature, headerBg, options)
         }
     }
 

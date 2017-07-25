@@ -99,9 +99,9 @@ class VideoCommentsFragment: BaseFragment() {
             return
         }
 
-        commentAdapter.setOnLoadMoreListener {
+        commentAdapter.setOnLoadMoreListener ({
             loadMoreData()
-        }
+        }, binding.commentRecycler)
 
         binding.commentRecycler.layoutManager = LinearLayoutManager(context)
         binding.commentRecycler.adapter = commentAdapter
