@@ -75,17 +75,17 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/text_send"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_alignStart="@+id/usernameText"
                         android:layout_below="@+id/usernameText"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/bg_round_retangle_white_border"
+                        android:background="@drawable/bg_round_rectangle_white_border"
                         android:gravity="center"
                         android:text="发私信"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:onClick="@{viewModel::onClickSendMessage}"/>
 
                     <TextView
                         android:id="@+id/signatureText"

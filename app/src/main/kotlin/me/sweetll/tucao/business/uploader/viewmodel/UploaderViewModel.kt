@@ -1,10 +1,12 @@
 package me.sweetll.tucao.business.uploader.viewmodel
 
+import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.uploader.UploaderActivity
 import me.sweetll.tucao.extension.sanitizeHtml
+import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
 import org.jsoup.nodes.Document
 
@@ -77,6 +79,10 @@ class UploaderViewModel(val activity: UploaderActivity, val userId: String): Bas
             total.add(result)
             total
         }
+    }
+
+    fun onClickSendMessage(view: View) {
+        "不发不发就不发σ`∀´)".toast()
     }
 
 }
