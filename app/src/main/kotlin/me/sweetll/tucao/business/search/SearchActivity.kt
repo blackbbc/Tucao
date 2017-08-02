@@ -166,8 +166,8 @@ class SearchActivity : BaseActivity() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val result = helper.getItem(position) as Result
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val coverImg = view.findViewById(R.id.img_thumb) as ImageView
-                    val titleText = view.findViewById(R.id.text_title)
+                    val coverImg = view.findViewById<ImageView>(R.id.img_thumb)
+                    val titleText = view.findViewById<View>(R.id.text_title)
                     val p1: Pair<View, String> = Pair.create(coverImg, "cover")
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat

@@ -103,7 +103,7 @@ class MainActivity : BaseActivity() {
 
     fun initDialog() {
         val updateView = LayoutInflater.from(this).inflate(R.layout.dialog_update, null)
-        val descriptionText = updateView.findViewById(R.id.text_description) as TextView
+        val descriptionText = updateView.findViewById<TextView>(R.id.text_description)
         descriptionText.movementMethod = ScrollingMovementMethod()
         updateDialog = DialogPlus.newDialog(this)
                 .setContentHolder(ViewHolder(updateView))
@@ -179,8 +179,8 @@ class MainActivity : BaseActivity() {
         binding.tab.setupWithViewPager(binding.viewPager)
 
         val headerView = binding.navigation.getHeaderView(0)
-        avatarImg = headerView.findViewById(R.id.img_avatar) as ImageView
-        usernameText = headerView.findViewById(R.id.text_username) as TextView
+        avatarImg = headerView.findViewById<ImageView>(R.id.img_avatar)
+        usernameText = headerView.findViewById<TextView>(R.id.text_username)
 
         doRefresh()
 
@@ -261,7 +261,7 @@ class MainActivity : BaseActivity() {
                     return true
                 }
                 R.id.action_search -> {
-                    val searchView = getToolbar().findViewById(R.id.action_search)
+                    val searchView = getToolbar().findViewById<View>(R.id.action_search)
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, searchView,
                             "transition_search_back").toBundle()
                     SearchActivity.intentTo(this, options = options)

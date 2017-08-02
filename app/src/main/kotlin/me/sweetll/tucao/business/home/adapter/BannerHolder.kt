@@ -24,8 +24,8 @@ class BannerHolder: Holder<Banner> {
     }
 
     override fun UpdateUI(context: Context, position: Int, banner: Banner) {
-        val bannerImg = rootView.findViewById(R.id.img_banner) as ImageView
-        val bg = rootView.findViewById(R.id.bg)
+        val bannerImg = rootView.findViewById<ImageView>(R.id.img_banner)
+        val bg = rootView.findViewById<View>(R.id.bg)
         bannerImg.load(context, banner.imgUrl)
         bannerImg.setOnClickListener {
             view ->
@@ -44,9 +44,9 @@ class BannerHolder: Holder<Banner> {
             }
         }
         banner.title?.let {
-            val titleLinear = rootView.findViewById(R.id.linear_title)
+            val titleLinear = rootView.findViewById<View>(R.id.linear_title)
             titleLinear.visibility = View.VISIBLE
-            val titleText = rootView.findViewById(R.id.text_title) as TextView
+            val titleText = rootView.findViewById<TextView>(R.id.text_title)
             titleText.text = it
         }
     }

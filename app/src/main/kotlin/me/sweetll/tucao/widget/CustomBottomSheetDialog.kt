@@ -93,13 +93,13 @@ class CustomBottomSheetDialog: AppCompatDialog {
 
     private fun wrapInBottomSheet(layoutResId: Int, view: View?, params: ViewGroup.LayoutParams?): View {
         val coordinator = View.inflate(context, R.layout.dialog_bottom_sheet, null) as CoordinatorLayout
-        mBottomLinear = coordinator.findViewById(R.id.linear_bottom) as LinearLayout
+        mBottomLinear = coordinator.findViewById(R.id.linear_bottom)
 
         var inflateView = view
         if (layoutResId != 0 && view == null) {
             inflateView = layoutInflater.inflate(layoutResId, coordinator, false)
         }
-        val bottomSheet = coordinator.findViewById(R.id.design_bottom_sheet) as FrameLayout
+        val bottomSheet = coordinator.findViewById<FrameLayout>(R.id.design_bottom_sheet)
         mBehavior = CustomBottomSheetBehavior.from(bottomSheet)
         mBehavior?.setBottomSheetCallback(mBottomSheetCallback)
         mBehavior?.isHideable = mCancelable
@@ -108,7 +108,7 @@ class CustomBottomSheetDialog: AppCompatDialog {
         } else {
             bottomSheet.addView(inflateView, params)
         }
-        coordinator.findViewById(R.id.touch_outside).setOnClickListener {
+        coordinator.findViewById<View>(R.id.touch_outside).setOnClickListener {
             view ->
             if (mCancelable && isShowing && shouldWindowCloseOnTouchOutside()) {
                 cancel()

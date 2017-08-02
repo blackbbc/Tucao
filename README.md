@@ -44,15 +44,11 @@
 <a href="art/18.png"><img src="art/18.png" width="30%"/></a>
 
 ## TODO
-- [x] 修复Android 4.4搜索闪退问题（V1.1.0）
-- [x] 修复离线播放不能旋转屏幕的Bug（V1.1.0）
-- [x] 登陆（V1.1.0）
-- [x] 发送评论（V1.1.0）
-- [x] 查看Up主视频（V1.1.0）
 - [x] 修复下载界面只显示1个字符的问题（V1.1.1）
 - [x] 一些视觉上的优化（V1.1.1）
+- [ ] 省流量更新变为可选项（V1.1.1）
 - [ ] 修复输入验证码时的输入法问题（V1.1.1）
-- [ ] 回复点赞（V1.1.1）
+- [ ] 点赞回复（V1.1.1）
 - [ ] 查看楼中楼（V1.1.1）
 - [ ] 回复楼中楼（V1.1.1）
 - [ ] 发私信（V1.1.1）
@@ -62,10 +58,13 @@
 - [ ] 修改密码（V1.1.1）
 - [ ] 弹幕屏蔽功能（V1.1.1）
 - [ ] 重写弹幕引擎（V1.1.1）
-- [ ] 重写播放器（V1.1.1）
+- [ ] 注册（V1.1.2）
+- [ ] 找回密码（V1.1.2）
+- [ ] 重写播放器（V1.1.2）
 - [ ] 同步收藏（接口不全）
+- [ ] 修复多任务下载会卡顿的问题
 - [ ] 修复播放时跳回开头的问题（无法重现，原因不明）
-- [ ] 修复下载时可能出现多个同时下载的问题
+- [ ] 修复下载时可能出现多个同时下载的问题（无法重现，原因不明）
 
 ## FAQ
 - [FAQ](https://github.com/blackbbc/Tucao/blob/master/FAQ.md)
@@ -79,7 +78,7 @@
 - 架构基于MVVM模式，使用`DataBinding` + `RxJava2` + `Dagger2` + `Retrofit`实现
 
 ## Development
-Android Studio 版本: [3.0 Canary 8](https://developer.android.com/studio/preview/index.html)
+Android Studio 版本: [3.0 Canary 9](https://developer.android.com/studio/preview/index.html)
 
 由于项目中使用了[子模块Submodule](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
 ```

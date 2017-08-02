@@ -82,11 +82,11 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
         val dialogView = LayoutInflater.from(videoInfoFragment.activity).inflate(R.layout.dialog_pick_download_video, null)
         dialog.setContentView(dialogView)
 
-        dialogView.findViewById(R.id.img_close).setOnClickListener {
+        dialogView.findViewById<View>(R.id.img_close).setOnClickListener {
             dialog.dismiss()
         }
 
-        val partRecycler = dialogView.findViewById(R.id.recycler_part) as RecyclerView
+        val partRecycler = dialogView.findViewById<RecyclerView>(R.id.recycler_part)
         val partAdapter = DownloadPartAdapter(
                 videoInfoFragment.parts
                         .map {
@@ -95,8 +95,8 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                         .toMutableList()
         )
 
-        val startDownloadButton = dialog.findViewById(R.id.btn_start_download) as Button
-        startDownloadButton.setOnClickListener {
+        val startDownloadButton = dialog.findViewById<Button>(R.id.btn_start_download)
+        startDownloadButton?.setOnClickListener {
             view ->
             val checkedParts = partAdapter.data.filter({
                 p ->
@@ -116,7 +116,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 val part = helper.getItem(position) as Part
                 part.checked = !part.checked
                 helper.notifyItemChanged(position)
-                startDownloadButton.isEnabled = partAdapter.data.any({
+                startDownloadButton?.isEnabled = partAdapter.data.any({
                     p ->
                     !p.checkDownload() && p.checked
                 })
@@ -128,12 +128,12 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
         partRecycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         partRecycler.adapter = partAdapter
 
-        val pickAllButton = dialog.findViewById(R.id.btn_pick_all) as Button
-        pickAllButton.setOnClickListener {
+        val pickAllButton = dialog.findViewById<Button>(R.id.btn_pick_all)
+        pickAllButton?.setOnClickListener {
             view ->
             if (partAdapter.data.all { it.checked }) {
                 // 取消全选
-                startDownloadButton.isEnabled = false
+                startDownloadButton?.isEnabled = false
                 pickAllButton.text = "全部选择"
                 partAdapter.data.forEach {
                     item ->
@@ -141,7 +141,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 }
             } else {
                 // 全选
-                startDownloadButton.isEnabled = true
+                startDownloadButton?.isEnabled = true
                 pickAllButton.text = "取消全选"
                 partAdapter.data.forEach {
                     item ->

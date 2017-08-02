@@ -97,7 +97,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     val codecHelpDialog: DialogPlus by lazy {
         val codecHelpView = LayoutInflater.from(context).inflate(R.layout.dialog_codec_help, null)
-        val codecHelpText = codecHelpView.findViewById(R.id.text_codec_help) as TextView
+        val codecHelpText = codecHelpView.findViewById<TextView>(R.id.text_codec_help)
         codecHelpText.movementMethod = ScrollingMovementMethod()
         DialogPlus.newDialog(context)
                 .setContentHolder(ViewHolder(codecHelpView))
@@ -223,27 +223,27 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     private fun initView() {
         //初始化弹幕控件
-        danmakuContainer = findViewById(R.id.danmaku_container) as FrameLayout
+        danmakuContainer = findViewById(R.id.danmaku_container)
 
-        jumpLinear = findViewById(R.id.linear_jump) as LinearLayout
-        closeJumpImg = findViewById(R.id.img_close_jump) as ImageView
-        jumpTimeText = findViewById(R.id.text_jump_time) as TextView
-        jumpText = findViewById(R.id.text_jump) as TextView
+        jumpLinear = findViewById(R.id.linear_jump)
+        closeJumpImg = findViewById(R.id.img_close_jump)
+        jumpTimeText = findViewById(R.id.text_jump_time)
+        jumpText = findViewById(R.id.text_jump)
         if (!isIfCurrentIsFullscreen) {
-            loadText = findViewById(R.id.text_load) as TextView
+            loadText = findViewById(R.id.text_load)
         } else {
             settingLayout = findViewById(R.id.setting_layout)
-            danmuOpacityText = findViewById(R.id.text_danmu_opacity) as TextView
-            danmuOpacitySeek = findViewById(R.id.seek_danmu_opacity) as SeekBar
-            danmuSizeText = findViewById(R.id.text_danmu_size) as TextView
-            danmuSizeSeek = findViewById(R.id.seek_danmu_size) as SeekBar
-            danmuSpeedText = findViewById(R.id.text_danmu_speed) as TextView
-            danmuSpeedSeek = findViewById(R.id.seek_danmu_speed) as SeekBar
-            rotateSwitch = findViewById(R.id.switch_rotate) as SwitchCompat
-            codecSwitch = findViewById(R.id.switch_codec) as SwitchCompat
-            codecHelpImg = findViewById(R.id.img_codec_help) as ImageView
+            danmuOpacityText = findViewById(R.id.text_danmu_opacity)
+            danmuOpacitySeek = findViewById(R.id.seek_danmu_opacity)
+            danmuSizeText = findViewById(R.id.text_danmu_size)
+            danmuSizeSeek = findViewById(R.id.seek_danmu_size)
+            danmuSpeedText = findViewById(R.id.text_danmu_speed)
+            danmuSpeedSeek = findViewById(R.id.seek_danmu_speed)
+            rotateSwitch = findViewById(R.id.switch_rotate)
+            codecSwitch = findViewById(R.id.switch_codec)
+            codecHelpImg = findViewById(R.id.img_codec_help)
 
-            settingButton = findViewById(R.id.btn_setting) as Button
+            settingButton = findViewById(R.id.btn_setting)
             settingButton.visibility = View.VISIBLE
             settingButton.setOnClickListener {
                 showSetting()
@@ -300,8 +300,8 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 }
             })
 
-            speedText = findViewById(R.id.text_speed) as TextView
-            speedSeek = findViewById(R.id.seek_speed) as BubbleSeekBar
+            speedText = findViewById(R.id.text_speed)
+            speedSeek = findViewById(R.id.seek_speed)
             speedSeek.configBuilder
                     .min(0.5f)
                     .max(2.0f)
@@ -335,11 +335,11 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
             // 顶部发送弹幕栏
-            sendDanmuText = findViewById(R.id.text_send_danmu) as TextView
-            sendDanmuLinear = findViewById(R.id.linear_send_danmu) as LinearLayout
-            danmuEdit = findViewById(R.id.edit_danmu) as EditText
-            sendDanmuImg = findViewById(R.id.img_send_danmu) as ImageView
-            closeImg = findViewById(R.id.img_close) as ImageView
+            sendDanmuText = findViewById(R.id.text_send_danmu)
+            sendDanmuLinear = findViewById(R.id.linear_send_danmu)
+            danmuEdit = findViewById(R.id.edit_danmu)
+            sendDanmuImg = findViewById(R.id.img_send_danmu)
+            closeImg = findViewById(R.id.img_close)
 
             sendDanmuText.setOnClickListener {
                 if (sendDanmuLinear.visibility == View.VISIBLE) {
@@ -384,7 +384,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             it.visibility = View.VISIBLE
         }
 
-        switchDanmu = findViewById(R.id.switchDanmu) as TextView
+        switchDanmu = findViewById<TextView>(R.id.switchDanmu)
         switchDanmu.setOnClickListener {
             showDanmu(!isShowDanmu)
         }

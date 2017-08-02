@@ -15,8 +15,8 @@ class ChannelFilterAdapter(val context: Context, val data: List<ChannelFilter>):
         val view = inflater.inflate(R.layout.item_channel_filter, parent, false)
 
         val item = data[position]
-        (view.findViewById(R.id.text_title) as TextView).text = item.title
-        (view.findViewById(R.id.text_subtitle) as TextView).text = item.subtitle
+        view.findViewById<TextView>(R.id.text_title).text = item.title
+        view.findViewById<TextView>(R.id.text_subtitle).text = item.subtitle
 
         return view
     }
@@ -32,7 +32,7 @@ class ChannelFilterAdapter(val context: Context, val data: List<ChannelFilter>):
         val view = inflater.inflate(R.layout.simple_spinner_dropdown_item, parent, false)
 
         val item = data[position]
-        (view.findViewById(android.R.id.text1) as TextView).text = item.subtitle
+        view.findViewById<TextView>(android.R.id.text1).text = item.subtitle
 
         return view
     }
