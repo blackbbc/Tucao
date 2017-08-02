@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:hint="验证码"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:selectAllOnFocus="true"
                         android:text="@={viewModel.code}"
                         android:textSize="16sp"/>
