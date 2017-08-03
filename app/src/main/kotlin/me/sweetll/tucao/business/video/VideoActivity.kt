@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.annotation.TargetApi
 import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
@@ -14,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.Toolbar
@@ -64,6 +64,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     var firstPlay = true
 
     override fun getToolbar(): Toolbar = binding.toolbar
+
+    fun getCommentFab(): FloatingActionButton = binding.commentFab
 
     companion object {
         private val ARG_RESULT = "result"

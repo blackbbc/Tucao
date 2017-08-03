@@ -80,16 +80,5 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/commentFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="32dp"
-            android:src="@drawable/ic_comment_white"
-            tools:visibility="visible"
-            android:visibility="invisible"
-            app:backgroundTint="@color/pink_300"
-            app:fabSize="normal" />
     </FrameLayout>
 </layout>
