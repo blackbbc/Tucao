@@ -103,6 +103,7 @@ public class AndroidDisplayer extends AbsDisplayer<Canvas, Typeface> {
         private float scaleTextSize = 1.0f;
         private boolean isTextScaled = false;
         private int margin = 0;
+        private int allMarginTop = 0;
 
         public DisplayerConfig() {
             PAINT = new TextPaint();
@@ -340,6 +341,16 @@ public class AndroidDisplayer extends AbsDisplayer<Canvas, Typeface> {
         return mDisplayConfig.margin;
     }
 
+    @Override
+    public void setAllMarginTop(int m) {
+        mDisplayConfig.allMarginTop = m;
+    }
+
+    @Override
+    public int getAllMarginTop() {
+        return mDisplayConfig.allMarginTop;
+    }
+
     public Canvas canvas;
 
     private int width;
@@ -472,7 +483,7 @@ public class AndroidDisplayer extends AbsDisplayer<Canvas, Typeface> {
         camera.rotateY(-danmaku.rotationY);
         camera.rotateZ(-danmaku.rotationZ);
         camera.getMatrix(matrix);
-//        matrix.preTranslate(-left, -top);
+        matrix.preTranslate(-left, -top);
         matrix.postTranslate(left , top);
         camera.restore();
         int count = canvas.save();

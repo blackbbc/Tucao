@@ -85,11 +85,11 @@ public class DanmakuUtils {
     }
 
     public static DrawingCache buildDanmakuDrawingCache(BaseDanmaku danmaku, IDisplayer disp,
-            DrawingCache cache) {
+            DrawingCache cache, int bitsPerPixel) {
         if (cache == null)
             cache = new DrawingCache();
 
-        cache.build((int) Math.ceil(danmaku.paintWidth), (int) Math.ceil(danmaku.paintHeight), disp.getDensityDpi(), false);
+        cache.build((int) Math.ceil(danmaku.paintWidth), (int) Math.ceil(danmaku.paintHeight), disp.getDensityDpi(), false, bitsPerPixel);
         DrawingCacheHolder holder = cache.get();
         if (holder != null) {
             ((AbsDisplayer) disp).drawDanmaku(danmaku, holder.canvas, 0, 0, true);
@@ -101,8 +101,8 @@ public class DanmakuUtils {
         return cache;
     }
 
-    public static int getCacheSize(int w, int h) {
-        return (w) * (h) * 4;
+    public static int getCacheSize(int w, int h, int bytesPerPixel) {
+        return (w) * (h) * bytesPerPixel;
     }
     
     public final static boolean isDuplicate(BaseDanmaku obj1, BaseDanmaku obj2) {

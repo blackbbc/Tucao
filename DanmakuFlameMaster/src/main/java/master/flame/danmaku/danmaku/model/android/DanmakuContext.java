@@ -120,9 +120,20 @@ public class DanmakuContext {
 
     public final DanmakuFactory mDanmakuFactory = DanmakuFactory.create();
 
+    public CachingPolicy cachingPolicy = CachingPolicy.POLICY_DEFAULT;
+
     public AbsDisplayer getDisplayer() {
         return mDisplayer;
     }
+
+    /**
+     * 0 默认 Choreographer驱动DrawHandler线程刷新 <br />
+     * 1 "DFM Update"单独线程刷新 <br />
+     * 2 DrawHandler线程自驱动刷新
+     *
+     * Note: 在系统{@link android.os.Build.VERSION_CODES#JELLY_BEAN}以下, 0方式会被2方式代替
+     */
+    public byte updateMethod = 0;
 
     /**
      * set typeface
@@ -169,6 +180,11 @@ public class DanmakuContext {
             mGlobalFlagValues.updateVisibleFlag();
             notifyConfigureChanged(DanmakuConfigTag.DANMAKU_MARGIN, m);
         }
+        return this;
+    }
+
+    public DanmakuContext setMarginTop(int m) {
+        mDisplayer.setAllMarginTop(m);
         return this;
     }
 
@@ -624,6 +640,11 @@ public class DanmakuContext {
 
     public DanmakuContext setDanmakuSync(AbsDanmakuSync danmakuSync) {
         this.danmakuSync = danmakuSync;
+        return this;
+    }
+
+    public DanmakuContext setCachingPolicy(CachingPolicy cachingPolicy) {
+        this.cachingPolicy = cachingPolicy;
         return this;
     }
     

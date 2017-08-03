@@ -522,12 +522,14 @@ class MainActivity : BaseActivity() {
                 }, {
                     error ->
                     error.printStackTrace()
-                    Snackbar.make(binding.root, "服务器异常，请手动检查更新", Snackbar.LENGTH_LONG)
-                        .setAction("打开百度网盘", {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
-                            startActivity(intent)
-                        })
-                        .show()
+                    if (!quiet) {
+                        Snackbar.make(binding.root, "服务器异常，请手动检查更新", Snackbar.LENGTH_LONG)
+                                .setAction("打开百度网盘", {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pan.baidu.com/s/1bptILyR"))
+                                    startActivity(intent)
+                                })
+                                .show()
+                    }
                 })
     }
 }

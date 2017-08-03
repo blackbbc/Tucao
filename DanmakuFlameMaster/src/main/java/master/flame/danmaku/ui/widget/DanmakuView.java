@@ -58,6 +58,10 @@ public class DanmakuView extends View implements IDanmakuView, IDanmakuViewContr
 
     private OnDanmakuClickListener mOnDanmakuClickListener;
 
+    private float mXOff;
+
+    private float mYOff;
+
     private OnClickListener mOnClickListener;
 
     private DanmakuTouchHelper mTouchHelper;
@@ -146,7 +150,6 @@ public class DanmakuView extends View implements IDanmakuView, IDanmakuViewContr
     public void release() {
         stop();
         if(mDrawTimes!= null) mDrawTimes.clear();
-        SystemClock.releaseClockProvider();
     }
 
     @Override
@@ -539,12 +542,28 @@ public class DanmakuView extends View implements IDanmakuView, IDanmakuViewContr
     }
 
     @Override
+    public void setOnDanmakuClickListener(OnDanmakuClickListener listener, float xOff, float yOff) {
+        mOnDanmakuClickListener = listener;
+        mXOff = xOff;
+        mYOff = yOff;
+    }
+
+    @Override
     public OnDanmakuClickListener getOnDanmakuClickListener() {
         return mOnDanmakuClickListener;
+    }
+
+    @Override
+    public float getXOff() {
+        return mXOff;
+    }
+
+    @Override
+    public float getYOff() {
+        return mYOff;
     }
 
     public void bindClockProvider(SystemClock.ClockProvider clockProvider) {
         SystemClock.setClockProvider(clockProvider);
     }
-
 }

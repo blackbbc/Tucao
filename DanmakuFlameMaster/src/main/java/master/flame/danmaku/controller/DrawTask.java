@@ -134,7 +134,7 @@ public class DrawTask implements IDrawTask {
         synchronized (danmakuList) {
             added = danmakuList.addItem(item);
         }
-        if (!subAdded) {
+        if (!subAdded || !added) {
             mLastBeginMills = mLastEndMills = 0;
         }
         if (added && mTaskListener != null) {
@@ -223,7 +223,16 @@ public class DrawTask implements IDrawTask {
     public IDanmakus getVisibleDanmakusOnTime(long time) {
         long beginMills = time - mContext.mDanmakuFactory.MAX_DANMAKU_DURATION - 100;
         long endMills = time + mContext.mDanmakuFactory.MAX_DANMAKU_DURATION;
-        IDanmakus subDanmakus = danmakuList.subnew(beginMills, endMills);
+        IDanmakus subDanmakus = null;
+        int i = 0;
+        while (i++ < 3) {  //avoid ConcurrentModificationException
+            try {
+                subDanmakus = danmakuList.subnew(beginMills, endMills);
+                break;
+            } catch (Exception e) {
+
+            }
+        }
         final IDanmakus visibleDanmakus = new Danmakus();
         if (null != subDanmakus && !subDanmakus.isEmpty()) {
             subDanmakus.forEachSync(new IDanmakus.DefaultConsumer<BaseDanmaku>() {
@@ -420,7 +429,9 @@ public class DrawTask implements IDrawTask {
                     return ACTION_REMOVE;
                 }
                 danmaku.setTimeOffset(offsetMills + danmaku.timeOffset);
-                danmaku.isOffset = true;
+                if (danmaku.timeOffset == 0) {
+                    return ACTION_REMOVE;
+                }
                 return ACTION_CONTINUE;
             }
         });

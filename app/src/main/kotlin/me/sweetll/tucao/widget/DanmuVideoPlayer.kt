@@ -39,8 +39,6 @@ import master.flame.danmaku.ui.widget.DanmakuView
 import me.sweetll.tucao.R
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import me.sweetll.tucao.extension.dp2px
-import me.sweetll.tucao.extension.logD
-import me.sweetll.tucao.extension.toast
 
 class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var loadText: TextView? = null
@@ -474,9 +472,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 }
                 danmakuView!!.start(currentPositionWhenPlaying.toLong())
                 if (currentState != GSYVideoPlayer.CURRENT_STATE_PLAYING) {
-                    danmakuView!!.postDelayed({
-                        danmakuView!!.pause()
-                    }, 32)
+                    danmakuView!!.pause()
                 }
             }
 
@@ -485,7 +481,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             currentPositionWhenPlaying.toLong()
         }
         danmakuView!!.prepare(danmuParser, danmakuContext)
-        danmakuView!!.enableDanmakuDrawingCache(false) // TODO: 改回true
+        danmakuView!!.enableDanmakuDrawingCache(true)
         configDanmuStyle()
     }
 
@@ -676,7 +672,6 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     fun seekDanmu() {
         if (danmakuView != null && danmakuView!!.isPrepared) {
-            "seekDanmu".logD()
             danmakuView!!.seekTo(currentPositionWhenPlaying.toLong())
         }
     }
