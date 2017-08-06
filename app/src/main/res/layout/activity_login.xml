@@ -61,7 +61,7 @@
                     android:hint="邮箱"
                     android:inputType="textEmailAddress"
                     android:selectAllOnFocus="true"
-                    tools:text="abc"
+                    android:fontFamily="monospace"
                     android:text="@={viewModel.email}"
                     android:textSize="16sp" />
 
@@ -84,6 +84,7 @@
                     android:hint="密码"
                     android:inputType="textPassword"
                     android:selectAllOnFocus="true"
+                    android:fontFamily="monospace"
                     android:text="@={viewModel.password}"
                     android:textSize="16sp"/>
 
@@ -110,6 +111,7 @@
                         android:hint="验证码"
                         android:inputType="text"
                         android:selectAllOnFocus="true"
+                        android:fontFamily="monospace"
                         android:text="@={viewModel.code}"
                         android:textSize="16sp"/>
 
