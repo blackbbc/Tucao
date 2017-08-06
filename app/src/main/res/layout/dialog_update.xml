@@ -47,10 +47,25 @@
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:minWidth="0dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:text="暂不更新"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/primary_text"/>
+
+            <Button
+                android:id="@+id/btn_full_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="完整更新"
+                android:textSize="12sp"
+                android:textColor="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/btn_save_update"
@@ -58,22 +73,13 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:layout_marginLeft="16dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="省流量更新(1.78KB)"
-                android:textSize="14sp"
+                android:text="省流量更新(1,078KB)"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
-            <Button
-                android:id="@+id/btn_full_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginLeft="16dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="立即更新"
-                android:textSize="14sp"
-                android:textColor="@color/colorAccent"/>
         </LinearLayout>
     </LinearLayout>
 

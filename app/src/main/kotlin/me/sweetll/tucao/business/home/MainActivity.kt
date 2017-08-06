@@ -503,16 +503,13 @@ class MainActivity : BaseActivity() {
                         val descriptionText = updateDialog.findViewById(R.id.text_description) as TextView
                         titleText.text = "发现新版本V${version.versionName}(${version.apkSize.formatWithUnit()})"
                         descriptionText.text = version.description
-                        val fullUpdateBtn = updateDialog.findViewById(R.id.btn_full_update) as Button
                         val saveUpdateBtn = updateDialog.findViewById(R.id.btn_save_update) as Button
                         if (version.patchUrl.isNotEmpty()) {
                             downloadUrl = version.patchUrl
                             saveUpdateBtn.text = "省流量更新(${version.patchSize.formatWithUnit()})"
                             saveUpdateBtn.visibility = View.VISIBLE
-                        } else {
-                            downloadUrl = version.apkUrl
-                            fullUpdateBtn.visibility = View.VISIBLE
                         }
+                        downloadUrl = version.apkUrl
                         updateDialog.show()
                     } else {
                         if (!quiet) {
