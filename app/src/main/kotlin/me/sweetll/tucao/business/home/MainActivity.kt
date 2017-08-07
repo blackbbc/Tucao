@@ -323,7 +323,7 @@ class MainActivity : BaseActivity() {
 
                     var count = 0
                     var downloadLength = 0L
-                    val contentLength = body.contentLength()
+                    val contentLength = body!!.contentLength()
                     val data = ByteArray(1024 * 8)
 
                     try {
@@ -411,7 +411,7 @@ class MainActivity : BaseActivity() {
 
                     var count = 0
                     var downloadLength = 0L
-                    val contentLength = body.contentLength()
+                    val contentLength = body!!.contentLength()
                     val data = ByteArray(1024 * 8)
 
                     try {

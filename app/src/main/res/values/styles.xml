@@ -32,6 +32,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="Me.Sweetll.Comments" parent="AppTheme">
+
+    </style>
+
     <style name="AboutTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

@@ -48,4 +48,9 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="Me.Sweetll.Comments" parent="AppTheme">
+        <item name="android:windowEnterTransition">@transition/comments_enter</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/comments_shared_enter</item>
+    </style>
+
 </resources>

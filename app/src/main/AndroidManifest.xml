@@ -30,6 +30,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,6 +50,9 @@
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".business.video.CommentsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Me.Sweetll.Comments"/>
         <activity
             android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait"
@@ -107,6 +111,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

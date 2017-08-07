@@ -22,6 +22,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
@@ -29,6 +31,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
+import me.sweetll.tucao.business.video.CommentsActivity
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.CommentAdapter
 import me.sweetll.tucao.business.video.model.Comment
@@ -115,6 +118,13 @@ class VideoCommentsFragment: BaseFragment() {
                         .setDivider(R.drawable.divider_small)
                         .build()
         )
+        binding.commentRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                        android.support.v4.util.Pair.create(view, "transition_background"))
+                CommentsActivity.intentTo(activity, options.toBundle())
+            }
+        })
 
         binding.clickToLoadImg.setOnClickListener {
             binding.clickToLoadImg.visibility = View.GONE
