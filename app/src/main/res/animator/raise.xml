@@ -21,13 +21,13 @@
         android:state_pressed="true">
         <objectAnimator
             android:duration="@android:integer/config_shortAnimTime"
-            android:propertyName="elevation"
+            android:propertyName="translationZ"
             android:valueTo="6dp" />
     </item>
     <item>
         <objectAnimator
             android:duration="@android:integer/config_shortAnimTime"
-            android:propertyName="elevation"
+            android:propertyName="translationZ"
             android:valueTo="0dp" />
     </item>
 </selector>
