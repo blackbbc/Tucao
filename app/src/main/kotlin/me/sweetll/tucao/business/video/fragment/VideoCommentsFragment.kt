@@ -121,7 +121,8 @@ class VideoCommentsFragment: BaseFragment() {
         binding.commentRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                        android.support.v4.util.Pair.create(view, "transition_background"))
+                        android.support.v4.util.Pair.create(view, "transition_background"),
+                        android.support.v4.util.Pair.create(view, "transition_comment"))
                 CommentsActivity.intentTo(activity, options.toBundle())
             }
         })
