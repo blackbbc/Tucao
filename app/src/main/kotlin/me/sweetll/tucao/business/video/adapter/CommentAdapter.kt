@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.video.model.Comment
 import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.util.RelativeDateFormat
 
 class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.item_comment, data) {
     var lastAnimatedPosition = -1
@@ -22,7 +23,7 @@ class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, Ba
         helper.setText(R.id.text_level, comment.level)
         helper.setText(R.id.text_nickname, comment.nickname)
         helper.setText(R.id.text_lch, comment.lch)
-        helper.setText(R.id.text_time, comment.time)
+        helper.setText(R.id.text_time, RelativeDateFormat.format(comment.time))
         helper.setText(R.id.text_thumb_up, "${comment.thumbUp}")
         helper.setText(R.id.text_info, comment.info)
         if (comment.hasSend) {
