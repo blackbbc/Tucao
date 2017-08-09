@@ -26,6 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import kotlinx.android.synthetic.main.fragment_video_comments.*
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
@@ -118,14 +119,14 @@ class VideoCommentsFragment: BaseFragment() {
                         .setDivider(R.drawable.divider_small)
                         .build()
         )
-        binding.commentRecycler.addOnItemTouchListener(object: OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+
+        commentAdapter.setOnItemClickListener{
+            adapter, view, position ->
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                        android.support.v4.util.Pair.create(view, "transition_background"),
-                        android.support.v4.util.Pair.create(view, "transition_comment"))
+                    android.support.v4.util.Pair.create(view, "transition_background"),
+                    android.support.v4.util.Pair.create(view, "transition_comment"))
                 CommentsActivity.intentTo(activity, options.toBundle())
-            }
-        })
+        }
 
         binding.clickToLoadImg.setOnClickListener {
             binding.clickToLoadImg.visibility = View.GONE
