@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoInfoViewModel" />
@@ -20,7 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,12 +82,11 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:gravity="center"
                     android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
                     android:onClick="@{viewModel::onClickStar}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="8dp">
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -117,14 +120,13 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:gravity="center"
                     android:background="?selectableItemBackgroundBorderless"
+                    android:gravity="center"
                     android:onClick="@{viewModel::onClickDownload}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp">
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -155,46 +157,53 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{viewModel::onClickUser}">
-
-                <ImageView
-                    android:id="@+id/avatarImg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:imageUrl="@{viewModel.avatar}" />
-
-                <TextView
-                    android:id="@+id/usernameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@+id/avatarImg"
-                    tools:text="小智"
-                    android:text="@{viewModel.result.user}"
-                    android:textColor="@color/primary_text"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/createText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/avatarImg"
-                    android:layout_below="@+id/usernameText"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginStart="16dp"
-                    tools:text="发布于2017-07-21"
-                    android:text="@{viewModel.create}"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="12sp" />
-
-
-            </RelativeLayout>
-
         </LinearLayout>
+
+        <me.sweetll.tucao.widget.ForegroundRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:background="@color/white"
+            android:foreground="?android:selectableItemBackground"
+            android:stateListAnimator="@animator/raise"
+            android:onClick="@{viewModel::onClickUser}">
+
+            <ImageView
+                android:id="@+id/avatarImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:imageUrl="@{viewModel.avatar}" />
+
+            <TextView
+                android:id="@+id/usernameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@+id/avatarImg"
+                android:text="@{viewModel.result.user}"
+                android:textColor="@color/primary_text"
+                android:textSize="12sp"
+                tools:text="小智" />
+
+            <TextView
+                android:id="@+id/createText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usernameText"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@+id/avatarImg"
+                android:text="@{viewModel.create}"
+                android:textColor="@color/secondary_text"
+                android:textSize="12sp"
+                tools:text="发布于2017-07-21" />
+
+        </me.sweetll.tucao.widget.ForegroundRelativeLayout>
 
         <!--分割线-->
         <View
