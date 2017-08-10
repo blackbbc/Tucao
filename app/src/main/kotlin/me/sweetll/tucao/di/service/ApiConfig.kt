@@ -44,6 +44,7 @@ object ApiConfig {
     const val PERSONAL_URL = "index.php?m=member&c=index"
     const val USER_URL = "play/u{userid}/"
     const val SPACE_URL = "index.php?m=member&c=space"
+    const val SUPPORT_URL = "index.php?m=comment&c=index&a=support&format=json"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 

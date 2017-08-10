@@ -17,16 +17,14 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SimpleItemAnimator
 import android.transition.ArcMotion
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import kotlinx.android.synthetic.main.fragment_video_comments.*
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
@@ -38,7 +36,6 @@ import me.sweetll.tucao.business.video.adapter.CommentAdapter
 import me.sweetll.tucao.business.video.model.Comment
 import me.sweetll.tucao.databinding.FragmentVideoCommentsBinding
 import me.sweetll.tucao.di.service.RawApiService
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Result
@@ -127,6 +124,28 @@ class VideoCommentsFragment: BaseFragment() {
                     android.support.v4.util.Pair.create(view, "transition_comment"))
                 CommentsActivity.intentTo(activity, options.toBundle())
         }
+        commentAdapter.setOnItemChildClickListener {
+            adapter, view, position ->
+            if (view.id == R.id.linear_thumb_up) {
+                val comment = commentAdapter.getItem(position)
+                if (!comment.support) {
+                    comment.support = true
+                    comment.thumbUp += 1
+                    adapter.notifyItemChanged(position)
+                    rawApiService.support(commentId, comment.id)
+                            .sanitizeHtml {
+                                Object()
+                            }
+                            .subscribe({
+                                // Ignored
+                            }, {
+                                error ->
+                                error.printStackTrace()
+                            })
+                }
+            }
+        }
+        (binding.commentRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.clickToLoadImg.setOnClickListener {
             binding.clickToLoadImg.visibility = View.GONE
@@ -170,7 +189,7 @@ class VideoCommentsFragment: BaseFragment() {
             val lastFloor: Int = commentAdapter.data.getOrNull(0)?.lch?.replace("[\\D]".toRegex(), "")?.toInt() ?: 0
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
             val currentDateTime = sdf.format(Date())
-            commentAdapter.addData(0, Comment(user.avatar, "lv${user.level}", user.name, 0, "${lastFloor + 1}楼", currentDateTime, commentInfo, false))
+            commentAdapter.addData(0, Comment(user.avatar, "lv${user.level}", user.name, 0, "${lastFloor + 1}楼", currentDateTime, commentInfo, "", 0, false))
             binding.commentRecycler.smoothScrollToPosition(0)
             rawApiService.sendComment(commentId, commentInfo)
                     .bindToLifecycle(this)
@@ -352,7 +371,11 @@ class VideoCommentsFragment: BaseFragment() {
 
             val thumbUp = tr2.select("a.digg").first().child(0).text().toInt()
 
-            val comment = Comment(avatar, level, nickname, thumbUp, lch, time, info)
+            val commentId = tr2.select("a.digg>em").first().attr("id").substring(8)
+
+            val replyNum = tr2.select("div.replys").firstOrNull()?.attr("replys")?.toInt() ?: 0
+
+            val comment = Comment(avatar, level, nickname, thumbUp, lch, time, info, commentId, replyNum)
             comments.add(comment)
         }
 

@@ -26,6 +26,13 @@ class CommentAdapter(data: MutableList<Comment>?) : BaseQuickAdapter<Comment, Ba
         helper.setText(R.id.text_time, RelativeDateFormat.format(comment.time))
         helper.setText(R.id.text_thumb_up, "${comment.thumbUp}")
         helper.setText(R.id.text_info, comment.info)
+        helper.setText(R.id.text_reply_num, "${comment.replyNum}")
+        helper.addOnClickListener(R.id.linear_thumb_up)
+        if (comment.support) {
+            helper.getView<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(mContext, R.color.pink_500))
+        } else {
+            helper.getView<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(mContext, R.color.grey_600))
+        }
         if (comment.hasSend) {
             helper.setTextColor(R.id.text_info, ContextCompat.getColor(mContext, R.color.primary_text))
         } else {

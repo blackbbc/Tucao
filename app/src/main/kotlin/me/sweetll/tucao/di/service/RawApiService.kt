@@ -77,4 +77,8 @@ interface RawApiService {
     fun space(@Query("uid") uid: String,
               @Query("page") page: Int): Observable<ResponseBody>
 
+    @GET(ApiConfig.SUPPORT_URL)
+    fun support(@Query("commentid") commentId: String,
+                @Query("id") id: String): Observable<ResponseBody>
+
 }
