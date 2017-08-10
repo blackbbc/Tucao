@@ -162,8 +162,8 @@ class SearchActivity : BaseActivity() {
             viewModel.loadMoreData()
         }, binding.searchRecycler)
 
-        binding.searchRecycler.addOnItemTouchListener(object: OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+        videoAdapter.setOnItemClickListener {
+            helper, view, position ->
                 val result = helper.getItem(position) as Result
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val coverImg = view.findViewById<ImageView>(R.id.img_thumb)
@@ -176,8 +176,8 @@ class SearchActivity : BaseActivity() {
                 } else {
                     VideoActivity.intentTo(this@SearchActivity, result)
                 }
-            }
-        })
+        }
+
         binding.searchRecycler.layoutManager = LinearLayoutManager(this)
         binding.searchRecycler.adapter = videoAdapter
         binding.searchRecycler.addItemDecoration(
