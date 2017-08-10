@@ -119,10 +119,11 @@ class VideoCommentsFragment: BaseFragment() {
 
         commentAdapter.setOnItemClickListener{
             adapter, view, position ->
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                    android.support.v4.util.Pair.create(view, "transition_background"),
-                    android.support.v4.util.Pair.create(view, "transition_comment"))
-                CommentsActivity.intentTo(activity, options.toBundle())
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                android.support.v4.util.Pair.create(view, "transition_background"),
+                android.support.v4.util.Pair.create(view, "transition_comment"))
+            val comment = commentAdapter.getItem(position)
+            CommentsActivity.intentTo(activity, commentId, comment, options.toBundle())
         }
         commentAdapter.setOnItemChildClickListener {
             adapter, view, position ->
