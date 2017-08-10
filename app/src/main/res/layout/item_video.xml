@@ -34,7 +34,7 @@
             android:id="@+id/img_thumb"
             android:layout_width="160dp"
             android:layout_height="90dp"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
 
     </android.support.v7.widget.CardView>
 

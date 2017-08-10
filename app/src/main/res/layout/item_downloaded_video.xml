@@ -33,8 +33,7 @@
             android:layout_width="140dp"
             android:layout_height="90dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/text_title"
