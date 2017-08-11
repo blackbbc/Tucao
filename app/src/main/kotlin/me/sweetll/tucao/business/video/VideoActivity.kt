@@ -255,17 +255,17 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "safe", 0),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "concat,file,subfile,http,https,tls,rtp,tcp,udp,crypto,async"),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "user_agent", "ijk"),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 4096),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzeduration", 2000000),
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 10240),
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzeduration", 100),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 1),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "infbuf", 0),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 15 * 1024 * 1024),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-fps", 30),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "r", "29.97"),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 0),
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-forwards-capacity", 15 * 1024 * 1024),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-backwards-capacity", 15 * 1024 * 1024)
-
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-backwards-capacity", 15 * 1024 * 1024),
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48)
         )
 
         // 是否可以滑动界面改变进度，声音
