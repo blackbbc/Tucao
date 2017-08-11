@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
@@ -23,6 +24,7 @@ import android.transition.ArcMotion
 import android.transition.Transition
 import android.view.View
 import android.view.ViewAnimationUtils
+import com.jakewharton.rxbinding2.widget.RxTextView
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.Const
 
@@ -44,8 +46,6 @@ import me.sweetll.tucao.widget.HorizontalDividerBuilder
 class ReplyActivity : BaseActivity() {
     lateinit var binding: ActivityReplyBinding
     lateinit var viewModel: ReplyViewModel
-
-    override fun getStatusBar(): View = binding.statusBar
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
@@ -99,6 +99,14 @@ class ReplyActivity : BaseActivity() {
         }
         binding.textInfo.setTextColor(ContextCompat.getColor(this, R.color.primary_text))
 
+        RxTextView.textChanges(binding.replyEdit)
+                .map { text -> text.isNotEmpty() }
+                .distinctUntilChanged()
+                .subscribe {
+                    enable ->
+                    binding.sendReplyBtn.isEnabled = enable
+                }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             initTransition()
         } else {
@@ -123,6 +131,7 @@ class ReplyActivity : BaseActivity() {
         })
     }
 
+    @SuppressLint("RestrictedApi")
     fun requestLogin() {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 this, binding.replyFab, "transition_login"
@@ -206,6 +215,27 @@ class ReplyActivity : BaseActivity() {
             Const.LOAD_MORE_FAIL -> {
                 replyAdapter.loadMoreFail()
             }
+        }
+    }
+
+    fun startSendingReply(reply: Reply) {
+        binding.replyEdit.isEnabled = false
+        binding.sendReplyBtn.isEnabled = false
+        binding.sendReplyBtn.text = "发射中"
+        replyAdapter.addData(0, reply)
+        binding.replyRecycler.smoothScrollToPosition(0)
+    }
+
+    fun endSendingReply(success: Boolean) {
+        binding.replyEdit.isEnabled = true
+        binding.sendReplyBtn.isEnabled = true
+        binding.sendReplyBtn.text = "发射"
+        if (success) {
+            binding.replyEdit.setText("")
+            replyAdapter.data[0].hasSend = true
+            replyAdapter.notifyItemChanged(0)
+        } else {
+            replyAdapter.remove(0)
         }
     }
 

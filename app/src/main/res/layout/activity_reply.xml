@@ -219,6 +219,8 @@
                     android:id="@+id/replyRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="60dp"
+                    android:clipToPadding="false"
                     android:background="@color/white" />
 
             </LinearLayout>
@@ -263,6 +265,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="吐槽"
+                        android:text="@={viewModel.content}"
                         android:textColor="@color/secondary_text"
                         android:textSize="14sp" />
 

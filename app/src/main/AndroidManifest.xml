@@ -52,7 +52,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".business.video.ReplyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Me.Sweetll.Comments"/>
+            android:theme="@style/Me.Sweetll.Comments"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait"
