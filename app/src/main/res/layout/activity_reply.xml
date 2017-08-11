@@ -5,6 +5,7 @@
     tools:context="me.sweetll.tucao.business.video.ReplyActivity">
 
     <data>
+
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.ReplyViewModel" />
@@ -208,9 +209,9 @@
                         android:background="@color/white"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        tools:text="共14条回复"
                         android:textColor="@color/primary_text"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="共14条回复" />
 
                 </FrameLayout>
 
@@ -218,7 +219,65 @@
                     android:id="@+id/replyRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/replyFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="32dp"
+                android:onClick="@{viewModel::onClickReplyFab}"
+                android:src="@drawable/ic_comment_white"
+                android:visibility="invisible"
+                app:backgroundTint="@color/pink_300"
+                app:fabSize="normal"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/replyContainer"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:elevation="8dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/pink_300"
+                    android:theme="@style/PinkEdit">
+
+                    <EditText
+                        android:id="@+id/replyEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="吐槽"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/sendReplyBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:enabled="false"
+                    android:onClick="@{viewModel::onClickSendReply}"
+                    android:text="发射"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

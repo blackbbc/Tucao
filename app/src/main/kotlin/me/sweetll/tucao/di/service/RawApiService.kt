@@ -81,4 +81,10 @@ interface RawApiService {
     fun support(@Query("commentid") commentId: String,
                 @Query("id") id: String): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.SEND_REPLY_URL)
+    fun sendReply(@Query("commentid") commentId: String,
+                  @Query("id") id: String,
+                  @Field("content") content: String): Observable<ResponseBody>
+
 }
