@@ -36,16 +36,6 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
         initSession()
     }
 
-    companion object {
-        @BindingAdapter("app:imageData")
-        @JvmStatic
-        fun loadImage(imageView: ImageView, bytes: ByteArray?) {
-            bytes?.let {
-                imageView.load(imageView.context, it)
-            }
-        }
-    }
-
     fun initSession() {
         rawApiService.login_get()
                 .subscribeOn(Schedulers.io())

@@ -99,20 +99,29 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/ic_comment_oval"
-            android:tint="@color/grey_600" />
 
-        <TextView
-            android:id="@+id/text_reply_num"
+        <LinearLayout
+            android:id="@+id/linear_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            tools:text="59"
-            android:textColor="@color/secondary_text"
-            android:textSize="10sp" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_comment_oval"
+                android:tint="@color/grey_600" />
+
+            <TextView
+                android:id="@+id/text_reply_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="59"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
 
         <LinearLayout

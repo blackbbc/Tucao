@@ -176,7 +176,7 @@
                 android:id="@+id/avatarImg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:imageUrl="@{viewModel.avatar}" />
+                app:avatar="@{viewModel.avatar}" />
 
             <TextView
                 android:id="@+id/usernameText"

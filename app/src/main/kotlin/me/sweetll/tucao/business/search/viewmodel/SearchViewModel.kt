@@ -85,8 +85,9 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
                     }
                 }, {
                     error ->
-                    activity.loadMoreData(null, Const.LOAD_MORE_FAIL)
+                    error.printStackTrace()
                     error.message?.toast()
+                    activity.loadMoreData(null, Const.LOAD_MORE_FAIL)
                 })
     }
 

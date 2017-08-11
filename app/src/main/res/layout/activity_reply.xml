@@ -208,15 +208,17 @@
                         android:background="@color/white"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:text="共14条回复"
+                        tools:text="共14条回复"
                         android:textColor="@color/primary_text"
                         android:textSize="14sp" />
 
                 </FrameLayout>
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/replyRecycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
 
             </LinearLayout>
 

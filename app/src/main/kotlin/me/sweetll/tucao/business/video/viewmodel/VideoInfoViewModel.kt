@@ -42,16 +42,6 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     var signature = ""
     var headerBg = ""
 
-    companion object {
-        @BindingAdapter("app:imageUrl")
-        @JvmStatic
-        fun loadImage(imageView: ImageView, url: String?) {
-            url?.let {
-                imageView.load(imageView.context, it, R.drawable.default_avatar)
-            }
-        }
-    }
-
     fun bindResult(result: Result) {
         this.result.set(result)
         this.isStar.set(checkStar(result))

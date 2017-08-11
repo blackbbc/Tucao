@@ -1,6 +1,7 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
+import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
 import me.sweetll.tucao.model.json.Result
@@ -38,5 +39,5 @@ interface JsonApiService {
     fun reply(@Query("commentid") commentId: String,
               @Query("replyid") replyId: String,
               @Query("page") page: Int,
-              @Query("num") num: Int)
+              @Query("num") num: Int): Observable<ReplyResponse>
 }

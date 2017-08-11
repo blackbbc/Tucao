@@ -18,7 +18,7 @@ object ApiConfig {
     const val SEARCH_API_URL = "search.php"
     const val VIEW_API_URL = "view.php"
     const val RANK_API_URL = "rank.php"
-    const val REPLY_API_URL = "index.php?m=comment&c=index&a=ajax"
+    const val REPLY_API_URL = "http://www.tucao.tv/index.php?m=comment&c=index&a=ajax"
 
     const val UPDATE_API_URL = "http://45.63.54.11:12450/api/app-portal/version"
 
