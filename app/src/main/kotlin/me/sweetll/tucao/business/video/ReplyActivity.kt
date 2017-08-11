@@ -7,17 +7,16 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.View
-import kotlinx.android.synthetic.main.danmu_video_land.*
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.video.model.Comment
-import me.sweetll.tucao.databinding.ActivityCommentsBinding
+import me.sweetll.tucao.databinding.ActivityReplyBinding
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.util.RelativeDateFormat
 
-class CommentsActivity : BaseActivity() {
-    lateinit var binding: ActivityCommentsBinding
+class ReplyActivity : BaseActivity() {
+    lateinit var binding: ActivityReplyBinding
 
     override fun getStatusBar(): View = binding.statusBar
 
@@ -31,7 +30,7 @@ class CommentsActivity : BaseActivity() {
         private const val ARG_COMMENT = "comment"
 
         fun intentTo(context: Context, commentId: String, comment: Comment, options: Bundle?) {
-            val intent = Intent(context, CommentsActivity::class.java)
+            val intent = Intent(context, ReplyActivity::class.java)
             intent.putExtra(ARG_COMMENT_ID, commentId)
             intent.putExtra(ARG_COMMENT, comment)
             context.startActivity(intent, options)
@@ -39,7 +38,7 @@ class CommentsActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_comments)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_reply)
         commentId = intent.getStringExtra(ARG_COMMENT_ID)
         comment = intent.getParcelableExtra(ARG_COMMENT)
 

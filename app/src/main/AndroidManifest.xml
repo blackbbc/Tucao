@@ -50,7 +50,7 @@
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".business.video.CommentsActivity"
+        <activity android:name=".business.video.ReplyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Me.Sweetll.Comments"/>
         <activity

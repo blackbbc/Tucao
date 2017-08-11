@@ -33,4 +33,10 @@ interface JsonApiService {
     fun update(@Query("appKey") appKey: String,
                @Query("appSecret") appSecret: String,
                @Query("versionCode") versionCode: Int): Observable<Version>
+
+    @GET(ApiConfig.REPLY_API_URL)
+    fun reply(@Query("commentid") commentId: String,
+              @Query("replyid") replyId: String,
+              @Query("page") page: Int,
+              @Query("num") num: Int)
 }

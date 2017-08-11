@@ -30,7 +30,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
-import me.sweetll.tucao.business.video.CommentsActivity
+import me.sweetll.tucao.business.video.ReplyActivity
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.CommentAdapter
 import me.sweetll.tucao.business.video.model.Comment
@@ -123,7 +123,7 @@ class VideoCommentsFragment: BaseFragment() {
                 android.support.v4.util.Pair.create(view, "transition_background"),
                 android.support.v4.util.Pair.create(view, "transition_comment"))
             val comment = commentAdapter.getItem(position)
-            CommentsActivity.intentTo(activity, commentId, comment, options.toBundle())
+            ReplyActivity.intentTo(activity, commentId, comment, options.toBundle())
         }
         commentAdapter.setOnItemChildClickListener {
             adapter, view, position ->
