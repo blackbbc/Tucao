@@ -10,10 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
 import android.text.method.ScrollingMovementMethod
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -92,6 +89,15 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     var mLastState = -1
     var needCorrectDanmu = false
     var isShowDanmu = true
+
+    private val DOUBLE_TAP_TIMEOUT = 300
+    private val DOUBLE_TAP_MIN_TIME = 40
+    private val DOUBLE_TAP_SLOP = 100
+    private val DOUBLE_TAP_SLOP_SQUARE = DOUBLE_TAP_SLOP * DOUBLE_TAP_SLOP
+
+    private var isDoubleTapping = false
+    private var currentDownEvent: MotionEvent? = null
+    private var previousUpEvent: MotionEvent? = null
 
     val codecHelpDialog: DialogPlus by lazy {
         val codecHelpView = LayoutInflater.from(context).inflate(R.layout.dialog_codec_help, null)
@@ -419,6 +425,44 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
                 mOrientationUtils.toggleLandReverse()
             }
         }
+    }
+
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        if (v.id == R.id.surface_container) {
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (currentDownEvent != null && previousUpEvent != null && isConsideredDoubleTap(currentDownEvent!!, previousUpEvent!!, event)) {
+                        isDoubleTapping = true
+                    }
+                    currentDownEvent?.recycle()
+                    currentDownEvent = MotionEvent.obtain(event)
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (isDoubleTapping) {
+                        if (currentState == GSYVideoPlayer.CURRENT_STATE_PLAYING || currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+                            mStartButton.performClick()
+                        }
+                    }
+                    previousUpEvent?.recycle()
+                    previousUpEvent = MotionEvent.obtain(event)
+                    isDoubleTapping = false
+                }
+            }
+        }
+
+        return super.onTouch(v, event)
+    }
+
+    private fun isConsideredDoubleTap(firstDown: MotionEvent, firstUp: MotionEvent,
+                                      secondDown: MotionEvent): Boolean {
+        val deltaTime = secondDown.eventTime - firstUp.eventTime
+        if (deltaTime > DOUBLE_TAP_TIMEOUT || deltaTime < DOUBLE_TAP_MIN_TIME) {
+            return false
+        }
+
+        val deltaX = firstDown.x - secondDown.x
+        val deltaY = firstDown.y - secondDown.y
+        return (deltaX * deltaX + deltaY * deltaY < DOUBLE_TAP_SLOP_SQUARE)
     }
 
     override fun setUp(url: String): Boolean {
