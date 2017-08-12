@@ -428,6 +428,10 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
+        if (mIfCurrentIsFullscreen && mLockCurScreen && mNeedLockFull) {
+            return super.onTouch(v, event)
+        }
+
         if (v.id == R.id.surface_container) {
             when (event.action and MotionEvent.ACTION_MASK) {
                 MotionEvent.ACTION_DOWN -> {
