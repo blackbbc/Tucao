@@ -40,6 +40,9 @@
             android:theme="@style/Translucent.Login"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".business.personal.PersonalActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -114,7 +117,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".business.personal.PersonalActivity"></activity>
     </application>
 
 </manifest>
