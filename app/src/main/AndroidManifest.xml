@@ -25,15 +25,17 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".business.home.MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".business.splash.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".business.home.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.login.LoginActivity"
             android:screenOrientation="portrait"

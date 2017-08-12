@@ -9,6 +9,13 @@
         <!--按钮颜色-->
         <item name="colorButtonNormal">@color/login_button</item>
     </style>
+    
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 
     <style name="Translucent.Search" parent="AppTheme">
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
