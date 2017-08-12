@@ -330,7 +330,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
             codecSwitch.setOnCheckedChangeListener {
-                button, checked ->
+                _, checked ->
                 PlayerConfig.saveHardCodec(checked)
             }
 
@@ -357,7 +357,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
             danmuEdit.setOnEditorActionListener {
-                v, actionId, event ->
+                _, _, _ ->
                 val danmuContent = danmuEdit.editableText.toString()
                 if (danmuContent.isNotEmpty()) {
                     sendDanmu(danmuContent)
@@ -421,7 +421,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         if (isIfCurrentIsFullscreen) {
             rotateSwitch.isChecked = mOrientationUtils.currentScreenType != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             rotateSwitch.setOnCheckedChangeListener {
-                button, checked ->
+                _, _ ->
                 mOrientationUtils.toggleLandReverse()
             }
         }

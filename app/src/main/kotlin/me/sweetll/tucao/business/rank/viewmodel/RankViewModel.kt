@@ -8,7 +8,7 @@ import me.sweetll.tucao.business.rank.RankActivity
 import me.sweetll.tucao.business.rank.event.ChangeRankFilterEvent
 import org.greenrobot.eventbus.EventBus
 
-class RankViewModel(rankActivity: RankActivity): BaseViewModel() {
+class RankViewModel(val activity: RankActivity): BaseViewModel() {
 
     fun onClickFilterDate(view: View) {
         if (view is CheckedTextView && !view.isChecked) {

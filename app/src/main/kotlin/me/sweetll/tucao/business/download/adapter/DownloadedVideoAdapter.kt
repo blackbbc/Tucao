@@ -39,7 +39,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = video.checked
                 checkBox.setOnCheckedChangeListener {
-                    compoundButton, checked ->
+                    _, checked ->
                     video.checked = checked
                     updateMenu()
                 }
@@ -79,13 +79,12 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = part.checked
                 checkBox.setOnCheckedChangeListener {
-                    compoundButton, checked ->
+                    _, checked ->
                     part.checked = checked
                     updateMenu()
                 }
 
                 helper.itemView.setOnClickListener {
-                    view ->
                     if (part.checkable) {
                         checkBox.isChecked = !checkBox.isChecked
                         val parentVideo = data.find {

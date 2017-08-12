@@ -77,11 +77,11 @@ class ChannelDetailFragment : BaseFragment() {
             loadMoreData()
         }, binding.videoRecycler)
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, itemView: View, position: Int) {
                 val result: Result = helper.getItem(position) as Result
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val coverImg = view.findViewById<ImageView>(R.id.img_thumb)
-                    val titleText = view.findViewById<View>(R.id.text_title)
+                    val coverImg = itemView.findViewById<ImageView>(R.id.img_thumb)
+                    val titleText = itemView.findViewById<View>(R.id.text_title)
                     val p1: Pair<View, String> = Pair.create(coverImg, "cover")
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat

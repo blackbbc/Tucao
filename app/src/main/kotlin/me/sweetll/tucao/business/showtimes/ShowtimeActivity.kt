@@ -114,7 +114,7 @@ class ShowtimeActivity : BaseActivity() {
         var yOffset = 0f
         var itemCount = 0
         data.forEachIndexed {
-            position, showtimeSection ->
+            _, showtimeSection ->
 
             if (showtimeSection.isHeader) {
                 itemCount = 0

@@ -47,6 +47,10 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE'
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     aaptOptions {
         additionalParameters "--no-version-vectors"
     }

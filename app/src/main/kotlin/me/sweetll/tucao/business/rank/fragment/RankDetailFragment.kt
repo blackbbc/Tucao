@@ -103,7 +103,7 @@ class RankDetailFragment : BaseFragment() {
                 .sanitizeJson()
                 .map {
                     response ->
-                    response?.values?.toList()
+                    response.values.toList()
                 }
                 .doAfterTerminate { binding.swipeRefresh.isRefreshing = false }
                 .subscribe({

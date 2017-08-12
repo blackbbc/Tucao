@@ -109,7 +109,6 @@ class CustomBottomSheetDialog: AppCompatDialog {
             bottomSheet.addView(inflateView, params)
         }
         coordinator.findViewById<View>(R.id.touch_outside).setOnClickListener {
-            view ->
             if (mCancelable && isShowing && shouldWindowCloseOnTouchOutside()) {
                 cancel()
             }
@@ -138,15 +137,11 @@ class CustomBottomSheetDialog: AppCompatDialog {
 
     fun shouldWindowCloseOnTouchOutside(): Boolean {
         if (!mCanceledOnTouchOutsideSet) {
-            if (Build.VERSION.SDK_INT < 11) {
-                mCanceledOnTouchOutside = true
-            } else {
-                val a = context.obtainStyledAttributes(
-                        intArrayOf(android.R.attr.windowCloseOnTouchOutside)
-                )
-                mCanceledOnTouchOutside = a.getBoolean(0, true)
-                a.recycle()
-            }
+            val a = context.obtainStyledAttributes(
+                    intArrayOf(android.R.attr.windowCloseOnTouchOutside)
+            )
+            mCanceledOnTouchOutside = a.getBoolean(0, true)
+            a.recycle()
             mCanceledOnTouchOutsideSet = true
         }
         return mCanceledOnTouchOutside
@@ -162,7 +157,7 @@ class CustomBottomSheetDialog: AppCompatDialog {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             val translationY = Math.max(0f, -slideOffset)
             mBottomLinear?.let {
-                ViewCompat.setTranslationY(mBottomLinear, translationY)
+                it.translationY = translationY
             }
         }
     }

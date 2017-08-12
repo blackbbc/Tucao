@@ -3,6 +3,7 @@ package me.sweetll.tucao.business.home
 import android.accounts.AccountManager
 import android.app.Activity
 import android.app.Dialog
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -69,9 +70,15 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
+        const val PRIMARY_CHANNEL = "default"
+
         const val LOGIN_REQUEST = 1
 
         const val NOTIFICATION_ID = 10
+    }
+
+    val notifyMgr by lazy {
+        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     lateinit var binding : ActivityMainBinding
@@ -170,6 +177,11 @@ class MainActivity : BaseActivity() {
                 .inject(this)
 
         EventBus.getDefault().register(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(PRIMARY_CHANNEL, "Primary Channel", NotificationManager.IMPORTANCE_DEFAULT)
+            notifyMgr.createNotificationChannel(channel)
+        }
 
         initDialog()
 
@@ -371,9 +383,8 @@ class MainActivity : BaseActivity() {
                     // TODO: 下载失败
                 })
 
-        val builder = NotificationCompat.Builder(this)
+        val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setSmallIcon(R.mipmap.ic_launcher)
-        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         processor.sample(500, TimeUnit.MILLISECONDS)
                 .subscribe {
@@ -466,9 +477,8 @@ class MainActivity : BaseActivity() {
                     // TODO: 下载失败
                 })
 
-        val builder = NotificationCompat.Builder(this)
+        val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setSmallIcon(R.mipmap.ic_launcher)
-        val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         processor.sample(500, TimeUnit.MILLISECONDS)
                 .subscribe {

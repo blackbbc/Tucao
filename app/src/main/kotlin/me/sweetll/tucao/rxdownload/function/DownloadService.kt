@@ -3,7 +3,9 @@ package me.sweetll.tucao.rxdownload.function
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
@@ -42,6 +44,8 @@ import java.util.concurrent.TimeUnit
 class DownloadService: Service() {
 
     companion object {
+        const val PRIMARY_CHANNEL = "default"
+
         const val ONGOING_NOTIFICATION_ID = 1
         const val COMPLETED_NOTIFICATION_ID = 2
         const val FAILED_NOTIFICATION_ID =3
@@ -49,6 +53,10 @@ class DownloadService: Service() {
         const val ACTION_PAUSE = "pause"
         const val ACTION_CANCEL = "cancel"
         const val ACTION_URL = "url"
+    }
+
+    val notifyMgr by lazy {
+        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     lateinit var binder: DownloadBinder
@@ -79,6 +87,11 @@ class DownloadService: Service() {
         Log.d("DownloadService", "On Create")
         super.onCreate()
         binder = DownloadBinder()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(PRIMARY_CHANNEL, "Primary Channel", NotificationManager.IMPORTANCE_DEFAULT)
+            notifyMgr.createNotificationChannel(channel)
+        }
 
         syncFromDb()
     }
@@ -333,7 +346,7 @@ class DownloadService: Service() {
                 cancelIntent.putExtra(ACTION_URL, url)
                 val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                val builder = NotificationCompat.Builder(this)
+                val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(event.taskName)
                         .setContentIntent(pendingIntent)
@@ -363,7 +376,7 @@ class DownloadService: Service() {
 
                 val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                val builder = NotificationCompat.Builder(this)
+                val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setProgress(0, 0, false)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(event.taskName)
@@ -371,8 +384,6 @@ class DownloadService: Service() {
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
-
-                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 stopForeground(true)
 
@@ -389,7 +400,7 @@ class DownloadService: Service() {
 
                 val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                val builder = NotificationCompat.Builder(this)
+                val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setProgress(0, 0, false)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(event.taskName)
@@ -397,8 +408,6 @@ class DownloadService: Service() {
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
                 notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
-
-                val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                 stopForeground(true)
 

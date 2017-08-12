@@ -28,7 +28,6 @@ class BannerHolder: Holder<Banner> {
         val bg = rootView.findViewById<View>(R.id.bg)
         bannerImg.load(context, banner.imgUrl)
         bannerImg.setOnClickListener {
-            view ->
             if (banner.hid != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val p1: Pair<View, String> = Pair.create(bannerImg, "cover")

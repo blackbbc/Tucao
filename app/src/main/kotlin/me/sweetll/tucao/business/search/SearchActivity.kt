@@ -76,7 +76,7 @@ class SearchActivity : BaseActivity() {
         binding.viewModel = viewModel
 
         binding.searchEdit.setOnEditorActionListener {
-            view, actionId, event ->
+            view, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.onClickSearch(view)
                 view.clearFocus()

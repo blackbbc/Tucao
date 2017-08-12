@@ -3,6 +3,7 @@ package me.sweetll.tucao.widget
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 
 class HorizontalDividerBuilder private constructor(private val context: Context) {
 
@@ -12,7 +13,7 @@ class HorizontalDividerBuilder private constructor(private val context: Context)
     private var rightPadding: Int = 0
 
     fun setDivider(@DrawableRes dividerRes: Int): HorizontalDividerBuilder {
-        this.divider = context.resources.getDrawable(dividerRes)
+        this.divider = ContextCompat.getDrawable(context, dividerRes)
         return this
     }
 
