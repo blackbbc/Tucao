@@ -35,4 +35,8 @@
     <color name="blue_500">#2196F3</color>
     
     <color name="green_500">#4CAF50</color>
+
+    <color name="fab_heart_empty">#ffffffff</color>
+    <color name="fab_heart_progress_bar">#deffffff</color> <!-- 87% white-->
+    <color name="fab_heart_full">#ffffffff</color>
 </resources>

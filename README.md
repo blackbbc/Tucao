@@ -76,7 +76,7 @@
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
 
 ## 开发指南
-Android Studio 版本: [3.0 Canary 9](https://developer.android.com/studio/preview/index.html)
+Android Studio 版本: [3.0 Beta 1](https://developer.android.com/studio/preview/index.html)
 
 由于项目中使用了[子模块](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
 ```

@@ -298,7 +298,7 @@ public class DrawHandler extends Handler {
                     break;
                 }
             case PAUSE:
-                removeMessages(DrawHandler.RESUME);
+//                removeMessages(DrawHandler.RESUME);
                 removeMessages(UPDATE);
                 if (drawTask != null) {
                     drawTask.onPlayStateChanged(IDrawTask.PLAY_STATE_PAUSE);

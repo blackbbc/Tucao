@@ -85,22 +85,14 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:onClick="@{viewModel::onClickStar}"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp">
+                    android:orientation="vertical">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/white"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_star_border"
-                            android:tint="@color/pink_500" />
-
-                    </FrameLayout>
+                    <me.sweetll.tucao.widget.CheckableImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:checked="@{viewModel.isStar}"
+                        android:src="@drawable/asl_fab_heart"
+                        android:tint="@color/pink_500" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -125,22 +117,15 @@
                     android:onClick="@{viewModel::onClickDownload}"
                     android:orientation="vertical"
                     android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp">
+                    android:paddingStart="16dp">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/white"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_file_download_black"
-                            android:tint="@color/blue_500" />
-
-                    </FrameLayout>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_file_download_black"
+                        android:tint="@color/blue_500" />
 
                     <TextView
                         android:layout_width="wrap_content"
