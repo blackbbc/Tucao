@@ -45,10 +45,10 @@
 
 ## 待做列表
 - [x] 修复下载界面只显示1个字符的问题（V1.1.1）
-- [x] 一些视觉上的优化（V1.1.1）
+- [x] 添加部分动效（V1.1.1）
 - [x] 省流量更新变为可选项（V1.1.1）
 - [x] 修复输入验证码时的输入法问题（V1.1.1）
-- [x] 修复部分视频没有声音的问题——天上掉下个小本子（V1.1.1）
+- [x] 修复镇站之宝没有声音的问题（V1.1.1）
 - [x] 添加双击暂停手势（V1.1.1）
 - [x] 点赞回复（V1.1.1）
 - [x] 查看楼中楼（V1.1.1）
@@ -76,7 +76,7 @@
 - [更新历史](https://github.com/blackbbc/Tucao/blob/master/changelog.md)
 
 ## 开发指南
-Android Studio 版本: [3.0 Beta 1](https://developer.android.com/studio/preview/index.html)
+Android Studio 版本: [3.0](https://developer.android.com/studio/preview/index.html)
 
 由于项目中使用了[子模块](https://git-scm.com/book/zh/v1/Git-工具-子模块)，请务必使用以下命令克隆项目
 ```

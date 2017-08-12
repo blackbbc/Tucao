@@ -50,10 +50,11 @@
             android:name=".business.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".business.video.ReplyActivity"
+        <activity
+            android:name=".business.video.ReplyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Me.Sweetll.Comments"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".business.search.SearchActivity"
             android:screenOrientation="portrait"
@@ -113,6 +114,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".business.personal.PersonalActivity"></activity>
     </application>
 
 </manifest>

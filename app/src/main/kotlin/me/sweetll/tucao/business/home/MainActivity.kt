@@ -76,6 +76,8 @@ class MainActivity : BaseActivity() {
     lateinit var binding : ActivityMainBinding
     lateinit var drawerToggle: ActionBarDrawerToggle
 
+    var lastBackTime = 0L
+
     @Inject
     lateinit var jsonApiService: JsonApiService
 
@@ -528,5 +530,15 @@ class MainActivity : BaseActivity() {
                                 .show()
                     }
                 })
+    }
+
+    override fun onBackPressed() {
+        var currentBackTime = System.currentTimeMillis()
+        if (currentBackTime - lastBackTime < 2000) {
+            super.onBackPressed()
+        } else {
+            lastBackTime = currentBackTime
+            "再按一次退出".toast()
+        }
     }
 }
