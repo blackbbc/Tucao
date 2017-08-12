@@ -42,6 +42,7 @@ import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
+import me.sweetll.tucao.business.personal.PersonalActivity
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.databinding.ActivityMainBinding
 import me.sweetll.tucao.di.service.ApiConfig
@@ -195,7 +196,8 @@ class MainActivity : BaseActivity() {
                 options.putInt(LoginActivity.ARG_FAB_RES_ID, R.drawable.default_avatar)
                 LoginActivity.intentTo(this, LOGIN_REQUEST, options)
             } else {
-                logoutDialog.show()
+                PersonalActivity.intentTo(this)
+//                logoutDialog.show()
             }
         }
 

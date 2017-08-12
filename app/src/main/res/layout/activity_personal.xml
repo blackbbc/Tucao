@@ -4,9 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.sweetll.tucao.business.personal.PersonalActivity">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.personal.viewmodel.PersonalViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/grey_100"
         android:orientation="vertical">
 
         <View
@@ -24,6 +31,158 @@
             android:background="@color/colorPrimary"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:elevation="2dp"
+            android:onClick="@{viewModel::onClickAvatar}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="头像"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|end"
+                app:avatar="@{viewModel.avatar}"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:elevation="2dp"
+            android:onClick="@{viewModel::onClickNickname}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="昵称"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                tools:text="幻绝"
+                android:text="@{viewModel.nickname}"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="UUID"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                tools:text="12345678"
+                android:text="@{viewModel.uuid}"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:orientation="horizontal"
+            android:elevation="2dp"
+            android:onClick="@{viewModel::onClickSignature}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="center_vertical"
+                android:text="个性签名"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿嘿"
+                android:text="@{viewModel.signature}"
+                android:textSize="14sp"
+                android:textColor="@color/primary_text"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="修改密码"
+            android:textSize="14sp"
+            android:textColor="@color/primary_text"
+            android:onClick="@{viewModel::onClickChangePassword}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="退出登陆"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"
+            android:onClick="@{viewModel::onClickLogout}"/>
 
     </LinearLayout>
 
