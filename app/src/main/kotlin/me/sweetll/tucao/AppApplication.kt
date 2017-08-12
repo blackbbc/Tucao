@@ -1,6 +1,7 @@
 package me.sweetll.tucao
 
 import android.support.multidex.MultiDexApplication
+import android.support.v7.app.AppCompatDelegate
 import com.github.moduth.blockcanary.BlockCanary
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
@@ -20,6 +21,10 @@ class AppApplication : MultiDexApplication() {
 
         fun get(): AppApplication {
             return INSTANCE
+        }
+
+        init {
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         }
     }
 

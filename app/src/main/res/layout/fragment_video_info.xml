@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="me.sweetll.tucao.business.video.viewmodel.VideoInfoViewModel" />
@@ -88,10 +86,11 @@
                     android:orientation="vertical">
 
                     <me.sweetll.tucao.widget.CheckableImageView
+                        android:id="@+id/starImg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        tools:src="@drawable/asl_fab_heart_21"
                         android:checked="@{viewModel.isStar}"
-                        android:src="@drawable/asl_fab_heart"
                         android:tint="@color/pink_500" />
 
                     <TextView

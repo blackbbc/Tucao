@@ -1,14 +1,14 @@
 package me.sweetll.tucao.widget;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.Checkable;
-import android.widget.ImageView;
 
 /**
  * Created by sweet on 8/12/17.
  */
-public class CheckableImageView extends ImageView implements Checkable {
+public class CheckableImageView extends AppCompatImageView implements Checkable {
     private boolean mChecked;
 
     private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };

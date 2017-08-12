@@ -67,6 +67,10 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     fun getCommentFab(): FloatingActionButton = binding.commentFab
 
+    fun collapse() {
+        binding.appBar.setExpanded(false)
+    }
+
     companion object {
         private val ARG_RESULT = "result"
         private val ARG_HID = "hid"

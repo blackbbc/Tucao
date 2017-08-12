@@ -679,12 +679,12 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         }
         when (mCurrentState) {
             GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START, GSYVideoPlayer.CURRENT_STATE_PAUSE -> {
-                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING || mLastState == -1) {
+                if (mLastState == mCurrentState) {
                     pauseDanmu()
                 }
             }
             GSYVideoPlayer.CURRENT_STATE_PLAYING  -> {
-                if (mLastState == GSYVideoPlayer.CURRENT_STATE_PAUSE || mLastState == GSYVideoPlayer.CURRENT_STATE_PLAYING_BUFFERING_START || mLastState == -1) {
+                if (mLastState != mCurrentState) {
                     resumeDanmu()
                 }
             }

@@ -15,7 +15,8 @@
   limitations under the License.
   -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/liked"
         android:state_checked="true"
@@ -24,4 +25,15 @@
     <item
         android:id="@+id/not_liked"
         android:drawable="@drawable/ic_heart_empty_56dp" />
-</selector>
+
+    <transition
+        android:fromId="@id/not_liked"
+        android:toId="@id/liked"
+        android:drawable="@drawable/avd_heart_fill" />
+
+    <transition
+        android:fromId="@id/liked"
+        android:toId="@id/not_liked"
+        android:drawable="@drawable/avd_heart_empty" />
+
+</animated-selector>

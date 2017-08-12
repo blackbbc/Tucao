@@ -74,6 +74,10 @@ class VideoCommentsFragment: BaseFragment() {
 
     fun getCommentFab(): FloatingActionButton = (activity as VideoActivity).getCommentFab()
 
+    fun collapse() {
+        (activity as VideoActivity).collapse()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -227,7 +231,7 @@ class VideoCommentsFragment: BaseFragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (canInit != 3) return
+        if (canInit != 3 || binding.commentContainer.visibility == View.VISIBLE) return
         if (isVisibleToUser) {
             if (binding.clickToLoadImg.visibility != View.VISIBLE) {
                 getCommentFab().show()
@@ -245,6 +249,7 @@ class VideoCommentsFragment: BaseFragment() {
     }
 
     fun startFabTransform() {
+        collapse()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getCommentFab().visibility = View.GONE
             binding.commentContainer.visibility = View.VISIBLE

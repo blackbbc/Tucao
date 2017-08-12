@@ -1,8 +1,10 @@
 package me.sweetll.tucao.business.video.fragment
 
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,6 +42,11 @@ class VideoInfoFragment: BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_video_info, container, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding.starImg.setImageResource(R.drawable.asl_fab_heart_21)
+        } else {
+            binding.starImg.setImageResource(R.drawable.asl_fab_heart)
+        }
         viewModel = VideoInfoViewModel(this)
         binding.viewModel = viewModel
         return binding.root
