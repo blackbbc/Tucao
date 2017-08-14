@@ -12,6 +12,7 @@ import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.NotificationCompat
@@ -63,6 +64,7 @@ import org.jsoup.nodes.Document
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
+import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 import javax.inject.Inject
@@ -106,6 +108,8 @@ class MainActivity : BaseActivity() {
     lateinit var logoutDialog: DialogPlus
 
     lateinit var downloadUrl: String
+
+    lateinit var apkFile: File
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
@@ -321,6 +325,10 @@ class MainActivity : BaseActivity() {
     }
 
     fun fullUpdate() {
+        if (apkFile.exists()) {
+            installFromFile(apkFile)
+            return
+        }
         val processor = BehaviorProcessor.create<DownloadEvent>()
         processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "新版本"))
         rawApiService.download(downloadUrl)
@@ -344,8 +352,7 @@ class MainActivity : BaseActivity() {
 
                     try {
                         val inputStream = BufferedInputStream(body.byteStream())
-                        val file = File.createTempFile("tucao", ".apk", cacheDir)
-                        val outputStream = BufferedOutputStream(file.outputStream())
+                        val outputStream = BufferedOutputStream(apkFile.outputStream())
 
                         count = inputStream.read(data)
                         while (count != -1) {
@@ -361,18 +368,7 @@ class MainActivity : BaseActivity() {
                         inputStream.close()
                         outputStream.close()
 
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
-                        val uri: Uri
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        } else {
-                            uri = Uri.fromFile(file)
-                        }
-                        intent.setDataAndType(uri, "application/vnd.android.package-archive")
-                        startActivity(intent)
+                        installFromFile(apkFile)
                     } catch (error: Exception) {
                         error.printStackTrace()
                         // TODO: 下载失败
@@ -408,6 +404,9 @@ class MainActivity : BaseActivity() {
     }
 
     fun saveUpdate() {
+        if (apkFile.exists()) {
+            installFromFile(apkFile)
+        }
         val processor = BehaviorProcessor.create<DownloadEvent>()
         processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "补丁包"))
         rawApiService.download(downloadUrl)
@@ -452,21 +451,9 @@ class MainActivity : BaseActivity() {
                         val info = packageManager.getApplicationInfo(packageName, 0)
                         val oldFile = File(info.sourceDir)
                         val patchIn = GZIPInputStream(file.inputStream())
-                        val newFile = File.createTempFile("tucao", ".apk", cacheDir)
-                        FileByFileV1DeltaApplier().applyDelta(oldFile, patchIn, newFile.outputStream())
+                        FileByFileV1DeltaApplier().applyDelta(oldFile, patchIn, apkFile.outputStream())
 
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
-                        val uri: Uri
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", newFile)
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        } else {
-                            uri = Uri.fromFile(newFile)
-                        }
-                        intent.setDataAndType(uri, "application/vnd.android.package-archive")
-                        startActivity(intent)
+                        installFromFile(apkFile)
                     } catch (error: Exception) {
                         error.printStackTrace()
                         // TODO: 下载失败
@@ -505,6 +492,22 @@ class MainActivity : BaseActivity() {
                 }
     }
 
+    fun installFromFile(file: File) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        val uri: Uri
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        } else {
+            Runtime.getRuntime().exec("chmod 666 ${file.absolutePath}")
+            uri = Uri.fromFile(file)
+        }
+        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+        startActivity(intent)
+    }
+
     fun checkUpdate(quiet: Boolean) {
         jsonApiService.update("3990dcd7-49e1-4040-92e9-912082dc1896", "3d580ea3-54e9-4659-9131-a78c56cf9b86", BuildConfig.VERSION_CODE)
                 .subscribeOn(Schedulers.io())
@@ -524,6 +527,7 @@ class MainActivity : BaseActivity() {
                             saveUpdateBtn.visibility = View.VISIBLE
                         }
                         downloadUrl = version.apkUrl
+                        apkFile = File(filesDir, "吐槽_${version.versionName}.apk")
                         updateDialog.show()
                     } else {
                         if (!quiet) {
