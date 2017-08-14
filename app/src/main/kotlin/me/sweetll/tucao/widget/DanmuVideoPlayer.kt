@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.os.SystemClock
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
 import android.text.method.ScrollingMovementMethod
@@ -526,7 +527,9 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
         })
         danmakuView!!.bindClockProvider {
-            currentPositionWhenPlaying.toLong()
+            SystemClock.uptimeMillis()
+            // TODO: 暂时禁止变速功能
+//            currentPositionWhenPlaying.toLong()
         }
         danmakuView!!.prepare(danmuParser, danmakuContext)
         danmakuView!!.enableDanmakuDrawingCache(true)
