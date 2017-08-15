@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
@@ -151,13 +151,13 @@
     </LinearLayout>
 
     <!--<ProgressBar-->
-        <!--android:id="@+id/bottom_progressbar"-->
-        <!--style="?android:attr/progressBarStyleHorizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1.5dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:max="100"-->
-        <!--android:progressDrawable="@drawable/video_progress" />-->
+    <!--android:id="@+id/bottom_progressbar"-->
+    <!--style="?android:attr/progressBarStyleHorizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1.5dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:max="100"-->
+    <!--android:progressDrawable="@drawable/video_progress"/>-->
 
     <moe.codeest.enviews.ENDownloadView
         android:id="@+id/loading"
@@ -222,43 +222,36 @@
             tools:visibility="visible" />
     </LinearLayout>
 
-    <!--右侧设置栏-->
-    <!--<ScrollView-->
-        <!--android:id="@+id/setting_layout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginBottom="80dp"-->
-        <!--android:translationX="250dp"-->
-        <!--tools:translationX="0dp">-->
+    <LinearLayout
+        android:id="@+id/setting_layout"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="80dp"
+        android:background="#99000000"
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:translationX="250dp"
+        tools:translationX="0dp">
 
-        <LinearLayout
-            android:id="@+id/setting_layout"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="80dp"
-            android:background="#99000000"
-            android:orientation="vertical"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:translationX="250dp"
-            tools:translationX="0dp">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="2dp"/>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabMode="fixed"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager_setting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    </LinearLayout>
 
-        </LinearLayout>
-
-    <!--</ScrollView>-->
     <!--左侧跳转栏-->
     <LinearLayout
         android:id="@+id/linear_jump"
