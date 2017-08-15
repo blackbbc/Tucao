@@ -2,10 +2,13 @@ package me.sweetll.tucao.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.os.Handler
+import android.os.Message
 import android.os.SystemClock
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
@@ -50,18 +53,19 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var settingLayout: View
     lateinit var switchDanmu: TextView
     lateinit var settingButton: Button
-    lateinit var danmuOpacityText: TextView
-    lateinit var danmuOpacitySeek: SeekBar
-    lateinit var danmuSizeText: TextView
-    lateinit var danmuSizeSeek: SeekBar
-    lateinit var danmuSpeedText: TextView
-    lateinit var danmuSpeedSeek: SeekBar
-    lateinit var rotateSwitch: SwitchCompat
-    lateinit var codecSwitch: SwitchCompat
-    lateinit var codecHelpImg: ImageView
 
-    lateinit var speedSeek: BubbleSeekBar
-    lateinit var speedText: TextView
+//    lateinit var danmuOpacityText: TextView
+//    lateinit var danmuOpacitySeek: SeekBar
+//    lateinit var danmuSizeText: TextView
+//    lateinit var danmuSizeSeek: SeekBar
+//    lateinit var danmuSpeedText: TextView
+//    lateinit var danmuSpeedSeek: SeekBar
+//    lateinit var rotateSwitch: SwitchCompat
+//    lateinit var codecSwitch: SwitchCompat
+//    lateinit var codecHelpImg: ImageView
+
+//    lateinit var speedSeek: BubbleSeekBar
+//    lateinit var speedText: TextView
 
     lateinit var closeImg: ImageView
     lateinit var sendDanmuText: TextView
@@ -74,31 +78,52 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
     lateinit var jumpTimeText: TextView
     lateinit var jumpText: TextView
 
-    var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
-    var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
-    var danmuSpeedProgress = PlayerConfig.loadDanmuSpeed() // 1.00 0.3~2.00
+//    var danmuSizeProgress = PlayerConfig.loadDanmuSize() // 1.00 0.50~2.00
+//    var danmuOpacityProgress = PlayerConfig.loadDanmuOpacity() // 100% 20%~100%
+//    var danmuSpeedProgress = PlayerConfig.loadDanmuSpeed() // 1.00 0.3~2.00
 
-    fun Int.formatDanmuSizeToString(): String = String.format("%.2f", this.formatDanmuSizeToFloat())
-    fun Int.formatDanmuSizeToFloat(): Float = (this + 50) / 100f
+//    fun Int.formatDanmuSizeToString(): String = String.format("%.2f", this.formatDanmuSizeToFloat())
+//    fun Int.formatDanmuSizeToFloat(): Float = (this + 50) / 100f
 
-    fun Int.formatDanmuOpacityToString(): String = String.format("%d%%", this + 20)
-    fun Int.formatDanmuOpacityToFloat(): Float = (this + 20) / 100f
+//    fun Int.formatDanmuOpacityToString(): String = String.format("%d%%", this + 20)
+//    fun Int.formatDanmuOpacityToFloat(): Float = (this + 20) / 100f
 
-    fun Int.formatDanmuSpeedToString(): String = String.format("%.2f", this.formatDanmuSpeedToFloat())
-    fun Int.formatDanmuSpeedToFloat(): Float = (this + 30) / 100f
+//    fun Int.formatDanmuSpeedToString(): String = String.format("%.2f", this.formatDanmuSpeedToFloat())
+//    fun Int.formatDanmuSpeedToFloat(): Float = (this + 30) / 100f
 
     var mLastState = -1
     var needCorrectDanmu = false
     var isShowDanmu = true
 
-    private val DOUBLE_TAP_TIMEOUT = 300
-    private val DOUBLE_TAP_MIN_TIME = 40
-    private val DOUBLE_TAP_SLOP = 100
-    private val DOUBLE_TAP_SLOP_SQUARE = DOUBLE_TAP_SLOP * DOUBLE_TAP_SLOP
+    companion object {
+        const val TAP = 1
+
+        const val DOUBLE_TAP_TIMEOUT = 300L
+        const val DOUBLE_TAP_MIN_TIME = 40L
+        const val DOUBLE_TAP_SLOP = 100L
+        const val DOUBLE_TAP_SLOP_SQUARE = DOUBLE_TAP_SLOP * DOUBLE_TAP_SLOP
+    }
 
     private var isDoubleTapping = false
+    private var isStillDown = false
+    private var deferConfirmSingleTap = false
     private var currentDownEvent: MotionEvent? = null
     private var previousUpEvent: MotionEvent? = null
+
+    val gestureHandler = @SuppressLint("HandlerLeak")
+    object: Handler() {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                TAP -> {
+                    if (!isStillDown) {
+                        onSingleTapConfirmed()
+                    } else {
+                        deferConfirmSingleTap = true
+                    }
+                }
+            }
+        }
+    }
 
     val codecHelpDialog: DialogPlus by lazy {
         val codecHelpView = LayoutInflater.from(context).inflate(R.layout.dialog_codec_help, null)
@@ -436,21 +461,34 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         if (v.id == R.id.surface_container) {
             when (event.action and MotionEvent.ACTION_MASK) {
                 MotionEvent.ACTION_DOWN -> {
-                    if (currentDownEvent != null && previousUpEvent != null && isConsideredDoubleTap(currentDownEvent!!, previousUpEvent!!, event)) {
+                    val hadTapMessage = gestureHandler.hasMessages(TAP)
+                    if (hadTapMessage) {
+                        gestureHandler.removeMessages(TAP)
+                    }
+
+                    if (currentDownEvent != null && previousUpEvent != null && hadTapMessage &&
+                            isConsideredDoubleTap(currentDownEvent!!, previousUpEvent!!, event)) {
                         isDoubleTapping = true
+                    } else {
+                        gestureHandler.sendEmptyMessageDelayed(TAP, DOUBLE_TAP_TIMEOUT)
                     }
                     currentDownEvent?.recycle()
                     currentDownEvent = MotionEvent.obtain(event)
+
+                    isStillDown = true
+                    deferConfirmSingleTap = false
                 }
                 MotionEvent.ACTION_UP -> {
+                    isStillDown = false
                     if (isDoubleTapping) {
-                        if (currentState == GSYVideoPlayer.CURRENT_STATE_PLAYING || currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
-                            mStartButton.performClick()
-                        }
+                        onDoubleTap()
+                    } else if (deferConfirmSingleTap) {
+                        onSingleTapConfirmed()
                     }
                     previousUpEvent?.recycle()
                     previousUpEvent = MotionEvent.obtain(event)
                     isDoubleTapping = false
+                    deferConfirmSingleTap = false
                 }
             }
         }
@@ -468,6 +506,19 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         val deltaX = firstDown.x - secondDown.x
         val deltaY = firstDown.y - secondDown.y
         return (deltaX * deltaX + deltaY * deltaY < DOUBLE_TAP_SLOP_SQUARE)
+    }
+
+    private fun onDoubleTap() {
+        if (currentState == GSYVideoPlayer.CURRENT_STATE_PLAYING || currentState == GSYVideoPlayer.CURRENT_STATE_PAUSE) {
+            mStartButton.performClick()
+        }
+    }
+
+    private fun onSingleTapConfirmed() {
+        startDismissControlViewTimer()
+        if (!mChangePosition && !mChangeVolume && !mBrightness) {
+            onClickUiToggle()
+        }
     }
 
     override fun setUp(url: String): Boolean {
