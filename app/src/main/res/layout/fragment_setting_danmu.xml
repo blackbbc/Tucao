@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:background="#99000000"
     tools:layout_gravity="end"
-    tools:layout_width="250dp"
+    tools:layout_width="280dp"
     tools:paddingTop="25dp">
 
     <LinearLayout

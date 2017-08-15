@@ -4,10 +4,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_width="250dp"
+    tools:layout_width="280dp"
     tools:paddingTop="25dp"
     tools:layout_gravity="end"
     tools:background="#99000000"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="按关键词屏蔽"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/PinkSwitch"
+            tools:checked="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="关键词"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textSize="14sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="添加"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"/>
 
 </LinearLayout>
