@@ -23,6 +23,7 @@
             android:textSize="14sp"/>
 
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_block"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/PinkSwitch"
@@ -37,6 +38,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/keyword_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,6 +49,7 @@
             android:textSize="14sp"/>
 
         <Button
+            android:id="@+id/btn_add_keyword"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="添加"
@@ -56,6 +59,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_block_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="12dp"/>
