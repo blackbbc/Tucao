@@ -108,6 +108,10 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
                 })
     }
 
+    fun onClickForgotPassword(view: View) {
+        // TODO: 忘记密码
+    }
+
     fun parseLoginResult(doc: Document): Pair<Int, String>{
         val content = doc.body().text()
         if ("成功" in content) {
