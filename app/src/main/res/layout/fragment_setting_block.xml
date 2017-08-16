@@ -38,7 +38,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/keyword_edit"
+            android:id="@+id/edit_keyword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter
 import android.widget.ImageView
 import me.sweetll.tucao.R
 
-object DataBindingHelpers {
+object DataBindingAdapters {
     @BindingAdapter("app:avatar")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String?) {
