@@ -103,8 +103,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
             if (item != null && item!!.text != null)
                 if (item!!.duration != null) {
                     val tagName = if (localName.isNotEmpty()) localName else qName
-                    if ("d" == tagName) {
-//                        item!!.visibility = if (blockList.any { it in item!!.text }) BaseDanmaku.INVISIBLE else BaseDanmaku.VISIBLE
+                    if ("d" == tagName && blockList.all { it !in item!!.text }) {
                         item!!.timer = mTimer
                         item!!.flags = mContext.mGlobalFlagValues
                         val lock = result.obtainSynchronizer()

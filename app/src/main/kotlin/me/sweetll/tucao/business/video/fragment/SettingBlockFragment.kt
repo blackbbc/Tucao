@@ -59,6 +59,7 @@ class SettingBlockFragment(val player: DanmuVideoPlayer): BaseFragment() {
 
         addKeywordBtn.setOnClickListener {
             val keyword = keywordEdit.text.toString()
+            keywordEdit.setText("")
             BlockListHelpers.add(keyword)
             blockListAdapter.addData(0, keyword)
         }
