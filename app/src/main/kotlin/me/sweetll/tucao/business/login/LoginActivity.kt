@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity() {
         setupAccountAutocomplete()
 
         val validEmail = RxTextView.textChanges(binding.emailEdit)
-                .map { text -> Patterns.EMAIL_ADDRESS.matcher(text).matches() }
+                .map { text -> text.isNotEmpty() }
         val validPassword = RxTextView.textChanges(binding.passwordEdit)
                 .map { text -> text.isNotEmpty() }
         val validCode = RxTextView.textChanges(binding.codeEdit)

@@ -208,7 +208,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="@{viewModel.searchHistoryVisibility}"
-                            tools:listitem="@layout/item_search_history" />
+                            tools:listitem="@layout/item_block_list" />
 
                         <!--遮罩层-->
                         <View
