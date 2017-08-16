@@ -9,6 +9,7 @@ import master.flame.danmaku.danmaku.model.android.Danmakus
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
 import master.flame.danmaku.danmaku.parser.android.AndroidFileSource
 import master.flame.danmaku.danmaku.util.DanmakuUtils
+import me.sweetll.tucao.extension.BlockListHelpers
 import me.sweetll.tucao.extension.decode
 import org.xml.sax.Attributes
 import org.xml.sax.InputSource
@@ -57,6 +58,8 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
 
         var index = 0
 
+        val blockList = BlockListHelpers.loadBlockList()
+
         override fun startDocument() {
 
         }
@@ -101,6 +104,7 @@ class TucaoDanmukuParser: BaseDanmakuParser() {
                 if (item!!.duration != null) {
                     val tagName = if (localName.isNotEmpty()) localName else qName
                     if ("d" == tagName) {
+                        item!!.visibility = if (blockList.any { it in item!!.text }) BaseDanmaku.INVISIBLE else BaseDanmaku.VISIBLE
                         item!!.timer = mTimer
                         item!!.flags = mContext.mGlobalFlagValues
                         val lock = result.obtainSynchronizer()

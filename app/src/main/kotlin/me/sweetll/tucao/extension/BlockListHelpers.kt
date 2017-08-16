@@ -19,7 +19,7 @@ object BlockListHelpers {
     fun loadBlockList(): MutableList<String> {
         val sp = BLOCK_LIST_FILE_NAME.getSharedPreference()
 
-        val jsonString = sp.getString(KEY_S_BLOCK_LIST, "[]")
+        val jsonString = sp.getString(KEY_S_BLOCK_LIST, "[\"http\"]") // 内置http
         return adapter.fromJson(jsonString)!!
     }
 

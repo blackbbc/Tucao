@@ -232,7 +232,7 @@
         android:orientation="vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:translationX="250dp"
+        android:translationX="280dp"
         tools:translationX="0dp">
 
         <android.support.design.widget.TabLayout

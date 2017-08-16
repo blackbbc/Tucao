@@ -16,6 +16,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.video.adapter.BlockListAdapter
 import me.sweetll.tucao.extension.BlockListHelpers
+import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.widget.DanmuVideoPlayer
 
 class SettingBlockFragment(val player: DanmuVideoPlayer): BaseFragment() {
@@ -53,6 +54,7 @@ class SettingBlockFragment(val player: DanmuVideoPlayer): BaseFragment() {
         blockSwitch.setOnCheckedChangeListener {
             _, checked ->
             BlockListHelpers.setEnabled(checked)
+            "重新播放后生效".toast()
         }
 
         addKeywordBtn.setOnClickListener {

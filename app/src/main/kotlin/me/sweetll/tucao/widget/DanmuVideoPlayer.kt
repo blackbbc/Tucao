@@ -176,7 +176,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     fun hideJump() {
         jumpLinear.animate()
-            .translationX((-250f).dp2px())
+            .translationX((-280f).dp2px())
             .setDuration(400)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
