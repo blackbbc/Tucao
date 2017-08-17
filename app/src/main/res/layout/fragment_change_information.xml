@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.personal.viewmodel.ChangeInformationViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:paddingTop="25dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:transitionGroup="true"
+            android:transitionName="transition_nickname"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textColorHint="@color/pink_300"
+            android:theme="@style/PinkEdit">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="请输入新昵称"
+                android:text="嘿嘿嘿"
+                android:textSize="14sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:transitionName="transition_signature"
+            android:transitionGroup="true"
+            android:textColorHint="@color/pink_300"
+            android:theme="@style/PinkEdit"
+            app:counterEnabled="true"
+            app:counterMaxLength="300">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:maxLength="300"
+                android:gravity="start"
+                android:hint="请输入新个性签名"
+                android:textSize="14sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</layout>

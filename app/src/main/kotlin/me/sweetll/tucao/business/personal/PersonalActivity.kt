@@ -3,23 +3,27 @@ package me.sweetll.tucao.business.personal
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.Toolbar
+import android.transition.*
 import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.personal.viewmodel.PersonalViewModel
+import me.sweetll.tucao.business.personal.fragment.ChangeInformationFragment
+import me.sweetll.tucao.business.personal.fragment.PersonalFragment
 import me.sweetll.tucao.databinding.ActivityPersonalBinding
 
 class PersonalActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPersonalBinding
-    private lateinit var viewModel: PersonalViewModel
 
     override fun getStatusBar(): View = binding.statusBar
 
     override fun getToolbar(): Toolbar = binding.toolbar
+
+    lateinit var fm: FragmentManager
 
     companion object {
         fun intentTo(context: Context) {
@@ -30,8 +34,45 @@ class PersonalActivity : BaseActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_personal)
-        viewModel = PersonalViewModel(this)
-        binding.viewModel = viewModel
+        fm = supportFragmentManager
+        loadInitialFragment()
+    }
+
+    private fun loadInitialFragment() {
+        val personalFragment = PersonalFragment()
+        fm.beginTransaction()
+                .replace(R.id.fragment_container, personalFragment)
+                .commit()
+    }
+
+    fun transitionToChangeInformation() {
+        if (isDestroyed) return
+
+        val personalFragment = fm.findFragmentById(R.id.fragment_container)
+        val changeInformationFragment = ChangeInformationFragment()
+
+        val ft = fm.beginTransaction()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val enterTransitionSet = ChangeBounds()
+            changeInformationFragment.sharedElementEnterTransition = enterTransitionSet
+
+            val enterTransition = Fade()
+            changeInformationFragment.enterTransition = enterTransition
+
+            val nickname = findViewById<View>(R.id.nicknameContainer)
+            val signature = findViewById<View>(R.id.signatureContainer)
+            ft.addSharedElement(nickname, nickname.transitionName)
+            ft.addSharedElement(signature, signature.transitionName)
+        }
+
+        ft.replace(R.id.fragment_container, changeInformationFragment)
+                .addToBackStack("changeInformation")
+                .commit()
+    }
+
+    fun transitionToChangePassword() {
+
     }
 
     override fun initToolbar() {

@@ -26,11 +26,11 @@ class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
     }
 
     fun onClickNickname(view: View) {
-        "修改昵称施工中".toast()
+        activity.transitionToChangeInformation()
     }
 
     fun onClickSignature(view: View) {
-        "修改签名施工中".toast()
+        activity.transitionToChangeInformation()
     }
 
     fun onClickChangePassword(view: View) {
