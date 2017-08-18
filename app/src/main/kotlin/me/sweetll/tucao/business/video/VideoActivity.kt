@@ -186,6 +186,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
+        // FIXME: Not work
         val sharedEnterTransition = TransitionSet()
         sharedEnterTransition.ordering = TransitionSet.ORDERING_TOGETHER
         sharedEnterTransition.addTransition(ChangeBounds())

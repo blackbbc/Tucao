@@ -1,11 +1,8 @@
 package me.sweetll.tucao.business.video.viewmodel
 
-import android.app.ActivityOptions
-import android.databinding.BindingAdapter
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
@@ -13,7 +10,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -25,7 +21,6 @@ import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.fragment.VideoInfoFragment
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.HistoryHelpers
-import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.widget.CustomBottomSheetDialog

@@ -147,11 +147,15 @@ object DownloadHelpers {
                 .subscribe({
                     video ->
                     download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid, video.type, durls = video.durls))
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    error.message?.toast()
                 })
     }
 
     // 继续下载
-    fun startDownload(video:Video, part: Part) {
+    fun resumeDownload(video:Video, part: Part) {
         part.durls.forEach {
             rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
         }

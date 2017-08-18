@@ -15,7 +15,6 @@ import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
@@ -139,7 +138,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                         } as Video
                         val callback = object : DownloadHelpers.Callback {
                             override fun startDownload() {
-                                DownloadHelpers.startDownload(parentVideo, part)
+                                DownloadHelpers.resumeDownload(parentVideo, part)
                             }
 
                             override fun pauseDownload() {
