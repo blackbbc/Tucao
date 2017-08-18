@@ -16,20 +16,20 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.uploader.UploaderActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.fragment.VideoInfoFragment
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.sanitizeHtml
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.widget.CustomBottomSheetDialog
 import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
 import java.util.*
 
 class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewModel() {
-    val result: ObservableField<Result> = ObservableField()
+    val video: ObservableField<Video> = ObservableField()
     val isStar = ObservableBoolean()
     val create = ObservableField<String>()
     val avatar = ObservableField<String>()
@@ -37,15 +37,15 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     var signature = ""
     var headerBg = ""
 
-    fun bindResult(result: Result) {
-        this.result.set(result)
-        this.isStar.set(checkStar(result))
+    fun bindResult(video: Video) {
+        this.video.set(video)
+        this.isStar.set(checkStar(video))
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-        this.create.set("发布于${sdf.format(Date(result.create.toLong() * 1000))}")
+        this.create.set("发布于${sdf.format(Date(video.create.toLong() * 1000))}")
 
         // 获取头像
-        rawApiService.user(result.userid)
+        rawApiService.user(video.userid)
                 .bindToLifecycle(videoInfoFragment)
                 .sanitizeHtml {
                     parseAvatar(this)
@@ -58,11 +58,11 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 })
     }
 
-    fun checkStar(result: Result): Boolean = HistoryHelpers.loadStar()
-            .any { it.hid == result.hid }
+    fun checkStar(video: Video): Boolean = HistoryHelpers.loadStar()
+            .any { it.hid == video.hid }
 
     fun onClickDownload(view: View) {
-        if (result.get() == null) return
+        if (video.get() == null) return
         val dialog = CustomBottomSheetDialog(videoInfoFragment.activity)
         val dialogView = LayoutInflater.from(videoInfoFragment.activity).inflate(R.layout.dialog_pick_download_video, null)
         dialog.setContentView(dialogView)
@@ -86,10 +86,10 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 p ->
                 !p.checkDownload() && p.checked
             })
-            DownloadHelpers.startDownload(videoInfoFragment.activity, result.get().copy().apply {
-                video = video.filter {
-                    v ->
-                    checkedParts.any { v.vid == it.vid }
+            DownloadHelpers.startDownload(videoInfoFragment.activity, video.get().copy().apply {
+                parts = parts.filter {
+                    part ->
+                    checkedParts.any { part.vid == it.vid }
                 }.toMutableList()
             })
             dialog.dismiss()
@@ -138,12 +138,12 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     }
 
     fun onClickStar(view: View) {
-        if (result.get() == null) return
+        if (video.get() == null) return
         if (isStar.get()) {
-            HistoryHelpers.removeStar(result.get())
+            HistoryHelpers.removeStar(video.get())
             isStar.set(false)
         } else {
-            HistoryHelpers.saveStar(result.get())
+            HistoryHelpers.saveStar(video.get())
             isStar.set(true)
         }
     }
@@ -154,7 +154,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                     videoInfoFragment.activity,
                     android.support.v4.util.Pair.create(view.findViewById(R.id.avatarImg),  "transition_avatar")
             ).toBundle()
-            UploaderActivity.intentTo(videoInfoFragment.activity, result.get().userid, result.get().user, avatar.get(), signature, headerBg, options)
+            UploaderActivity.intentTo(videoInfoFragment.activity, video.get().userid, video.get().user, avatar.get(), signature, headerBg, options)
         }
     }
 

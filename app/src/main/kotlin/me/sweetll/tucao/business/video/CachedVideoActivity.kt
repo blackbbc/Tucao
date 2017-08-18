@@ -85,8 +85,8 @@ class CachedVideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         }
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
-            override fun onPrepared(p0: String?) {
-                super.onPrepared(p0)
+            override fun onPrepared(url: String?) {
+                super.onPrepared(url)
                 isPlay = true
             }
         })

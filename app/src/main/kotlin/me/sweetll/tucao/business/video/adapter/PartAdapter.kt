@@ -33,7 +33,7 @@ class PartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHol
             downloadingImg.visibility = View.GONE
         }
 
-        if (part.hasPlay) {
+        if (part.hadPlay) {
             titleText.setTextColor(ContextCompat.getColor(mContext, R.color.selector_part2))
         } else {
             titleText.setTextColor(ContextCompat.getColor(mContext, R.color.selector_part))

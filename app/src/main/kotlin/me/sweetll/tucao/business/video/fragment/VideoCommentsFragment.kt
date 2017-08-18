@@ -28,6 +28,7 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.video.ReplyActivity
@@ -38,7 +39,6 @@ import me.sweetll.tucao.databinding.FragmentVideoCommentsBinding
 import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.transition.FabTransform
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
@@ -50,7 +50,7 @@ import javax.inject.Inject
 
 class VideoCommentsFragment: BaseFragment() {
     lateinit var binding: FragmentVideoCommentsBinding
-    lateinit var result: Result
+    lateinit var video: Video
 
     val commentAdapter = CommentAdapter(null)
 
@@ -97,9 +97,9 @@ class VideoCommentsFragment: BaseFragment() {
         checkInit()
     }
 
-    fun bindResult(result: Result) {
-        this.result = result
-        commentId = "content_${result.typeid}-${result.hid}-1"
+    fun bindVideo(video: Video) {
+        this.video = video
+        commentId = "content_${video.typeid}-${video.hid}-1"
         canInit = canInit or 2
         checkInit()
     }

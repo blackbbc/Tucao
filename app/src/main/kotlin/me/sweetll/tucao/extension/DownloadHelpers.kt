@@ -14,7 +14,6 @@ import me.sweetll.tucao.business.download.event.RefreshDownloadingVideoEvent
 import me.sweetll.tucao.business.download.model.Part
 import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.di.service.XmlApiService
-import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 import me.sweetll.tucao.business.download.event.RefreshDownloadedVideoEvent
@@ -97,7 +96,7 @@ object DownloadHelpers {
 
         val existVideo = videos.find { it.hid == video.hid }
         if (existVideo != null) {
-            existVideo.addSubItem(video.getSubItem(0))
+            existVideo.subItems.add(video.subItems[0])
             existVideo.subItems.sortBy(Part::order)
         } else {
             videos.add(0, video)
@@ -131,7 +130,7 @@ object DownloadHelpers {
     }
 
     // 开始下载
-    fun startDownload(activity: Activity, result: Result) {
+    fun startDownload(activity: Activity, video: Video) {
         RxPermissions(activity)
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .doOnNext {
@@ -142,11 +141,11 @@ object DownloadHelpers {
                     "已开始下载".toast()
                 }
                 .flatMap {
-                    Observable.fromIterable(result.video)
+                    Observable.fromIterable(video.subItems)
                 }
                 .subscribe({
-                    video ->
-                    download(Video(result.hid, result.title, result.thumb, singlePart = result.part == 1), Part(video.title, video.order, video.vid, video.type, durls = video.durls))
+                    part ->
+                    download(video, part)
                 }, {
                     error ->
                     error.printStackTrace()
@@ -173,7 +172,7 @@ object DownloadHelpers {
                 it.cacheFileName = "${it.order}"
                 rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
             }
-            video.addSubItem(part)
+            video.subItems.add(part)
             saveDownloadVideo(video)
         } else {
             serviceInstance.xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
@@ -199,7 +198,7 @@ object DownloadHelpers {
                     }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        video.addSubItem(part)
+                        video.subItems.add(part)
                         saveDownloadVideo(video)
                     }, {
                         error ->

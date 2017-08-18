@@ -2,7 +2,7 @@ package me.sweetll.tucao.extension
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.business.download.model.Video
 
 object HistoryHelpers {
     private val HISTORY_FILE_NAME = "history"
@@ -13,37 +13,36 @@ object HistoryHelpers {
 
     private val adapter by lazy {
         val moshi = Moshi.Builder()
-//                .add(KotlinJsonAdapterFactory())
                 .build()
-        val type = Types.newParameterizedType(MutableList::class.java, Result::class.java)
-        moshi.adapter<MutableList<Result>>(type)
+        val type = Types.newParameterizedType(MutableList::class.java, Video::class.java)
+        moshi.adapter<MutableList<Video>>(type)
     }
 
-    private fun loadHistory(fileName: String, key: String): MutableList<Result> {
+    private fun loadHistory(fileName: String, key: String): MutableList<Video> {
         val sp = fileName.getSharedPreference()
 
         val jsonString = sp.getString(key, "[]")
         return adapter.fromJson(jsonString)!!
     }
 
-    fun loadSearchHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
+    fun loadSearchHistory(): MutableList<Video> = loadHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY)
 
-    fun loadPlayHistory(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY)
+    fun loadPlayHistory(): MutableList<Video> = loadHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY)
 
-    fun loadStar(): MutableList<Result> = loadHistory(HISTORY_FILE_NAME, KEY_S_STAR)
+    fun loadStar(): MutableList<Video> = loadHistory(HISTORY_FILE_NAME, KEY_S_STAR)
 
-    private fun saveHistory(fileName: String, key: String, result: Result) {
+    private fun saveHistory(fileName: String, key: String, video: Video) {
         val histories = loadHistory(fileName, key)
         if (key == KEY_S_SEARCH_HISTORY) {
             histories.removeAll {
-                it.title == result.title
+                it.title == video.title
             }
         } else {
             histories.removeAll {
-                it.hid == result.hid
+                it.hid == video.hid
             }
         }
-        histories.add(0, result)
+        histories.add(0, video)
         val jsonString = adapter.toJson(histories)
         val sp = fileName.getSharedPreference()
         sp.edit {
@@ -51,27 +50,27 @@ object HistoryHelpers {
         }
     }
 
-    fun saveSearchHistory(result: Result) {
-        saveHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY, result)
+    fun saveSearchHistory(video: Video) {
+        saveHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY, video)
     }
 
-    fun savePlayHistory(result: Result) {
+    fun savePlayHistory(video: Video) {
         val histories = loadHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY)
-        val existResult = histories.find { it.hid == result.hid }
-        if (existResult != null) {
-            result.video = result.video.plus(existResult.video).distinctBy { it.vid }.toMutableList()
+        val existVideo = histories.find { it.hid == video.hid }
+        if (existVideo != null) {
+            video.parts = video.parts.plus(existVideo.parts).distinctBy { it.vid }.toMutableList()
         }
-        saveHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, result)
+        saveHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, video)
     }
 
-    fun saveStar(result: Result) {
-        saveHistory(HISTORY_FILE_NAME, KEY_S_STAR, result)
+    fun saveStar(video: Video) {
+        saveHistory(HISTORY_FILE_NAME, KEY_S_STAR, video)
     }
 
-    private fun removeHistory(fileName: String, key: String, result: Result): Int {
+    private fun removeHistory(fileName: String, key: String, video: Video): Int {
         val histories = loadHistory(fileName, key)
-        val removedIndex = histories.indexOf(result)
-        histories.remove(result)
+        val removedIndex = histories.indexOf(video)
+        histories.remove(video)
 
         val jsonString = adapter.toJson(histories)
         val sp = fileName.getSharedPreference()
@@ -81,9 +80,9 @@ object HistoryHelpers {
         return removedIndex
     }
 
-    fun removeSearchHistory(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY, result)
+    fun removeSearchHistory(video: Video) = removeHistory(HISTORY_FILE_NAME, KEY_S_SEARCH_HISTORY, video)
 
-    fun removePlayHistory(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, result)
+    fun removePlayHistory(video: Video) = removeHistory(HISTORY_FILE_NAME, KEY_S_PLAY_HISTORY, video)
 
-    fun removeStar(result: Result) = removeHistory(HISTORY_FILE_NAME, KEY_S_STAR, result)
+    fun removeStar(video: Video) = removeHistory(HISTORY_FILE_NAME, KEY_S_STAR, video)
 }

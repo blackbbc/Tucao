@@ -30,16 +30,15 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.business.video.adapter.VideoPagerAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoViewModel
 import me.sweetll.tucao.databinding.ActivityVideoBinding
 import me.sweetll.tucao.extension.*
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import me.sweetll.tucao.widget.DanmuVideoPlayer
@@ -59,7 +58,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     var transitionIn = true
 
-    lateinit var result: Result
+    lateinit var video: Video
     lateinit var selectedPart: Part
     var firstPlay = true
 
@@ -72,19 +71,19 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     }
 
     companion object {
-        private val ARG_RESULT = "result"
+        private val ARG_VIDEO = "video"
         private val ARG_HID = "hid"
         private val ARG_COVER = "cover"
 
-        fun intentTo(context: Context, result: Result) {
+        fun intentTo(context: Context, video: Video) {
             val intent = Intent(context, VideoActivity::class.java)
-            intent.putExtra(ARG_RESULT, result)
+            intent.putExtra(ARG_VIDEO, video)
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, result: Result, cover: String, bundle: Bundle) {
+        fun intentTo(context: Context, video: Video, cover: String, bundle: Bundle) {
             val intent = Intent(context, VideoActivity::class.java)
-            intent.putExtra(ARG_RESULT, result)
+            intent.putExtra(ARG_VIDEO, video)
             intent.putExtra(ARG_COVER, cover)
             context.startActivity(intent, bundle)
         }
@@ -115,11 +114,11 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
         if (hid != null) {
             viewModel = VideoViewModel(this)
-            viewModel.queryResult(hid)
+            viewModel.queryVideo(hid)
         } else {
-            val result: Result = intent.getParcelableExtra(ARG_RESULT)
-            viewModel = VideoViewModel(this, result)
-            loadResult(result)
+            val video: Video = intent.getParcelableExtra(ARG_VIDEO)
+            viewModel = VideoViewModel(this, video)
+            loadVideo(video)
         }
 
         if (!cover.isNullOrEmpty()) {
@@ -256,10 +255,10 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         })
     }
 
-    fun loadResult(result: Result) {
-        this.result = result
+    fun loadVideo(video: Video) {
+        this.video= video
         setupPlayer()
-        videoPagerAdapter.bindResult(result)
+        videoPagerAdapter.bindVideo(video)
     }
 
     fun setupPlayer() {
@@ -277,7 +276,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-forwards-capacity", 15 * 1024 * 1024),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-backwards-capacity", 15 * 1024 * 1024),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48)
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_CODEC,  "skip_loop_filter", 48)
         )
 
         // 是否可以滑动界面改变进度，声音
@@ -298,12 +297,12 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.speed = 1f
 
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
-            override fun onPrepared(p0: String?) {
-                super.onPrepared(p0)
+            override fun onPrepared(url: String?) {
+                super.onPrepared(url)
             }
 
-            override fun onClickStartIcon(p0: String?) {
-                super.onClickStartIcon(p0)
+            override fun onClickStartIcon(url: String?) {
+                super.onClickStartIcon(url)
                 isPlay = true
                 if (firstPlay) {
                     firstPlay = false
@@ -314,8 +313,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             }
 
             // 播放完了
-            override fun onAutoComplete(p0: String?) {
-                super.onAutoComplete(p0)
+            override fun onAutoComplete(url: String?) {
+                super.onAutoComplete(url)
                 isPlay = false
                 binding.player.onVideoPause(true, true)
             }
@@ -351,7 +350,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             it.text = "播放器初始化...[完成]\n获取视频信息...[完成]\n解析视频地址...\n全舰弹幕装填..."
         }
         if (selectedPart.vid.isNotEmpty()) {
-            viewModel.queryPlayUrls(result.hid, selectedPart)
+            viewModel.queryPlayUrls(video.hid, selectedPart)
         } else {
             "所选视频已失效".toast()
         }
@@ -399,9 +398,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     override fun onSavePlayHistory(position: Int) {
         HistoryHelpers.savePlayHistory(
-                result.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
+                video.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
                         .apply {
-                            video = video.filter {
+                            parts = parts.filter {
                                 it.vid == selectedPart.vid
                             }.map {
                                 it.lastPlayPosition = position

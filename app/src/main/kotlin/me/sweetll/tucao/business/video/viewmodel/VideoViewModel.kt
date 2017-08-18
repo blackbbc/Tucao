@@ -9,34 +9,34 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import java.io.File
 import java.io.FileOutputStream
 
 class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
-    val result = ObservableField<Result>()
+    val video = ObservableField<Video>()
 
     var playUrlDisposable: Disposable? = null
     var danmuDisposable: Disposable? = null
 
     var currentPlayerId: String? = null
 
-    constructor(activity: VideoActivity, result: Result) : this(activity) {
-        this.result.set(result)
+    constructor(activity: VideoActivity, video: Video) : this(activity) {
+        this.video.set(video)
     }
 
-    fun queryResult(hid: String) {
+    fun queryVideo(hid: String) {
         jsonApiService.view(hid)
                 .bindToLifecycle(activity)
                 .sanitizeJson()
                 .subscribe({
-                    result ->
-                    this.result.set(result)
-                    activity.loadResult(result)
+                    video ->
+                    this.video.set(video)
+                    activity.loadVideo(video)
                 }, {
                     error ->
                     error.printStackTrace()

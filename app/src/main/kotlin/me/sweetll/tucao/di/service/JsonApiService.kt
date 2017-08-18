@@ -1,6 +1,7 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
+import me.sweetll.tucao.business.download.model.Video
 import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
@@ -11,7 +12,7 @@ import retrofit2.http.Query
 
 interface JsonApiService {
     @GET(ApiConfig.VIEW_API_URL)
-    fun view(@Query("hid") hid: String): Observable<BaseResponse<Result>>
+    fun view(@Query("hid") hid: String): Observable<BaseResponse<Video>>
 
     @GET(ApiConfig.LIST_API_URL)
     fun list(@Query("tid") tid: Int,
