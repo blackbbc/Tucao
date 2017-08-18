@@ -186,7 +186,14 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         window.sharedElementReturnTransition = null
         window.sharedElementExitTransition = changeBounds
 
-        window.sharedElementEnterTransition.interpolator = FastOutSlowInInterpolator()
+        val sharedEnterTransition = TransitionSet()
+        sharedEnterTransition.ordering = TransitionSet.ORDERING_TOGETHER
+        sharedEnterTransition.addTransition(ChangeBounds())
+        sharedEnterTransition.addTransition(ChangeTransform())
+        sharedEnterTransition.addTransition(ChangeClipBounds())
+        sharedEnterTransition.addTransition(ChangeImageTransform())
+        sharedEnterTransition.interpolator = FastOutSlowInInterpolator()
+        window.sharedElementEnterTransition = sharedEnterTransition
 
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.appBar)
