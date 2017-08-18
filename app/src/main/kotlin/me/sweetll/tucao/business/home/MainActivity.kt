@@ -330,7 +330,7 @@ class MainActivity : BaseActivity() {
             return
         }
         val processor = BehaviorProcessor.create<DownloadEvent>()
-        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "新版本"))
+        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0))
         rawApiService.download(downloadUrl)
                 .subscribeOn(Schedulers.io())
                 .flatMap {
@@ -343,7 +343,7 @@ class MainActivity : BaseActivity() {
                 }
                 .subscribe({
                     body ->
-                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "新版本"))
+                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0))
 
                     var count = 0
                     var downloadLength = 0L
@@ -358,12 +358,12 @@ class MainActivity : BaseActivity() {
                         while (count != -1) {
                             outputStream.write(data, 0, count)
                             downloadLength += count
-                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "新版本"))
+                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength))
                             count = inputStream.read(data)
                         }
                         outputStream.flush()
 
-                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "新版本"))
+                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength))
 
                         inputStream.close()
                         outputStream.close()
@@ -388,14 +388,14 @@ class MainActivity : BaseActivity() {
                     // 更新进度
                     when (event.status) {
                         DownloadStatus.READY -> {
-                            builder.setContentTitle(event.taskName)
+                            builder.setContentTitle("新版本")
                                     .setContentText("连接中...")
                             notifyMgr.notify(NOTIFICATION_ID, builder.build())
                         }
                         DownloadStatus.COMPLETED -> notifyMgr.cancel(NOTIFICATION_ID)
                         DownloadStatus.STARTED -> {
                             builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
-                                .setContentTitle(event.taskName)
+                                .setContentTitle("新版本")
                                 .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
                             notifyMgr.notify(NOTIFICATION_ID, builder.build())
                         }
@@ -408,7 +408,7 @@ class MainActivity : BaseActivity() {
             installFromFile(apkFile)
         }
         val processor = BehaviorProcessor.create<DownloadEvent>()
-        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0, "补丁包"))
+        processor.onNext(DownloadEvent(DownloadStatus.READY, 0, 0))
         rawApiService.download(downloadUrl)
                 .subscribeOn(Schedulers.io())
                 .flatMap {
@@ -421,7 +421,7 @@ class MainActivity : BaseActivity() {
                 }
                 .subscribe({
                     body ->
-                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0, "补丁包"))
+                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, 0, 0))
 
                     var count = 0
                     var downloadLength = 0L
@@ -437,12 +437,12 @@ class MainActivity : BaseActivity() {
                         while (count != -1) {
                             outputStream.write(data, 0, count)
                             downloadLength += count
-                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength, "补丁包"))
+                            processor.onNext(DownloadEvent(DownloadStatus.STARTED, downloadLength, contentLength))
                             count = inputStream.read(data)
                         }
                         outputStream.flush()
 
-                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength, "补丁包"))
+                        processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, downloadLength, contentLength))
 
                         inputStream.close()
                         outputStream.close()
@@ -473,7 +473,7 @@ class MainActivity : BaseActivity() {
                     // 更新进度
                     when (event.status) {
                         DownloadStatus.READY -> {
-                            builder.setContentTitle(event.taskName)
+                            builder.setContentTitle("补丁包")
                                     .setContentText("连接中...")
                             notifyMgr.notify(NOTIFICATION_ID, builder.build())
                         }
@@ -484,7 +484,7 @@ class MainActivity : BaseActivity() {
                         }
                         DownloadStatus.STARTED -> {
                             builder.setProgress(event.totalSize.toInt(), event.downloadSize.toInt(), false)
-                                .setContentTitle(event.taskName)
+                                .setContentTitle("补丁包")
                                 .setContentText("${event.downloadSize.formatWithUnit()}/${event.totalSize.formatWithUnit()}")
                             notifyMgr.notify(NOTIFICATION_ID, builder.build())
                         }

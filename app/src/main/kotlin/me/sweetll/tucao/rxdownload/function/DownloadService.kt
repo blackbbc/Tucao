@@ -3,7 +3,6 @@ package me.sweetll.tucao.rxdownload.function
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -24,7 +23,6 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.logD
-import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadMission
@@ -36,19 +34,19 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.RandomAccessFile
-import java.nio.channels.FileChannel
+import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
-class DownloadService: Service() {
+class DownloadService : Service() {
 
     companion object {
         const val PRIMARY_CHANNEL = "default"
 
         const val ONGOING_NOTIFICATION_ID = 1
         const val COMPLETED_NOTIFICATION_ID = 2
-        const val FAILED_NOTIFICATION_ID =3
+        const val FAILED_NOTIFICATION_ID = 3
 
         const val ACTION_PAUSE = "pause"
         const val ACTION_CANCEL = "cancel"
@@ -78,10 +76,10 @@ class DownloadService: Service() {
 
     val missionMap: ArrayMap<String, DownloadMission> = ArrayMap()
     val processorMap: ArrayMap<String, BehaviorProcessor<DownloadEvent>> = ArrayMap()
-    val partMap: ArrayMap<String, Boolean> = ArrayMap()
+    val missionQueue = LinkedBlockingQueue<String>()
 
     var request: Disposable? = null
-    var downloading = false
+    var downloading: Boolean = false
 
     override fun onCreate() {
         Log.d("DownloadService", "On Create")
@@ -94,9 +92,9 @@ class DownloadService: Service() {
         }
 
         syncFromDb()
+        launchMissionConsumer()
     }
 
-    // Warning: Not guarantee to call
     override fun onDestroy() {
         Log.d("DownloadService", "On Destroy")
         super.onDestroy()
@@ -130,113 +128,89 @@ class DownloadService: Service() {
             missionMap.put(it.url, mission)
             processorMap.put(it.url, BehaviorProcessor.create<DownloadEvent>()
                     .apply {
-                         onNext(DownloadEvent(DownloadStatus.PAUSED, 0, 0)) // 默认暂停状态
+                        onNext(DownloadEvent(DownloadStatus.PAUSED, 0, 0)) // 默认暂停状态
                     })
         }
     }
 
-    fun download(url: String, saveName: String, savePath: String, taskName: String, part: Part) {
-        // 检查missionMap中是否存在
-        val mission = missionMap.getOrPut(url, {
-            DownloadMission(
-                    DownloadBean(url = url, saveName = saveName, savePath = savePath)
-            )
-        }).apply { pause = false } // 置为false
-
-        val processor = processorMap.getOrPut(url, {
-            BehaviorProcessor.create<DownloadEvent>()
-                    .apply {
-                        sample(500, java.util.concurrent.TimeUnit.MILLISECONDS)
-                                .subscribe {
-                                    event ->
-                                    consumeEvent(mission, event, part)
-                                }
-                        partMap.put(url, true)
-                    }
-        }).apply {
-            onNext(DownloadEvent(DownloadStatus.READY))
-            if (!partMap.getOrElse(url, {
-                partMap.put(url, true)
-                false
-            })) {
-                sample(500, TimeUnit.MILLISECONDS)
-                        .subscribe {
-                            event ->
-                            consumeEvent(mission, event, part)
-                        }
-            }
-        }
-
-        // 开始下载
+    private fun launchMissionConsumer() {
         Flowable.create<DownloadEvent>({
-            // 检查状态
-            while (!semaphore.tryAcquire()) {
+
+            while (true) {
+
+                while (!semaphore.tryAcquire(1, TimeUnit.SECONDS)) {
+                    // Wait for semaphore...
+                }
+
+                val url = missionQueue.take()
+                val mission = missionMap[url]!!
+                val processor = processorMap[url]!!
+
                 if (mission.pause) {
                     processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
                     return@create
                 }
-            }
 
-            processor.onNext(DownloadEvent(DownloadStatus.READY, mission.bean.downloadLength, mission.bean.contentLength, taskName))
+                processor.onNext(DownloadEvent(DownloadStatus.READY, mission.bean.downloadLength, mission.bean.contentLength))
 
-            downloading = false
-            request = downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
-                    .subscribeOn(Schedulers.io())
-                    .doAfterTerminate { semaphore.release() }
-                    .subscribe({
-                        response ->
-                        try {
-                            downloading = true
+                downloading = false
+                request = downloadApi.download(mission.bean.url, mission.bean.getRange(), mission.bean.getIfRange())
+                        .subscribeOn(Schedulers.io())
+                        .doAfterTerminate {
+                            downloading = false
+                            semaphore.release()
+                        }
+                        .subscribe({
+                            response ->
+                            try {
+                                downloading = true
+                                val header = response.headers()
+                                val body = response.body()
 
-                            val header = response.headers()
-                            val body = response.body()
+                                mission.bean.lastModified = header.get("Last-Modified") ?: "Wed, 21 Oct 2015 07:28:00 GMT"
+                                mission.bean.etag = header.get("ETag") ?: "\"\""
 
-                            mission.bean.lastModified = header.get("Last-Modified") ?: "Wed, 21 Oct 2015 07:28:00 GMT"
-                            mission.bean.etag = header.get("ETag") ?: "\"\""
+                                var count: Int
+                                val data = ByteArray(1024 * 8)
+                                val fileSize: Long = body!!.contentLength()
 
-                            var count: Int
-                            val data = ByteArray(1024 * 8)
-                            val fileSize: Long = body!!.contentLength()
+                                if (response.code() == 200 || mission.bean.downloadLength == 0L) {
+                                    mission.bean.downloadLength = 0
+                                    mission.bean.contentLength = fileSize
+                                    mission.bean.prepareFile()
+                                }
 
-                            if (response.code() == 200 || mission.bean.downloadLength == 0L) {
-                                mission.bean.downloadLength = 0
-                                mission.bean.contentLength = fileSize
-                                mission.bean.prepareFile()
-                            }
-
-                            val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
-                            val file = mission.bean.getRandomAccessFile()
-                            file.seek(mission.bean.downloadLength)
-
-                            count = inputStream.read(data)
-                            while (count != -1 && !mission.pause) {
-                                mission.bean.downloadLength += count
-                                file.write(data, 0, count)
-                                processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
-
-                                "Downloading... Reading $count bytes...".logD()
+                                val inputStream = BufferedInputStream(body.byteStream(), 1024 * 8)
+                                val file = mission.bean.getRandomAccessFile()
+                                file.seek(mission.bean.downloadLength)
 
                                 count = inputStream.read(data)
-                            }
+                                while (count != -1 && !mission.pause) {
+                                    mission.bean.downloadLength += count
+                                    file.write(data, 0, count)
+                                    processor.onNext(DownloadEvent(DownloadStatus.STARTED, mission.bean.downloadLength, mission.bean.contentLength))
+                                    count = inputStream.read(data)
+                                }
 
-                            if (mission.pause) {
-                                processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
-                            }
+                                if (mission.pause) {
+                                    processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
+                                }
 
-                            if (mission.bean.downloadLength == mission.bean.contentLength) {
-                                processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength, taskName))
-                            }
+                                if (mission.bean.downloadLength == mission.bean.contentLength) {
+                                    processor.onNext(DownloadEvent(DownloadStatus.COMPLETED, mission.bean.downloadLength, mission.bean.contentLength))
+                                }
 
-                            file.close()
-                        } catch (error: Exception) {
+                                file.close()
+                            } catch (error: Exception) {
+                                error.printStackTrace()
+                                processor.onNext(DownloadEvent(DownloadStatus.FAILED))
+                            }
+                        }, {
+                            error ->
                             error.printStackTrace()
                             processor.onNext(DownloadEvent(DownloadStatus.FAILED))
-                        }
-                    }, {
-                        error ->
-                        error.printStackTrace()
-                        processor.onNext(DownloadEvent(DownloadStatus.FAILED))
-                    })
+                        })
+            }
 
         }, BackpressureStrategy.LATEST)
                 .subscribeOn(Schedulers.newThread())
@@ -244,12 +218,36 @@ class DownloadService: Service() {
                 .connect()
     }
 
+    fun download(url: String, saveName: String, savePath: String, taskName: String, part: Part) {
+        // 检查missionMap中是否存在
+        val mission = missionMap.getOrPut(url, {
+            DownloadMission(
+                    DownloadBean(url = url, saveName = saveName, savePath = savePath)
+            ).apply { bean.save() }
+        }).apply { pause = false } // 置为false
+
+        val processor = processorMap.getOrPut(url, {
+            BehaviorProcessor.create<DownloadEvent>()
+                    .apply {
+                        sample(500, TimeUnit.MILLISECONDS)
+                                .subscribe {
+                                    consumeEvent(mission, it, part, taskName)
+                                }
+                    }
+        }).apply {
+            onNext(DownloadEvent(DownloadStatus.READY))
+        }
+
+        missionQueue.put(url)
+    }
+
     fun downloadDanmu(url: String, saveName: String, savePath: String) {
         downloadApi.downloadDanmu(url)
                 .subscribeOn(Schedulers.io())
-                .subscribe ({
+                .subscribe({
                     responseBody ->
                     val outputFile = File(savePath, saveName)
+                    if (!outputFile.exists()) outputFile.mkdirs()
                     val outputStream = FileOutputStream(outputFile)
 
                     outputStream.write(responseBody.bytes())
@@ -262,18 +260,15 @@ class DownloadService: Service() {
     }
 
     fun pause(url: String) {
-        missionMap[url]?.let {
-            it.pause = true
-
-            request?.let {
-                if (!downloading && !it.isDisposed) it.dispose()
-                downloading = false
-                request = null
-            }
+        missionQueue.remove(url)
+        missionMap[url]?.pause = true
+        if (request != null && !downloading) {
+            request!!.dispose()
         }
     }
 
     fun cancel(url: String, delete: Boolean) {
+        missionQueue.remove(url)
         missionMap[url]?.let {
             it.pause = true
             if (delete) {
@@ -283,11 +278,8 @@ class DownloadService: Service() {
             processorMap.remove(url)
             it.bean.delete()
         }
-
-        request?.let {
-            if (!downloading && !it.isDisposed) it.dispose()
-            downloading = false
-            request = null
+        if (request != null && !downloading) {
+            request!!.dispose()
         }
     }
 
@@ -296,7 +288,7 @@ class DownloadService: Service() {
         return processor
     }
 
-    private fun consumeEvent(mission: DownloadMission, event: DownloadEvent, part: Part) {
+    private fun consumeEvent(mission: DownloadMission, event: DownloadEvent, part: Part, taskName: String) {
         when (event.status) {
             DownloadStatus.PAUSED -> {
                 mission.bean.save()
@@ -319,10 +311,10 @@ class DownloadService: Service() {
                 DownloadHelpers.saveDownloadPart(part)
             }
         }
-        sendNotification(event, mission.bean.url)
+        sendNotification(event, mission.bean.url, taskName)
     }
 
-    private fun sendNotification(event: DownloadEvent, url: String) {
+    private fun sendNotification(event: DownloadEvent, url: String, taskName: String) {
         "Send Notification ${event.status}...".logD()
         when (event.status) {
             DownloadStatus.STARTED, DownloadStatus.READY -> {
@@ -348,7 +340,7 @@ class DownloadService: Service() {
 
                 val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(event.taskName)
+                        .setContentTitle(taskName)
                         .setContentIntent(pendingIntent)
                         .addAction(R.drawable.ic_action_pause, "暂停", piPause)
                         .addAction(R.drawable.ic_action_cancel, "取消", piCancel)
@@ -379,7 +371,7 @@ class DownloadService: Service() {
                 val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setProgress(0, 0, false)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(event.taskName)
+                        .setContentTitle(taskName)
                         .setContentText("${event.totalSize.formatWithUnit()}/已完成")
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
@@ -403,7 +395,7 @@ class DownloadService: Service() {
                 val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
                         .setProgress(0, 0, false)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(event.taskName)
+                        .setContentTitle(taskName)
                         .setContentText("下载失败")
                         .setContentIntent(pendingIntent)
                 val notification = builder.build()
@@ -416,7 +408,7 @@ class DownloadService: Service() {
         }
     }
 
-    inner class DownloadBinder: Binder() {
+    inner class DownloadBinder : Binder() {
         fun getService(): DownloadService = this@DownloadService
     }
 }
