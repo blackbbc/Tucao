@@ -4,6 +4,8 @@
     <color name="colorAccent">@color/pink_400</color>
     <color name="colorPrimaryDark">@color/pink_700</color>
 
+    <color name="light_background">#FAFAFA</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="scrim">#99323232</color>

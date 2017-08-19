@@ -38,6 +38,7 @@ class RecommendFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recommend, container, false)
         binding.viewModel = viewModel
+        binding.loading.show()
         return binding.root
     }
 
