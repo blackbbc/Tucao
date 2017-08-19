@@ -2,23 +2,22 @@ package me.sweetll.tucao.business.uploader.adapter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.extension.formatByWan
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.model.json.Result
 
-class VideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, BaseViewHolder>(R.layout.item_video, data) {
+class VideoAdapter(data: MutableList<Video>?): BaseQuickAdapter<Video, BaseViewHolder>(R.layout.item_video, data) {
     var lastAnimatedPosition = -1
     var animationsLocked = false
     var delayEnterAnimation = true
 
-    override fun convert(helper: BaseViewHolder, video: Result) {
+    override fun convert(helper: BaseViewHolder, video: Video) {
         helper.setText(R.id.text_title, video.title)
 //        helper.setText(R.id.text_user, "up：${video.user}")
         helper.setText(R.id.text_play, "播放：${video.play.formatByWan()}")

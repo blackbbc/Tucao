@@ -13,8 +13,8 @@ import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.business.download.adapter.DownloadingVideoAdapter
 import me.sweetll.tucao.business.download.event.RefreshDownloadingVideoEvent
-import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.databinding.FragmentDownloadingBinding
 import me.sweetll.tucao.extension.DownloadHelpers
 import org.greenrobot.eventbus.EventBus

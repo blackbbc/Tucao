@@ -4,13 +4,13 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.extension.formatByWan
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.model.json.Result
 
-class VideoAdapter(data: MutableList<Result>?): BaseQuickAdapter<Result, BaseViewHolder>(R.layout.item_video, data) {
+class VideoAdapter(data: MutableList<Video>?): BaseQuickAdapter<Video, BaseViewHolder>(R.layout.item_video, data) {
 
-    override fun convert(helper: BaseViewHolder, video: Result) {
+    override fun convert(helper: BaseViewHolder, video: Video) {
         helper.setText(R.id.text_title, video.title)
         helper.setText(R.id.text_user, "up：${video.user}")
         helper.setText(R.id.text_play, "播放：${video.play.formatByWan()}")

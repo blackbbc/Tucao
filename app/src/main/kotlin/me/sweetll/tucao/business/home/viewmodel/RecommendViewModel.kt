@@ -3,13 +3,12 @@ package me.sweetll.tucao.business.home.viewmodel
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.fragment.RecommendFragment
 import me.sweetll.tucao.business.rank.RankActivity
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Channel
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 import org.jsoup.nodes.Document
@@ -62,12 +61,12 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
         return banners
     }
 
-    fun parseRecommends(doc: Document): List<Pair<Channel, List<Result>>> {
+    fun parseRecommends(doc: Document): List<Pair<Channel, List<Video>>> {
         val title_red = doc.select("h2.title_red").takeLast(5)
         val lists_tip = doc.select("div.lists.tip").takeLast(5)
         val titleZipLists = title_red zip lists_tip
 
-        val recommends = titleZipLists.fold(mutableListOf<Pair<Channel, List<Result>>>()) {
+        val recommends = titleZipLists.fold(mutableListOf<Pair<Channel, List<Video>>>()) {
             total, zipElement ->
             // Parse Channel
             val aChannelElement = zipElement.first.child(1)
@@ -81,7 +80,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
                 it is Element
             }.map {
                 it.child(0)
-            }.fold(mutableListOf<Result>()) {
+            }.fold(mutableListOf<Video>()) {
                 total, aElement ->
                 // a
                 val linkUrl = aElement.attr("href")
@@ -89,7 +88,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
                 val thumb = aElement.child(0).attr("src")
                 val title = aElement.child(1).text()
                 val play = aElement.child(2).text().replace(",", "").toInt()
-                total.add(Result(hid = hid, title = title, play = play, thumb = thumb))
+                total.add(Video(hid = hid, title = title, play = play, thumb = thumb))
                 total
             }
 
@@ -106,7 +105,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
             it is Element
         }.map {
             it.child(0)
-        }.fold(mutableListOf<Result>()) {
+        }.fold(mutableListOf<Video>()) {
             total, aElement ->
             // a
             val linkUrl = aElement.attr("href")
@@ -114,7 +113,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
             val thumb = aElement.child(0).attr("src")
             val title = aElement.child(1).text()
             val play = aElement.child(2).text().replace(",", "").toInt()
-            total.add(Result(hid = hid, title = title, play = play, thumb = thumb))
+            total.add(Video(hid = hid, title = title, play = play, thumb = thumb))
             total
         }
         recommends.add(0, channel to results)

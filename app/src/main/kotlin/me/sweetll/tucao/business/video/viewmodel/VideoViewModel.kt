@@ -8,8 +8,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.base.BaseViewModel
-import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*

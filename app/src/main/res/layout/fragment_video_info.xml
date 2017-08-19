@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.result.title}"
+                android:text="@{viewModel.video.title}"
                 android:textColor="@color/primary_text"
                 android:textSize="14sp"
                 tools:text="千万不要在小狗生气的时候捏他的嘴" />
@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{"播放：" + viewModel.result.play}'
+                    android:text='@{"播放：" + viewModel.video.play}'
                     android:textColor="@color/secondary_text"
                     android:textSize="12sp"
                     tools:text="播放：14.6万" />
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text='@{"弹幕：" + viewModel.result.mukio}'
+                    android:text='@{"弹幕：" + viewModel.video.mukio}'
                     android:textColor="@color/secondary_text"
                     android:textSize="12sp"
                     tools:text="弹幕：501" />
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{viewModel.result.description}"
+                android:text="@{viewModel.video.description}"
                 android:textColor="@color/secondary_text"
                 android:textSize="12sp"
                 tools:text="BGM是极乐净土。" />
@@ -169,7 +169,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/avatarImg"
-                android:text="@{viewModel.result.user}"
+                android:text="@{viewModel.video.user}"
                 android:textColor="@color/primary_text"
                 android:textSize="12sp"
                 tools:text="小智" />
@@ -201,12 +201,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewModel.result.video.size() > 1 ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewModel.video.parts.size() > 1 ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{"分集(" + viewModel.result.video.size() + ")"}'
+                android:text='@{"分集(" + viewModel.video.parts.size() + ")"}'
                 tools:text="分集(2)" />
 
             <android.support.v7.widget.RecyclerView

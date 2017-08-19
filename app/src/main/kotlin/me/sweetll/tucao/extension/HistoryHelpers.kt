@@ -2,7 +2,7 @@ package me.sweetll.tucao.extension
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Video
 
 object HistoryHelpers {
     private val HISTORY_FILE_NAME = "history"

@@ -11,8 +11,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.business.download.event.RefreshDownloadingVideoEvent
-import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.di.service.XmlApiService
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -154,7 +154,7 @@ object DownloadHelpers {
     }
 
     // 继续下载
-    fun resumeDownload(video:Video, part: Part) {
+    fun resumeDownload(video: Video, part: Part) {
         part.durls.forEach {
             rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
         }

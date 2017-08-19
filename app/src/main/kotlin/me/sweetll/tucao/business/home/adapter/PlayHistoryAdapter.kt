@@ -4,11 +4,11 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseItemDraggableAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.model.json.Result
 
-class PlayHistoryAdapter(data: MutableList<Result>?): BaseItemDraggableAdapter<Result, BaseViewHolder>(R.layout.item_play_history, data) {
-    override fun convert(helper: BaseViewHolder, item: Result) {
+class PlayHistoryAdapter(data: MutableList<Video>?): BaseItemDraggableAdapter<Video, BaseViewHolder>(R.layout.item_play_history, data) {
+    override fun convert(helper: BaseViewHolder, item: Video) {
         helper.setText(R.id.text_title, item.title)
         helper.setText(R.id.text_creat, item.create)
 

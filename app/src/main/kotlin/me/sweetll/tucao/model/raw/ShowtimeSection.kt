@@ -1,10 +1,10 @@
 package me.sweetll.tucao.model.raw
 
 import com.chad.library.adapter.base.entity.SectionEntity
-import me.sweetll.tucao.model.json.Result
+import me.sweetll.tucao.model.json.Video
 
-class ShowtimeSection: SectionEntity<Result> {
+class ShowtimeSection: SectionEntity<Video> {
     constructor(header: String, isHeader: Boolean = true): super(isHeader, header)
 
-    constructor(result: Result): super(result)
+    constructor(video: Video): super(video)
 }

@@ -6,7 +6,7 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
-import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.model.json.Part
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 class DownloadPartAdapter(data: MutableList<Part>?) : BaseQuickAdapter<Part, BaseViewHolder>(R.layout.item_part, data) {

@@ -18,7 +18,7 @@ import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
-import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.model.json.Part
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
@@ -34,7 +34,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit

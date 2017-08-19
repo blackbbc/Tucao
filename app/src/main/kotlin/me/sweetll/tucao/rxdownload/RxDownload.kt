@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import io.reactivex.Observable
-import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.model.json.Part
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.function.DownloadService
 

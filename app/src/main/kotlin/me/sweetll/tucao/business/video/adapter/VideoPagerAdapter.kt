@@ -2,7 +2,7 @@ package me.sweetll.tucao.business.video.adapter
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.fragment.VideoCommentsFragment
 import me.sweetll.tucao.business.video.fragment.VideoInfoFragment
 

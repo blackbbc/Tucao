@@ -28,7 +28,7 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.video.ReplyActivity

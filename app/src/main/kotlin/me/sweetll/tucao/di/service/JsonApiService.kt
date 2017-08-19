@@ -1,11 +1,10 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.json.Version
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -18,18 +17,18 @@ interface JsonApiService {
     fun list(@Query("tid") tid: Int,
              @Query("page") pageIndex: Int,
              @Query("pagesize") pageSize: Int,
-             @Query("order") order: String?): Observable<ListResponse<Result>>
+             @Query("order") order: String?): Observable<ListResponse<Video>>
 
     @GET(ApiConfig.SEARCH_API_URL)
     fun search(@Query("tid") tid: Int?,
                @Query("page") pageIndex: Int,
                @Query("pagesize") pageSize: Int,
                @Query("order") order: String?,
-               @Query("q") keyword: String): Observable<ListResponse<Result>>
+               @Query("q") keyword: String): Observable<ListResponse<Video>>
 
     @GET(ApiConfig.RANK_API_URL)
     fun rank(@Query("tid") tid: Int,
-             @Query("date") date: Int): Observable<BaseResponse<Map<Int, Result>>>
+             @Query("date") date: Int): Observable<BaseResponse<Map<Int, Video>>>
 
     @GET(ApiConfig.UPDATE_API_URL)
     fun update(@Query("appKey") appKey: String,

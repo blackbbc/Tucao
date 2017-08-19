@@ -4,14 +4,12 @@ import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -20,13 +18,12 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
 import me.sweetll.tucao.business.channel.event.ChangeChannelFilterEvent
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentChannelDetailBinding
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.ListResponse
-import me.sweetll.tucao.model.json.Result
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -78,7 +75,7 @@ class ChannelDetailFragment : BaseFragment() {
         }, binding.videoRecycler)
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, itemView: View, position: Int) {
-                val result: Result = helper.getItem(position) as Result
+                val video: Video = videoAdapter.getItem(position)
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val coverImg = itemView.findViewById<ImageView>(R.id.img_thumb)
                     val titleText = itemView.findViewById<View>(R.id.text_title)
@@ -86,9 +83,9 @@ class ChannelDetailFragment : BaseFragment() {
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat
                             .makeSceneTransitionAnimation(activity, p1)
-                    VideoActivity.intentTo(activity, result, cover, options.toBundle())
+                    VideoActivity.intentTo(activity, video, cover, options.toBundle())
                 } else {
-                    VideoActivity.intentTo(activity, result)
+                    VideoActivity.intentTo(activity, video)
                 }
             }
         })

@@ -22,23 +22,20 @@ import android.widget.ImageView
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.GlideApp
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.uploader.adapter.VideoAdapter
 import me.sweetll.tucao.business.uploader.viewmodel.UploaderViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityUploaderBinding
 import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.transition.CircularPathReveal
 import me.sweetll.tucao.transition.TransitionListenerAdapter
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
@@ -186,7 +183,7 @@ class UploaderActivity : BaseActivity() {
 
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val result: Result = helper.getItem(position) as Result
+                val video: Video = helper.getItem(position) as Video
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val coverImg = view.findViewById<ImageView>(R.id.img_thumb)
                     val titleText = view.findViewById<View>(R.id.text_title)
@@ -194,9 +191,9 @@ class UploaderActivity : BaseActivity() {
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat
                             .makeSceneTransitionAnimation(this@UploaderActivity, p1)
-                    VideoActivity.intentTo(this@UploaderActivity, result.hid, cover, options.toBundle())
+                    VideoActivity.intentTo(this@UploaderActivity, video.hid, cover, options.toBundle())
                 } else {
-                    VideoActivity.intentTo(this@UploaderActivity, result.hid)
+                    VideoActivity.intentTo(this@UploaderActivity, video.hid)
                 }
             }
         })
@@ -258,14 +255,14 @@ class UploaderActivity : BaseActivity() {
         return circularReveal
     }
 
-    fun loadData(data: MutableList<Result>) {
+    fun loadData(data: MutableList<Video>) {
         videoAdapter.setNewData(data)
         if (data.size < viewModel.pageSize) {
             videoAdapter.setEnableLoadMore(false)
         }
     }
 
-    fun loadMoreData(data: MutableList<Result>?, flag: Int) {
+    fun loadMoreData(data: MutableList<Video>?, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
                 videoAdapter.addData(data)

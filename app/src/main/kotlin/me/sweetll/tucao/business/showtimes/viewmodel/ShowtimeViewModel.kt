@@ -3,10 +3,10 @@ package me.sweetll.tucao.business.showtimes.viewmodel
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.showtimes.ShowtimeActivity
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.raw.ShowtimeSection
 import org.jsoup.nodes.Document
 import java.util.*
@@ -57,7 +57,7 @@ class ShowtimeViewModel(val activity: ShowtimeActivity): BaseViewModel() {
                     .forEach {
                         val thumb = it.child(0).attr("src")
                         val title = it.child(1).text()
-                        total.add(ShowtimeSection(Result(thumb = thumb, title = title)))
+                        total.add(ShowtimeSection(Video(thumb = thumb, title = title)))
                     }
             total
         }

@@ -4,10 +4,10 @@ import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.uploader.UploaderActivity
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.Result
 import org.jsoup.nodes.Document
 
 class UploaderViewModel(val activity: UploaderActivity, val userId: String): BaseViewModel() {
@@ -56,7 +56,7 @@ class UploaderViewModel(val activity: UploaderActivity, val userId: String): Bas
                 })
     }
 
-    fun parseVideos(doc: Document): MutableList<Result> {
+    fun parseVideos(doc: Document): MutableList<Video> {
         val v_divs = doc.select("div.v")
 
         return v_divs.fold(mutableListOf()) {
@@ -74,9 +74,9 @@ class UploaderViewModel(val activity: UploaderActivity, val userId: String): Bas
             val play = nums[0].toInt()
             val mukio = nums[1].toInt()
 
-            val result = Result(title = title, hid = hid, thumb = thumb, play = play, mukio = mukio)
+            val video = Video(title = title, hid = hid, thumb = thumb, play = play, mukio = mukio)
 
-            total.add(result)
+            total.add(video)
             total
         }
     }

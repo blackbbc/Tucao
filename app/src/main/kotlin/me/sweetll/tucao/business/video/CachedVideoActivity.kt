@@ -16,7 +16,7 @@ import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.download.model.Part
+import me.sweetll.tucao.model.json.Part
 import me.sweetll.tucao.business.video.adapter.StandardVideoAllCallBackAdapter
 import me.sweetll.tucao.databinding.ActivityCachedVideoBinding
 import me.sweetll.tucao.extension.setUp

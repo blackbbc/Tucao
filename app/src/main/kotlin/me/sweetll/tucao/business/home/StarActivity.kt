@@ -16,12 +16,11 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.business.home.adapter.PlayHistoryAdapter
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.adapter.StarAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityStarBinding
 import me.sweetll.tucao.extension.HistoryHelpers
-import me.sweetll.tucao.model.json.Result
 
 class StarActivity : BaseActivity() {
     lateinit var binding: ActivityStarBinding
@@ -71,8 +70,8 @@ class StarActivity : BaseActivity() {
         })
         binding.starRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View?, position: Int) {
-                val result = helper.getItem(position) as Result
-                VideoActivity.intentTo(this@StarActivity, result)
+                val video = helper.getItem(position) as Video
+                VideoActivity.intentTo(this@StarActivity, video)
             }
         })
         binding.starRecycler.layoutManager = LinearLayoutManager(this)

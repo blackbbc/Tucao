@@ -9,9 +9,9 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
-import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.StateController
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.StateController
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load

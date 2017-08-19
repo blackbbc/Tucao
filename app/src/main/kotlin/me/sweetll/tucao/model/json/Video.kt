@@ -2,35 +2,101 @@ package me.sweetll.tucao.model.json
 
 import android.os.Parcel
 import android.os.Parcelable
-import me.sweetll.tucao.model.xml.Durl
+import com.chad.library.adapter.base.entity.IExpandable
+import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.squareup.moshi.Json
+import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
+import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
-data class Video(val title: String = "",
-                 val type: String = "",
-                 var vid: String = "",
-                 var checked: Boolean = false,
-                 var order: Int = 0,
-                 var durls: MutableList<Durl> = mutableListOf(),
-                 var file: String = "",
-                 var lastPlayPosition: Int = 0) : Parcelable {
+data class Video(val hid: String = "",
+            val title: String = "",
+            val play: Int = 0,
+            val mukio: Int = 0,
+            val create: String = "",
+            val thumb: String = "",
+            val typeid: Int = 0,
+            val typename: String = "",
+            val description: String = "",
+            val userid: String = "",
+            val user: String = "",
+            val keywords: String = "",
+            val part: Int = 0,
+            val flag: Int = DownloadStatus.READY,
+            var downloadSize: Long = 0L,
+            var totalSize: Long = 0L,
+            var checkable: Boolean = false,
+            var checked: Boolean = false,
+            var singlePart: Boolean = false) : IExpandable<Part>, MultiItemEntity, Parcelable {
+
+    var parts: MutableList<Part> = mutableListOf()
+
+    private var expandable = false
+
+    override fun getLevel(): Int = 0
+
+    override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_VIDEO
+
+    override fun setExpanded(expanded: Boolean) {
+        this.expandable = expandable
+    }
+
+    override fun getSubItems(): MutableList<Part> = parts
+
+    override fun isExpanded(): Boolean = expandable
+
+    constructor(source: Parcel) : this(
+            source.readString(),
+            source.readString(),
+            source.readInt(),
+            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readInt(),
+            source.readInt(),
+            source.readLong(),
+            source.readLong(),
+            1 == source.readInt(),
+            1 == source.readInt(),
+            1 == source.readInt()
+    ) {
+        source.readList(parts, List::class.java.classLoader)
+    }
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(hid)
+        writeString(title)
+        writeInt(play)
+        writeInt(mukio)
+        writeString(create)
+        writeString(thumb)
+        writeInt(typeid)
+        writeString(typename)
+        writeString(description)
+        writeString(userid)
+        writeString(user)
+        writeString(keywords)
+        writeInt(part)
+        writeInt(flag)
+        writeLong(downloadSize)
+        writeLong(totalSize)
+        writeInt((if (checkable) 1 else 0))
+        writeInt((if (checked) 1 else 0))
+        writeInt((if (singlePart) 1 else 0))
+        writeList(parts)
+    }
+
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Video> = object : Parcelable.Creator<Video> {
             override fun createFromParcel(source: Parcel): Video = Video(source)
             override fun newArray(size: Int): Array<Video?> = arrayOfNulls(size)
         }
-    }
-
-    constructor(source: Parcel) : this(source.readString(), source.readString(), source.readString(), 1 == source.readInt(), source.readInt(), source.createTypedArrayList(Durl.CREATOR), source.readString(), source.readInt())
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(title)
-        dest?.writeString(type)
-        dest?.writeString(vid)
-        dest?.writeInt((if (checked) 1 else 0))
-        dest?.writeInt(order)
-        dest?.writeTypedList(durls)
-        dest?.writeString(file)
-        dest?.writeInt(lastPlayPosition)
     }
 }

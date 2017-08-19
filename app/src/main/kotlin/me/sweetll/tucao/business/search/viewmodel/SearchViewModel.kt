@@ -6,12 +6,12 @@ import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.search.SearchActivity
 import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.hideSoftKeyboard
 import me.sweetll.tucao.extension.sanitizeJsonList
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.Result
 
 class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var tid: Int? = null, var order: String? = "date"): BaseViewModel()  {
     val searchText = ObservableField<String>()
@@ -99,7 +99,7 @@ class SearchViewModel(val activity: SearchActivity, keyword: String? = null, var
         if (searchText.get().isNotEmpty()) {
             activity.hideSoftKeyboard()
             lastKeyword = searchText.get()
-            HistoryHelpers.saveSearchHistory(Result(title = lastKeyword))
+            HistoryHelpers.saveSearchHistory(Video(title = lastKeyword))
             activity.loadHistory(HistoryHelpers.loadSearchHistory())
             loadData()
         }

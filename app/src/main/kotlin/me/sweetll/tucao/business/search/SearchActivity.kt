@@ -31,13 +31,13 @@ import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.VideoAdapter
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.search.adapter.SearchHistoryAdapter
 import me.sweetll.tucao.business.search.viewmodel.SearchViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivitySearchBinding
 import me.sweetll.tucao.extension.HistoryHelpers
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.transition.CircularReveal
 import me.sweetll.tucao.util.TransitionUtils
 import me.sweetll.tucao.widget.DisEditText
@@ -164,7 +164,7 @@ class SearchActivity : BaseActivity() {
 
         videoAdapter.setOnItemClickListener {
             helper, view, position ->
-                val result = helper.getItem(position) as Result
+                val video = helper.getItem(position) as Video
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val coverImg = view.findViewById<ImageView>(R.id.img_thumb)
                     val titleText = view.findViewById<View>(R.id.text_title)
@@ -172,9 +172,9 @@ class SearchActivity : BaseActivity() {
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat
                             .makeSceneTransitionAnimation(this@SearchActivity, p1)
-                    VideoActivity.intentTo(this@SearchActivity, result, cover, options.toBundle())
+                    VideoActivity.intentTo(this@SearchActivity, video, cover, options.toBundle())
                 } else {
-                    VideoActivity.intentTo(this@SearchActivity, result)
+                    VideoActivity.intentTo(this@SearchActivity, video)
                 }
         }
 
@@ -188,15 +188,15 @@ class SearchActivity : BaseActivity() {
 
         binding.historyRecycler.addOnItemTouchListener(object: OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val result = helper.getItem(position) as Result
-                viewModel.searchText.set(result.title)
+                val video = helper.getItem(position) as Video
+                viewModel.searchText.set(video.title)
                 viewModel.onClickSearch(view)
             }
         })
         binding.historyRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
             override fun onSimpleItemChildClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 if (view.id == R.id.img_delete) {
-                    val result = helper.getItem(position) as Result
+                    val result = helper.getItem(position) as Video
                     val removedIndex = HistoryHelpers.removeSearchHistory(result)
                     searchHistoryAdapter.remove(removedIndex)
                 }
@@ -216,7 +216,7 @@ class SearchActivity : BaseActivity() {
         videoAdapter.setNewData(mutableListOf())
     }
 
-    fun loadData(data: MutableList<Result>) {
+    fun loadData(data: MutableList<Video>) {
         videoAdapter.setNewData(data)
         if (data.size < viewModel.pageSize) {
             videoAdapter.setEnableLoadMore(false)
@@ -226,7 +226,7 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    fun loadMoreData(data: MutableList<Result>?, flag: Int) {
+    fun loadMoreData(data: MutableList<Video>?, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
                 videoAdapter.addData(data)
@@ -242,7 +242,7 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    fun loadHistory(histories: MutableList<Result>) {
+    fun loadHistory(histories: MutableList<Video>) {
         searchHistoryAdapter.setNewData(histories)
     }
 

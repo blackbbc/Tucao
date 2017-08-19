@@ -6,13 +6,13 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.extension.formatByWan
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.model.json.Channel
-import me.sweetll.tucao.model.json.Result
 
-class BangumiAdapter(data: MutableList<Pair<Channel, List<Result>>>?): BaseQuickAdapter<Pair<Channel, List<Result>>, BaseViewHolder>(R.layout.item_recommend_video, data) {
-    override fun convert(helper: BaseViewHolder, item: Pair<Channel, List<Result>>) {
+class BangumiAdapter(data: MutableList<Pair<Channel, List<Video>>>?): BaseQuickAdapter<Pair<Channel, List<Video>>, BaseViewHolder>(R.layout.item_recommend_video, data) {
+    override fun convert(helper: BaseViewHolder, item: Pair<Channel, List<Video>>) {
         val channel = item.first
         helper.setText(R.id.text_channel, channel.name)
 

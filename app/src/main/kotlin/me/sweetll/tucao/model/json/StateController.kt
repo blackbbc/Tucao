@@ -1,4 +1,4 @@
-package me.sweetll.tucao.business.download.model
+package me.sweetll.tucao.model.json
 
 import android.view.View
 import android.widget.ImageView

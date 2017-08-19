@@ -15,8 +15,8 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseViewModel
-import me.sweetll.tucao.business.download.model.Part
-import me.sweetll.tucao.business.download.model.Video
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.uploader.UploaderActivity
 import me.sweetll.tucao.business.video.adapter.DownloadPartAdapter
 import me.sweetll.tucao.business.video.fragment.VideoInfoFragment

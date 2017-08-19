@@ -4,12 +4,12 @@ import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
+import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.fragment.BangumiFragment
 import me.sweetll.tucao.business.showtimes.ShowtimeActivity
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.json.Channel
-import me.sweetll.tucao.model.json.Result
 import me.sweetll.tucao.model.raw.Bangumi
 import me.sweetll.tucao.model.raw.Banner
 import org.jsoup.nodes.Document
@@ -58,12 +58,12 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
         return banners
     }
 
-    fun parseRecommends(doc: Document): List<Pair<Channel, List<Result>>> {
+    fun parseRecommends(doc: Document): List<Pair<Channel, List<Video>>> {
         val title_red = doc.select("h2.title_red").takeLast(4)
         val lists_tip = doc.select("div.lists.tip").takeLast(4)
         val titleZipLists = title_red zip lists_tip
 
-        val recommends = titleZipLists.fold(mutableListOf<Pair<Channel, List<Result>>>()) {
+        val recommends = titleZipLists.fold(mutableListOf<Pair<Channel, List<Video>>>()) {
             total, zipElement ->
             // Parse Channel
             val aChannelElement = zipElement.first.child(1)
@@ -77,7 +77,7 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
                 it is Element
             }.map {
                 it.child(0)
-            }.fold(mutableListOf<Result>()) {
+            }.fold(mutableListOf<Video>()) {
                 total, aElement ->
                 // a
                 val linkUrl = aElement.attr("href")
@@ -85,7 +85,7 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
                 val thumb = aElement.child(0).attr("src")
                 val title = aElement.child(1).text()
                 val play = aElement.child(2).text().replace(",", "").toInt()
-                total.add(Result(hid = hid, title = title, play = play, thumb = thumb))
+                total.add(Video(hid = hid, title = title, play = play, thumb = thumb))
                 total
             }
 
