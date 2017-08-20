@@ -13,8 +13,6 @@ import android.graphics.drawable.Drawable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.sweetll.tucao.extension.FloatExtensionsKt;
-
 /**
  * Created by Jack Wang on 2016/8/5.
  */
@@ -30,7 +28,10 @@ public abstract class Indicator extends Drawable implements Animatable {
     private boolean mHasAnimators;
 
     private Paint mPaint = new Paint();
-    protected float strokeWidth = FloatExtensionsKt.dp2px(3f);
+
+    protected float radius;
+    protected float strokeWidth;
+    protected float circleSpacing;
 
     public Indicator() {
         mPaint.setColor(Color.WHITE);
@@ -45,6 +46,19 @@ public abstract class Indicator extends Drawable implements Animatable {
 
     public void setColor(int color) {
         mPaint.setColor(color);
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+        mPaint.setStrokeWidth(strokeWidth);
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    public void setCircleSpacing(float circleSpacing) {
+        this.circleSpacing = circleSpacing;
     }
 
     @Override

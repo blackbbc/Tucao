@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
@@ -115,7 +116,13 @@ class RecommendFragment : BaseFragment() {
     }
 
     fun loadIndex(index: Index) {
-        isLoad = true
+        if (!isLoad) {
+            isLoad = true
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = View.GONE
+            binding.recommendRecycler.visibility = View.VISIBLE
+        }
+
         (headerView as ConvenientBanner<Banner>).setPages({ BannerHolder() }, index.banners)
                 .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
@@ -125,6 +132,8 @@ class RecommendFragment : BaseFragment() {
     }
 
     fun setRefreshing(isRefreshing: Boolean) {
-        binding.swipeRefresh.isRefreshing = isRefreshing
+        if (isLoad) {
+            binding.swipeRefresh.isRefreshing = isRefreshing
+        }
     }
 }

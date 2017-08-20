@@ -9,13 +9,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import me.sweetll.tucao.R;
+import me.sweetll.tucao.extension.FloatExtensionsKt;
 
 public class AVLoadingIndicatorView extends View {
 
@@ -56,13 +55,11 @@ public class AVLoadingIndicatorView extends View {
         }
     };
 
-    int mMinWidth;
-    int mMaxWidth;
-    int mMinHeight;
-    int mMaxHeight;
-
     private Indicator mIndicator;
     private int mIndicatorColor;
+    private int mRadius;
+    private int mBorderWidth;
+    private int mCircleSpacing;
 
     private boolean mShouldStartAnimationDrawable;
 
@@ -73,7 +70,7 @@ public class AVLoadingIndicatorView extends View {
 
     public AVLoadingIndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs,0 ,R.style.AVLoadingIndicatorView);
+        init(context, attrs,0 , R.style.AVLoadingIndicatorView);
     }
 
     public AVLoadingIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -88,20 +85,14 @@ public class AVLoadingIndicatorView extends View {
     }
 
     private void init(Context context,AttributeSet attrs,int defStyleAttr, int defStyleRes) {
-        mMinWidth = 24;
-        mMaxWidth = 48;
-        mMinHeight = 24;
-        mMaxHeight = 48;
-
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.AVLoadingIndicatorView, defStyleAttr, defStyleRes);
 
-        mMinWidth = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_minWidth, mMinWidth);
-        mMaxWidth = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_maxWidth, mMaxWidth);
-        mMinHeight = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_minHeight, mMinHeight);
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_maxHeight, mMaxHeight);
+        mRadius = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_radius, (int)FloatExtensionsKt.dp2px(12f));
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_borderWidth, (int)FloatExtensionsKt.dp2px(2f));
+        mCircleSpacing = a.getDimensionPixelSize(R.styleable.AVLoadingIndicatorView_circleSpacing, (int)FloatExtensionsKt.dp2px(4f));
         mIndicatorColor = a.getColor(R.styleable.AVLoadingIndicatorView_indicatorColor, Color.WHITE);
-        if (mIndicator==null){
+        if (mIndicator == null){
             setIndicator(DEFAULT_INDICATOR);
         }
         a.recycle();
@@ -120,7 +111,7 @@ public class AVLoadingIndicatorView extends View {
 
             mIndicator = d;
             //need to set indicator color again if you didn't specified when you update the indicator .
-            setIndicatorColor(mIndicatorColor);
+            updateIndicator();
             if (d != null) {
                 d.setCallback(this);
             }
@@ -128,22 +119,11 @@ public class AVLoadingIndicatorView extends View {
         }
     }
 
-
-    /**
-     * setIndicatorColor(0xFF00FF00)
-     * or
-     * setIndicatorColor(Color.BLUE)
-     * or
-     * setIndicatorColor(Color.parseColor("#FF4081"))
-     * or
-     * setIndicatorColor(0xFF00FF00)
-     * or
-     * setIndicatorColor(getResources().getColor(android.R.color.black))
-     * @param color
-     */
-    public void setIndicatorColor(int color){
-        this.mIndicatorColor=color;
-        mIndicator.setColor(color);
+    public void updateIndicator() {
+        mIndicator.setColor(mIndicatorColor);
+        mIndicator.setStrokeWidth(mBorderWidth);
+        mIndicator.setRadius(mRadius);
+        mIndicator.setCircleSpacing(mCircleSpacing);
     }
 
     public void smoothToShow(){
@@ -265,25 +245,6 @@ public class AVLoadingIndicatorView extends View {
         int left = 0;
 
         if (mIndicator != null) {
-            // Maintain aspect ratio. Certain kinds of animated drawables
-            // get very confused otherwise.
-            final int intrinsicWidth = mIndicator.getIntrinsicWidth();
-            final int intrinsicHeight = mIndicator.getIntrinsicHeight();
-            final float intrinsicAspect = (float) intrinsicWidth / intrinsicHeight;
-            final float boundAspect = (float) w / h;
-            if (intrinsicAspect != boundAspect) {
-                if (boundAspect > intrinsicAspect) {
-                    // New width is larger. Make it smaller to match height.
-                    final int width = (int) (h * intrinsicAspect);
-                    left = (w - width) / 2;
-                    right = left + width;
-                } else {
-                    // New height is larger. Make it smaller to match width.
-                    final int height = (int) (w * (1 / intrinsicAspect));
-                    top = (h - height) / 2;
-                    bottom = top + height;
-                }
-            }
             mIndicator.setBounds(left, top, right, bottom);
         }
     }
@@ -320,8 +281,8 @@ public class AVLoadingIndicatorView extends View {
 
         final Drawable d = mIndicator;
         if (d != null) {
-            dw = Math.max(mMinWidth, Math.min(mMaxWidth, d.getIntrinsicWidth()));
-            dh = Math.max(mMinHeight, Math.min(mMaxHeight, d.getIntrinsicHeight()));
+            dw = 6 * (mRadius + mBorderWidth) + 2 * mCircleSpacing;
+            dh = 2 * (mRadius + mBorderWidth);
         }
 
         updateDrawableState();
