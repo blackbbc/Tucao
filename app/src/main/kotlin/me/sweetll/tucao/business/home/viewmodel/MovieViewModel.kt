@@ -35,6 +35,7 @@ class MovieViewModel(val fragment: MovieFragment): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     error.message?.toast()
+                    fragment.loadError()
                 })
     }
 

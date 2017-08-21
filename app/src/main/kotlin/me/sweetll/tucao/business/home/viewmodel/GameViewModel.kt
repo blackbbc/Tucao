@@ -33,6 +33,7 @@ class GameViewModel(val fragment: GameFragment): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     error.message?.toast()
+                    fragment.loadError()
                 })
     }
 

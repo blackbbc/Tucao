@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.util.Pair
@@ -38,14 +39,22 @@ class GameFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         binding.viewModel = viewModel
+        binding.loading.show()
         return binding.root
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeRefresh.isEnabled = false
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadData()
+        }
+        binding.errorStub.setOnInflateListener {
+            _, inflated ->
+            inflated.setOnClickListener {
+                viewModel.loadData()
+            }
         }
         setupRecyclerView()
         loadWhenNeed()
@@ -111,11 +120,45 @@ class GameFragment : BaseFragment() {
     }
 
     fun loadGame(game: Game) {
-        isLoad = true
+        if (!isLoad) {
+            isLoad = true
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.swipeRefresh.isEnabled = true
+            binding.loading.visibility = View.GONE
+            if (binding.errorStub.isInflated) {
+                binding.errorStub.root.visibility = View.GONE
+            }
+            binding.gameRecycler.visibility = View.VISIBLE
+        }
+
         gameAdapter.setNewData(game.recommends)
     }
 
+    fun loadError() {
+        if (!isLoad) {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = View.GONE
+            if (!binding.errorStub.isInflated) {
+                binding.errorStub.viewStub.visibility = View.VISIBLE
+            } else {
+                binding.errorStub.root.visibility = View.VISIBLE
+            }
+        }
+    }
+
     fun setRefreshing(isRefreshing: Boolean) {
-        binding.swipeRefresh.isRefreshing = isRefreshing
+        if (isLoad) {
+            binding.swipeRefresh.isRefreshing = isRefreshing
+        } else {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = if (isRefreshing) View.VISIBLE else View.GONE
+            if (isRefreshing) {
+                if (!binding.errorStub.isInflated) {
+                    binding.errorStub.viewStub.visibility = View.GONE
+                } else {
+                    binding.errorStub.root.visibility = View.GONE
+                }
+            }
+        }
     }
 }

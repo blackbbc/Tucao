@@ -33,6 +33,7 @@ class AnimationViewModel(val fragment: AnimationFragment): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     error.message?.toast()
+                    fragment.loadError()
                 })
     }
 
@@ -92,7 +93,6 @@ class AnimationViewModel(val fragment: AnimationFragment): BaseViewModel() {
             total
         }
         recommends.add(0, channel to results)
-
 
         return recommends
     }
