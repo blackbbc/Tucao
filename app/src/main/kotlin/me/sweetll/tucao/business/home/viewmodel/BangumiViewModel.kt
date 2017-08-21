@@ -36,6 +36,7 @@ class BangumiViewModel(val fragment: BangumiFragment): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     error.message?.toast()
+                    fragment.loadError()
                 })
     }
 

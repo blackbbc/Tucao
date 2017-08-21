@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
@@ -27,7 +28,6 @@ import me.sweetll.tucao.databinding.HeaderBangumiBinding
 import me.sweetll.tucao.model.raw.Bangumi
 import me.sweetll.tucao.model.raw.Banner
 
-
 class BangumiFragment : BaseFragment() {
     lateinit var binding: FragmentBangumiBinding
     lateinit var headerBinding: HeaderBangumiBinding
@@ -41,6 +41,7 @@ class BangumiFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bangumi, container, false)
         binding.viewModel = viewModel
+        binding.loading.show()
         return binding.root
     }
 
@@ -49,6 +50,12 @@ class BangumiFragment : BaseFragment() {
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadData()
+        }
+        binding.errorStub.setOnInflateListener {
+            _, inflated ->
+            inflated.setOnClickListener {
+                viewModel.loadData()
+            }
         }
         setupRecyclerView()
         loadWhenNeed()
@@ -115,7 +122,17 @@ class BangumiFragment : BaseFragment() {
     }
 
     fun loadBangumi(bangumi: Bangumi) {
-        isLoad = true
+        if (!isLoad) {
+            isLoad = true
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.swipeRefresh.isEnabled = true
+            binding.loading.visibility = View.GONE
+            if (binding.errorStub.isInflated) {
+                binding.errorStub.root.visibility = View.GONE
+            }
+            binding.bangumiRecycler.visibility = View.VISIBLE
+        }
+
         bangumiAdapter.setNewData(bangumi.recommends)
         headerBinding.banner.setPages({ BannerHolder() }, bangumi.banners)
                 .setPageIndicator(intArrayOf(R.drawable.indicator_white_circle, R.drawable.indicator_pink_circle))
@@ -123,7 +140,31 @@ class BangumiFragment : BaseFragment() {
                 .startTurning(3000)
     }
 
+    fun loadError() {
+        if (!isLoad) {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = View.GONE
+            if (!binding.errorStub.isInflated) {
+                binding.errorStub.viewStub.visibility = View.VISIBLE
+            } else {
+                binding.errorStub.root.visibility = View.VISIBLE
+            }
+        }
+    }
+
     fun setRefreshing(isRefreshing: Boolean) {
-        binding.swipeRefresh.isRefreshing = isRefreshing
+        if (isLoad) {
+            binding.swipeRefresh.isRefreshing = isRefreshing
+        } else {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = if (isRefreshing) View.VISIBLE else View.GONE
+            if (isRefreshing) {
+                if (!binding.errorStub.isInflated) {
+                    binding.errorStub.viewStub.visibility = View.GONE
+                } else {
+                    binding.errorStub.root.visibility = View.GONE
+                }
+            }
+        }
     }
 }

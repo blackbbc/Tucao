@@ -29,8 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:background="@color/white"
             android:foreground="?android:attr/selectableItemBackground">
 
             <LinearLayout
@@ -341,6 +341,7 @@
         android:id="@+id/card_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:foreground="?android:attr/selectableItemBackground"
         android:visibility="gone"
         tools:visibility="visible"

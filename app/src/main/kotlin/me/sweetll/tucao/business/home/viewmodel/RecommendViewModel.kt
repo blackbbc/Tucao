@@ -44,10 +44,6 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
         RankActivity.intentTo(fragment.activity)
     }
 
-    fun onClickError() {
-        loadData()
-    }
-
     fun parseBanners(doc: Document): List<Banner> {
         val banners = mutableListOf<Banner>()
 
