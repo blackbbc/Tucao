@@ -24,6 +24,7 @@ import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 
@@ -45,9 +46,16 @@ class RecommendFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeRefresh.isEnabled = false
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadData()
+        }
+        binding.errorStub.setOnInflateListener {
+            _, inflated ->
+            inflated.setOnClickListener {
+                viewModel.loadData()
+            }
         }
         setupRecyclerView()
         loadWhenNeed()
@@ -119,7 +127,11 @@ class RecommendFragment : BaseFragment() {
         if (!isLoad) {
             isLoad = true
             TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.swipeRefresh.isEnabled = true
             binding.loading.visibility = View.GONE
+            if (binding.errorStub.isInflated) {
+                binding.errorStub.root.visibility = View.GONE
+            }
             binding.recommendRecycler.visibility = View.VISIBLE
         }
 
@@ -131,9 +143,31 @@ class RecommendFragment : BaseFragment() {
         recommendAdapter.setNewData(index.recommends)
     }
 
+    fun loadError() {
+        if (!isLoad) {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = View.GONE
+            if (!binding.errorStub.isInflated) {
+                binding.errorStub.viewStub.visibility = View.VISIBLE
+            } else {
+                binding.errorStub.root.visibility = View.VISIBLE
+            }
+        }
+    }
+
     fun setRefreshing(isRefreshing: Boolean) {
         if (isLoad) {
             binding.swipeRefresh.isRefreshing = isRefreshing
+        } else {
+            TransitionManager.beginDelayedTransition(binding.swipeRefresh)
+            binding.loading.visibility = if (isRefreshing) View.VISIBLE else View.GONE
+            if (isRefreshing) {
+                if (!binding.errorStub.isInflated) {
+                    binding.errorStub.viewStub.visibility = View.GONE
+                } else {
+                    binding.errorStub.root.visibility = View.GONE
+                }
+            }
         }
     }
 }

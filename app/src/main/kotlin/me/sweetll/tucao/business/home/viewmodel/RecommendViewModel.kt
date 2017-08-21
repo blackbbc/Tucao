@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.home.viewmodel
 
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.disposables.Disposable
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.fragment.RecommendFragment
@@ -35,11 +36,16 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
                     error ->
                     error.printStackTrace()
                     error.message?.toast()
+                    fragment.loadError()
                 })
     }
 
     fun onClickRank(view: View) {
         RankActivity.intentTo(fragment.activity)
+    }
+
+    fun onClickError() {
+        loadData()
     }
 
     fun parseBanners(doc: Document): List<Banner> {
