@@ -28,7 +28,13 @@ data class Video(val hid: String = "",
             var checked: Boolean = false,
             var singlePart: Boolean = false) : IExpandable<Part>, MultiItemEntity, Parcelable {
 
-    var parts: MutableList<Part> = mutableListOf()
+    var video: MutableList<Part> = mutableListOf()
+
+    var parts: MutableList<Part>
+        get() = video
+        set(value) {
+            video = value
+        }
 
     private var expandable = false
 
@@ -40,7 +46,7 @@ data class Video(val hid: String = "",
         this.expandable = expandable
     }
 
-    override fun getSubItems(): MutableList<Part> = parts
+    override fun getSubItems(): MutableList<Part> = video
 
     override fun isExpanded(): Boolean = expandable
 
@@ -65,7 +71,7 @@ data class Video(val hid: String = "",
             1 == source.readInt(),
             1 == source.readInt()
     ) {
-        source.readList(parts, List::class.java.classLoader)
+        source.readList(video, List::class.java.classLoader)
     }
 
     override fun describeContents() = 0
@@ -90,7 +96,7 @@ data class Video(val hid: String = "",
         writeInt((if (checkable) 1 else 0))
         writeInt((if (checked) 1 else 0))
         writeInt((if (singlePart) 1 else 0))
-        writeList(parts)
+        writeList(video)
     }
 
     companion object {

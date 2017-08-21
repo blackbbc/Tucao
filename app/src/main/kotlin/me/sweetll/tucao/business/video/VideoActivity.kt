@@ -198,7 +198,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         val slideUp = Slide(Gravity.TOP)
         slideUp.addTarget(binding.appBar)
         val slideDown = Slide(Gravity.BOTTOM)
-        slideDown.addTarget(binding.mainContainer)
+        slideDown.addTarget(binding.mainLinear)
         val slideAll = TransitionSet()
         slideAll.addTransition(slideUp)
         slideAll.addTransition(slideDown)
@@ -246,10 +246,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 if (transitionIn) {
                     transitionIn = false
                 } else {
-                    sharedElements?.run {
-                        remove("cover")
-                        remove("bg")
-                    }
+                    sharedElements?.clear()
                 }
             }
         })
