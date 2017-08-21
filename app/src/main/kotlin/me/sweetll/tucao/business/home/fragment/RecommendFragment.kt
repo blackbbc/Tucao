@@ -84,7 +84,7 @@ class RecommendFragment : BaseFragment() {
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            val coverImg = ((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                            val coverImg = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
                             val titleText = (view.getChildAt(0) as ViewGroup).getChildAt(1)
                             val p1: Pair<View, String> = Pair.create(coverImg, "cover")
                             val p2: Pair<View, String> = Pair.create(titleText, "bg")
