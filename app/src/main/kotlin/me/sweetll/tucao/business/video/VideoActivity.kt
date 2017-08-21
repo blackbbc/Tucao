@@ -127,7 +127,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             ViewCompat.setTransitionName(thumbImg, "cover");
             binding.player.setThumbImageView(thumbImg)
 
-            ViewCompat.setTransitionName(binding.mainContainer, "bg")
+            ViewCompat.setTransitionName(binding.mainLinear, "bg")
 
             initTransition()
             supportPostponeEnterTransition()
