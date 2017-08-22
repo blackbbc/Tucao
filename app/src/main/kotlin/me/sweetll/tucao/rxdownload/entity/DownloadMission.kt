@@ -11,17 +11,15 @@ import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 data class DownloadMission(
         @Column var hid: String = "",
         @Column var order: Int = 0,
-        @Column var title: String = "") {
+        @Column var title: String = "",
+        @Column var type: String = "",
+        @Column var vid: String = "") {
 
     @PrimaryKey var playerId: String = ApiConfig.generatePlayerId(hid, order)
 
     @Column(typeConverter = BeanListConverter::class) var beans: MutableList<DownloadBean> = mutableListOf()
 
-    var pause: Boolean
-        get() = beans.all { it.pause }
-        set(value) {
-            beans.forEach { it.pause = value }
-        }
+    var pause: Boolean = true
 
     val taskName: String
         get() = "$title/p$order"

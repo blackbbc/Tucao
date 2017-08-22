@@ -16,8 +16,6 @@ data class DownloadBean(@PrimaryKey var url: String = "",
                         @PrimaryKey var saveName: String = "",
                         @PrimaryKey var savePath: String = "") {
 
-    @Transient var pause: Boolean = true
-
     @Transient var connecting = false
     @Transient var request: Disposable? = null
 

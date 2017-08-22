@@ -87,10 +87,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 !p.checkDownload() && p.checked
             })
             DownloadHelpers.startDownload(videoInfoFragment.activity, video.get().copy().apply {
-                parts = parts.filter {
-                    part ->
-                    checkedParts.any { part.vid == it.vid }
-                }.toMutableList()
+                parts = checkedParts.toMutableList()
             })
             dialog.dismiss()
         }

@@ -38,7 +38,7 @@ object DownloadHelpers {
     private val defaultPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).path + "/me.sweetll.tucao"
     private val rxDownload: RxDownload = RxDownload.getInstance(AppApplication.get())
 
-    private val serviceInstance = ServiceInstance()
+    val serviceInstance = ServiceInstance()
 
     private val adapter by lazy {
         val moshi = Moshi.Builder()
@@ -170,54 +170,18 @@ object DownloadHelpers {
         rxDownload.downloadDanmu("${ApiConfig.DANMU_API_URL}&playerID=$playerId&r=${System.currentTimeMillis() / 1000}", saveName, savePath)
 
         // 再处理视频
-        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title) // 没有beans
+        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title, type = part.type, vid = part.vid) // 没有beans
+        if (part.durls.isNotEmpty()) {
+            // 处理直传的情况
+            part.durls.forEach {
+                durl ->
+                mission.beans.add(DownloadBean(durl.url, saveName = "${durl.order}", savePath = "${DownloadHelpers.getDownloadFolder().absolutePath}/${mission.hid}/p${mission.order}"))
+            }
+        }
         rxDownload.download(mission, part)
 
         video.parts.add(part)
         saveDownloadVideo(video)
-
-        /*
-        if (part.durls.isNotEmpty()) {
-            part.durls.forEach {
-                it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
-                it.cacheFileName = "${it.order}"
-                rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
-            }
-            video.subItems.add(part)
-            saveDownloadVideo(video)
-        } else {
-            serviceInstance.xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
-                    .subscribeOn(Schedulers.io())
-                    .flatMap {
-                        response ->
-                        if ("succ" == response.result) {
-                            Observable.just(response.durls)
-                        } else {
-                            Observable.error(Throwable("请求视频接口出错"))
-                        }
-                    }
-                    .doOnNext {
-                        durls ->
-                        durls.forEach {
-                            it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
-                            it.cacheFileName = "${it.order}"
-                        }
-                        part.durls.addAll(durls)
-                        durls.forEach {
-                            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
-                        }
-                    }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        video.subItems.add(part)
-                        saveDownloadVideo(video)
-                    }, {
-                        error ->
-                        error.printStackTrace()
-                        error.message?.toast()
-                    })
-        }
-        */
     }
 
     fun pauseDownload(part: Part) {
@@ -247,7 +211,6 @@ object DownloadHelpers {
                             outputStream.write(responseBody.bytes())
                             outputStream.flush()
                             outputStream.close()
-                            "pp".logD()
                         }
                 total.add(ob)
             }
