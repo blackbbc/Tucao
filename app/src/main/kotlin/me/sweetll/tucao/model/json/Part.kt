@@ -8,8 +8,8 @@ import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
-data class Part(val title: String,
-           var order: Int,
+data class Part(val title: String = "",
+           var order: Int = 0,
            var vid: String = "",
            val type: String = "",
            var flag: Int = DownloadStatus.READY,
