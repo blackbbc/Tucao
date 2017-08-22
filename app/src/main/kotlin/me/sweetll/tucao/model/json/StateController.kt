@@ -11,7 +11,7 @@ import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 
 class StateController(val sizeText: TextView, val statusImg: ImageView, val progressBar: ProgressBar) {
-    var state: DownloadState = READY()
+    var state: DownloadState = UNKNOWN()
 
     fun setEvent(downloadEvent: DownloadEvent) {
         state = when (downloadEvent.status) {
@@ -42,6 +42,19 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
             progressBar.progress = downloadSize.toInt()
         }
     }
+
+    inner class UNKNOWN : DownloadState() {
+        init {
+            sizeText.text = ""
+            statusImg.setImageDrawable(null)
+            progressBar.visibility = View.GONE
+        }
+
+        override fun handleClick(callback: DownloadHelpers.Callback) {
+            callback.pauseDownload()
+        }
+    }
+
 
     inner class READY : DownloadState() {
         init {

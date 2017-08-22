@@ -76,6 +76,7 @@ class DownloadService : Service() {
 
     val missionMap: ArrayMap<String, DownloadMission> = ArrayMap()
     val processorMap: ArrayMap<String, BehaviorProcessor<DownloadEvent>> = ArrayMap()
+    val sampleMap: ArrayMap<String, Boolean> = ArrayMap()
     val missionQueue = LinkedBlockingQueue<String>()
 
     override fun onCreate() {
@@ -278,8 +279,18 @@ class DownloadService : Service() {
                         .subscribe {
                             consumeEvent(mission, it, part)
                         }
+                sampleMap.put(mission.vid, true)
             }
-        }).apply { onNext(DownloadEvent(DownloadStatus.READY)) }
+        }).apply {
+            onNext(DownloadEvent(DownloadStatus.READY))
+            if (!sampleMap.getOrDefault(mission.vid, false)) {
+                sampleMap.put(mission.vid, true)
+                sample(500, TimeUnit.MILLISECONDS)
+                        .subscribe {
+                            consumeEvent(mission, it, part)
+                        }
+            }
+        }
 
         missionQueue.put(mission.vid)
     }
@@ -303,7 +314,9 @@ class DownloadService : Service() {
     }
 
     fun pause(vid: String) {
-        missionQueue.remove(vid)
+        if (missionQueue.remove(vid)) {
+            processorMap[vid]?.onNext(DownloadEvent(DownloadStatus.PAUSED))
+        }
         missionMap[vid]?.let {
             mission ->
             mission.pause = true

@@ -98,7 +98,7 @@ object DownloadHelpers {
 
         val existVideo = videos.find { it.hid == video.hid }
         if (existVideo != null) {
-            existVideo.subItems.add(video.subItems[0])
+            existVideo.subItems.addAll(video.parts)
             existVideo.subItems.sortBy(Part::order)
         } else {
             videos.add(0, video)
@@ -115,12 +115,14 @@ object DownloadHelpers {
     // 保存已下载的视频
     fun saveDownloadPart(part: Part) {
         val videos = loadDownloadVideos()
-        val existVideo = videos.flatMap {
-            it.subItems
-        }.find { it.vid == part.vid}
-        existVideo?.flag = part.flag
-        existVideo?.downloadSize = part.downloadSize
-        existVideo?.totalSize = part.totalSize
+        videos.flatMap {
+            it.parts
+        }.find { it.vid == part.vid}?.let {
+            it.durls = part.durls
+            it.flag = part.flag
+            it.downloadSize = part.downloadSize
+            it.totalSize = part.totalSize
+        }
 
         val jsonString = adapter.toJson(videos)
         val sp = DOWNLOAD_FILE_NAME.getSharedPreference()

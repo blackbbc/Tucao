@@ -25,8 +25,7 @@ data class Video(val hid: String = "",
             var downloadSize: Long = 0L,
             var totalSize: Long = 0L,
             var checkable: Boolean = false,
-            var checked: Boolean = false,
-            var singlePart: Boolean = false) : IExpandable<Part>, MultiItemEntity, Parcelable {
+            var checked: Boolean = false) : IExpandable<Part>, MultiItemEntity, Parcelable {
 
     var video: MutableList<Part> = mutableListOf()
 
@@ -35,6 +34,9 @@ data class Video(val hid: String = "",
         set(value) {
             video = value
         }
+
+    val singlePart: Boolean
+        get() = part == 1
 
     private var expanded = false
 
@@ -68,7 +70,6 @@ data class Video(val hid: String = "",
             source.readLong(),
             source.readLong(),
             1 == source.readInt(),
-            1 == source.readInt(),
             1 == source.readInt()
     ) {
         source.readList(video, List::class.java.classLoader)
@@ -95,7 +96,6 @@ data class Video(val hid: String = "",
         writeLong(totalSize)
         writeInt((if (checkable) 1 else 0))
         writeInt((if (checked) 1 else 0))
-        writeInt((if (singlePart) 1 else 0))
         writeList(video)
     }
 

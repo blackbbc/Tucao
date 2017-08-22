@@ -47,16 +47,16 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 helper.itemView.setOnClickListener {
                     if (video.checkable) {
                         checkBox.isChecked = !checkBox.isChecked
-                        video.subItems.forEach {
+                        video.parts.forEach {
                             it.checked = checkBox.isChecked
                         }
                         if (video.isExpanded) {
-                            notifyItemRangeChanged(helper.adapterPosition + 1, video.subItems.size)
+                            notifyItemRangeChanged(helper.adapterPosition + 1, video.parts.size)
                         }
                         updateMenu()
                     } else {
                         if (video.singlePart) {
-                            CachedVideoActivity.intentTo(mContext, video.subItems[0])
+                            CachedVideoActivity.intentTo(mContext, video.parts[0])
                         } else {
                             if (video.isExpanded) {
                                 collapse(helper.adapterPosition)
@@ -89,10 +89,10 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                         checkBox.isChecked = !checkBox.isChecked
                         val parentVideo = data.find {
                             video ->
-                            (video as Video).subItems.any { it.vid == part.vid }
+                            (video as Video).parts.any { it.vid == part.vid }
                         } as Video
-                        val currentPosition = parentVideo.subItems.indexOf(part)
-                        val newParentChecked = parentVideo.subItems.all(Part::checked)
+                        val currentPosition = parentVideo.parts.indexOf(part)
+                        val newParentChecked = parentVideo.parts.all(Part::checked)
                         if (newParentChecked != parentVideo.checked) {
                             parentVideo.checked = newParentChecked
                             notifyItemChanged(helper.adapterPosition - 1 - currentPosition)
