@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import me.sweetll.tucao.business.download.adapter.DownloadedVideoAdapter
+import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus

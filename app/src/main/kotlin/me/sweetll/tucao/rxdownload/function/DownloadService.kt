@@ -23,6 +23,7 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.logD
+import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadMission
@@ -120,8 +121,8 @@ class DownloadService : Service() {
     private fun syncFromDb() {
         val missions = (select from DownloadMission::class).list
         missions.forEach {
-            missionMap.put(it.playerId, it)
-            processorMap.put(it.playerId, BehaviorProcessor.create<DownloadEvent>()
+            missionMap.put(it.vid, it)
+            processorMap.put(it.vid, BehaviorProcessor.create<DownloadEvent>()
                     .apply {
                         onNext(DownloadEvent(DownloadStatus.PAUSED)) // 默认暂停状态
                     })
@@ -138,9 +139,9 @@ class DownloadService : Service() {
                 }
 
                 // 开始下载
-                val playerId = missionQueue.take()
-                val mission = missionMap[playerId]!!
-                val processor = processorMap[playerId]!!
+                val vid = missionQueue.take()
+                val mission = missionMap[vid]!!
+                val processor = processorMap[vid]!!
 
                 if (mission.beans.isEmpty()) {
                     // 尚未获取到下载地址
@@ -160,8 +161,16 @@ class DownloadService : Service() {
 
     private fun doObtainUrl(mission: DownloadMission, processor: BehaviorProcessor<DownloadEvent>) {
         processor.onNext(DownloadEvent(DownloadStatus.OBTAIN_URL))
-        DownloadHelpers.serviceInstance.xmlApiService.playUrl(mission.type, mission.vid, System.currentTimeMillis() / 1000)
+        mission.request = DownloadHelpers.serviceInstance.xmlApiService.playUrl(mission.type, mission.vid, System.currentTimeMillis() / 1000)
                 .subscribeOn(Schedulers.io())
+                .doOnDispose {
+                    processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
+                    mission.request = null
+                    semaphore.release()
+                }
+                .doAfterTerminate {
+                    mission.request = null
+                }
                 .flatMap {
                     response ->
                     if ("succ" == response.result) {
@@ -192,6 +201,13 @@ class DownloadService : Service() {
             bean.request = downloadApi.download(bean.url, bean.getRange(), bean.getIfRange())
                     .subscribeOn(Schedulers.io())
                     .doAfterTerminate {
+                        bean.request = null
+                        if (mission.beans.all { it.request == null }) {
+                            semaphore.release()
+                        }
+                    }
+                    .doOnDispose {
+                        processor.onNext(DownloadEvent(DownloadStatus.PAUSED))
                         bean.request = null
                         if (mission.beans.all { it.request == null }) {
                             semaphore.release()
@@ -254,9 +270,9 @@ class DownloadService : Service() {
     }
 
     fun download(newMission: DownloadMission, part: Part) {
-        val mission = missionMap.getOrPut(newMission.playerId, { newMission.apply { save() } })
+        val mission = missionMap.getOrPut(newMission.vid, { newMission.apply { save() } })
 
-        processorMap.getOrPut(mission.playerId, {
+        processorMap.getOrPut(mission.vid, {
             BehaviorProcessor.create<DownloadEvent>().apply {
                 sample(500, TimeUnit.MILLISECONDS)
                         .subscribe {
@@ -265,7 +281,7 @@ class DownloadService : Service() {
             }
         }).apply { onNext(DownloadEvent(DownloadStatus.READY)) }
 
-        missionQueue.put(mission.playerId)
+        missionQueue.put(mission.vid)
     }
 
     fun downloadDanmu(url: String, saveName: String, savePath: String) {
@@ -286,36 +302,45 @@ class DownloadService : Service() {
                 })
     }
 
-    fun pause(playerId: String) {
-        missionQueue.remove(playerId)
-        missionMap[playerId]?.let {
+    fun pause(vid: String) {
+        missionQueue.remove(vid)
+        missionMap[vid]?.let {
             mission ->
             mission.pause = true
-            mission.beans.forEach {
-                it.cancelIfConnecting()
+            if (mission.beans.isEmpty()) {
+                // 还在请求下载地址
+                mission.request?.dispose()
+            } else {
+                mission.beans.forEach {
+                    it.cancelIfConnecting()
+                }
             }
         }
     }
 
-    fun cancel(playerId: String, delete: Boolean) {
-        missionQueue.remove(playerId)
-        missionMap[playerId]?.let {
+    fun cancel(vid: String, delete: Boolean) {
+        missionQueue.remove(vid)
+        missionMap[vid]?.let {
             mission ->
             mission.pause = true
             if (delete) {
-                mission.beans.forEach {
-                    it.cancelIfConnecting()
-                    it.getFile().delete()
+                if (mission.beans.isEmpty()) {
+                    mission.request?.dispose()
+                } else {
+                    mission.beans.forEach {
+                        it.cancelIfConnecting()
+                        it.getFile().delete()
+                    }
                 }
             }
-            missionMap.remove(playerId)
-            processorMap.remove(playerId)
+            missionMap.remove(vid)
+            processorMap.remove(vid)
             mission.delete()
         }
     }
 
-    fun receive(playerId: String): BehaviorProcessor<DownloadEvent> {
-        val processor = processorMap[playerId]!! // 可能不存在吗？
+    fun receive(vid: String): BehaviorProcessor<DownloadEvent> {
+        val processor = processorMap[vid]!! // 可能不存在吗？
         return processor
     }
 
@@ -333,17 +358,9 @@ class DownloadService : Service() {
                 mission.save()
                 mission.beans.forEach {
                     bean ->
-                    part.durls.find {
-                        it.url == bean.url
-                    }?.let {
-                        it.flag = DownloadStatus.COMPLETED
-                        it.cacheFileName = bean.saveName
-                        it.cacheFolderPath = bean.savePath
-                        it.downloadSize = bean.downloadLength
-                        it.totalSize = bean.contentLength
-                        part.update()
-                    }
+                    part.durls.add(Durl(flag = DownloadStatus.COMPLETED, cacheFileName = bean.saveName, cacheFolderPath = bean.savePath, downloadSize = bean.downloadLength, totalSize = bean.contentLength))
                 }
+                part.update()
                 DownloadHelpers.saveDownloadPart(part)
             }
         }
@@ -366,12 +383,12 @@ class DownloadService : Service() {
 
                 val pauseIntent = Intent(this, DownloadService::class.java)
                 pauseIntent.action = ACTION_PAUSE
-                pauseIntent.putExtra(ACTION_URL, mission.playerId)
+                pauseIntent.putExtra(ACTION_URL, mission.vid)
                 val piPause = PendingIntent.getService(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val cancelIntent = Intent(this, DownloadService::class.java)
                 cancelIntent.action = ACTION_CANCEL
-                cancelIntent.putExtra(ACTION_URL, mission.playerId)
+                cancelIntent.putExtra(ACTION_URL, mission.vid)
                 val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)

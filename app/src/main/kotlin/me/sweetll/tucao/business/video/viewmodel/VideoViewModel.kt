@@ -13,6 +13,7 @@ import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.*
+import me.sweetll.tucao.model.xml.Durl
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import java.io.File
 import java.io.FileOutputStream
@@ -56,9 +57,9 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
         if (part.flag == DownloadStatus.COMPLETED) {
             activity.loadDurls(part.durls)
-        } else if (part.vid.startsWith(hid)) {
+        } else if (part.file.isNotEmpty()) {
             // 这个视频是直传的
-            activity.loadDurls(part.durls)
+            activity.loadDurls(mutableListOf(Durl(url = part.file)))
         } else {
             playUrlDisposable = xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
                     .bindToLifecycle(activity)

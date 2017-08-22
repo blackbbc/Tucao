@@ -16,6 +16,8 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
     fun setEvent(downloadEvent: DownloadEvent) {
         state = when (downloadEvent.status) {
             DownloadStatus.READY -> READY()
+            DownloadStatus.OBTAIN_URL -> OBTAIN_URL()
+            DownloadStatus.CONNECTING -> CONNECTING()
             DownloadStatus.STARTED -> Started()
             DownloadStatus.PAUSED -> Paused()
             DownloadStatus.FAILED -> Failed()
@@ -52,6 +54,31 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
             callback.pauseDownload()
         }
     }
+
+    inner class OBTAIN_URL : DownloadState() {
+        init {
+            sizeText.text = "获取下载地址中..."
+            statusImg.setImageResource(R.drawable.ic_pause)
+            progressBar.visibility = View.VISIBLE
+        }
+
+        override fun handleClick(callback: DownloadHelpers.Callback) {
+            callback.pauseDownload()
+        }
+    }
+
+    inner class CONNECTING : DownloadState() {
+        init {
+            sizeText.text = "连接中..."
+            statusImg.setImageResource(R.drawable.ic_pause)
+            progressBar.visibility = View.VISIBLE
+        }
+
+        override fun handleClick(callback: DownloadHelpers.Callback) {
+            callback.pauseDownload()
+        }
+    }
+
 
     inner class Started : DownloadState() {
         init {

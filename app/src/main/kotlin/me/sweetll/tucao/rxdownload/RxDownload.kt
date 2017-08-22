@@ -74,25 +74,25 @@ class RxDownload {
         }
     }
 
-    fun pause(url: String) {
+    fun pause(vid: String) {
         ensureBind().subscribe {
             service ->
-            service.pause(url)
+            service.pause(vid)
         }
     }
 
-    fun cancel(url: String, delete: Boolean = true) {
+    fun cancel(vid: String, delete: Boolean = true) {
         ensureBind().subscribe {
             service ->
-            service.cancel(url, delete)
+            service.cancel(vid, delete)
         }
     }
 
-    fun receive(url: String): Observable<DownloadEvent> {
+    fun receive(vid: String): Observable<DownloadEvent> {
         return ensureBind()
                 .flatMap {
                     service ->
-                    service.receive(url).toObservable()
+                    service.receive(vid).toObservable()
                 }
     }
 }

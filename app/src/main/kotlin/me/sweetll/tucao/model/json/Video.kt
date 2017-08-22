@@ -36,19 +36,19 @@ data class Video(val hid: String = "",
             video = value
         }
 
-    private var expandable = false
+    private var expanded = false
 
     override fun getLevel(): Int = 0
 
     override fun getItemType(): Int = DownloadedVideoAdapter.TYPE_VIDEO
 
     override fun setExpanded(expanded: Boolean) {
-        this.expandable = expandable
+        this.expanded = expanded
     }
 
     override fun getSubItems(): MutableList<Part> = video
 
-    override fun isExpanded(): Boolean = expandable
+    override fun isExpanded(): Boolean = expanded
 
     constructor(source: Parcel) : this(
             source.readString(),

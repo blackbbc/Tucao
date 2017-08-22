@@ -253,7 +253,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     }
 
     fun loadVideo(video: Video) {
-        this.video= video
+        this.video = video
         setupPlayer()
         videoPagerAdapter.bindVideo(video)
     }

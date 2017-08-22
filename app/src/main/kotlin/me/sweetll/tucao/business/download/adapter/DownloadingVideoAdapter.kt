@@ -80,33 +80,24 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 val part = item as Part
                 part.stateController = StateController(helper.getView(R.id.text_size), helper.getView(R.id.img_status), helper.getView(R.id.progress))
                 helper.setText(R.id.text_title, part.title)
-                part.durls.forEach {
-                    durl ->
-                    rxDownload.receive(durl.url)
-                            .sample(500, TimeUnit.MILLISECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                (status, downloadSize, totalSize) ->
+                rxDownload.receive(part.vid)
+                        .sample(500, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            (status, downloadSize, totalSize) ->
 
-                                durl.flag = status
-                                durl.downloadSize = downloadSize
-                                durl.totalSize = totalSize
+                            val newEvent = DownloadEvent(status, downloadSize, totalSize)
 
-                                part.update()
-
-                                val newEvent = DownloadEvent(part.flag, part.downloadSize, part.totalSize)
-
-                                if (part.flag == DownloadStatus.COMPLETED) {
+                            if (part.flag == DownloadStatus.COMPLETED) {
 //                                    DownloadHelpers.saveDownloadPart(part)
-                                } else {
-                                    part.stateController?.setEvent(newEvent)
-                                }
-                            }, {
-                                error ->
-                                error.printStackTrace()
-                                error.message?.toast()
-                            })
-                }
+                            } else {
+                                part.stateController?.setEvent(newEvent)
+                            }
+                        }, {
+                            error ->
+                            error.printStackTrace()
+                            error.message?.toast()
+                        })
 
                 helper.setVisible(R.id.checkbox, part.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)

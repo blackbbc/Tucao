@@ -145,6 +145,9 @@ object DownloadHelpers {
                 .flatMap {
                     Observable.fromIterable(video.subItems)
                 }
+                .doOnComplete {
+                    saveDownloadVideo(video)
+                }
                 .subscribe({
                     part ->
                     download(video, part)
@@ -157,7 +160,7 @@ object DownloadHelpers {
 
     // 继续下载
     fun resumeDownload(video: Video, part: Part) {
-        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title)
+        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title, type = part.type, vid = part.vid)
         rxDownload.download(mission, part)
     }
 
@@ -178,16 +181,13 @@ object DownloadHelpers {
                 mission.beans.add(DownloadBean(durl.url, saveName = "${durl.order}", savePath = "${DownloadHelpers.getDownloadFolder().absolutePath}/${mission.hid}/p${mission.order}"))
             }
         }
-        rxDownload.download(mission, part)
 
-        video.parts.add(part)
-        saveDownloadVideo(video)
+        // 加入到队列里去
+        rxDownload.download(mission, part)
     }
 
     fun pauseDownload(part: Part) {
-        part.durls.forEach {
-            rxDownload.pause(it.url)
-        }
+        rxDownload.pause(part.vid)
     }
 
     fun updateDanmu(parts: List<Part>) {
@@ -256,9 +256,7 @@ object DownloadHelpers {
 
         parts.forEach {
             part ->
-            part.durls.forEach {
-                rxDownload.cancel(it.url, true)
-            }
+            rxDownload.cancel(part.vid, true)
         }
         EventBus.getDefault().post(RefreshDownloadingVideoEvent())
         EventBus.getDefault().post(RefreshDownloadedVideoEvent())

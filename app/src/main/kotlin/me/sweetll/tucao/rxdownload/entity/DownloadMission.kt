@@ -3,6 +3,7 @@ package me.sweetll.tucao.rxdownload.entity
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
+import io.reactivex.disposables.Disposable
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.rxdownload.db.TucaoDatabase
@@ -13,11 +14,11 @@ data class DownloadMission(
         @Column var order: Int = 0,
         @Column var title: String = "",
         @Column var type: String = "",
-        @Column var vid: String = "") {
-
-    @PrimaryKey var playerId: String = ApiConfig.generatePlayerId(hid, order)
+        @PrimaryKey var vid: String = "") {
 
     @Column(typeConverter = BeanListConverter::class) var beans: MutableList<DownloadBean> = mutableListOf()
+
+    @Transient var request: Disposable? = null
 
     var pause: Boolean = true
 

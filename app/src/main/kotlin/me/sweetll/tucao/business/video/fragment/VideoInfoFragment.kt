@@ -66,23 +66,24 @@ class VideoInfoFragment: BaseFragment() {
         video.parts.forEachIndexed {
             index, part ->
             part.order = index
-            // 解决直传的问题
+            // 标记直传
             if (part.durls.isEmpty() && part.file.isNotEmpty()) {
                 part.vid = "${video.hid}${part.order}"
-                part.durls.add(Durl(url = part.file))
             }
         }
 
         val downloadParts = DownloadHelpers.loadDownloadVideos()
-                .flatMap { parts }
+                .flatMap { it.parts }
         val videoHistory = HistoryHelpers.loadPlayHistory()
                 .find { it.hid == video.hid }
 
         parts = video.parts.map {
             part ->
+            // 替换成已经下载好的视频
             downloadParts.find { it.vid == part.vid } ?: Part(part.title, part.order, part.vid, part.type, durls = part.durls)
         }.map {
             it.checked = false
+            // 加载历史播放进度
             if (videoHistory != null) {
                 val historyVideo = videoHistory.parts.find { v -> v.vid == it.vid }
                 if (historyVideo != null) {
