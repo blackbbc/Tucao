@@ -24,6 +24,8 @@ import com.squareup.moshi.Types
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.RawApiService
 import me.sweetll.tucao.rxdownload.RxDownload
+import me.sweetll.tucao.rxdownload.entity.DownloadBean
+import me.sweetll.tucao.rxdownload.entity.DownloadMission
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import okhttp3.ResponseBody
 import java.io.FileOutputStream
@@ -155,17 +157,26 @@ object DownloadHelpers {
 
     // 继续下载
     fun resumeDownload(video: Video, part: Part) {
-        part.durls.forEach {
-            rxDownload.download(it.url, it.cacheFileName, it.cacheFolderPath, "${video.title}/p${part.order}", part)
-        }
+        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title)
+        rxDownload.download(mission, part)
     }
 
+    // 下载新视频
     private fun download(video: Video, part: Part) {
+        // 先下载弹幕
         val playerId = ApiConfig.generatePlayerId(video.hid, part.order)
         val saveName = "danmu.xml"
         val savePath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
         rxDownload.downloadDanmu("${ApiConfig.DANMU_API_URL}&playerID=$playerId&r=${System.currentTimeMillis() / 1000}", saveName, savePath)
 
+        // 再处理视频
+        val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title) // 没有beans
+        rxDownload.download(mission, part)
+
+        video.parts.add(part)
+        saveDownloadVideo(video)
+
+        /*
         if (part.durls.isNotEmpty()) {
             part.durls.forEach {
                 it.cacheFolderPath = "${getDownloadFolder().absolutePath}/${video.hid}/p${part.order}"
@@ -206,6 +217,7 @@ object DownloadHelpers {
                         error.message?.toast()
                     })
         }
+        */
     }
 
     fun pauseDownload(part: Part) {

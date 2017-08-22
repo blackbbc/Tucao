@@ -1,23 +1,31 @@
 package me.sweetll.tucao.rxdownload.entity
 
-import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
+import io.reactivex.disposables.Disposable
 import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 import java.io.File
 import java.io.RandomAccessFile
 
 @Table(database = TucaoDatabase::class)
 data class DownloadBean(@PrimaryKey var url: String = "",
-                        @Column var etag: String = "\"\"",
-                        @Column var lastModified: String = "Wed, 21 Oct 2015 07:28:00 GMT",
-                        @Column var contentLength: Long = 0L,
-                        @Column var downloadLength: Long = 0L,
-                        @Column var saveName: String = "",
-                        @Column var savePath: String = "") {
-    fun getRange(): String {
-        return "bytes=$downloadLength-"
+                        @PrimaryKey var etag: String = "\"\"",
+                        @PrimaryKey var lastModified: String = "Wed, 21 Oct 2015 07:28:00 GMT",
+                        @PrimaryKey var contentLength: Long = 0L,
+                        @PrimaryKey var downloadLength: Long = 0L,
+                        @PrimaryKey var saveName: String = "",
+                        @PrimaryKey var savePath: String = "") {
+
+    @Transient var pause: Boolean = true
+
+    @Transient var connecting = false
+    @Transient var request: Disposable? = null
+
+    fun cancelIfConnecting() {
+        if (connecting) request?.dispose()
     }
+
+    fun getRange(): String = "bytes=$downloadLength-"
 
     fun getIfRange(): String? {
         // Notice: ETag is not support by some *fucking* server. So we use last-modified here.
