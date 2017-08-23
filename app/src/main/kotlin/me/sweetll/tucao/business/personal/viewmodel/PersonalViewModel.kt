@@ -34,7 +34,7 @@ class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
     }
 
     fun onClickChangePassword(view: View) {
-        "修改密码施工中".toast()
+        activity.transitionToChangePassword()
     }
 
     fun onClickLogout(view: View) {

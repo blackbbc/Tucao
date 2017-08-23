@@ -12,6 +12,7 @@ import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.personal.fragment.ChangeInformationFragment
+import me.sweetll.tucao.business.personal.fragment.ChangePasswordFragment
 import me.sweetll.tucao.business.personal.fragment.PersonalFragment
 import me.sweetll.tucao.databinding.ActivityPersonalBinding
 
@@ -48,7 +49,6 @@ class PersonalActivity : BaseActivity() {
     fun transitionToChangeInformation() {
         if (isDestroyed) return
 
-        val personalFragment = fm.findFragmentById(R.id.fragment_container)
         val changeInformationFragment = ChangeInformationFragment()
 
         val ft = fm.beginTransaction()
@@ -72,7 +72,14 @@ class PersonalActivity : BaseActivity() {
     }
 
     fun transitionToChangePassword() {
+        if (isDestroyed) return
 
+        val changePasswordFragment = ChangePasswordFragment()
+
+        fm.beginTransaction()
+                .replace(R.id.fragment_container, changePasswordFragment)
+                .addToBackStack("changePassword")
+                .commit()
     }
 
     override fun initToolbar() {

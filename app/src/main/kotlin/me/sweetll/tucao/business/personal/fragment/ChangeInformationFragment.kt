@@ -18,7 +18,7 @@ class ChangeInformationFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_information, container, false)
-        viewModel = ChangeInformationViewModel(activity as PersonalActivity)
+        viewModel = ChangeInformationViewModel(this)
         binding.viewModel = viewModel
         return binding.root
     }
