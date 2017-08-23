@@ -14,11 +14,12 @@ class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
     val avatar = ObservableField<String>(user.avatar)
     val nickname = ObservableField<String>(user.name)
     val uuid = ObservableField<String>()
-    val signature = ObservableField<String>()
+    val signature = ObservableField<String>(user.signature)
 
-
-    init {
-
+    fun refresh() {
+        avatar.set(user.avatar)
+        nickname.set(user.name)
+        signature.set(user.signature)
     }
 
     fun onClickAvatar(view: View) {

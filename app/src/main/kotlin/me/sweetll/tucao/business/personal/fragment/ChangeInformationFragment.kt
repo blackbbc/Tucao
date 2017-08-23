@@ -1,20 +1,23 @@
 package me.sweetll.tucao.business.personal.fragment
 
-import android.app.Fragment
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.design.widget.Snackbar
+import android.view.*
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
-import me.sweetll.tucao.business.personal.PersonalActivity
 import me.sweetll.tucao.business.personal.viewmodel.ChangeInformationViewModel
 import me.sweetll.tucao.databinding.FragmentChangeInformationBinding
+import me.sweetll.tucao.extension.toast
 
 class ChangeInformationFragment : BaseFragment() {
     private lateinit var binding: FragmentChangeInformationBinding
     private lateinit var viewModel: ChangeInformationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_information, container, false)
@@ -25,5 +28,27 @@ class ChangeInformationFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_personal, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_save -> {
+                viewModel.save()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun saveSuccess() {
+        activity.supportFragmentManager.popBackStack()
+    }
+
+    fun saveFailed(msg: String) {
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
     }
 }

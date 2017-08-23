@@ -133,7 +133,12 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
         // 获取头像地址
         val index_div = doc.select("div.index")[0]
         val avatar_img = index_div.child(0).child(0)
-        user.avatar =  avatar_img.attr("src")
+        user.avatar = avatar_img.attr("src")
+
+        // 获取签名
+        val index_table = doc.select("table.index_table")[0]
+        val signature_td = index_table.child(0).child(2).child(0)
+        user.signature = signature_td.text().removeSuffix(" 更新")
 
         // 获取
         return Object()

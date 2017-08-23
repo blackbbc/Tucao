@@ -87,4 +87,10 @@ interface RawApiService {
                   @Query("id") id: String,
                   @Field("content") content: String): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.CHANGE_INFORMATION_URL)
+    fun changeInformation(@Field("nickname") nickname: String,
+                          @Field("info[qianming]") signature: String,
+                          @Field("dosubmit") dosubmit: String = "提交"): Observable<ResponseBody>
+
 }

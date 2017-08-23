@@ -48,6 +48,8 @@ object ApiConfig {
     const val SUPPORT_URL = "index.php?m=comment&c=index&a=support&format=json"
     const val SEND_REPLY_URL = "index.php?m=comment&c=index&a=post&replyuid=undefined"
 
+    const val CHANGE_INFORMATION_URL = "index.php?m=member&c=index&a=account_manage_info&t=account"
+
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 
     class RetryWithDelay(val maxRetries: Int = 3, val delayMillis: Long = 2000L) : Function<Observable<in Throwable>, Observable<*>> {
