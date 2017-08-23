@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
 import android.view.View
 import me.sweetll.tucao.R
@@ -32,6 +33,15 @@ class RegisterActivity : BaseActivity() {
         viewModel = RegisterViewModel(this)
         binding.viewModel = viewModel
     }
+
+    fun registerSuccess() {
+
+    }
+
+    fun registerFailed(msg: String) {
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+    }
+
 
     override fun initToolbar() {
         super.initToolbar()

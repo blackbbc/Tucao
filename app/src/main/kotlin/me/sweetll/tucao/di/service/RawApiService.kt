@@ -106,4 +106,14 @@ interface RawApiService {
                        @Field("code") code: String,
                        @Field("dosubmit") dosubmit: String = "重设"): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.REGISTER_URL)
+    fun register(@Field("username") username: String,
+                 @Field("nickname") nickname: String,
+                 @Field("email") email: String,
+                 @Field("password") password: String,
+                 @Field("pwdconfirm") pwdconfirm: String,
+                 @Field("code") code: String,
+                 @Field("dosubmit") dosubmit: String = "注册"): Observable<ResponseBody>
+
 }

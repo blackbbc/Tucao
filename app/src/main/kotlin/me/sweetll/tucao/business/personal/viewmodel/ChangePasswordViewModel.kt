@@ -29,7 +29,7 @@ class ChangePasswordViewModel(val fragment: ChangePasswordFragment): BaseViewMod
 
         if (oldPassword.get().length < 6 || oldPassword.get().length > 20) {
             hasError = true
-            oldError.set("密码必须在6-20位之间")
+            oldError.set("密码应在6-20位之间")
         }
 
         if (newPassword.get() != renewPassword.get()) {
@@ -40,12 +40,12 @@ class ChangePasswordViewModel(val fragment: ChangePasswordFragment): BaseViewMod
 
         if (newPassword.get().length < 6 || newPassword.get().length > 20) {
             hasError = true
-            newError.set("密码必须在6-20位之间")
+            newError.set("密码应在6-20位之间")
         }
 
         if (renewPassword.get().length < 6 || renewPassword.get().length > 20) {
             hasError = true
-            renewError.set("密码必须在6-20位之间")
+            renewError.set("密码应在6-20位之间")
         }
 
         if (hasError) return
