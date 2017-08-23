@@ -122,7 +122,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".business.login.ForgotPasswordActivity"></activity>
+        <activity android:name=".business.login.ForgotPasswordActivity" />
+        <activity android:name=".business.login.RegisterActivity"></activity>
     </application>
 
 </manifest>

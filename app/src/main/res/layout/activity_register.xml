@@ -2,17 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.sweetll.tucao.business.login.ForgotPasswordActivity">
+    tools:context="me.sweetll.tucao.business.login.RegisterActivity">
 
     <data>
         <variable
             name="viewModel"
-            type="me.sweetll.tucao.business.login.viewmodel.ForgotPasswordViewModel" />
+            type="me.sweetll.tucao.business.login.viewmodel.RegisterViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/pink_400"
         android:orientation="vertical">
 
         <View
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:theme="@style/ThemeOverlay.AppCompat.Light" />
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,46 +36,70 @@
             android:padding="16dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:src="@drawable/bg_cc_question"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp"
-                android:text="忘记了你的密码？"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/primary_text"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="在下面输入你的邮箱以找回密码"
-                android:textSize="16sp"
-                android:textColor="@color/secondary_text"/>
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
                 android:drawableStart="@drawable/ic_email"
                 android:drawableTint="@color/grey_600"
                 android:drawablePadding="8dp"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="邮箱"
-                android:text="@={viewModel.email}"
+                android:hint="帐号"
                 android:textSize="14sp"/>
-            
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableTint="@color/grey_600"
+                android:drawablePadding="8dp"
+                android:hint="昵称"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableTint="@color/grey_600"
+                android:drawablePadding="8dp"
+                android:hint="邮箱"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableTint="@color/grey_600"
+                android:drawablePadding="8dp"
+                android:hint="密码"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                android:drawableStart="@drawable/ic_email"
+                android:drawableTint="@color/grey_600"
+                android:drawablePadding="8dp"
+                android:hint="重复"
+                android:textSize="14sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,19 +116,14 @@
                     android:drawableStart="@drawable/ic_code"
                     android:drawableTint="@color/grey_600"
                     android:drawablePadding="8dp"
-                    android:maxLines="1"
-                    android:singleLine="true"
                     android:hint="验证码"
-                    android:text="@={viewModel.code}"
                     android:textSize="14sp"/>
 
                 <ImageView
                     android:layout_width="112dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
-                    android:onClick="@{viewModel::onClickCode}"
-                    android:scaleType="fitXY"
-                    app:imageData="@{viewModel.codeBytes}"/>
+                    android:scaleType="fitXY" />
 
             </LinearLayout>
 
@@ -113,8 +133,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_round_dark_pink_rectangle_light_pink_border"
-                android:onClick="@{viewModel::onClickSubmit}"
-                android:text="找回密码"
+                android:text="发射"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/white"/>
