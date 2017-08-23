@@ -93,4 +93,11 @@ interface RawApiService {
                           @Field("info[qianming]") signature: String,
                           @Field("dosubmit") dosubmit: String = "提交"): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.CHANGE_PASSWORD_URL)
+    fun changePassword(@Field("info[password]") oldPassword: String,
+                       @Field("info[newpassword]") newPassword: String,
+                       @Field("info[renewpassword]") renewPassword: String,
+                       @Field("dosubmit") dosubmit: String = "提交"): Observable<ResponseBody>
+
 }

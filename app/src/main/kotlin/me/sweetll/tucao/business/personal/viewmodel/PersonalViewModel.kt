@@ -17,6 +17,10 @@ class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
     val signature = ObservableField<String>(user.signature)
 
     fun refresh() {
+        if (!user.isValid()) {
+            activity.finish()
+            return
+        }
         avatar.set(user.avatar)
         nickname.set(user.name)
         signature.set(user.signature)

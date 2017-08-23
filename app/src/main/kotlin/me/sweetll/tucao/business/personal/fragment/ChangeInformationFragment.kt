@@ -8,7 +8,6 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.personal.viewmodel.ChangeInformationViewModel
 import me.sweetll.tucao.databinding.FragmentChangeInformationBinding
-import me.sweetll.tucao.extension.toast
 
 class ChangeInformationFragment : BaseFragment() {
     private lateinit var binding: FragmentChangeInformationBinding

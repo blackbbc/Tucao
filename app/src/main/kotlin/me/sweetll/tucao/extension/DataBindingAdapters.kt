@@ -1,6 +1,7 @@
 package me.sweetll.tucao.extension
 
 import android.databinding.BindingAdapter
+import android.support.design.widget.TextInputLayout
 import android.widget.ImageView
 import me.sweetll.tucao.R
 
@@ -19,5 +20,11 @@ object DataBindingAdapters {
         bytes?.let {
             imageView.load(imageView.context, it)
         }
+    }
+
+    @BindingAdapter("app:error")
+    @JvmStatic
+    fun setError(textInputLayout: TextInputLayout, error: String?) {
+        textInputLayout.error = error
     }
 }

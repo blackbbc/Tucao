@@ -43,7 +43,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".business.personal.PersonalActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".business.channel.ChannelDetailActivity"
             android:screenOrientation="portrait" />

@@ -49,6 +49,7 @@ object ApiConfig {
     const val SEND_REPLY_URL = "index.php?m=comment&c=index&a=post&replyuid=undefined"
 
     const val CHANGE_INFORMATION_URL = "index.php?m=member&c=index&a=account_manage_info&t=account"
+    const val CHANGE_PASSWORD_URL = "index.php?m=member&c=index&a=account_manage_password&t=account"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 
