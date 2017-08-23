@@ -35,6 +35,9 @@ class RegisterActivity : BaseActivity() {
 
     override fun initToolbar() {
         super.initToolbar()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.title = ""
+        }
     }
 }
