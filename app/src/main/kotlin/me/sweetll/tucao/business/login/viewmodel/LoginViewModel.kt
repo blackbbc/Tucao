@@ -14,6 +14,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.business.login.ForgotPasswordActivity
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.load
@@ -38,6 +39,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
 
     fun initSession() {
         rawApiService.login_get()
+                .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .subscribe({
@@ -50,6 +52,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
 
     fun checkCode() {
         rawApiService.checkCode()
+                .bindToLifecycle(activity)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .subscribe({
@@ -109,7 +112,7 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     fun onClickForgotPassword(view: View) {
-        // TODO: 忘记密码
+        ForgotPasswordActivity.intentTo(activity)
     }
 
     fun parseLoginResult(doc: Document): Pair<Int, String>{

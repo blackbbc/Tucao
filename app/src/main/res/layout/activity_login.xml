@@ -119,7 +119,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageView
-                        android:layout_width="100dp"
+                        android:layout_width="112dp"
                         android:layout_height="40dp"
                         android:onClick="@{viewModel::onClickCode}"
                         android:scaleType="fitXY"

@@ -100,4 +100,10 @@ interface RawApiService {
                        @Field("info[renewpassword]") renewPassword: String,
                        @Field("dosubmit") dosubmit: String = "提交"): Observable<ResponseBody>
 
+    @FormUrlEncoded
+    @POST(ApiConfig.FORGOT_PASSWORD_URL)
+    fun forgotPassword(@Field("email") email: String,
+                       @Field("code") code: String,
+                       @Field("dosubmit") dosubmit: String = "重设"): Observable<ResponseBody>
+
 }

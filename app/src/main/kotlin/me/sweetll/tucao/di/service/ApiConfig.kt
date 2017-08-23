@@ -50,6 +50,7 @@ object ApiConfig {
 
     const val CHANGE_INFORMATION_URL = "index.php?m=member&c=index&a=account_manage_info&t=account"
     const val CHANGE_PASSWORD_URL = "index.php?m=member&c=index&a=account_manage_password&t=account"
+    const val FORGOT_PASSWORD_URL = "index.php?m=member&c=index&a=public_forget_password&siteid=1"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"
 
