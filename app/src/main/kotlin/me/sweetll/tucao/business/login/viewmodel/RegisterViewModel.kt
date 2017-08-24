@@ -6,6 +6,7 @@ import android.os.Message
 import android.util.Patterns
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
@@ -14,6 +15,7 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.greenrobot.eventbus.EventBus
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
@@ -42,7 +44,6 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
     val codeError = ObservableField<String>()
 
     var hasError: Boolean = false
-
 
     val MESSAGE_TRANSITION = 1
     val TRANSITION_DELAY = 1000L
@@ -83,6 +84,18 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
                     error.printStackTrace()
                     error.message?.toast()
                 })
+    }
+
+    fun checkAccount() {
+
+    }
+
+    fun checkNickname() {
+
+    }
+
+    fun checkEmail() {
+
     }
 
     fun onClickCode(view: View) {
@@ -166,9 +179,54 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         canTransition = false
         success = false
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
-        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
+
+        rawApiService.checkUsername(account.get())
                 .bindToLifecycle(activity)
-                .sanitizeHtml { parseCreateResult(this) }
+                .subscribeOn(Schedulers.io())
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .map {
+                    response ->
+                    parseCheckResult(Jsoup.parse(response.string()))
+                }
+                .flatMap {
+                    (c, _) ->
+                    if (c == 0) {
+                        rawApiService.checkNickname(nickname.get())
+                                .retryWhen(ApiConfig.RetryWithDelay())
+                    } else {
+                        throw Error("帐号已存在")
+                    }
+                }
+                .map {
+                    response ->
+                    parseCheckResult(Jsoup.parse(response.string()))
+                }
+                .flatMap {
+                    (c, _) ->
+                    if (c == 0) {
+                        rawApiService.checkEmail(email.get())
+                                .retryWhen(ApiConfig.RetryWithDelay())
+                    } else {
+                        throw Error("昵称已存在")
+                    }
+                }
+                .map {
+                    response ->
+                    parseCheckResult(Jsoup.parse(response.string()))
+                }
+                .flatMap {
+                    (c, _) ->
+                    if (c == 0) {
+                        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
+                                .retryWhen(ApiConfig.RetryWithDelay())
+                    } else {
+                        throw Error("邮箱已存在")
+                    }
+                }
+                .map {
+                    response ->
+                    parseCreateResult(Jsoup.parse(response.string()))
+                }
                 .map {
                     (code, msg) ->
                     if (code == 0) {
@@ -177,6 +235,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
                         throw Error(msg)
                     }
                 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     user.email = email.get()
                     user.name = nickname.get()
@@ -219,6 +278,14 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         activity.registerFailed(msg)
     }
 
+    private fun parseCheckResult(doc: Document): Pair<Int, String> {
+        val result = doc.body().text()
+        if ("1" == result) {
+            return Pair(0, "")
+        } else {
+            return Pair(1, result)
+        }
+    }
 
     private fun parseCreateResult(doc: Document):Pair<Int, String>  {
         val result = doc.body().text()

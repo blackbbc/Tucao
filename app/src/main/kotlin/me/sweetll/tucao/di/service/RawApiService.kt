@@ -116,4 +116,13 @@ interface RawApiService {
                  @Field("code") code: String,
                  @Field("dosubmit") dosubmit: String = "注册"): Observable<ResponseBody>
 
+    @GET(ApiConfig.CHECK_USERNAME_URL)
+    fun checkUsername(@Query("username") username: String): Observable<ResponseBody>
+
+    @GET(ApiConfig.CHECK_NICKNAME_URL)
+    fun checkNickname(@Query("nickname") nickname: String): Observable<ResponseBody>
+
+    @GET(ApiConfig.CHECK_EMAIL_URL)
+    fun checkEmail(@Query("email") email: String): Observable<ResponseBody>
+
 }
