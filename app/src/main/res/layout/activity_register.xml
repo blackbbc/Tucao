@@ -185,17 +185,30 @@
 
             </LinearLayout>
 
-            <Button
+            <me.sweetll.tucao.widget.MorphingButton
+                android:id="@+id/registerBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/bg_round_dark_pink_rectangle_light_pink_border"
+                android:layout_gravity="center_horizontal"
                 android:onClick="@{viewModel::onClickCreate}"
-                android:text="创建新用户"
+                tools:text="创建新用户"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/white"/>
+
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:background="@drawable/bg_round_dark_pink_rectangle_light_pink_border"-->
+                <!--android:onClick="@{viewModel::onClickCreate}"-->
+                <!--android:text="创建新用户"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textColor="@color/white"/>-->
 
         </LinearLayout>
 

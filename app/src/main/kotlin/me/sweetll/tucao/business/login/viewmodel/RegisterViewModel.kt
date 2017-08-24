@@ -1,6 +1,7 @@
 package me.sweetll.tucao.business.login.viewmodel
 
 import android.databinding.ObservableField
+import android.os.Handler
 import android.util.Patterns
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -63,6 +64,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         renewError.set(null)
         codeError.set(null)
 
+        /*
         if (account.get().length < 2 || account.get().length > 20) {
             hasError = true
             accountError.set("帐号应在2-20位之间")
@@ -99,25 +101,32 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         }
 
         if (hasError) return
+        */
 
-        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
-                .bindToLifecycle(activity)
-                .sanitizeHtml { parseCreateResult(this) }
-                .map {
-                    (code, msg) ->
-                    if (code == 0) {
-                        Object()
-                    } else {
-                        throw Error(msg)
-                    }
-                }
-                .subscribe({
-                    activity.registerSuccess()
-                }, {
-                    error ->
-                    error.printStackTrace()
-                    activity.registerFailed(error.message ?: "注册失败")
-                })
+        activity.startRegister()
+
+        Handler().postDelayed({
+            activity.registerSuccess()
+        }, 1000)
+
+//        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
+//                .bindToLifecycle(activity)
+//                .sanitizeHtml { parseCreateResult(this) }
+//                .map {
+//                    (code, msg) ->
+//                    if (code == 0) {
+//                        Object()
+//                    } else {
+//                        throw Error(msg)
+//                    }
+//                }
+//                .subscribe({
+//                    activity.registerSuccess()
+//                }, {
+//                    error ->
+//                    error.printStackTrace()
+//                    activity.registerFailed(error.message ?: "注册失败")
+//                })
 
     }
 
