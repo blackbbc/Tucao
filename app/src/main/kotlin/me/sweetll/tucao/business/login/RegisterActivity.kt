@@ -12,13 +12,13 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.AccelerateDecelerateInterpolator
 import io.codetail.animation.ViewAnimationUtils
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.login.viewmodel.RegisterViewModel
 import me.sweetll.tucao.databinding.ActivityRegisterBinding
 import me.sweetll.tucao.extension.dp2px
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.widget.MorphingButton
 
 class RegisterActivity : BaseActivity() {
@@ -56,10 +56,12 @@ class RegisterActivity : BaseActivity() {
     }
 
     fun startRegister() {
+        "开始注册".logD()
         morphToCircle(binding.registerBtn, 500)
     }
 
     fun registerSuccess() {
+        "注册成功".logD()
         val cx = binding.registerBtn.left + binding.registerBtn.width / 2
         val cy = binding.registerBtn.top + binding.registerBtn.height / 2 + binding.statusBar.height + binding.toolbar.height
         val startRadius = buttonHeight / 2f

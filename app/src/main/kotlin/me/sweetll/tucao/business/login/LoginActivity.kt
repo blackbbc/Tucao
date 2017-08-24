@@ -90,9 +90,6 @@ class LoginActivity : BaseActivity() {
                         binding.emailEdit.setAdapter(
                                 ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, emailSet.toList())
                         )
-                    } else {
-                        "请给予相应权限".toast()
-                        finish()
                     }
                 }
     }

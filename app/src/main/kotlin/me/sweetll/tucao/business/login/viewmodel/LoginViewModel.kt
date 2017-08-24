@@ -76,9 +76,6 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
     }
 
     fun onClickSignUp(view: View) {
-//        val intent = Intent("android.intent.action.VIEW")
-//        intent.data = Uri.parse("http://www.tucao.tv/index.php?m=member&c=index&a=register&siteid=1")
-//        activity.startActivity(intent)
         RegisterActivity.intentTo(activity)
         activity.finish()
     }

@@ -2,15 +2,18 @@ package me.sweetll.tucao.business.login.viewmodel
 
 import android.databinding.ObservableField
 import android.os.Handler
+import android.os.Message
 import android.util.Patterns
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
+import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.RegisterActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
+import org.greenrobot.eventbus.EventBus
 import org.jsoup.nodes.Document
 
 class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
@@ -24,6 +27,13 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
     val renewPassword = ObservableField<String>("")
     val code = ObservableField<String>("")
 
+    val accountEnabled = ObservableField<Boolean>(true)
+    val nicknameEnabled = ObservableField<Boolean>(true)
+    val emailEnabled = ObservableField<Boolean>(true)
+    val newPasswordEnabled = ObservableField<Boolean>(true)
+    val renewPasswordEnabled = ObservableField<Boolean>(true)
+    val codeEnabled = ObservableField<Boolean>(true)
+
     val accountError = ObservableField<String>()
     val nicknameError = ObservableField<String>()
     val emailError = ObservableField<String>()
@@ -32,6 +42,30 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
     val codeError = ObservableField<String>()
 
     var hasError: Boolean = false
+
+
+    val MESSAGE_TRANSITION = 1
+    val TRANSITION_DELAY = 1000L
+
+    var failMsg = ""
+    var success = false
+    var canTransition = false
+
+    val handler = object: Handler() {
+        override fun handleMessage(msg: Message) {
+            if (msg.what == MESSAGE_TRANSITION) {
+                if (canTransition) {
+                    if (success) {
+                        registerSuccess()
+                    } else {
+                        registerFailed(failMsg)
+                    }
+                }
+            } else {
+                super.handleMessage(msg)
+            }
+        }
+    }
 
     init {
         checkCode()
@@ -99,36 +133,84 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
             hasError = true
             codeError.set("验证码不能为空")
         }
-
-        if (hasError) return
         */
 
+        if (hasError) return
+
+        accountEnabled.set(false)
+        nicknameEnabled.set(false)
+        emailEnabled.set(false)
+        newPasswordEnabled.set(false)
+        renewPasswordEnabled.set(false)
+        codeEnabled.set(false)
         activity.startRegister()
 
-        Handler().postDelayed({
-            activity.registerSuccess()
-        }, 1000)
+        canTransition = false
+        handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
 
-//        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
-//                .bindToLifecycle(activity)
-//                .sanitizeHtml { parseCreateResult(this) }
-//                .map {
-//                    (code, msg) ->
-//                    if (code == 0) {
-//                        Object()
-//                    } else {
-//                        throw Error(msg)
-//                    }
-//                }
-//                .subscribe({
-//                    activity.registerSuccess()
-//                }, {
-//                    error ->
-//                    error.printStackTrace()
-//                    activity.registerFailed(error.message ?: "注册失败")
-//                })
+        handler.postDelayed({
+//            canTransition = true
+//            if (!handler.hasMessages(MESSAGE_TRANSITION)) {
+//                activity.registerSuccess()
+//            }
+
+            failMsg = "lalala"
+            canTransition = true
+            if (!handler.hasMessages(MESSAGE_TRANSITION)) {
+                registerFailed(failMsg)
+            }
+        }, 5000)
+
+        /*
+        canTransition = false
+        handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
+        rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
+                .bindToLifecycle(activity)
+                .sanitizeHtml { parseCreateResult(this) }
+                .map {
+                    (code, msg) ->
+                    if (code == 0) {
+                        Object()
+                    } else {
+                        throw Error(msg)
+                    }
+                }
+                .subscribe({
+                    user.email = email.get()
+                    user.name = nickname.get()
+                    user.avatar = ""
+                    user.level = 1
+                    user.signature = ""
+                    EventBus.getDefault().post(RefreshPersonalEvent())
+
+                    canTransition = true
+                    if (!handler.hasMessages(MESSAGE_TRANSITION)) {
+                        activity.registerSuccess()
+                    }
+
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    activity.registerFailed(error.message ?: "注册失败")
+                })
+        */
 
     }
+
+    private fun registerSuccess() {
+        activity.registerSuccess()
+    }
+
+    private fun registerFailed(msg: String) {
+        accountEnabled.set(true)
+        nicknameEnabled.set(true)
+        emailEnabled.set(true)
+        newPasswordEnabled.set(true)
+        renewPasswordEnabled.set(true)
+        codeEnabled.set(true)
+        activity.registerFailed(msg)
+    }
+
 
     private fun parseCreateResult(doc: Document):Pair<Int, String>  {
         val result = doc.body().text()

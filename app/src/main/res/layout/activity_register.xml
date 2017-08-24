@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
                 app:titleTextAppearance="@style/Toolbar.TitleText"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+                app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,6 +55,7 @@
                         android:drawableStart="@drawable/ic_account"
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
+                        android:enabled="@{viewModel.accountEnabled}"
                         android:hint="帐号"
                         android:text="@={viewModel.account}"
                         android:textSize="14sp"/>
@@ -77,6 +78,7 @@
                         android:drawableStart="@drawable/ic_name"
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
+                        android:enabled="@{viewModel.nicknameEnabled}"
                         android:hint="昵称"
                         android:text="@={viewModel.nickname}"
                         android:textSize="14sp"/>
@@ -99,6 +101,7 @@
                         android:drawableStart="@drawable/ic_email"
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
+                        android:enabled="@{viewModel.emailEnabled}"
                         android:hint="邮箱"
                         android:text="@={viewModel.email}"
                         android:textSize="14sp"/>
@@ -123,6 +126,7 @@
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
                         android:inputType="textPassword"
+                        android:enabled="@{viewModel.newPasswordEnabled}"
                         android:hint="密码"
                         android:text="@={viewModel.newPassword}"
                         android:textSize="14sp"/>
@@ -147,6 +151,7 @@
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
                         android:inputType="textPassword"
+                        android:enabled="@{viewModel.renewPasswordEnabled}"
                         android:hint="重复密码"
                         android:text="@={viewModel.renewPassword}"
                         android:textSize="14sp"/>
@@ -174,7 +179,9 @@
                             android:drawableStart="@drawable/ic_code"
                             android:drawableTint="@color/grey_600"
                             android:drawablePadding="8dp"
+                            android:enabled="@{viewModel.codeEnabled}"
                             android:hint="验证码"
+                            android:text="@={viewModel.code}"
                             android:textSize="14sp"/>
 
                     </android.support.design.widget.TextInputLayout>
