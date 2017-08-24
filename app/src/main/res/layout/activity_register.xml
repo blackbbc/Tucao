@@ -56,6 +56,9 @@
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
                         android:enabled="@{viewModel.accountEnabled}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="帐号"
                         android:text="@={viewModel.account}"
                         android:textSize="14sp"/>
@@ -79,6 +82,9 @@
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
                         android:enabled="@{viewModel.nicknameEnabled}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="昵称"
                         android:text="@={viewModel.nickname}"
                         android:textSize="14sp"/>
@@ -102,6 +108,9 @@
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
                         android:enabled="@{viewModel.emailEnabled}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="邮箱"
                         android:text="@={viewModel.email}"
                         android:textSize="14sp"/>
@@ -127,6 +136,9 @@
                         android:drawablePadding="8dp"
                         android:inputType="textPassword"
                         android:enabled="@{viewModel.newPasswordEnabled}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="密码"
                         android:text="@={viewModel.newPassword}"
                         android:textSize="14sp"/>
@@ -152,6 +164,9 @@
                         android:drawablePadding="8dp"
                         android:inputType="textPassword"
                         android:enabled="@{viewModel.renewPasswordEnabled}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="重复密码"
                         android:text="@={viewModel.renewPassword}"
                         android:textSize="14sp"/>
@@ -180,6 +195,9 @@
                             android:drawableTint="@color/grey_600"
                             android:drawablePadding="8dp"
                             android:enabled="@{viewModel.codeEnabled}"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:imeOptions="actionDone"
                             android:hint="验证码"
                             android:text="@={viewModel.code}"
                             android:textSize="14sp"/>
