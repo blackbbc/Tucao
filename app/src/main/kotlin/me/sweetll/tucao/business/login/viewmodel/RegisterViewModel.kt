@@ -116,6 +116,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         if (newPassword.get() != renewPassword.get()) {
             hasError = true
             newError.set("两次输入的密码不一致")
+            renewError.set("两次输入的密码不一致")
         }
 
         if (newPassword.get().length < 6 || newPassword.get().length > 20) {
@@ -125,7 +126,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
 
         if (renewPassword.get().length < 6 || renewPassword.get().length > 20) {
             hasError = true
-            newError.set("密码应在6-20位之间")
+            renewError.set("密码应在6-20位之间")
         }
 
         if (code.get().isNullOrEmpty()) {
@@ -163,6 +164,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
 
 
         canTransition = false
+        success = false
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
         rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
                 .bindToLifecycle(activity)
@@ -183,6 +185,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
                     user.signature = ""
                     EventBus.getDefault().post(RefreshPersonalEvent())
 
+                    success = true
                     canTransition = true
                     if (!handler.hasMessages(MESSAGE_TRANSITION)) {
                         registerSuccess()

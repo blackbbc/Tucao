@@ -115,7 +115,7 @@ class RegisterActivity : BaseActivity() {
         super.initToolbar()
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            it.title = ""
+            it.title = "注册帐号"
         }
     }
 }
