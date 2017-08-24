@@ -98,7 +98,6 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         renewError.set(null)
         codeError.set(null)
 
-        /*
         if (account.get().length < 2 || account.get().length > 20) {
             hasError = true
             accountError.set("帐号应在2-20位之间")
@@ -133,7 +132,6 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
             hasError = true
             codeError.set("验证码不能为空")
         }
-        */
 
         if (hasError) return
 
@@ -145,6 +143,7 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
         codeEnabled.set(false)
         activity.startRegister()
 
+        /*
         canTransition = false
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
 
@@ -160,8 +159,9 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
                 registerFailed(failMsg)
             }
         }, 5000)
+        */
 
-        /*
+
         canTransition = false
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_TRANSITION), TRANSITION_DELAY)
         rawApiService.register(account.get(), nickname.get(), email.get(), newPassword.get(), renewPassword.get(), code.get())
@@ -185,15 +185,20 @@ class RegisterViewModel(val activity: RegisterActivity): BaseViewModel() {
 
                     canTransition = true
                     if (!handler.hasMessages(MESSAGE_TRANSITION)) {
-                        activity.registerSuccess()
+                        registerSuccess()
                     }
 
                 }, {
                     error ->
                     error.printStackTrace()
-                    activity.registerFailed(error.message ?: "注册失败")
+
+                    failMsg = error.message ?: "注册失败"
+                    canTransition = true
+                    if (!handler.hasMessages(MESSAGE_TRANSITION)) {
+                        registerFailed(failMsg)
+                    }
+
                 })
-        */
 
     }
 
