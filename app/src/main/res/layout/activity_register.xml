@@ -10,207 +10,220 @@
             type="me.sweetll.tucao.business.login.viewmodel.RegisterViewModel" />
     </data>
 
-    <LinearLayout
+    <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <View
-            android:id="@+id/statusBar"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:layout_height="25dp"/>
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <View
+                android:id="@+id/statusBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:layout_height="25dp"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:error="@{viewModel.accountError}"
-                app:hintEnabled="false">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                    android:drawableStart="@drawable/ic_account"
-                    android:drawableTint="@color/grey_600"
-                    android:drawablePadding="8dp"
-                    android:hint="帐号"
-                    android:text="@={viewModel.account}"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:error="@{viewModel.nicknameError}"
-                app:hintEnabled="false">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                    android:drawableStart="@drawable/ic_name"
-                    android:drawableTint="@color/grey_600"
-                    android:drawablePadding="8dp"
-                    android:hint="昵称"
-                    android:text="@={viewModel.nickname}"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:error="@{viewModel.emailError}"
-                app:hintEnabled="false">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                    android:drawableStart="@drawable/ic_email"
-                    android:drawableTint="@color/grey_600"
-                    android:drawablePadding="8dp"
-                    android:hint="邮箱"
-                    android:text="@={viewModel.email}"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:error="@{viewModel.newError}"
-                app:hintEnabled="false"
-                app:passwordToggleEnabled="true">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                    android:drawableStart="@drawable/ic_lock"
-                    android:drawableTint="@color/grey_600"
-                    android:drawablePadding="8dp"
-                    android:inputType="textPassword"
-                    android:hint="密码"
-                    android:text="@={viewModel.newPassword}"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:error="@{viewModel.renewError}"
-                app:hintEnabled="false"
-                app:passwordToggleEnabled="true">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                    android:drawableStart="@drawable/ic_lock"
-                    android:drawableTint="@color/grey_600"
-                    android:drawablePadding="8dp"
-                    android:inputType="textPassword"
-                    android:hint="重复密码"
-                    android:text="@={viewModel.renewPassword}"
-                    android:textSize="14sp"/>
-
-            </android.support.design.widget.TextInputLayout>
+                android:minHeight="?attr/actionBarSize"
+                app:titleTextAppearance="@style/Toolbar.TitleText"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:orientation="vertical">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorEnabled="true"
-                    app:error="@{viewModel.codeError}"
+                    app:error="@{viewModel.accountError}"
                     app:hintEnabled="false">
 
                     <EditText
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
-                        android:drawableStart="@drawable/ic_code"
+                        android:drawableStart="@drawable/ic_account"
                         android:drawableTint="@color/grey_600"
                         android:drawablePadding="8dp"
-                        android:hint="验证码"
+                        android:hint="帐号"
+                        android:text="@={viewModel.account}"
                         android:textSize="14sp"/>
 
                 </android.support.design.widget.TextInputLayout>
 
-                <ImageView
-                    android:layout_width="112dp"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:error="@{viewModel.nicknameError}"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                        android:drawableStart="@drawable/ic_name"
+                        android:drawableTint="@color/grey_600"
+                        android:drawablePadding="8dp"
+                        android:hint="昵称"
+                        android:text="@={viewModel.nickname}"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:error="@{viewModel.emailError}"
+                    app:hintEnabled="false">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawableTint="@color/grey_600"
+                        android:drawablePadding="8dp"
+                        android:hint="邮箱"
+                        android:text="@={viewModel.email}"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:error="@{viewModel.newError}"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawableTint="@color/grey_600"
+                        android:drawablePadding="8dp"
+                        android:inputType="textPassword"
+                        android:hint="密码"
+                        android:text="@={viewModel.newPassword}"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:error="@{viewModel.renewError}"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawableTint="@color/grey_600"
+                        android:drawablePadding="8dp"
+                        android:inputType="textPassword"
+                        android:hint="重复密码"
+                        android:text="@={viewModel.renewPassword}"
+                        android:textSize="14sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true"
+                        app:error="@{viewModel.codeError}"
+                        app:hintEnabled="false">
+
+                        <EditText
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:background="@drawable/bg_round_white_rectangle_dark_pink_border"
+                            android:drawableStart="@drawable/ic_code"
+                            android:drawableTint="@color/grey_600"
+                            android:drawablePadding="8dp"
+                            android:hint="验证码"
+                            android:textSize="14sp"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="112dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:onClick="@{viewModel::onClickCode}"
+                        android:scaleType="fitXY"
+                        app:imageData="@{viewModel.codeBytes}"/>
+
+                </LinearLayout>
+
+                <me.sweetll.tucao.widget.MorphingButton
+                    android:id="@+id/registerBtn"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:onClick="@{viewModel::onClickCode}"
-                    android:scaleType="fitXY"
-                    app:imageData="@{viewModel.codeBytes}"/>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="@{viewModel::onClickCreate}"
+                    tools:text="创建新用户"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+
+                <!--<Button-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:layout_marginBottom="8dp"-->
+                    <!--android:background="@drawable/bg_round_dark_pink_rectangle_light_pink_border"-->
+                    <!--android:onClick="@{viewModel::onClickCreate}"-->
+                    <!--android:text="创建新用户"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:textColor="@color/white"/>-->
 
             </LinearLayout>
 
-            <me.sweetll.tucao.widget.MorphingButton
-                android:id="@+id/registerBtn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_gravity="center_horizontal"
-                android:onClick="@{viewModel::onClickCreate}"
-                tools:text="创建新用户"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:textColor="@color/white"/>
-
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:background="@drawable/bg_round_dark_pink_rectangle_light_pink_border"-->
-                <!--android:onClick="@{viewModel::onClickCreate}"-->
-                <!--android:text="创建新用户"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="14sp"-->
-                <!--android:textColor="@color/white"/>-->
-
         </LinearLayout>
 
-    </LinearLayout>
+        <View
+            android:id="@+id/revealView"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/pink_400" />
+
+    </io.codetail.widget.RevealFrameLayout>
 </layout>

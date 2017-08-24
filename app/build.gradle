@@ -151,6 +151,9 @@ dependencies {
     implementation 'com.github.Raizlabs.DBFlow:dbflow:4.0.5'
     implementation 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.5'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+        transitive = true;
+    }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin}"
 }
 

@@ -1,14 +1,19 @@
 package me.sweetll.tucao.business.login
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.AccelerateDecelerateInterpolator
+import io.codetail.animation.ViewAnimationUtils
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.login.viewmodel.RegisterViewModel
@@ -55,10 +60,28 @@ class RegisterActivity : BaseActivity() {
     }
 
     fun registerSuccess() {
-        morphToSquare(binding.registerBtn, 500)
+        val cx = binding.registerBtn.left + binding.registerBtn.width / 2
+        val cy = binding.registerBtn.top + binding.registerBtn.height / 2 + binding.statusBar.height + binding.toolbar.height
+        val startRadius = buttonHeight / 2f
+        val finalRadius = Math.hypot(cy.toDouble(), cx.toDouble()) + 10f.dp2px()
+        val animator = ViewAnimationUtils.createCircularReveal(binding.revealView, cx, cy, startRadius, finalRadius.toFloat())
+        animator.interpolator = FastOutSlowInInterpolator()
+        animator.duration = 300
+        animator.addListener(object: AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                binding.revealView.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                finish()
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
+        })
+        animator.start()
     }
 
     fun registerFailed(msg: String) {
+        morphToSquare(binding.registerBtn, 500)
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
     }
 
