@@ -242,13 +242,13 @@ object DownloadHelpers {
         val videos = loadDownloadVideos()
         videos.forEach {
             video ->
-            video.subItems.removeAll {
+            video.parts.removeAll {
                 part ->
                 parts.any { it.vid == part.vid }
             }
         }
         videos.removeAll {
-            it.subItems.isEmpty()
+            it.parts.isEmpty()
         }
 
         val jsonString = adapter.toJson(videos)
@@ -265,16 +265,10 @@ object DownloadHelpers {
         EventBus.getDefault().post(RefreshDownloadedVideoEvent())
     }
 
-    fun cancelDownload(url: String) {
+    fun cancelDownload(vid: String) {
         val videos = loadDownloadVideos()
 
-        videos.flatMap {
-            it.subItems
-        }.find {
-            it.durls.any { it.url == url }
-        }?.let {
-            cancelDownload(listOf(it))
-        }
+        cancelDownload(videos.flatMap { it.parts }.filter { it.vid == vid })
     }
 
     interface Callback {

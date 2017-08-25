@@ -41,7 +41,6 @@ class SettingDanmuViewFactory() {
             danmuSpeedText.text = danmuSpeedProgress.formatDanmuSpeedToString()
             danmuSpeedSeek.progress = danmuSpeedProgress
 
-
             danmuOpacitySeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {

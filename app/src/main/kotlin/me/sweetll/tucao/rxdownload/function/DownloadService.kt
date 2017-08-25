@@ -50,7 +50,7 @@ class DownloadService : Service() {
 
         const val ACTION_PAUSE = "pause"
         const val ACTION_CANCEL = "cancel"
-        const val ACTION_URL = "url"
+        const val ACTION_VID = "vid"
     }
 
     val notifyMgr by lazy {
@@ -107,12 +107,12 @@ class DownloadService : Service() {
         intent?.let {
             when (it.action) {
                 ACTION_PAUSE -> {
-                    val url = it.getStringExtra(ACTION_URL)
-                    pause(url)
+                    val vid = it.getStringExtra(ACTION_VID)
+                    pause(vid)
                 }
                 ACTION_CANCEL -> {
-                    val url = it.getStringExtra(ACTION_URL)
-                    DownloadHelpers.cancelDownload(url)
+                    val vid = it.getStringExtra(ACTION_VID)
+                    DownloadHelpers.cancelDownload(vid)
                 }
             }
         }
@@ -396,12 +396,12 @@ class DownloadService : Service() {
 
                 val pauseIntent = Intent(this, DownloadService::class.java)
                 pauseIntent.action = ACTION_PAUSE
-                pauseIntent.putExtra(ACTION_URL, mission.vid)
+                pauseIntent.putExtra(ACTION_VID, mission.vid)
                 val piPause = PendingIntent.getService(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val cancelIntent = Intent(this, DownloadService::class.java)
                 cancelIntent.action = ACTION_CANCEL
-                cancelIntent.putExtra(ACTION_URL, mission.vid)
+                cancelIntent.putExtra(ACTION_VID, mission.vid)
                 val piCancel = PendingIntent.getService(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val builder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
