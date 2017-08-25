@@ -213,7 +213,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
             settingPager = findViewById(R.id.pager_setting)
-            settingPager.adapter = SettingPagerAdapter((context as AppCompatActivity).supportFragmentManager, this)
+            settingPager.adapter = SettingPagerAdapter(this)
             settingPager.offscreenPageLimit = 3
 
             settingTab = findViewById(R.id.tab_setting)
