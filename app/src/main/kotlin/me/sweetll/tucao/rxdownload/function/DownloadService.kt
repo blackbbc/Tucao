@@ -112,7 +112,7 @@ class DownloadService : Service() {
                 }
                 ACTION_CANCEL -> {
                     val vid = it.getStringExtra(ACTION_URL)
-                    DownloadHelpers.cancelDownload()
+                    DownloadHelpers.cancelDownload(vid)
                 }
             }
         }
