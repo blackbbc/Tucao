@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatDelegate
 import com.github.moduth.blockcanary.BlockCanary
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
+import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
+import me.drakeet.library.CrashWoodpecker
+import me.drakeet.library.PatchMode
 import me.sweetll.tucao.di.component.ApiComponent
 import me.sweetll.tucao.di.component.BaseComponent
 import me.sweetll.tucao.di.component.DaggerBaseComponent
@@ -34,18 +37,21 @@ class AppApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
-//        BlockCanary.install(this, AppBlockCanaryContext()).start()
-
         INSTANCE = this
+
+        // For performance analysis
+        /*
+        BlockCanary.install(this, AppBlockCanaryContext()).start()
+        CrashWoodpecker.instance()
+                .setPatchMode(PatchMode.SHOW_LOG_PAGE)
+                .flyTo(this)
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
+        }
+        LeakCanary.install(this)
+        */
+
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
-//        CrashWoodpecker.instance()
-//                .setPatchMode(PatchMode.SHOW_LOG_PAGE)
-//                .flyTo(this)
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            return
-//        }
-//        LeakCanary.install(this)
         FlowManager.init(this)
         PlayerConfig.init(this)
         initComponent()

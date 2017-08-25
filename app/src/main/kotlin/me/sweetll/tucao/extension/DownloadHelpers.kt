@@ -144,6 +144,7 @@ object DownloadHelpers {
                     }
                     "已开始下载".toast()
                 }
+                .observeOn(Schedulers.computation())
                 .flatMap {
                     Observable.fromIterable(video.subItems)
                 }

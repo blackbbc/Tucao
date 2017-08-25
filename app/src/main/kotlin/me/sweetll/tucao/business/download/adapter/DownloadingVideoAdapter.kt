@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
@@ -15,6 +16,7 @@ import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.load
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.rxdownload.RxDownload
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
@@ -81,10 +83,13 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                 part.stateController = StateController(helper.getView(R.id.text_size), helper.getView(R.id.img_status), helper.getView(R.id.progress))
                 helper.setText(R.id.text_title, part.title)
                 rxDownload.receive(part.vid)
+                        .bindToLifecycle(downloadActivity)
                         .sample(500, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             (status, downloadSize, totalSize) ->
+
+                            "接收下载状态....".logD()
 
                             val newEvent = DownloadEvent(status, downloadSize, totalSize)
 
