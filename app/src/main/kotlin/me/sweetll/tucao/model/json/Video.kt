@@ -72,7 +72,7 @@ data class Video(val hid: String = "",
             1 == source.readInt(),
             1 == source.readInt()
     ) {
-        source.readList(video, List::class.java.classLoader)
+        video = source.createTypedArrayList(Part.CREATOR)
     }
 
     override fun describeContents() = 0
@@ -96,7 +96,7 @@ data class Video(val hid: String = "",
         writeLong(totalSize)
         writeInt((if (checkable) 1 else 0))
         writeInt((if (checked) 1 else 0))
-        writeList(video)
+        writeTypedList(video)
     }
 
     companion object {
