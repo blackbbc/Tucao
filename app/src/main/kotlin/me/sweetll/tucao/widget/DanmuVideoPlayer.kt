@@ -144,7 +144,7 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
 
     fun hideSetting() {
             settingLayout.animate()
-                .translationX((250f).dp2px())
+                .translationX((280f).dp2px())
                 .setDuration(200)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {

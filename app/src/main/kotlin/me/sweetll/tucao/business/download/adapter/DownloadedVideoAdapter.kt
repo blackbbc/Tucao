@@ -15,7 +15,7 @@ import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.load
 
-class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?): BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
+class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: MutableList<MultiItemEntity>?) : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
     companion object {
         const val TYPE_VIDEO = 0
         const val TYPE_PART = 1
@@ -38,8 +38,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 helper.setVisible(R.id.checkbox, video.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = video.checked
-                checkBox.setOnCheckedChangeListener {
-                    _, checked ->
+                checkBox.setOnCheckedChangeListener { _, checked ->
                     video.checked = checked
                     updateMenu()
                 }
@@ -56,7 +55,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                         updateMenu()
                     } else {
                         if (video.singlePart) {
-                            CachedVideoActivity.intentTo(mContext, video.parts[0])
+                            CachedVideoActivity.intentTo(mContext, video)
                         } else {
                             if (video.isExpanded) {
                                 collapse(helper.adapterPosition)
@@ -78,19 +77,18 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 helper.setVisible(R.id.checkbox, part.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = part.checked
-                checkBox.setOnCheckedChangeListener {
-                    _, checked ->
+                checkBox.setOnCheckedChangeListener { _, checked ->
                     part.checked = checked
                     updateMenu()
                 }
 
                 helper.itemView.setOnClickListener {
+                    val parentVideo = data.find { video ->
+                        (video as Video).parts.any { it.vid == part.vid }
+                    } as Video
                     if (part.checkable) {
                         checkBox.isChecked = !checkBox.isChecked
-                        val parentVideo = data.find {
-                            video ->
-                            (video as Video).parts.any { it.vid == part.vid }
-                        } as Video
+
                         val currentPosition = parentVideo.parts.indexOf(part)
                         val newParentChecked = parentVideo.parts.all(Part::checked)
                         if (newParentChecked != parentVideo.checked) {
@@ -99,7 +97,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                         }
                         updateMenu()
                     } else {
-                        CachedVideoActivity.intentTo(mContext, part)
+                        CachedVideoActivity.intentTo(mContext, parentVideo.apply { parts = mutableListOf(parts.find { it.vid == part.vid }!! ) })
                     }
                 }
             }
