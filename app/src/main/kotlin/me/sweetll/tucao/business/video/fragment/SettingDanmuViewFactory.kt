@@ -45,6 +45,8 @@ class SettingDanmuViewFactory() {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
                         danmuOpacityProgress = progress
+                        PlayerConfig.saveDanmuOpacity(danmuOpacityProgress)
+                        danmuOpacityText.text = danmuOpacityProgress.formatDanmuOpacityToString()
                         player.configDanmuStyle()
                     }
                 }
@@ -62,6 +64,8 @@ class SettingDanmuViewFactory() {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
                         danmuSizeProgress = progress
+                        danmuSizeText.text = danmuSizeProgress.formatDanmuSizeToString()
+                        PlayerConfig.saveDanmuSize(danmuSizeProgress)
                         player.configDanmuStyle()
                     }
                 }
@@ -79,6 +83,8 @@ class SettingDanmuViewFactory() {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
                         danmuSpeedProgress = progress
+                        danmuSpeedText.text = danmuSpeedProgress.formatDanmuSpeedToString()
+                        PlayerConfig.saveDanmuSpeed(danmuSpeedProgress)
                         player.configDanmuStyle()
                     }
                 }
