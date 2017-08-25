@@ -41,6 +41,8 @@ class DownloadingFragment: BaseFragment(), DownloadActivity.ContextMenuCallback 
     fun setupRecyclerView() {
         binding.videoRecycler.layoutManager = LinearLayoutManager(activity)
         binding.videoRecycler.adapter = videoAdapter
+        binding.videoRecycler.recycledViewPool.setMaxRecycledViews(DownloadingVideoAdapter.TYPE_PART, 0)
+        binding.videoRecycler.recycledViewPool.setMaxRecycledViews(DownloadingVideoAdapter.TYPE_VIDEO, 0)
 
         binding.videoRecycler.addOnItemTouchListener(object: OnItemLongClickListener() {
             override fun onSimpleItemLongClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {

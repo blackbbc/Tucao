@@ -161,4 +161,8 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
         downloadActivity.updateBottomMenu(deleteEnabled, isPickAll)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        val type =  super.getItemViewType(position)
+        return type
+    }
 }

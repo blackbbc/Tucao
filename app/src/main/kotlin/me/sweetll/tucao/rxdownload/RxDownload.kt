@@ -28,6 +28,7 @@ class RxDownload {
 
         fun getInstance(context: Context): RxDownload {
             instance.context = context.applicationContext
+            if (!instance.bound) instance.ensureBind().subscribe()
             return instance
         }
 

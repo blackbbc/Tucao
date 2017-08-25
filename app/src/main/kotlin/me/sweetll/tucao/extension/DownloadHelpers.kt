@@ -168,6 +168,7 @@ object DownloadHelpers {
 
     // 下载新视频
     private fun download(video: Video, part: Part) {
+        "开始下载, order = ${part.order}".logD()
         // 先下载弹幕
         val playerId = ApiConfig.generatePlayerId(video.hid, part.order)
         val saveName = "danmu.xml"
@@ -185,6 +186,7 @@ object DownloadHelpers {
         }
 
         // 加入到队列里去
+        "执行download, order = ${part.order}".logD()
         rxDownload.download(mission, part)
     }
 
