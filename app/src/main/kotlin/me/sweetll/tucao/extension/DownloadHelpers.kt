@@ -169,7 +169,6 @@ object DownloadHelpers {
 
     // 下载新视频
     private fun download(video: Video, part: Part) {
-        "开始下载, order = ${part.order}".logD()
         // 先下载弹幕
         val playerId = ApiConfig.generatePlayerId(video.hid, part.order)
         val saveName = "danmu.xml"
@@ -178,17 +177,16 @@ object DownloadHelpers {
 
         // 再处理视频
         val mission = DownloadMission(hid = video.hid, order = part.order, title = video.title, type = part.type, vid = part.vid) // 没有beans
-        if (part.durls.isNotEmpty()) {
+        if (part.file.isNotEmpty()) {
             // 处理直传的情况
-            part.durls.forEach {
-                durl ->
-                mission.beans.add(DownloadBean(durl.url, saveName = "${durl.order}", savePath = "${DownloadHelpers.getDownloadFolder().absolutePath}/${mission.hid}/p${mission.order}"))
-            }
+                mission.beans.add(DownloadBean(part.file, saveName = "0", savePath = "${DownloadHelpers.getDownloadFolder().absolutePath}/${mission.hid}/p${mission.order}"))
         }
 
         // 加入到队列里去
-        "执行download, order = ${part.order}".logD()
         rxDownload.download(mission, part)
+
+        // 标记一下
+        part.flag = DownloadStatus.STARTED
     }
 
     fun pauseDownload(part: Part) {

@@ -271,7 +271,6 @@ class DownloadService : Service() {
     }
 
     fun download(newMission: DownloadMission, part: Part) {
-        "在DownloadService中, order = ${part.order}".logD()
         val mission = missionMap.getOrPut(newMission.vid, { newMission.apply { save() } })
 
         processorMap.getOrPut(mission.vid, {
@@ -293,7 +292,6 @@ class DownloadService : Service() {
             }
         }
 
-        "放入队列, order = ${part.order}".logD()
         missionQueue.put(mission.vid)
     }
 

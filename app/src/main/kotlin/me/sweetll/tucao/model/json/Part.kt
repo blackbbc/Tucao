@@ -43,7 +43,7 @@ data class Part(val title: String = "",
         }
     }
 
-    fun checkDownload(): Boolean = durls.isNotEmpty() && durls[0].cacheFileName.isNotEmpty()
+    fun checkDownload(): Boolean = flag != DownloadStatus.READY
 
     constructor(source: Parcel) : this(
             source.readString(),

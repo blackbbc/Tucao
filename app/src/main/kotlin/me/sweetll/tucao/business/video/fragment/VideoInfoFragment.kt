@@ -80,7 +80,7 @@ class VideoInfoFragment: BaseFragment() {
         parts = video.parts.map {
             part ->
             // 替换成已经下载好的视频
-            downloadParts.find { it.vid == part.vid } ?: Part(part.title, part.order, part.vid, part.type, durls = part.durls)
+            downloadParts.find { it.vid == part.vid } ?: part
         }.map {
             it.checked = false
             // 加载历史播放进度
