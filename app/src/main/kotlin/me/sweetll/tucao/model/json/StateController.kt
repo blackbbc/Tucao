@@ -72,7 +72,7 @@ class StateController(val sizeText: TextView, val statusImg: ImageView, val prog
         init {
             sizeText.text = "获取下载地址中..."
             statusImg.setImageResource(R.drawable.ic_pause)
-            progressBar.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
         }
 
         override fun handleClick(callback: DownloadHelpers.Callback) {
