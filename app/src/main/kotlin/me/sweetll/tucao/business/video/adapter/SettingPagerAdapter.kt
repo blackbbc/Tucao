@@ -2,6 +2,7 @@ package me.sweetll.tucao.business.video.adapter
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.PagerAdapter
 import me.sweetll.tucao.business.video.fragment.SettingBlockFragment
 import me.sweetll.tucao.business.video.fragment.SettingDanmuFragment
 import me.sweetll.tucao.business.video.fragment.SettingPlayFragment
@@ -25,4 +26,7 @@ class SettingPagerAdapter(fm: FragmentManager, player: DanmuVideoPlayer): Fragme
 
     override fun getCount() = tabTitles.size
 
+    override fun getItemPosition(`object`: Any?): Int {
+        return PagerAdapter.POSITION_NONE
+    }
 }
