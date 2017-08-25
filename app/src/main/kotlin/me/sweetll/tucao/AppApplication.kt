@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatDelegate
 import com.github.moduth.blockcanary.BlockCanary
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
-import com.squareup.leakcanary.LeakCanary
+//import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
 import me.drakeet.library.CrashWoodpecker
 import me.drakeet.library.PatchMode

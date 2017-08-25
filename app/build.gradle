@@ -131,7 +131,7 @@ dependencies {
     /* Crash */
     implementation 'me.drakeet.library:crashwoodpecker:2.1.1'
     /* Umeng */
-    implementation 'com.umeng.analytics:analytics:6.1.1'
+    implementation 'com.umeng.analytics:analytics:6.1.2'
     /* EventBus */
     implementation 'org.greenrobot:eventbus:3.0.0'
     /* Banner */
@@ -139,9 +139,9 @@ dependencies {
     /* About */
     implementation 'com.github.medyo:android-about-page:1.2'
     /* Leak Canary */
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.2'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
+//    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
     /* Block Canary */
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
