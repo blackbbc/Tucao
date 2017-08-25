@@ -39,7 +39,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
     fun initStatusBar() {
         getStatusBar()?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 var statusBarHeight = 0
                 val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
                 if (resourceId > 0) {
