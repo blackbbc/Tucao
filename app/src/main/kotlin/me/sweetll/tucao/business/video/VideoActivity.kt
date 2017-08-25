@@ -396,8 +396,8 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
     override fun onSavePlayHistory(position: Int) {
         HistoryHelpers.savePlayHistory(
                 video.copy(create = DateFormat.format("yyyy-MM-dd hh:mm:ss", Date()).toString())
-                        .apply {
-                            parts = parts.filter {
+                        .also {
+                            it.parts = video.parts.filter {
                                 it.vid == selectedPart.vid
                             }.map {
                                 it.lastPlayPosition = position
