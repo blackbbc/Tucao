@@ -18,6 +18,13 @@ object UpdateHelpers {
         return sp.getInt("version_code", 0) != BuildConfig.VERSION_CODE
     }
 
+    /*
+     * 114 => 1.1.2
+     */
+    fun needClearUserData(): Boolean {
+        return sp.getInt("version_code", 0) < 114
+    }
+
     fun updateVersion() {
         sp.edit {
             putInt("version_code", BuildConfig.VERSION_CODE)

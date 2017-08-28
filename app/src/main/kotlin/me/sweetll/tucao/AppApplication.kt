@@ -62,8 +62,13 @@ class AppApplication : MultiDexApplication() {
 
     private fun postUpdate() {
         if (UpdateHelpers.newVersion()) {
+            /*
+             * Do some processing to prevent crash due to incompatible old data model
+             */
             try {
-                UpdateHelpers.clearUserData()
+                if (UpdateHelpers.needClearUserData()) {
+                    UpdateHelpers.clearUserData()
+                }
             } catch (error: Error) {
                 error.printStackTrace()
             } finally {
