@@ -17,6 +17,7 @@ import me.sweetll.tucao.di.module.ApiModule
 import me.sweetll.tucao.di.module.BaseModule
 import me.sweetll.tucao.di.module.UserModule
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.UpdateHelpers
 
 class AppApplication : MultiDexApplication() {
     companion object {
@@ -55,6 +56,20 @@ class AppApplication : MultiDexApplication() {
         FlowManager.init(this)
         PlayerConfig.init(this)
         initComponent()
+
+        postUpdate()
+    }
+
+    private fun postUpdate() {
+        if (UpdateHelpers.newVersion()) {
+            try {
+                UpdateHelpers.clearUserData()
+            } catch (error: Error) {
+                error.printStackTrace()
+            } finally {
+                UpdateHelpers.updateVersion()
+            }
+        }
     }
 
     private fun initComponent() {
