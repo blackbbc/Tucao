@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Multiple Image Select</string>
+
+    <string name="album_view">Sélectionnez un album photo</string>
+    <string name="image_view">Appuyez pour sélectionner des images</string>
+
+    <string name="add">Rajouter</string>
+    <string name="selected">sélectionné</string>
+    <string name="limit_exceeded">Impossible de sélectionner plus que %d images</string>
+
+    <string name="permission_denied">Permission refusée!</string>
+    <string name="permission_denied_albums">Veuillez permettre l\'accès aux photos, médias et fichiers sur votre appareil pour afficher les albums</string>
+    <string name="permission_denied_images">Veuillez permettre l\'accès aux photos, médias et fichiers sur votre appareil pour afficher les images</string>
+</resources>

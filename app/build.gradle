@@ -82,6 +82,8 @@ dependencies {
     implementation project(':applier')
     /* GSYVideoPlayer */
     implementation project(':gsyVideoPlayer')
+    /* TakePhoto */
+    implementation project(':takephoto_library')
     implementation 'com.android.support:multidex:1.0.2'
     /* Support Library */
     implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
@@ -120,10 +122,10 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.11'
     kapt 'com.google.dagger:dagger-compiler:2.11'
     /* Glide */
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.1.0'
     implementation "com.android.support:support-v4:${versions.supportLibrary}"
-    implementation 'com.github.bumptech.glide:annotations:4.0.0'
-    kapt 'com.github.bumptech.glide:compiler:4.0.0'
+    implementation 'com.github.bumptech.glide:annotations:4.1.0'
+    kapt 'com.github.bumptech.glide:compiler:4.1.0'
     /* RecyclerView Adapter */
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
     /* Jsoup */
@@ -152,7 +154,7 @@ dependencies {
     implementation 'com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.5'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
-        transitive = true;
+        transitive = true
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin}"
 }
