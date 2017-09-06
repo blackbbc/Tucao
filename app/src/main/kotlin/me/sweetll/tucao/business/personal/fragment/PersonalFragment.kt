@@ -120,8 +120,9 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
     }
 
     override fun takeSuccess(result: TResult) {
-        val bitmap = BitmapFactory.decodeFile(result.image.compressPath)
-        "Get image! width = ${bitmap.width}, height = ${bitmap.height}".logD()
+        viewModel.uploadAvatar(result.image)
+//        val bitmap = BitmapFactory.decodeFile(result.image.compressPath)
+//        "Get image! width = ${bitmap.width}, height = ${bitmap.height}".logD()
     }
 
     override fun takeFail(result: TResult?, msg: String?) {

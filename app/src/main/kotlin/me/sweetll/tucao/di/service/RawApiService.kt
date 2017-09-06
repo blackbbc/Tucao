@@ -1,6 +1,8 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -124,5 +126,8 @@ interface RawApiService {
 
     @GET(ApiConfig.CHECK_EMAIL_URL)
     fun checkEmail(@Query("email") email: String): Observable<ResponseBody>
+
+    @POST(ApiConfig.UPLOAD_AVATAR_URL)
+    fun uploadAvatar(@Body body: RequestBody): Observable<ResponseBody>
 
 }
