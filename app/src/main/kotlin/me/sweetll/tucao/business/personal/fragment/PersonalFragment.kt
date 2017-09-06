@@ -50,9 +50,11 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
     }
     private val cropOptions by lazy {
         CropOptions.Builder()
+                .setAspectX(1)
+                .setAspectY(1)
                 .setOutputX(180)
                 .setOutputY(180)
-                .setWithOwnCrop(true)
+                .setWithOwnCrop(false)
                 .create()
     }
 

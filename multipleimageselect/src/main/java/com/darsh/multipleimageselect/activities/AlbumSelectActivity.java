@@ -1,7 +1,9 @@
 package com.darsh.multipleimageselect.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -11,13 +13,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,8 +40,14 @@ import java.util.HashSet;
 /**
  * Created by Darshan on 4/14/2015.
  */
-public class AlbumSelectActivity extends HelperActivity {
+public class AlbumSelectActivity extends AppCompatActivity {
+    private final String TAG = AlbumSelectActivity.class.getName();
+
     private ArrayList<Album> albums;
+
+    private TextView requestPermission;
+    private Button grantPermission;
+    private final String[] requiredPermissions = new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE };
 
     private TextView errorDisplay;
 
@@ -49,16 +61,12 @@ public class AlbumSelectActivity extends HelperActivity {
     private Handler handler;
     private Thread thread;
 
-    private final String[] projection = new String[]{
-            MediaStore.Images.Media.BUCKET_ID,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.DATA };
+    private final String[] projection = new String[]{ MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_select);
-        setView(findViewById(R.id.layout_album_select));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,6 +89,16 @@ public class AlbumSelectActivity extends HelperActivity {
         errorDisplay = (TextView) findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
 
+        requestPermission = (TextView) findViewById(R.id.text_view_request_permission);
+        grantPermission = (Button) findViewById(R.id.button_grant_permission);
+        grantPermission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPermission();
+            }
+        });
+        hidePermissionHelperUI();
+
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_album_select);
         gridView = (GridView) findViewById(R.id.grid_view_album_select);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,13 +120,26 @@ public class AlbumSelectActivity extends HelperActivity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.PERMISSION_GRANTED: {
+                        hidePermissionHelperUI();
+
                         loadAlbums();
+
+                        break;
+                    }
+
+                    case Constants.PERMISSION_DENIED: {
+                        showPermissionHelperUI();
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                        gridView.setVisibility(View.INVISIBLE);
+
                         break;
                     }
 
                     case Constants.FETCH_STARTED: {
                         progressBar.setVisibility(View.VISIBLE);
                         gridView.setVisibility(View.INVISIBLE);
+
                         break;
                     }
 
@@ -124,12 +155,14 @@ public class AlbumSelectActivity extends HelperActivity {
                         } else {
                             adapter.notifyDataSetChanged();
                         }
+
                         break;
                     }
 
                     case Constants.ERROR: {
                         progressBar.setVisibility(View.INVISIBLE);
                         errorDisplay.setVisibility(View.VISIBLE);
+
                         break;
                     }
 
@@ -147,14 +180,51 @@ public class AlbumSelectActivity extends HelperActivity {
         };
         getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, observer);
 
-        checkPermission();
+        checkIfPermissionGranted();
+    }
+
+    private void checkIfPermissionGranted() {
+        if (ContextCompat.checkSelfPermission(AlbumSelectActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermission();
+            return;
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = Constants.PERMISSION_GRANTED;
+        message.sendToTarget();
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(AlbumSelectActivity.this,
+                requiredPermissions,
+                Constants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == Constants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
+            Message message = handler.obtainMessage();
+            message.what = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ? Constants.PERMISSION_GRANTED : Constants.PERMISSION_DENIED;
+            message.sendToTarget();
+        }
+    }
+
+    private void hidePermissionHelperUI() {
+        requestPermission.setVisibility(View.INVISIBLE);
+        grantPermission.setVisibility(View.INVISIBLE);
+    }
+
+    private void showPermissionHelperUI() {
+        requestPermission.setVisibility(View.VISIBLE);
+        grantPermission.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        stopThread();
+        abortLoading();
 
         getContentResolver().unregisterContentObserver(observer);
         observer = null;
@@ -208,9 +278,7 @@ public class AlbumSelectActivity extends HelperActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.REQUEST_CODE
-                && resultCode == RESULT_OK
-                && data != null) {
+        if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             setResult(RESULT_OK, data);
             finish();
         }
@@ -231,7 +299,27 @@ public class AlbumSelectActivity extends HelperActivity {
     }
 
     private void loadAlbums() {
-        startThread(new AlbumLoaderRunnable());
+        abortLoading();
+
+        AlbumLoaderRunnable runnable = new AlbumLoaderRunnable();
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+
+    private void abortLoading() {
+        if (thread == null) {
+            return;
+        }
+
+        if (thread.isAlive()) {
+            thread.interrupt();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private class AlbumLoaderRunnable implements Runnable {
@@ -239,43 +327,51 @@ public class AlbumSelectActivity extends HelperActivity {
         public void run() {
             android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
+            Message message;
             if (adapter == null) {
-                sendMessage(Constants.FETCH_STARTED);
+                message = handler.obtainMessage();
+                message.what = Constants.FETCH_STARTED;
+                message.sendToTarget();
+            }
+
+            if (Thread.interrupted()) {
+                return;
             }
 
             Cursor cursor = getApplicationContext().getContentResolver()
                     .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
                             null, null, MediaStore.Images.Media.DATE_ADDED);
+
             if (cursor == null) {
-                sendMessage(Constants.ERROR);
+                message = handler.obtainMessage();
+                message.what = Constants.ERROR;
+                message.sendToTarget();
                 return;
             }
 
             ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
-            HashSet<Long> albumSet = new HashSet<>();
+            HashSet<String> albumSet = new HashSet<>();
             File file;
+
             if (cursor.moveToLast()) {
                 do {
                     if (Thread.interrupted()) {
                         return;
                     }
 
-                    long albumId = cursor.getLong(cursor.getColumnIndex(projection[0]));
-                    String album = cursor.getString(cursor.getColumnIndex(projection[1]));
-                    String image = cursor.getString(cursor.getColumnIndex(projection[2]));
+                    String album = cursor.getString(cursor.getColumnIndex(projection[0]));
+                    String image = cursor.getString(cursor.getColumnIndex(projection[1]));
 
-                    if (!albumSet.contains(albumId)) {
-                        /*
-                        It may happen that some image file paths are still present in cache,
-                        though image file does not exist. These last as long as media
-                        scanner is not run again. To avoid get such image file paths, check
-                        if image file exists.
-                         */
-                        file = new File(image);
-                        if (file.exists()) {
-                            temp.add(new Album(album, image));
-                            albumSet.add(albumId);
-                        }
+                    /*
+                    It may happen that some image file paths are still present in cache,
+                    though image file does not exist. These last as long as media
+                    scanner is not run again. To avoid get such image file paths, check
+                    if image file exists.
+                     */
+                    file = new File(image);
+                    if (file.exists() && !albumSet.contains(album)) {
+                        temp.add(new Album(album, image));
+                        albumSet.add(album);
                     }
 
                 } while (cursor.moveToPrevious());
@@ -288,49 +384,11 @@ public class AlbumSelectActivity extends HelperActivity {
             albums.clear();
             albums.addAll(temp);
 
-            sendMessage(Constants.FETCH_COMPLETED);
+            message = handler.obtainMessage();
+            message.what = Constants.FETCH_COMPLETED;
+            message.sendToTarget();
+
+            Thread.interrupted();
         }
-    }
-
-    private void startThread(Runnable runnable) {
-        stopThread();
-        thread = new Thread(runnable);
-        thread.start();
-    }
-
-    private void stopThread() {
-        if (thread == null || !thread.isAlive()) {
-            return;
-        }
-
-        thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendMessage(int what) {
-        if (handler == null) {
-            return;
-        }
-
-        Message message = handler.obtainMessage();
-        message.what = what;
-        message.sendToTarget();
-    }
-
-    @Override
-    protected void permissionGranted() {
-        Message message = handler.obtainMessage();
-        message.what = Constants.PERMISSION_GRANTED;
-        message.sendToTarget();
-    }
-
-    @Override
-    protected void hideViews() {
-        progressBar.setVisibility(View.INVISIBLE);
-        gridView.setVisibility(View.INVISIBLE);
     }
 }

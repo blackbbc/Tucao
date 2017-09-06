@@ -46,6 +46,7 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/rxjava.properties'
     }
     lintOptions {
         checkReleaseBuilds false
