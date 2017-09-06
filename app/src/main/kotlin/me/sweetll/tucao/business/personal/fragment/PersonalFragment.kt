@@ -36,20 +36,23 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
     private lateinit var viewModel: PersonalViewModel
 
     private var invokeParam: InvokeParam? = null
-    private val takePhoto by lazy {
-        val photo = TakePhotoInvocationHandler.of(this).bind(TakePhotoImpl(this, this)) as TakePhoto
+    private val takePhoto: TakePhoto by lazy {
+        TakePhotoInvocationHandler.of(this).bind(TakePhotoImpl(this, this)) as TakePhoto
+    }
+
+    private fun TakePhoto.config(): TakePhoto {
         // Compress Config
         val config = CompressConfig.Builder()
                 .enableReserveRaw(false) // 是否保留原图
                 .create()
-        photo.onEnableCompress(config, false)
+        onEnableCompress(config, false)
         // Take Photo Options
         val options = TakePhotoOptions.Builder()
                 .setWithOwnGallery(true)
                 .setCorrectImage(false)
                 .create()
-        photo.setTakePhotoOptions(options)
-        photo
+        setTakePhotoOptions(options)
+        return this
     }
 
     private val cropOptions by lazy {
@@ -133,7 +136,7 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
         }
         val imageUri = Uri.fromFile(file)
 
-        takePhoto.onPickFromGalleryWithCrop(imageUri, cropOptions)
+        takePhoto.config().onPickFromGalleryWithCrop(imageUri, cropOptions)
     }
 
     override fun invoke(invokeParam: InvokeParam): PermissionManager.TPermissionType {

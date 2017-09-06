@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="multiple_image_select_primary">#2E7D32</color>
-    <color name="multiple_image_select_primaryDark">#1B5E20</color>
-    <color name="multiple_image_select_primaryLight">#C8E6C9</color>
+    <color name="multiple_image_select_primary">#EC407A</color>
+    <color name="multiple_image_select_primaryDark">#C2185B</color>
+    <color name="multiple_image_select_primaryLight">#F8BBD0</color>
     <color name="multiple_image_select_accent">#4CAF50</color>
 
     <color name="multiple_image_select_primaryText">#212121</color>
