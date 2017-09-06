@@ -78,6 +78,40 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
                 .create()
     }
 
+    private val choosePickTypeDialog by lazy {
+        val view = LayoutInflater.from(activity).inflate(R.layout.dialog_choose_pick_type, null)
+        DialogPlus.newDialog(activity)
+                .setContentHolder(ViewHolder(view))
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(R.drawable.bg_round_white_rectangle)
+                .setOverlayBackgroundResource(R.color.mask)
+                .setCancelable(true)
+                .setOnClickListener {
+                    dialog, view ->
+
+                    val file = File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg")
+                    if (!file.parentFile.exists()) {
+                        file.parentFile.mkdirs()
+                    }
+                    val imageUri = Uri.fromFile(file)
+
+                    when (view.id) {
+                        R.id.linear_gallery -> {
+                            dialog.dismiss()
+                            takePhoto.config().onPickFromGalleryWithCrop(imageUri, cropOptions)
+                        }
+                        R.id.linear_camera -> {
+                            dialog.dismiss()
+                            takePhoto.config().onPickFromCaptureWithCrop(imageUri, cropOptions)
+                        }
+                        else -> dialog.dismiss()
+                    }
+                }
+                .create()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         takePhoto.onCreate(savedInstanceState)
@@ -130,13 +164,7 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
     }
 
     fun choosePickType() {
-        val file = File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg")
-        if (!file.parentFile.exists()) {
-            file.parentFile.mkdirs()
-        }
-        val imageUri = Uri.fromFile(file)
-
-        takePhoto.config().onPickFromGalleryWithCrop(imageUri, cropOptions)
+        choosePickTypeDialog.show()
     }
 
     override fun invoke(invokeParam: InvokeParam): PermissionManager.TPermissionType {
