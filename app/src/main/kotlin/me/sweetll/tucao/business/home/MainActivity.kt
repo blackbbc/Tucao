@@ -198,8 +198,8 @@ class MainActivity : BaseActivity() {
         binding.tab.setupWithViewPager(binding.viewPager)
 
         val headerView = binding.navigation.getHeaderView(0)
-        avatarImg = headerView.findViewById<ImageView>(R.id.img_avatar)
-        usernameText = headerView.findViewById<TextView>(R.id.text_username)
+        avatarImg = headerView.findViewById(R.id.img_avatar)
+        usernameText = headerView.findViewById(R.id.text_username)
 
         doRefresh()
 
@@ -313,7 +313,7 @@ class MainActivity : BaseActivity() {
 
     private fun doRefresh() {
         if (user.isValid()) {
-            avatarImg.load(this, user.avatar, R.drawable.default_avatar)
+            avatarImg.load(this, user.avatar, R.drawable.default_avatar, User.signature())
             usernameText.text = user.name
         } else {
             usernameText.text = "点击头像登录"

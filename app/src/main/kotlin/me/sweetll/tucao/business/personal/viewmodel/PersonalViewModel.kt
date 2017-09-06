@@ -3,6 +3,7 @@ package me.sweetll.tucao.business.personal.viewmodel
 import android.app.AlertDialog
 import android.databinding.ObservableField
 import android.net.Uri
+import android.util.Base64
 import android.view.View
 import com.jph.takephoto.model.TImage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,12 +16,13 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.model.other.User
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.greenrobot.eventbus.EventBus
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import java.io.File
-import java.io.FileInputStream
 
 class PersonalViewModel(val activity: PersonalActivity, val fragment: PersonalFragment) : BaseViewModel() {
     val avatar = ObservableField<String>(user.avatar)
@@ -39,22 +41,36 @@ class PersonalViewModel(val activity: PersonalActivity, val fragment: PersonalFr
     }
 
     fun uploadAvatar(image: TImage) {
-        val file = File(image.compressPath)
-//        val inputStream = FileInputStream(file)
-//        val buf = ByteArray(inputStream.available())
-        val body = RequestBody.create(
-                MediaType.parse("application/octet-stream"),
-                file
-        )
-        rawApiService.uploadAvatar(body)
+        rawApiService.manageAvatar()
                 .subscribeOn(Schedulers.io())
                 .retryWhen(ApiConfig.RetryWithDelay())
+                .map {
+                    body ->
+                    val urlPattern = "'upurl':\"(.+)&callback=return_avatar&\"".toRegex()
+                    val result = urlPattern.find(body.string())
+                    result?.groupValues?.get(1) ?: throw Exception("请重新登录")
+                }.map {
+                    encodeUrl ->
+                    val decodeUrl = String(Base64.decode(encodeUrl, Base64.DEFAULT))
+                    decodeUrl.substring(decodeUrl.indexOf("&data") + 6)
+                }.flatMap {
+                    data ->
+                    val file = File(image.compressPath)
+                    val body = RequestBody.create(
+                            MediaType.parse("application/octet-stream"),
+                            file
+                    )
+                    rawApiService.uploadAvatar(data, body)
+                }.flatMap { rawApiService.personal() }
+                .map { parsePersonal(Jsoup.parse(it.string())) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    "上传图片成功".logD()
+                    User.updateSignature()
+                    EventBus.getDefault().post(RefreshPersonalEvent())
+                    "修改头像成功".toast()
                 }, {
                     error ->
-                    "上传图片失败".logD()
+                    error.message?.toast()
                     error.printStackTrace()
                 })
     }
@@ -101,5 +117,13 @@ class PersonalViewModel(val activity: PersonalActivity, val fragment: PersonalFr
         builder.create().show()
     }
 
+    private fun parsePersonal(doc: Document): Any {
+        // 获取头像地址
+        val index_div = doc.select("div.index")[0]
+        val avatar_img = index_div.child(0).child(0)
+        user.avatar = avatar_img.attr("src")
+
+        return Object()
+    }
 
 }

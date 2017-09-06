@@ -1,5 +1,6 @@
 package me.sweetll.tucao.model.other
 
+import com.bumptech.glide.signature.ObjectKey
 import com.squareup.moshi.Moshi
 import me.sweetll.tucao.extension.edit
 import me.sweetll.tucao.extension.getSharedPreference
@@ -36,8 +37,9 @@ class User() {
     }
 
     companion object {
-        const val SP_USER = "user"
-        const val KEY_USER = "user"
+        private const val SP_USER = "user"
+        private const val KEY_USER = "user"
+        private const val KEY_SIGNATURE = "signature"
 
         private val adapter by lazy {
             val moshi = Moshi.Builder()
@@ -53,6 +55,22 @@ class User() {
             } catch (e: Exception) {
                 return User()
             }
+        }
+
+        fun updateSignature(): Long {
+            val time = System.currentTimeMillis()
+            SP_USER.getSharedPreference().edit {
+                putLong(KEY_SIGNATURE, time)
+            }
+            return time
+        }
+
+        fun signature(): ObjectKey {
+            var signature = SP_USER.getSharedPreference().getLong(KEY_SIGNATURE, 0)
+            if (signature == 0L) {
+                signature = updateSignature()
+            }
+            return ObjectKey(signature)
         }
     }
 }

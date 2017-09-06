@@ -54,6 +54,7 @@ object ApiConfig {
     const val CHECK_USERNAME_URL     = "index.php?clientid=username&m=member&c=index&a=public_checkname_ajax"
     const val CHECK_NICKNAME_URL     = "index.php?clientid=nickname&m=member&c=index&a=public_checknickname_ajax"
     const val CHECK_EMAIL_URL        = "index.php?clientid=email&m=member&c=index&a=public_checkemail_ajax"
+    const val MANAGE_AVATAR_URL      = "index.php?m=member&c=index&a=account_manage_avatar&t=account"
     const val UPLOAD_AVATAR_URL      = "phpsso_server/index.php?m=phpsso&c=index&a=uploadavatar&auth_data=v=1&appid=1"
 
     fun generatePlayerId(hid: String, part: Int) = "11-$hid-1-$part"

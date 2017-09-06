@@ -127,7 +127,10 @@ interface RawApiService {
     @GET(ApiConfig.CHECK_EMAIL_URL)
     fun checkEmail(@Query("email") email: String): Observable<ResponseBody>
 
+    @GET(ApiConfig.MANAGE_AVATAR_URL)
+    fun manageAvatar(): Observable<ResponseBody>
+
     @POST(ApiConfig.UPLOAD_AVATAR_URL)
-    fun uploadAvatar(@Body body: RequestBody): Observable<ResponseBody>
+    fun uploadAvatar(@Query("data") data: String, @Body body: RequestBody): Observable<ResponseBody>
 
 }

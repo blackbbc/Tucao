@@ -4,13 +4,22 @@ import android.databinding.BindingAdapter
 import android.support.design.widget.TextInputLayout
 import android.widget.ImageView
 import me.sweetll.tucao.R
+import me.sweetll.tucao.model.other.User
 
 object DataBindingAdapters {
     @BindingAdapter("app:avatar")
     @JvmStatic
-    fun loadImage(imageView: ImageView, url: String?) {
+    fun loadAvatar(imageView: ImageView, url: String?) {
         url?.let {
             imageView.load(imageView.context, it, R.drawable.default_avatar)
+        }
+    }
+
+    @BindingAdapter("app:my_avatar")
+    @JvmStatic
+    fun loadMyAvatar(imageView: ImageView, url: String?) {
+        url?.let {
+            imageView.load(imageView.context, it, R.drawable.default_avatar, User.signature())
         }
     }
 
