@@ -6,11 +6,12 @@ import android.view.View
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.personal.PersonalActivity
+import me.sweetll.tucao.business.personal.fragment.PersonalFragment
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.greenrobot.eventbus.EventBus
 
-class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
+class PersonalViewModel(val activity: PersonalActivity, val fragment: PersonalFragment) : BaseViewModel() {
     val avatar = ObservableField<String>(user.avatar)
     val nickname = ObservableField<String>(user.name)
     val uuid = ObservableField<String>()
@@ -27,7 +28,7 @@ class PersonalViewModel(val activity: PersonalActivity) : BaseViewModel() {
     }
 
     fun onClickAvatar(view: View) {
-        "修改头像施工中".toast()
+        fragment.choosePickType()
     }
 
     fun onClickNickname(view: View) {
