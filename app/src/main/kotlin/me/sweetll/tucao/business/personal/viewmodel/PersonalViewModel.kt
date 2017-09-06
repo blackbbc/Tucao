@@ -64,6 +64,8 @@ class PersonalViewModel(val activity: PersonalActivity, val fragment: PersonalFr
                 }.flatMap { rawApiService.personal() }
                 .map { parsePersonal(Jsoup.parse(it.string())) }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { fragment.showUploadingDialog() }
+                .doAfterTerminate { fragment.dismissUploadingDialog() }
                 .subscribe({
                     User.updateSignature()
                     EventBus.getDefault().post(RefreshPersonalEvent())

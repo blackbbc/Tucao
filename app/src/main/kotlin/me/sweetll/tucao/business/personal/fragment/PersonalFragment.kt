@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import com.jph.takephoto.model.*
 import com.jph.takephoto.permission.InvokeListener
 import com.jph.takephoto.permission.PermissionManager
 import com.jph.takephoto.permission.TakePhotoInvocationHandler
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.ViewHolder
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
@@ -48,6 +51,7 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
         photo.setTakePhotoOptions(options)
         photo
     }
+
     private val cropOptions by lazy {
         CropOptions.Builder()
                 .setAspectX(1)
@@ -55,6 +59,19 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
                 .setOutputX(180)
                 .setOutputY(180)
                 .setWithOwnCrop(false)
+                .create()
+    }
+
+    private val uploadAvatarDialog by lazy {
+        val view = LayoutInflater.from(activity).inflate(R.layout.dialog_upload_avatar, null)
+        DialogPlus.newDialog(activity)
+                .setContentHolder(ViewHolder(view))
+                .setGravity(Gravity.CENTER)
+                .setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(R.drawable.bg_round_white_rectangle)
+                .setOverlayBackgroundResource(R.color.mask)
+                .setCancelable(false)
                 .create()
     }
 
@@ -99,6 +116,14 @@ class PersonalFragment: BaseFragment(), TakePhoto.TakeResultListener, InvokeList
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshPersonal(event: RefreshPersonalEvent) {
         viewModel.refresh()
+    }
+
+    fun showUploadingDialog() {
+        uploadAvatarDialog.show()
+    }
+
+    fun dismissUploadingDialog() {
+        uploadAvatarDialog.dismiss()
     }
 
     fun choosePickType() {
