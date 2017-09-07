@@ -43,6 +43,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Translucent.Login"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".business.login.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".business.login.RegisterActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.personal.PersonalActivity"
             android:screenOrientation="portrait"
@@ -121,9 +128,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <activity android:name=".business.login.ForgotPasswordActivity" />
-        <activity android:name=".business.login.RegisterActivity"></activity>
     </application>
 
 </manifest>
