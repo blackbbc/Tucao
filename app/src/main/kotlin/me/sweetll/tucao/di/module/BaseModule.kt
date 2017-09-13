@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.di.service.ApiConfig
+import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,23 +23,27 @@ import javax.inject.Singleton
 class BaseModule(val apiKey: String) {
     @Provides
     @Singleton
+    fun provideCookieJar(): CookieJar = PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get()))
+
+    @Provides
+    @Singleton
     @Named("raw")
-    fun provideRawOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideRawOkHttpClient(cookieJar: CookieJar): OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
+            .cookieJar(cookieJar)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     @Provides
     @Singleton
     @Named("json")
-    fun provideJsonClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideJsonClient(cookieJar: CookieJar): OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
+            .cookieJar(cookieJar)
             .addInterceptor { chain ->
                 var request = chain.request()
                 request = chain.request().newBuilder()
@@ -53,11 +58,11 @@ class BaseModule(val apiKey: String) {
     @Provides
     @Singleton
     @Named("xml")
-    fun provideXmlClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideXmlClient(cookieJar: CookieJar): OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
+            .cookieJar(cookieJar)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
