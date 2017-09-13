@@ -38,6 +38,7 @@ class BaseModule(val apiKey: String) {
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
+            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
             .addInterceptor { chain ->
                 var request = chain.request()
                 request = chain.request().newBuilder()
@@ -56,6 +57,7 @@ class BaseModule(val apiKey: String) {
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
+            .cookieJar(PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get())))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
