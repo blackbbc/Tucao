@@ -3,7 +3,6 @@ package me.sweetll.tucao.di.module
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import me.sweetll.tucao.AppApplication

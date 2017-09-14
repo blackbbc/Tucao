@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 登录 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".AppApplication"
