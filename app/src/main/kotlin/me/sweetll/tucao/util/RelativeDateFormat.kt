@@ -22,7 +22,11 @@ object RelativeDateFormat {
     }
 
     fun format(date: Date): String {
-        val delta = Date().time - date.time
+        return format(date.time)
+    }
+
+    fun format(timestamp: Long): String {
+        val delta = Date().time - timestamp
         if (delta < 1L * ONE_MINUTE) {
             val seconds = toSeconds(delta)
             return "${if (seconds <= 0) 1 else seconds}$ONE_SECOND_AGO"
@@ -50,6 +54,7 @@ object RelativeDateFormat {
             return "${if (years <= 0) 1 else years}$ONE_YEAR_AGO"
         }
     }
+
 
     private fun toSeconds(date: Long): Long {
         return date / 1000L

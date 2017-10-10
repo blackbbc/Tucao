@@ -41,6 +41,7 @@ import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
+import me.sweetll.tucao.business.drrr.DrrrListActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
@@ -237,6 +238,9 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.nav_download -> {
                     DownloadActivity.intentTo(this)
+                }
+                R.id.nav_tucao -> {
+                    DrrrListActivity.intentTo(this)
                 }
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()

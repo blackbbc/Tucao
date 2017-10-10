@@ -45,13 +45,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Translucent.Login"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".business.login.ForgotPasswordActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.login.RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.personal.PersonalActivity"
             android:screenOrientation="portrait"
@@ -109,6 +108,10 @@
             android:name=".business.home.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AboutTheme" />
+        <activity android:name=".business.drrr.DrrrListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".business.drrr.DrrrDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".rxdownload.function.DownloadService"

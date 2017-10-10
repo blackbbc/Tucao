@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.sweetll.tucao.widget.ForegroundRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:clipToPadding="false"
+    android:foreground="?android:selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:stateListAnimator="@animator/raise"
+    tools:paddingTop="25dp">
+
+    <LinearLayout
+        android:id="@+id/linear_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_text"
+            android:textSize="10sp"
+            tools:text="24秒前" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linear_top"
+        android:layout_below="@+id/linear_top"
+        android:layout_marginTop="8dp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/primary_text"
+        android:textSize="12sp"
+        tools:text="啦啦啦啦啦啦啊\n啦啦啦啦啦\n啦啦啦\n啦啦啦啦\n啦啦啦" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/text_content"
+        android:layout_below="@+id/text_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/linear_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_comment_oval"
+                android:tint="@color/grey_600" />
+
+            <TextView
+                android:id="@+id/text_reply_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="59"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_thumb_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_thumb_up"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:tint="@color/grey_600"
+                android:src="@drawable/ic_thumb_up" />
+
+            <TextView
+                android:id="@+id/text_vote_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp"
+                tools:text="351" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</me.sweetll.tucao.widget.ForegroundRelativeLayout>
