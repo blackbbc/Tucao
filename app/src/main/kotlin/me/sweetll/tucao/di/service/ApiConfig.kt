@@ -23,6 +23,14 @@ object ApiConfig {
     const val UPDATE_API_URL = "http://45.63.54.11:12450/api/app-portal/version"
 
     /*
+     * Drrr
+     */
+    const val CREATE_POST_API_URL = "http://192.168.1.118:8080/comment/create"
+    const val POSTS_API_URL = "http://192.168.1.118:8080/comments"
+    const val CREATE_REPLY_API_URL = "http://192.168.1.118:8080/reply/create/{commentId}"
+    const val REPLIES_API_URL = "http://192.168.1.118:8080/replies/{commentId}"
+
+    /*
      * XML
      */
     const val PLAY_URL_API_URL = "http://api.tucao.tv/api/playurl"

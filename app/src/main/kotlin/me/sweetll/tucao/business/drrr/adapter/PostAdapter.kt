@@ -1,5 +1,7 @@
 package me.sweetll.tucao.business.drrr.adapter
 
+import android.support.v4.content.ContextCompat
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import me.sweetll.tucao.R
@@ -13,6 +15,11 @@ class PostAdapter(data: MutableList<Post>?): BaseQuickAdapter<Post, BaseViewHold
         helper.setText(R.id.text_content, item.content)
         helper.setText(R.id.text_reply_num, "${item.replyNum}")
         helper.setText(R.id.text_vote_num, "${item.voteNum}")
+        if (item.vote) {
+            helper.getView<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(mContext, R.color.pink_500))
+        } else {
+            helper.getView<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(mContext, R.color.grey_600))
+        }
     }
 
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.View
 import me.sweetll.tucao.BuildConfig
+import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.drrr.adapter.PostAdapter
@@ -40,6 +41,10 @@ class DrrrListActivity : BaseActivity() {
         viewModel = DrrrListViewModel(this)
         binding.viewModel = viewModel
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadData()
+        }
+
         setupRecyclerView()
     }
 
@@ -60,6 +65,10 @@ class DrrrListActivity : BaseActivity() {
         )
         adapter = PostAdapter(mockData)
 
+        adapter.setOnLoadMoreListener({
+            viewModel.loadMoreData()
+        }, binding.postRecycler)
+
         binding.swipeRefresh.isEnabled = false
 
         binding.postRecycler.adapter = adapter
@@ -69,6 +78,35 @@ class DrrrListActivity : BaseActivity() {
                         .setDivider(R.drawable.divider_big)
                         .build()
         )
+    }
+
+    fun setRefreshing(refreshing: Boolean) {
+        binding.swipeRefresh.isRefreshing = refreshing
+    }
+
+    fun loadData(data: MutableList<Post>) {
+        adapter.setNewData(data)
+        if (data.size < viewModel.size) {
+            adapter.setEnableLoadMore(false)
+        } else {
+            adapter.setEnableLoadMore(true)
+        }
+    }
+
+    fun loadMoreData(data: MutableList<Post>?, flag: Int) {
+        when (flag) {
+            Const.LOAD_MORE_COMPLETE -> {
+                adapter.addData(data)
+                adapter.loadMoreComplete()
+            }
+            Const.LOAD_MORE_END -> {
+                adapter.addData(data)
+                adapter.loadMoreEnd()
+            }
+            Const.LOAD_MORE_FAIL -> {
+                adapter.loadMoreFail()
+            }
+        }
     }
 
     override fun initToolbar() {

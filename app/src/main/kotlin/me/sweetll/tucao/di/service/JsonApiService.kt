@@ -1,6 +1,9 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
+import me.sweetll.tucao.business.drrr.model.DrrrResponse
+import me.sweetll.tucao.business.drrr.model.Post
+import me.sweetll.tucao.business.drrr.model.Reply
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
@@ -40,4 +43,15 @@ interface JsonApiService {
               @Query("replyid") replyId: String,
               @Query("page") page: Int,
               @Query("num") num: Int): Observable<ReplyResponse>
+
+    @GET(ApiConfig.POSTS_API_URL)
+    fun drrrPosts(@Query("page") page: Int,
+                  @Query("size") size: Int,
+                  @Query("sortBy") sortBy: String,
+                  @Query("order") order: String): Observable<DrrrResponse<List<Post>>>
+
+    @GET(ApiConfig.REPLIES_API_URL)
+    fun drrrReplies(@Query("page") page: Int,
+                    @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
+
 }
