@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
@@ -41,6 +43,7 @@ class DrrrListActivity : BaseActivity() {
         viewModel = DrrrListViewModel(this)
         binding.viewModel = viewModel
 
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadData()
         }
@@ -49,27 +52,11 @@ class DrrrListActivity : BaseActivity() {
     }
 
     private fun setupRecyclerView() {
-        val mockData = mutableListOf(
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false),
-                Post("1", "1", 1, 1, Build.BRAND, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME, false, System.currentTimeMillis(), System.currentTimeMillis(), false)
-        )
-        adapter = PostAdapter(mockData)
+        adapter = PostAdapter(null)
 
         adapter.setOnLoadMoreListener({
             viewModel.loadMoreData()
         }, binding.postRecycler)
-
-        binding.swipeRefresh.isEnabled = false
 
         binding.postRecycler.adapter = adapter
         binding.postRecycler.layoutManager = LinearLayoutManager(this)
@@ -78,6 +65,12 @@ class DrrrListActivity : BaseActivity() {
                         .setDivider(R.drawable.divider_big)
                         .build()
         )
+        binding.postRecycler.addOnItemTouchListener(object: OnItemClickListener() {
+            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                val post = adapter.getItem(position)
+                DrrrDetailActivity.intentTo(this@DrrrListActivity, post)
+            }
+        })
     }
 
     fun setRefreshing(refreshing: Boolean) {

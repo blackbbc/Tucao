@@ -3,26 +3,16 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\DanmakuFlameMaster\DanmakuFlameMaster.iml" filepath="E:\AndroidStudioProjects\Tucao\DanmakuFlameMaster\DanmakuFlameMaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tucao.iml" filepath="$PROJECT_DIR$/Tucao.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\app\app.iml" filepath="E:\AndroidStudioProjects\Tucao\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/applier/applier.iml" filepath="$PROJECT_DIR$/applier/applier.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\applier\applier.iml" filepath="E:\AndroidStudioProjects\Tucao\applier\applier.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogplus/dialogplus.iml" filepath="$PROJECT_DIR$/dialogplus/dialogplus.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\dialogplus\dialogplus.iml" filepath="E:\AndroidStudioProjects\Tucao\dialogplus\dialogplus.iml" />
       <module fileurl="file://$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\GSYVideoPlayer\gsyVideoPlayer\gsyVideoPlayer.iml" filepath="E:\AndroidStudioProjects\Tucao\GSYVideoPlayer\gsyVideoPlayer\gsyVideoPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" filepath="$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\multipleimageselect\multipleimageselect.iml" filepath="E:\AndroidStudioProjects\Tucao\multipleimageselect\multipleimageselect.iml" />
       <module fileurl="file://$PROJECT_DIR$/previewseekbar/previewseekbar.iml" filepath="$PROJECT_DIR$/previewseekbar/previewseekbar.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\previewseekbar\previewseekbar.iml" filepath="E:\AndroidStudioProjects\Tucao\previewseekbar\previewseekbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/shared.iml" filepath="$PROJECT_DIR$/shared/shared.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\shared\shared.iml" filepath="E:\AndroidStudioProjects\Tucao\shared\shared.iml" />
       <module fileurl="file://$PROJECT_DIR$/sharedtest/sharedtest.iml" filepath="$PROJECT_DIR$/sharedtest/sharedtest.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\sharedtest\sharedtest.iml" filepath="E:\AndroidStudioProjects\Tucao\sharedtest\sharedtest.iml" />
       <module fileurl="file://$PROJECT_DIR$/takephoto_library/takephoto_library.iml" filepath="$PROJECT_DIR$/takephoto_library/takephoto_library.iml" />
-      <module fileurl="file://E:\AndroidStudioProjects\Tucao\takephoto_library\takephoto_library.iml" filepath="E:\AndroidStudioProjects\Tucao\takephoto_library\takephoto_library.iml" />
     </modules>
   </component>
 </project>

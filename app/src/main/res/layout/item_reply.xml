@@ -11,6 +11,7 @@
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
+    android:layout_marginBottom="0.5dp"
     android:stateListAnimator="@animator/raise"
     tools:paddingTop="25dp">
 

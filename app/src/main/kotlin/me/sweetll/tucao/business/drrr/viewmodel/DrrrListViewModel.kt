@@ -23,7 +23,6 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
         activity.setRefreshing(true)
         jsonApiService.drrrPosts(page, size, "date", "desc")
                 .bindToLifecycle(activity)
-                .doAfterTerminate { activity.setRefreshing(false) }
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .subscribeOn(Schedulers.io())
                 .flatMap {
@@ -35,6 +34,7 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
                     data ->
                     page++

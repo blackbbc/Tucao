@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -38,11 +39,11 @@ class DrrrDetailActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        post = intent.getParcelableExtra(ARG_POST)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_detail)
         viewModel = DrrrDetailViewModel(this)
         binding.viewModel = viewModel
-
-        post = intent.getParcelableExtra(ARG_POST)
 
         setupRecycler()
     }
@@ -50,6 +51,14 @@ class DrrrDetailActivity : BaseActivity() {
     private fun setupRecycler() {
         val data = mutableListOf(MultipleItem(post))
         data.add(MultipleItem(post.replyNum))
+
+        adapter = ReplyAdapter(data)
+        adapter.setOnLoadMoreListener({
+            viewModel.loadMoreData()
+        }, binding.replyRecycler)
+
+        binding.replyRecycler.adapter = adapter
+        binding.replyRecycler.layoutManager = LinearLayoutManager(this)
     }
 
     fun loadData(data: MutableList<MultipleItem>) {

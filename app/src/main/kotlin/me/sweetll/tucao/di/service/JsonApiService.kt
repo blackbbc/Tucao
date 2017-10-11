@@ -56,7 +56,7 @@ interface JsonApiService {
     fun drrrCreatePost(@Body body: RequestBody): Observable<ResponseBody>
 
     @GET(ApiConfig.REPLIES_API_URL)
-    fun drrrReplies(@Path("") commentId: String,
+    fun drrrReplies(@Path("commentId") commentId: String,
                     @Query("page") page: Int,
                     @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
 

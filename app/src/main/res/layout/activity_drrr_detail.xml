@@ -31,19 +31,12 @@
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/replyRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/replyRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/divider"
-                tools:listitem="@layout/item_post"/>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent"
+            android:background="@color/divider"
+            tools:listitem="@layout/item_post"/>
 
     </LinearLayout>
 

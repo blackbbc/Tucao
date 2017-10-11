@@ -39,7 +39,7 @@ class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<M
     }
 
     private fun convertReplyDivider(helper: BaseViewHolder, replyNum: Int) {
-        helper.setText(R.id.text_reply_num_divider, "共${replyNum}条回复")
+        helper.setText(R.id.text_reply_num, "共${replyNum}条回复")
     }
 
     private fun convertReply(helper: BaseViewHolder, reply: Reply) {
