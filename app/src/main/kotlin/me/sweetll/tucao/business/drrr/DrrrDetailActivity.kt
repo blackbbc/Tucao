@@ -57,6 +57,8 @@ class DrrrDetailActivity : BaseActivity() {
             viewModel.loadMoreData()
         }, binding.replyRecycler)
 
+        adapter.setEnableLoadMore(false)
+
         binding.replyRecycler.adapter = adapter
         binding.replyRecycler.layoutManager = LinearLayoutManager(this)
     }
@@ -65,6 +67,12 @@ class DrrrDetailActivity : BaseActivity() {
         adapter.data.subList(2, data.size).clear()
         adapter.data.addAll(data)
         adapter.notifyDataSetChanged()
+
+        if (data.size < viewModel.size) {
+            adapter.setEnableLoadMore(false)
+        } else {
+            adapter.setEnableLoadMore(true)
+        }
     }
 
     fun loadMoreData(data: MutableList<MultipleItem>?, flag: Int) {

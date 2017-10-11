@@ -58,6 +58,8 @@ class DrrrListActivity : BaseActivity() {
             viewModel.loadMoreData()
         }, binding.postRecycler)
 
+        adapter.setEnableLoadMore(false)
+
         binding.postRecycler.adapter = adapter
         binding.postRecycler.layoutManager = LinearLayoutManager(this)
         binding.postRecycler.addItemDecoration(

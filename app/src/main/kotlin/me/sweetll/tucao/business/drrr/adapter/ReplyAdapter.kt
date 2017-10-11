@@ -8,6 +8,7 @@ import me.sweetll.tucao.R
 import me.sweetll.tucao.business.drrr.model.MultipleItem
 import me.sweetll.tucao.business.drrr.model.Post
 import me.sweetll.tucao.business.drrr.model.Reply
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.util.RelativeDateFormat
 
 class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder>(data) {
@@ -19,6 +20,7 @@ class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<M
     }
 
     override fun convert(helper: BaseViewHolder, item: MultipleItem) {
+        "${helper.position}".logD()
         when (helper.itemViewType) {
             MultipleItem.TYPE_POST -> convertPost(helper, item.post())
             MultipleItem.TYPE_REPLY_NUM -> convertReplyDivider(helper, item.replyNum())
