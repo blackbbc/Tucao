@@ -1,13 +1,84 @@
 package me.sweetll.tucao.business.drrr
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
+import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.drrr.adapter.ReplyAdapter
+import me.sweetll.tucao.business.drrr.model.MultipleItem
+import me.sweetll.tucao.business.drrr.model.Post
+import me.sweetll.tucao.business.drrr.viewmodel.DrrrDetailViewModel
+import me.sweetll.tucao.databinding.ActivityDrrrDetailBinding
 
-class DrrrDetailActivity : AppCompatActivity() {
+class DrrrDetailActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_drrr_detail)
+    lateinit var binding: ActivityDrrrDetailBinding
+    lateinit var viewModel: DrrrDetailViewModel
+
+    override fun getStatusBar() = binding.statusBar
+
+    override fun getToolbar() = binding.toolbar
+
+    lateinit var post: Post
+
+    lateinit var adapter: ReplyAdapter
+
+    companion object {
+
+        private const val ARG_POST = "post"
+
+        fun intentTo(context: Context, post: Post) {
+            val intent = Intent(context, DrrrDetailActivity::class.java)
+            intent.putExtra(ARG_POST, post)
+            context.startActivity(intent)
+        }
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_detail)
+        viewModel = DrrrDetailViewModel(this)
+        binding.viewModel = viewModel
+
+        post = intent.getParcelableExtra(ARG_POST)
+
+        setupRecycler()
+    }
+
+    private fun setupRecycler() {
+        val data = mutableListOf(MultipleItem(post))
+        data.add(MultipleItem(post.replyNum))
+    }
+
+    fun loadData(data: MutableList<MultipleItem>) {
+        adapter.data.subList(2, data.size).clear()
+        adapter.data.addAll(data)
+        adapter.notifyDataSetChanged()
+    }
+
+    fun loadMoreData(data: MutableList<MultipleItem>?, flag: Int) {
+        when (flag) {
+            Const.LOAD_MORE_COMPLETE -> {
+                adapter.addData(data)
+                adapter.loadMoreComplete()
+            }
+            Const.LOAD_MORE_END -> {
+                adapter.addData(data)
+                adapter.loadMoreEnd()
+            }
+            Const.LOAD_MORE_FAIL -> {
+                adapter.loadMoreFail()
+            }
+        }
+    }
+
+    override fun initToolbar() {
+        super.initToolbar()
+        supportActionBar?.let {
+            it.title = "查看回复"
+            it.setDisplayHomeAsUpEnabled(true)
+        }
     }
 }

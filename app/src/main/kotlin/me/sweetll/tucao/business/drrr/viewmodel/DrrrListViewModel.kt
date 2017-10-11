@@ -37,6 +37,7 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     data ->
+                    page++
                     activity.loadData(data.toMutableList())
                 }, {
                     error ->
@@ -45,7 +46,6 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
     }
 
     fun loadMoreData() {
-        page++
         jsonApiService.drrrPosts(page, size, "date", "desc")
                 .bindToLifecycle(activity)
                 .retryWhen(ApiConfig.RetryWithDelay())
@@ -63,9 +63,10 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
                     response ->
                     val data = response.data!!
                     if (data.size < size) {
-                        activity.loadMoreData(data?.toMutableList(), Const.LOAD_MORE_COMPLETE)
+                        activity.loadMoreData(data.toMutableList(), Const.LOAD_MORE_END)
                     } else {
-                        activity.loadMoreData(data?.toMutableList(), Const.LOAD_MORE_END)
+                        page++
+                        activity.loadMoreData(data.toMutableList(), Const.LOAD_MORE_COMPLETE)
                     }
                 }, {
                     error ->

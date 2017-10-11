@@ -9,8 +9,9 @@ import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
 import me.sweetll.tucao.model.json.ListResponse
 import me.sweetll.tucao.model.json.Version
-import retrofit2.http.GET
-import retrofit2.http.Query
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.http.*
 
 interface JsonApiService {
     @GET(ApiConfig.VIEW_API_URL)
@@ -50,8 +51,17 @@ interface JsonApiService {
                   @Query("sortBy") sortBy: String,
                   @Query("order") order: String): Observable<DrrrResponse<List<Post>>>
 
+    @Multipart
+    @POST(ApiConfig.CREATE_POST_API_URL)
+    fun drrrCreatePost(@Body body: RequestBody): Observable<ResponseBody>
+
     @GET(ApiConfig.REPLIES_API_URL)
-    fun drrrReplies(@Query("page") page: Int,
+    fun drrrReplies(@Path("") commentId: String,
+                    @Query("page") page: Int,
                     @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
+
+    @Multipart
+    @POST(ApiConfig.CREATE_REPLY_API_URL)
+    fun drrrCreateReply()
 
 }
