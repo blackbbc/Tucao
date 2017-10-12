@@ -64,7 +64,7 @@ class DrrrDetailActivity : BaseActivity() {
     }
 
     fun loadData(data: MutableList<MultipleItem>) {
-        adapter.data.subList(2, data.size).clear()
+        adapter.data.subList(2, adapter.data.size).clear()
         adapter.data.addAll(data)
         adapter.notifyDataSetChanged()
 

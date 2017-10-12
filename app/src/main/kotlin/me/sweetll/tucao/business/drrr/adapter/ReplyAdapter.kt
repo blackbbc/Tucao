@@ -10,6 +10,8 @@ import me.sweetll.tucao.business.drrr.model.Post
 import me.sweetll.tucao.business.drrr.model.Reply
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.util.RelativeDateFormat
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
+import org.sufficientlysecure.htmltextview.HtmlTextView
 
 class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder>(data) {
 
@@ -30,7 +32,8 @@ class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<M
 
     private fun convertPost(helper: BaseViewHolder, item: Post) {
         helper.setText(R.id.text_time, RelativeDateFormat.format(item.createDt))
-        helper.setText(R.id.text_content, item.content)
+        val htmlTextView = helper.getView<HtmlTextView>(R.id.text_content)
+        htmlTextView.setHtml(item.content, HtmlHttpImageGetter(htmlTextView))
         helper.setText(R.id.text_reply_num, "${item.replyNum}")
         helper.setText(R.id.text_vote_num, "${item.voteNum}")
         if (item.vote) {

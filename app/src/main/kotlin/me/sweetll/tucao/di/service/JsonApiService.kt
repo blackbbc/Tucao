@@ -51,17 +51,15 @@ interface JsonApiService {
                   @Query("sortBy") sortBy: String,
                   @Query("order") order: String): Observable<DrrrResponse<List<Post>>>
 
-    @Multipart
     @POST(ApiConfig.CREATE_POST_API_URL)
-    fun drrrCreatePost(@Body body: RequestBody): Observable<ResponseBody>
+    fun drrrCreatePost(@Body body: RequestBody): Observable<DrrrResponse<Any>>
 
     @GET(ApiConfig.REPLIES_API_URL)
     fun drrrReplies(@Path("commentId") commentId: String,
                     @Query("page") page: Int,
                     @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
 
-    @Multipart
     @POST(ApiConfig.CREATE_REPLY_API_URL)
-    fun drrrCreateReply()
+    fun drrrCreateReply(@Body body: RequestBody): Observable<DrrrResponse<Any>>
 
 }

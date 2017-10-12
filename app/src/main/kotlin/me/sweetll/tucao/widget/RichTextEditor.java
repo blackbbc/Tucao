@@ -391,9 +391,9 @@ public class RichTextEditor extends ScrollView {
 		return dataList;
 	}
 
-	class EditData {
-		String inputStr;
-		String imagePath;
-		Bitmap bitmap;
+	public class EditData {
+		public String inputStr;
+		public String imagePath;
+		public Bitmap bitmap;
 	}
 }

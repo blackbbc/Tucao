@@ -44,9 +44,13 @@ class BaseModule(val apiKey: String) {
             .writeTimeout(20, TimeUnit.SECONDS)
             .cookieJar(cookieJar)
             .addInterceptor { chain ->
-                var request = chain.request()
-                request = chain.request().newBuilder()
-                        .url("${request.url()}&apikey=$apiKey&type=json")
+                val url = chain.request().url()
+                        .newBuilder()
+                        .addQueryParameter("apiKey", apiKey)
+                        .addQueryParameter("type", "json")
+                        .build()
+                val request = chain.request().newBuilder()
+                        .url(url)
                         .build()
                 val response = chain.proceed(request)
                 response

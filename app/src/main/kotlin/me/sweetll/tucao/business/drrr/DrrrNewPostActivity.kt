@@ -1,24 +1,40 @@
 package me.sweetll.tucao.business.drrr
 
 import android.Manifest
+import android.accounts.NetworkErrorException
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.AppApplication
+import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.databinding.ActivityDrrrNewPostBinding
+import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.di.service.JsonApiService
+import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
+import me.sweetll.tucao.widget.RichTextEditor
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class DrrrNewPostActivity : BaseActivity() {
     lateinit var binding: ActivityDrrrNewPostBinding
@@ -26,6 +42,9 @@ class DrrrNewPostActivity : BaseActivity() {
     override fun getToolbar(): Toolbar = binding.toolbar
 
     var currentPhotoPath: String = ""
+
+    @Inject
+    lateinit var jsonApiService: JsonApiService
 
     companion object {
 
@@ -39,6 +58,10 @@ class DrrrNewPostActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        AppApplication.get()
+                .getApiComponent()
+                .inject(this)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_new_post)
 
         binding.galleryBtn.setOnClickListener {
@@ -77,7 +100,63 @@ class DrrrNewPostActivity : BaseActivity() {
         }
 
         binding.sendBtn.setOnClickListener {
+            send(binding.editor.buildEditData())
+        }
+    }
 
+    private fun send(editData: MutableList<RichTextEditor.EditData>) {
+        var content = ""
+        val files = mutableListOf<File>()
+        var imgIndex = 0
+        editData.forEach {
+            if (it.inputStr != null) {
+                content += it.inputStr
+            } else {
+                files.add(File(it.imagePath))
+                content += "![img$imgIndex]"
+                imgIndex++
+            }
+        }
+        if (content.isNotEmpty()) {
+            val builder = MultipartBody.Builder()
+            builder.setType(MultipartBody.FORM)
+                    .addFormDataPart("content", content)
+                    .addFormDataPart("brand", Build.BRAND)
+                    .addFormDataPart("model", Build.MODEL)
+                    .addFormDataPart("systemVersion", Build.VERSION.RELEASE)
+                    .addFormDataPart("appVersion", BuildConfig.VERSION_NAME)
+            val mediaType = MediaType.parse("multipart/form-data")
+            files.forEachIndexed {
+                index, file ->
+                val fileBody = RequestBody.create(mediaType, file)
+                builder.addFormDataPart("$index", file.name, fileBody)
+            }
+            val body = builder.build()
+
+            jsonApiService.drrrCreatePost(body)
+                    .bindToLifecycle(this)
+                    .retryWhen(ApiConfig.RetryWithDelay())
+                    .subscribeOn(Schedulers.io())
+                    .flatMap {
+                        response ->
+                        if (response.code == 0) {
+                            Observable.just(Any())
+                        } else {
+                            Observable.error(NetworkErrorException(response.msg))
+                        }
+                    }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        "发射成功".toast()
+                        finish()
+                    }, {
+                        error ->
+                        error.printStackTrace()
+                        error.message?.toast()
+                    })
+
+        } else {
+            "内容不得为空！".logD()
         }
     }
 
