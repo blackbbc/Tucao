@@ -40,7 +40,9 @@
     </style>
 
     <style name="Me.Sweetll.Comments" parent="AppTheme">
+    </style>
 
+    <style name="Me.Sweetll.Drrr" parent="AppTheme">
     </style>
 
     <style name="AboutTheme" parent="Theme.AppCompat.Light.DarkActionBar">

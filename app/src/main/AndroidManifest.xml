@@ -108,10 +108,20 @@
             android:name=".business.home.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AboutTheme" />
-        <activity android:name=".business.drrr.DrrrListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".business.drrr.DrrrDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".business.drrr.DrrrListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.drrr.DrrrDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".business.drrr.DrrrNewPostActivity"
+            android:theme="@style/Me.Sweetll.Drrr"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".business.drrr.DrrrNewReplyActivity"
+            android:theme="@style/Me.Sweetll.Drrr"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <service
             android:name=".rxdownload.function.DownloadService"
@@ -133,6 +143,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

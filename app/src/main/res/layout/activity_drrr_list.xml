@@ -9,42 +9,55 @@
             type="me.sweetll.tucao.business.drrr.viewmodel.DrrrListViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="me.sweetll.tucao.business.drrr.DrrrListActivity">
+        android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/statusBar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:layout_height="25dp"
-            android:background="@color/colorPrimaryDark"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="me.sweetll.tucao.business.drrr.DrrrListActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/postRecycler"
+            <View
+                android:id="@+id/statusBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/divider"
-                tools:listitem="@layout/item_post"/>
+                android:layout_height="0dp"
+                tools:layout_height="25dp"
+                android:background="@color/colorPrimaryDark"/>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:titleTextAppearance="@style/Toolbar.TitleText"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    </LinearLayout>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/postRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/divider"
+                    tools:listitem="@layout/item_post"/>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_add"
+            android:onClick="@{viewModel::onClickAdd}"/>
+
+    </FrameLayout>
 </layout>

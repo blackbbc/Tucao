@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.drrr.viewmodel
 
+import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -7,6 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.drrr.DrrrListActivity
+import me.sweetll.tucao.business.drrr.DrrrNewPostActivity
 import me.sweetll.tucao.di.service.ApiConfig
 
 class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
@@ -73,5 +75,9 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
                     error.printStackTrace()
                     activity.loadMoreData(null, Const.LOAD_MORE_FAIL)
                 })
+    }
+
+    fun onClickAdd(view: View) {
+        DrrrNewPostActivity.intentTo(activity)
     }
 }

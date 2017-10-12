@@ -107,7 +107,7 @@ class DrrrListActivity : BaseActivity() {
     override fun initToolbar() {
         super.initToolbar()
         supportActionBar?.let {
-            it.title = "DOLLARS"
+            it.title = "留言板"
             it.setDisplayHomeAsUpEnabled(true)
         }
     }

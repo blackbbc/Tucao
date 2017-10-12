@@ -53,4 +53,8 @@
         <item name="android:windowSharedElementEnterTransition">@transition/comments_shared_enter</item>
     </style>
 
+    <style name="Me.Sweetll.Drrr" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+
 </resources>
