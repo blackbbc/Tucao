@@ -3,4 +3,5 @@
     <cache-path name="cache_path" path="/" />
     <files-path name="file_path" path="/" />
     <root-path  name="camera_photos" path="" />
+    <external-path name="image_path " path="Android/data/me.sweetll.tucao/files/Pictures" />
 </paths>

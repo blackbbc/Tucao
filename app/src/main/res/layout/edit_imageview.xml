@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <com.stone.richeditor.DataImageView
+    <me.sweetll.tucao.widget.DataImageView
         android:id="@+id/edit_imageView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

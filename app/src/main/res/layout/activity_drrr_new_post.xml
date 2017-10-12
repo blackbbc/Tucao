@@ -26,6 +26,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <me.sweetll.tucao.widget.RichTextEditor
+            android:id="@+id/editor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
