@@ -66,7 +66,7 @@ class DrrrNewPostActivity : BaseActivity() {
 
         binding.galleryBtn.setOnClickListener {
             RxPermissions(this)
-                    .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe {
                         granted ->
                         if (granted) {
@@ -100,7 +100,7 @@ class DrrrNewPostActivity : BaseActivity() {
         }
 
         binding.sendBtn.setOnClickListener {
-            send(binding.editor.buildEditData())
+//            send(binding.editor.buildEditData())
         }
     }
 

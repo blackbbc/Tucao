@@ -25,12 +25,18 @@
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <me.sweetll.tucao.widget.RichTextEditor
+        <me.sweetll.tucao.widget.SweetEditor
             android:id="@+id/editor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white"/>
+            android:padding="8dp"
+            android:background="@color/white"
+            android:gravity="start"
+            android:hint="开始你的表演"
+            tools:text="啦啦啦"
+            android:textSize="14sp"
+            android:textColor="@color/primary_text"/>
 
         <FrameLayout
             android:layout_width="match_parent"
