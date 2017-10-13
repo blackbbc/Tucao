@@ -49,22 +49,39 @@ class SweetEditor: EditText {
             cursorPosition = text.length
         }
 
-        val imgMark = "![img$imgIndex]"
+        var imgMark = "![img$imgIndex]"
+
+        var spanStart = 0
+        var spanEnd = imgMark.length
+        if (cursorPosition != 0 && text[cursorPosition - 1] != '\n') {
+            imgMark = '\n' + imgMark
+            spanStart++
+            spanEnd++
+        }
+        if (cursorPosition == text.length || (text.isNotEmpty() && text[cursorPosition] != '\n')) {
+            imgMark += '\n'
+        }
         val spanString = SpannableString(imgMark)
-        imgIndex++
 
         val fixedPath = fixImage(imagePath, width)
+
+        imgMarkMap.put("$imgIndex", fixedPath)
+
         val bmp = getRawBitmap(fixedPath)
         val imgSpan = ImageSpan(context, bmp, ImageSpan.ALIGN_BASELINE)
 
-        spanString.setSpan(imgSpan, 0, imgMark.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        spanString.setSpan(imgSpan, spanStart, spanEnd, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
         text.insert(cursorPosition, spanString)
+
+        imgIndex++
     }
 
-    fun getImgList() {
-
-    }
+    fun getFiles(): List<Pair<String, File>> =
+        "!\\[img((\\d+))\\]".toRegex().findAll(text).map {
+            val index = it.groupValues[1]
+            index to File(imgMarkMap[index])
+        }.toList()
 
     private fun getRawBitmap(imagePath: String): Bitmap {
 		val options = BitmapFactory.Options()

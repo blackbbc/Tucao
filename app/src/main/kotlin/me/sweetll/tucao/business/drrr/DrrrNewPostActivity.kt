@@ -100,23 +100,11 @@ class DrrrNewPostActivity : BaseActivity() {
         }
 
         binding.sendBtn.setOnClickListener {
-//            send(binding.editor.buildEditData())
+            send(binding.editor.text.toString(), binding.editor.getFiles())
         }
     }
 
-    private fun send(editData: MutableList<RichTextEditor.EditData>) {
-        var content = ""
-        val files = mutableListOf<File>()
-        var imgIndex = 0
-        editData.forEach {
-            if (it.inputStr != null) {
-                content += it.inputStr
-            } else {
-                files.add(File(it.imagePath))
-                content += "![img$imgIndex]"
-                imgIndex++
-            }
-        }
+    private fun send(content: String, files: List<Pair<String, File>>) {
         if (content.isNotEmpty()) {
             val builder = MultipartBody.Builder()
             builder.setType(MultipartBody.FORM)
@@ -126,10 +114,12 @@ class DrrrNewPostActivity : BaseActivity() {
                     .addFormDataPart("systemVersion", Build.VERSION.RELEASE)
                     .addFormDataPart("appVersion", BuildConfig.VERSION_NAME)
             val mediaType = MediaType.parse("multipart/form-data")
-            files.forEachIndexed {
-                index, file ->
+            files.forEach {
+                pair ->
+                val index = pair.first
+                val file = pair.second
                 val fileBody = RequestBody.create(mediaType, file)
-                builder.addFormDataPart("$index", file.name, fileBody)
+                builder.addFormDataPart(index, file.name, fileBody)
             }
             val body = builder.build()
 
