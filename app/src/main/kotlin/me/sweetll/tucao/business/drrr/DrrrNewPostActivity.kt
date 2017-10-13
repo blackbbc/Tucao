@@ -27,7 +27,6 @@ import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.extension.toast
-import me.sweetll.tucao.widget.RichTextEditor
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
