@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import me.sweetll.tucao.GlideApp
-import me.sweetll.tucao.R
 
 class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGetter {
 

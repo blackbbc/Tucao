@@ -65,7 +65,7 @@ class SweetEditor: EditText {
 
         val fixedPath = fixImage(imagePath, width)
 
-        imgMarkMap.put("$imgIndex", fixedPath)
+        imgMarkMap.put("$imgIndex", imagePath)
 
         val bmp = getRawBitmap(fixedPath)
         val imgSpan = ImageSpan(context, bmp, ImageSpan.ALIGN_BASELINE)
