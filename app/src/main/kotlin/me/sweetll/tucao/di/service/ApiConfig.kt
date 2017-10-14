@@ -29,6 +29,7 @@ object ApiConfig {
     const val POSTS_API_URL = "http://192.168.1.118:8080/comments"
     const val CREATE_REPLY_API_URL = "http://192.168.1.118:8080/reply/create/{commentId}"
     const val REPLIES_API_URL = "http://192.168.1.118:8080/replies/{commentId}"
+    const val CREATE_VOTE_API_URL = "http://192.168.1.118:8080/vote/{commentId}"
 
     /*
      * XML

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
@@ -15,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator
 import com.github.piasy.biv.loader.glide.GlideImageLoader
@@ -62,7 +64,6 @@ class DrrrListActivity : BaseActivity() {
     }
 
     companion object {
-
         const val REQUEST_NEW_POST = 1
 
         fun intentTo(context: Context) {
@@ -109,6 +110,17 @@ class DrrrListActivity : BaseActivity() {
             _, _, position ->
             val post = adapter.getItem(position)
             DrrrDetailActivity.intentTo(this, post)
+        }
+        adapter.setOnItemChildClickListener {
+            _, view, position ->
+            val post = adapter.getItem(position)
+            if (!post.vote) {
+                post.vote = true
+                post.voteNum++
+                viewModel.vote(post)
+                view.findViewById<TextView>(R.id.text_vote_num).text = "${post.voteNum}"
+                view.findViewById<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(this, R.color.pink_500))
+            }
         }
     }
 

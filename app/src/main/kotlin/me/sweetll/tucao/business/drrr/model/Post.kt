@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class Post(
         val id: String,
         val content: String,
-        val voteNum: Int,
+        var voteNum: Int,
         val replyNum: Int,
         val brand: String,
         val model: String,
@@ -15,7 +15,7 @@ data class Post(
         val sticky: Boolean,
         val createDt: Long,
         val updateDt: Long,
-        val vote: Boolean
+        var vote: Boolean
 ) : Parcelable {
     constructor(source: Parcel) : this(
             source.readString(),

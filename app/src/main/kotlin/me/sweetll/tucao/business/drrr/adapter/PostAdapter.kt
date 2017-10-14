@@ -45,6 +45,8 @@ class PostAdapter(val activity: DrrrListActivity, data: MutableList<Post>?): Bas
 
         helper.setText(R.id.text_reply_num, "${item.replyNum}")
         helper.setText(R.id.text_vote_num, "${item.voteNum}")
+        helper.addOnClickListener(R.id.linear_thumb_up)
+
         if (item.vote) {
             helper.getView<ImageView>(R.id.img_thumb_up).setColorFilter(ContextCompat.getColor(mContext, R.color.pink_500))
         } else {

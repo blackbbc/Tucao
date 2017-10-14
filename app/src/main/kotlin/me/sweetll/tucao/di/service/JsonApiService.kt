@@ -63,4 +63,7 @@ interface JsonApiService {
     fun drrrCreateReply(@Path("commentId") commentId: String,
                         @Body body: RequestBody): Observable<DrrrResponse<Any>>
 
+    @GET(ApiConfig.CREATE_VOTE_API_URL)
+    fun drrrVote(@Path("commentId") commentId: String): Observable<DrrrResponse<Any>>
+
 }
