@@ -46,7 +46,7 @@ class BaseModule(val apiKey: String) {
             .addInterceptor { chain ->
                 val url = chain.request().url()
                         .newBuilder()
-                        .addQueryParameter("apiKey", apiKey)
+                        .addQueryParameter("apikey", apiKey)
                         .addQueryParameter("type", "json")
                         .build()
                 val request = chain.request().newBuilder()
