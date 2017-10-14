@@ -13,8 +13,6 @@ import me.sweetll.tucao.business.drrr.model.Reply
 import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.util.RelativeDateFormat
 import me.sweetll.tucao.widget.GlideImageGetter
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
-import org.sufficientlysecure.htmltextview.HtmlTextView
 
 class ReplyAdapter(data: MutableList<MultipleItem>): BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder>(data) {
 

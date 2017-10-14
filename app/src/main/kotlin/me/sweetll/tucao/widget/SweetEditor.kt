@@ -107,26 +107,38 @@ class SweetEditor: EditText {
         val angle = readPictureDegree(imagePath)
 
 		val options = BitmapFactory.Options()
-		options.inJustDecodeBounds = true
-		BitmapFactory.decodeFile(imagePath, options)
-		val sampleSize = if (options.outWidth > width) options.outWidth / width + 1 else 1
+		options.inJustDecodeBounds = false
+		val rawBmp = BitmapFactory.decodeFile(imagePath, options)
+
+        val rotatedRawBmp = rotateBitmap(rawBmp, angle)
+
+        val rawOutStream = FileOutputStream(imagePath)
+
+        try {
+            rotatedRawBmp.compress(Bitmap.CompressFormat.JPEG, 80, rawOutStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            rawOutStream.close()
+            rotatedRawBmp.recycle()
+        }
+
+		val sampleSize = if (rotatedRawBmp.width > width) rotatedRawBmp.width / width + 1 else 1
 		options.inJustDecodeBounds = false
 		options.inSampleSize = sampleSize
 		val compressedBmp =  BitmapFactory.decodeFile(imagePath, options)
-
-        val fixedBmp = rotateBitmap(compressedBmp, angle)
 
         val imageFile = createImageFile()
 
         val outStream = FileOutputStream(imageFile)
 
         try {
-            fixedBmp.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+            compressedBmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             outStream.close()
-            fixedBmp.recycle()
+            compressedBmp.recycle()
         }
 
         return imageFile.absolutePath

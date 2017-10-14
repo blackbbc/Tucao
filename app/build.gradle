@@ -157,8 +157,10 @@ dependencies {
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
-    /* HtmlTextView */
-    implementation 'org.sufficientlysecure:html-textview:3.5'
+    /* BigImageViewer */
+    implementation 'com.github.piasy:BigImageViewer:1.4.0'
+    implementation 'com.github.piasy:GlideImageLoader:1.4.0'
+    implementation 'com.github.piasy:ProgressPieIndicator:1.4.0'
 }
 
 repositories {

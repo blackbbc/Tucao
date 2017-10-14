@@ -1,16 +1,26 @@
 package me.sweetll.tucao.business.drrr
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
-import me.sweetll.tucao.BuildConfig
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator
+import com.github.piasy.biv.loader.glide.GlideImageLoader
+import com.github.piasy.biv.view.BigImageView
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.ViewHolder
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -31,6 +41,25 @@ class DrrrListActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
+    var thumb: String = ""
+    var source: String = ""
+
+    private fun bigImageViewerDialog(): Dialog {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_big_image_viewer, null)
+        val bigImageView = view.findViewById<BigImageView>(R.id.bigImage)
+        bigImageView.setProgressIndicator(ProgressPieIndicator())
+
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setCancelable(true)
+        dialog.setContentView(view, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+
+        dialog.setOnShowListener {
+            bigImageView.showImage(Uri.parse(thumb), Uri.parse(source))
+        }
+
+        return dialog
+    }
+
     companion object {
         fun intentTo(context: Context) {
             val intent = Intent(context, DrrrListActivity::class.java)
@@ -39,6 +68,7 @@ class DrrrListActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        initBigImageViewer()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_list)
         viewModel = DrrrListViewModel(this)
         binding.viewModel = viewModel
@@ -51,8 +81,12 @@ class DrrrListActivity : BaseActivity() {
         setupRecyclerView()
     }
 
+    private fun initBigImageViewer() {
+        BigImageViewer.initialize(GlideImageLoader.with(AppApplication.get()))
+    }
+
     private fun setupRecyclerView() {
-        adapter = PostAdapter(null)
+        adapter = PostAdapter(this, null)
 
         adapter.setOnLoadMoreListener({
             viewModel.loadMoreData()
@@ -67,12 +101,11 @@ class DrrrListActivity : BaseActivity() {
                         .setDivider(R.drawable.divider_big)
                         .build()
         )
-        binding.postRecycler.addOnItemTouchListener(object: OnItemClickListener() {
-            override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val post = adapter.getItem(position)
-                DrrrDetailActivity.intentTo(this@DrrrListActivity, post)
-            }
-        })
+        adapter.setOnItemClickListener {
+            _, _, position ->
+            val post = adapter.getItem(position)
+            DrrrDetailActivity.intentTo(this, post)
+        }
     }
 
     fun setRefreshing(refreshing: Boolean) {
@@ -102,6 +135,12 @@ class DrrrListActivity : BaseActivity() {
                 adapter.loadMoreFail()
             }
         }
+    }
+
+    fun showSourceImage(thumb: String, source: String) {
+        this.thumb = thumb
+        this.source = source
+        bigImageViewerDialog().show()
     }
 
     override fun initToolbar() {

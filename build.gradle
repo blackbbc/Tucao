@@ -29,6 +29,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://dl.google.com/dl/android/maven2/"}
+        maven { url "https://dl.bintray.com/piasy/maven" }
     }
 }
 
