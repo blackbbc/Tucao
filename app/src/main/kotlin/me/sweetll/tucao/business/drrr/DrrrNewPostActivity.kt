@@ -22,6 +22,7 @@ import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
+import me.sweetll.tucao.business.drrr.model.Post
 import me.sweetll.tucao.databinding.ActivityDrrrNewPostBinding
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.di.service.JsonApiService
@@ -42,6 +43,8 @@ class DrrrNewPostActivity : BaseActivity() {
 
     var currentPhotoPath: String = ""
 
+    var post: Post? = null
+
     @Inject
     lateinit var jsonApiService: JsonApiService
 
@@ -50,8 +53,16 @@ class DrrrNewPostActivity : BaseActivity() {
         const val REQUEST_PICK_IMAGE = 1
         const val REQUEST_CAPTURE_IMAGE = 2
 
+        const val ARG_POST = "post"
+
         fun intentTo(context: Context) {
             val intent = Intent(context, DrrrNewPostActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun intentTo(context: Context, post: Post) {
+            val intent = Intent(context, DrrrNewPostActivity::class.java)
+            intent.putExtra(ARG_POST, post)
             context.startActivity(intent)
         }
     }
@@ -60,6 +71,8 @@ class DrrrNewPostActivity : BaseActivity() {
         AppApplication.get()
                 .getApiComponent()
                 .inject(this)
+
+        post = intent.getParcelableExtra(ARG_POST)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_new_post)
 

@@ -118,10 +118,6 @@
             android:theme="@style/Me.Sweetll.Drrr"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".business.drrr.DrrrNewReplyActivity"
-            android:theme="@style/Me.Sweetll.Drrr"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <service
             android:name=".rxdownload.function.DownloadService"

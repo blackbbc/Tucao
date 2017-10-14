@@ -1,10 +1,19 @@
 package me.sweetll.tucao.business.drrr
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.widget.FrameLayout
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator
+import com.github.piasy.biv.loader.glide.GlideImageLoader
+import com.github.piasy.biv.view.BigImageView
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.Const
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -27,6 +36,25 @@ class DrrrDetailActivity : BaseActivity() {
 
     lateinit var adapter: ReplyAdapter
 
+    var thumb: String = ""
+    var source: String = ""
+
+    private fun bigImageViewerDialog(): Dialog {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_big_image_viewer, null)
+        val bigImageView = view.findViewById<BigImageView>(R.id.bigImage)
+        bigImageView.setProgressIndicator(ProgressPieIndicator())
+
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setCancelable(true)
+        dialog.setContentView(view, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+
+        dialog.setOnShowListener {
+            bigImageView.showImage(Uri.parse(thumb), Uri.parse(source))
+        }
+
+        return dialog
+    }
+
     companion object {
 
         private const val ARG_POST = "post"
@@ -39,6 +67,8 @@ class DrrrDetailActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        initBigImageViewer()
+
         post = intent.getParcelableExtra(ARG_POST)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_detail)
@@ -48,11 +78,15 @@ class DrrrDetailActivity : BaseActivity() {
         setupRecycler()
     }
 
+    private fun initBigImageViewer() {
+        BigImageViewer.initialize(GlideImageLoader.with(AppApplication.get()))
+    }
+
     private fun setupRecycler() {
         val data = mutableListOf(MultipleItem(post))
         data.add(MultipleItem(post.replyNum))
 
-        adapter = ReplyAdapter(data)
+        adapter = ReplyAdapter(this, data)
         adapter.setOnLoadMoreListener({
             viewModel.loadMoreData()
         }, binding.replyRecycler)
@@ -89,6 +123,12 @@ class DrrrDetailActivity : BaseActivity() {
                 adapter.loadMoreFail()
             }
         }
+    }
+
+    fun showSourceImage(thumb: String, source: String) {
+        this.thumb = thumb
+        this.source = source
+        bigImageViewerDialog().show()
     }
 
     override fun initToolbar() {
