@@ -13,6 +13,11 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.orhanobut.dialogplus.DialogPlus
+import com.orhanobut.dialogplus.ViewHolder
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
@@ -48,6 +53,19 @@ class DrrrNewPostActivity : BaseActivity() {
 
     @Inject
     lateinit var jsonApiService: JsonApiService
+
+    val loadingDialog by lazy {
+        val loadingView = LayoutInflater.from(this).inflate(R.layout.dialog_loading, null)
+        DialogPlus.newDialog(this)
+                .setContentHolder(ViewHolder(loadingView))
+                .setContentWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setContentBackgroundResource(android.R.color.transparent)
+                .setOverlayBackgroundResource(R.color.mask)
+                .setGravity(Gravity.CENTER)
+                .setCancelable(true)
+                .create()
+    }
 
     companion object {
 
@@ -134,9 +152,6 @@ class DrrrNewPostActivity : BaseActivity() {
                 val fileBody = RequestBody.create(mediaType, file)
                 builder.addFormDataPart(index, file.name, fileBody)
             }
-            if (post != null) {
-                builder.addFormDataPart("commentId", post!!.id)
-            }
             val body = builder.build()
 
             if (post == null) {
@@ -151,6 +166,7 @@ class DrrrNewPostActivity : BaseActivity() {
     }
 
     private fun sendPost(body: RequestBody) {
+        loadingDialog.show()
         jsonApiService.drrrCreatePost(body)
                 .bindToLifecycle(this)
                 .retryWhen(ApiConfig.RetryWithDelay())
@@ -164,6 +180,7 @@ class DrrrNewPostActivity : BaseActivity() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { loadingDialog.dismiss() }
                 .subscribe({
                     "发射成功".toast()
                     setResult(Activity.RESULT_OK)
@@ -176,7 +193,8 @@ class DrrrNewPostActivity : BaseActivity() {
     }
 
     private fun sendReply(body: RequestBody) {
-        jsonApiService.drrrCreateReply(body)
+        loadingDialog.show()
+        jsonApiService.drrrCreateReply(post!!.id, body)
                 .bindToLifecycle(this)
                 .retryWhen(ApiConfig.RetryWithDelay())
                 .subscribeOn(Schedulers.io())
@@ -189,6 +207,7 @@ class DrrrNewPostActivity : BaseActivity() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { loadingDialog.dismiss() }
                 .subscribe({
                     "发射成功".toast()
                     setResult(Activity.RESULT_OK)

@@ -60,6 +60,7 @@ interface JsonApiService {
                     @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
 
     @POST(ApiConfig.CREATE_REPLY_API_URL)
-    fun drrrCreateReply(@Body body: RequestBody): Observable<DrrrResponse<Any>>
+    fun drrrCreateReply(@Path("commentId") commentId: String,
+                        @Body body: RequestBody): Observable<DrrrResponse<Any>>
 
 }

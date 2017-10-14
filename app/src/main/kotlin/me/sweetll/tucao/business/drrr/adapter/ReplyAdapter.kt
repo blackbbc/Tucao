@@ -73,7 +73,24 @@ class ReplyAdapter(val activity: DrrrDetailActivity, data: MutableList<MultipleI
 
     private fun convertReply(helper: BaseViewHolder, reply: Reply) {
         helper.setText(R.id.text_time, RelativeDateFormat.format(reply.createDt))
-        helper.setText(R.id.text_content, reply.content)
+
+        val contentView = helper.getView<TextView>(R.id.text_content)
+        val html = Html.fromHtml(reply.content, GlideImageGetter(mContext, contentView), null) as Spannable
+        html.getSpans(0, html.length, ImageSpan::class.java).forEach {
+            val start = html.getSpanStart(it)
+            val end = html.getSpanEnd(it)
+            val flags = html.getSpanFlags(it)
+            html.setSpan(object : ClickableSpan() {
+                override fun onClick(p0: View?) {
+                    val thumb = it.source
+                    val source = it.source.replace("thumb", "uploads")
+
+                    activity.showSourceImage(thumb, source)
+                }
+            }, start, end, flags)
+        }
+        contentView.text = html
+        contentView.movementMethod = LinkMovementMethod.getInstance()
     }
 
 }
