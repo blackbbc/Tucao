@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.drrr
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -61,6 +62,9 @@ class DrrrListActivity : BaseActivity() {
     }
 
     companion object {
+
+        const val REQUEST_NEW_POST = 1
+
         fun intentTo(context: Context) {
             val intent = Intent(context, DrrrListActivity::class.java)
             context.startActivity(intent)
@@ -141,6 +145,14 @@ class DrrrListActivity : BaseActivity() {
         this.thumb = thumb
         this.source = source
         bigImageViewerDialog().show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_NEW_POST && resultCode == Activity.RESULT_OK) {
+            viewModel.loadData()
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun initToolbar() {

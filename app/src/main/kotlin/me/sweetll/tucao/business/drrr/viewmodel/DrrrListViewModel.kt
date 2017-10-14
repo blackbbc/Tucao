@@ -78,6 +78,6 @@ class DrrrListViewModel(val activity: DrrrListActivity): BaseViewModel() {
     }
 
     fun onClickAdd(view: View) {
-        DrrrNewPostActivity.intentTo(activity)
+        DrrrNewPostActivity.intentTo(activity, DrrrListActivity.REQUEST_NEW_POST)
     }
 }

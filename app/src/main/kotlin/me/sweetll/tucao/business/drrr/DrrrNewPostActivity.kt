@@ -31,6 +31,7 @@ import me.sweetll.tucao.extension.toast
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,15 +56,15 @@ class DrrrNewPostActivity : BaseActivity() {
 
         const val ARG_POST = "post"
 
-        fun intentTo(context: Context) {
-            val intent = Intent(context, DrrrNewPostActivity::class.java)
-            context.startActivity(intent)
+        fun intentTo(activity: Activity, requestCode: Int) {
+            val intent = Intent(activity, DrrrNewPostActivity::class.java)
+            activity.startActivityForResult(intent, requestCode)
         }
 
-        fun intentTo(context: Context, post: Post) {
-            val intent = Intent(context, DrrrNewPostActivity::class.java)
+        fun intentTo(activity: Activity, post: Post, requestCode: Int) {
+            val intent = Intent(activity, DrrrNewPostActivity::class.java)
             intent.putExtra(ARG_POST, post)
-            context.startActivity(intent)
+            activity.startActivityForResult(intent, requestCode)
         }
     }
 
@@ -133,33 +134,70 @@ class DrrrNewPostActivity : BaseActivity() {
                 val fileBody = RequestBody.create(mediaType, file)
                 builder.addFormDataPart(index, file.name, fileBody)
             }
+            if (post != null) {
+                builder.addFormDataPart("commentId", post!!.id)
+            }
             val body = builder.build()
 
-            jsonApiService.drrrCreatePost(body)
-                    .bindToLifecycle(this)
-                    .retryWhen(ApiConfig.RetryWithDelay())
-                    .subscribeOn(Schedulers.io())
-                    .flatMap {
-                        response ->
-                        if (response.code == 0) {
-                            Observable.just(Any())
-                        } else {
-                            Observable.error(NetworkErrorException(response.msg))
-                        }
-                    }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        "发射成功".toast()
-                        finish()
-                    }, {
-                        error ->
-                        error.printStackTrace()
-                        error.message?.toast()
-                    })
-
+            if (post == null) {
+                sendPost(body)
+            } else {
+                sendReply(body)
+            }
         } else {
             "内容不得为空！".logD()
         }
+
+    }
+
+    private fun sendPost(body: RequestBody) {
+        jsonApiService.drrrCreatePost(body)
+                .bindToLifecycle(this)
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .subscribeOn(Schedulers.io())
+                .flatMap {
+                    response ->
+                    if (response.code == 0) {
+                        Observable.just(Any())
+                    } else {
+                        Observable.error(NetworkErrorException(response.msg))
+                    }
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    "发射成功".toast()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    error.message?.toast()
+                })
+    }
+
+    private fun sendReply(body: RequestBody) {
+        jsonApiService.drrrCreateReply(body)
+                .bindToLifecycle(this)
+                .retryWhen(ApiConfig.RetryWithDelay())
+                .subscribeOn(Schedulers.io())
+                .flatMap {
+                    response ->
+                    if (response.code == 0) {
+                        Observable.just(Any())
+                    } else {
+                        Observable.error(NetworkErrorException(response.msg))
+                    }
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    "发射成功".toast()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }, {
+                    error ->
+                    error.printStackTrace()
+                    error.message?.toast()
+                })
     }
 
     private fun createImageFile(): File {
@@ -203,7 +241,11 @@ class DrrrNewPostActivity : BaseActivity() {
     override fun initToolbar() {
         super.initToolbar()
         supportActionBar?.let {
-            it.title = "新帖"
+            if (post == null) {
+                it.title = "新帖"
+            } else {
+                it.title = "新回复"
+            }
             it.setDisplayHomeAsUpEnabled(true)
         }
     }

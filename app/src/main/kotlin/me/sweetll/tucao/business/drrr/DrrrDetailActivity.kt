@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.drrr
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -56,6 +57,7 @@ class DrrrDetailActivity : BaseActivity() {
     }
 
     companion object {
+        const val REQUEST_NEW_REPLY = 1
 
         private const val ARG_POST = "post"
 
@@ -74,6 +76,11 @@ class DrrrDetailActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drrr_detail)
         viewModel = DrrrDetailViewModel(this)
         binding.viewModel = viewModel
+
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadData()
+        }
 
         setupRecycler()
     }
@@ -97,8 +104,13 @@ class DrrrDetailActivity : BaseActivity() {
         binding.replyRecycler.layoutManager = LinearLayoutManager(this)
     }
 
-    fun loadData(data: MutableList<MultipleItem>) {
+    fun setRefreshing(refreshing: Boolean) {
+        binding.swipeRefresh.isRefreshing = refreshing
+    }
+
+    fun loadData(data: MutableList<MultipleItem>, total: Int) {
         adapter.data.subList(2, adapter.data.size).clear()
+        adapter.data[1].replyNum(total)
         adapter.data.addAll(data)
         adapter.notifyDataSetChanged()
 
@@ -109,13 +121,17 @@ class DrrrDetailActivity : BaseActivity() {
         }
     }
 
-    fun loadMoreData(data: MutableList<MultipleItem>?, flag: Int) {
+    fun loadMoreData(data: MutableList<MultipleItem>?, total: Int, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
+                adapter.data[1].replyNum(total)
+                adapter.notifyItemChanged(1)
                 adapter.addData(data)
                 adapter.loadMoreComplete()
             }
             Const.LOAD_MORE_END -> {
+                adapter.data[1].replyNum(total)
+                adapter.notifyItemChanged(1)
                 adapter.addData(data)
                 adapter.loadMoreEnd()
             }
@@ -129,6 +145,14 @@ class DrrrDetailActivity : BaseActivity() {
         this.thumb = thumb
         this.source = source
         bigImageViewerDialog().show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_NEW_REPLY && resultCode == Activity.RESULT_OK) {
+            viewModel.loadData()
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun initToolbar() {

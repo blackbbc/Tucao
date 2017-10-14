@@ -23,6 +23,7 @@ class DrrrDetailViewModel(val activity: DrrrDetailActivity): BaseViewModel() {
 
     fun loadData() {
         page = 0
+        activity.setRefreshing(true)
         jsonApiService.drrrReplies(activity.post.id, page, size)
                 .bindToLifecycle(activity)
                 .retryWhen(ApiConfig.RetryWithDelay())
@@ -30,16 +31,19 @@ class DrrrDetailViewModel(val activity: DrrrDetailActivity): BaseViewModel() {
                 .flatMap {
                     response ->
                     if (response.code == 0) {
-                        Observable.just(response.data!!)
+                        Observable.just(response)
                     } else {
                         Observable.error(Error(response.msg))
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
-                    data ->
+                    response ->
+                    val data = response.data!!
+                    val total = response.total!!
                     page++
-                    activity.loadData(data.map { MultipleItem(it) }.toMutableList())
+                    activity.loadData(data.map { MultipleItem(it) }.toMutableList(), total)
                 }, {
                     error ->
                     error.printStackTrace()
@@ -60,25 +64,27 @@ class DrrrDetailViewModel(val activity: DrrrDetailActivity): BaseViewModel() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { activity.setRefreshing(false) }
                 .subscribe({
                     response ->
                     val data = response.data!!.map { MultipleItem(it) }
+                    val total = response.total!!
                     if (data.size < size) {
-                        activity.loadMoreData(data.toMutableList(), Const.LOAD_MORE_END)
+                        activity.loadMoreData(data.toMutableList(), total, Const.LOAD_MORE_END)
                     } else {
                         page++
-                        activity.loadMoreData(data.toMutableList(), Const.LOAD_MORE_COMPLETE)
+                        activity.loadMoreData(data.toMutableList(), total, Const.LOAD_MORE_COMPLETE)
                     }
                 }, {
                     error ->
                     error.printStackTrace()
-                    activity.loadMoreData(null, Const.LOAD_MORE_FAIL)
+                    activity.loadMoreData(null, 0, Const.LOAD_MORE_FAIL)
                 })
     }
 
 
     fun onClickAdd(view: View) {
-        DrrrNewPostActivity.intentTo(activity, activity.post)
+        DrrrNewPostActivity.intentTo(activity, activity.post, DrrrDetailActivity.REQUEST_NEW_REPLY)
     }
 
 }
