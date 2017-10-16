@@ -25,11 +25,11 @@ object ApiConfig {
     /*
      * Drrr
      */
-    const val CREATE_POST_API_URL = "http://192.168.1.118:8080/comment/create"
-    const val POSTS_API_URL = "http://192.168.1.118:8080/comments"
-    const val CREATE_REPLY_API_URL = "http://192.168.1.118:8080/reply/create/{commentId}"
-    const val REPLIES_API_URL = "http://192.168.1.118:8080/replies/{commentId}"
-    const val CREATE_VOTE_API_URL = "http://192.168.1.118:8080/vote/{commentId}"
+    const val CREATE_POST_API_URL = "http://45.63.54.11:13450/comment/create"
+    const val POSTS_API_URL = "http://45.63.54.11:13450/comments"
+    const val CREATE_REPLY_API_URL = "http://45.63.54.11:13450/reply/create/{commentId}"
+    const val REPLIES_API_URL = "http://45.63.54.11:13450/replies/{commentId}"
+    const val CREATE_VOTE_API_URL = "http://45.63.54.11:13450/vote/{commentId}"
 
     /*
      * XML
