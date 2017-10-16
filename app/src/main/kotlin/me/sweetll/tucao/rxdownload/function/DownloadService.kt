@@ -283,7 +283,7 @@ class DownloadService : Service() {
             }
         }).apply {
             onNext(DownloadEvent(DownloadStatus.READY))
-            if (!sampleMap.getOrDefault(mission.vid, false)) {
+            if (!sampleMap.getOrElse(mission.vid, { false })) {
                 sampleMap.put(mission.vid, true)
                 sample(500, TimeUnit.MILLISECONDS)
                         .subscribe {
