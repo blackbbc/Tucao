@@ -106,7 +106,7 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.0'
     /* RxPermissions */
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
     /* Retrofit */
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.moshi:moshi:1.5.0'

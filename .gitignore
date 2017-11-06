@@ -91,3 +91,6 @@ crashlytics-build.properties
 fabric.properties
 
 *.jks
+
+# generated files
+obj/

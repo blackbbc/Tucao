@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/applier/applier.iml" filepath="$PROJECT_DIR$/applier/applier.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogplus/dialogplus.iml" filepath="$PROJECT_DIR$/dialogplus/dialogplus.iml" />
       <module fileurl="file://$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ijkplayer-armv7a/ijkplayer-armv7a.iml" filepath="$PROJECT_DIR$/ijkplayer-armv7a/ijkplayer-armv7a.iml" />
       <module fileurl="file://$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" filepath="$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" />
       <module fileurl="file://$PROJECT_DIR$/previewseekbar/previewseekbar.iml" filepath="$PROJECT_DIR$/previewseekbar/previewseekbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/shared.iml" filepath="$PROJECT_DIR$/shared/shared.iml" />

@@ -8,5 +8,6 @@ include ':applier'
 include ':dialogplus'
 include ':multipleimageselect'
 include ':takephoto_library'
+include ':ijkplayer-armv7a'
 
 project(':gsyVideoPlayer').projectDir = new File(rootDir, 'GSYVideoPlayer/gsyVideoPlayer')

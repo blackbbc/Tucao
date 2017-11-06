@@ -51,6 +51,9 @@ interface RawApiService {
     @Streaming
     fun download(@Url url: String): Observable<Response<ResponseBody>>
 
+    @GET(ApiConfig.USER_INFO_URL)
+    fun userInfo(@Query("_") r: Long = System.currentTimeMillis() / 1000): Observable<ResponseBody>
+
     @GET(ApiConfig.CODE_URL)
     fun checkCode(): Observable<ResponseBody>
 

@@ -47,6 +47,7 @@ object ApiConfig {
     const val COMMENT_URL      = "index.php?m=comment&c=index&a=init&hot=0&iframe=1"
     const val SEND_COMMENT_URL = "index.php?m=comment&c=index&a=post"
 
+    const val USER_INFO_URL  = "api.php?op=user"
     const val CODE_URL       = "api.php?op=checkcode&code_len=4&font_size=14&width=446&height=40"
     const val LOGIN_URL      = "index.php?m=member&c=index&a=login"
     const val LOGOUT_URL     = "index.php?m=member&c=index&a=logout&forward=&siteid=1"
