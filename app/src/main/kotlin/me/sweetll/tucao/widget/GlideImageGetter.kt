@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import me.sweetll.tucao.GlideApp
+import me.sweetll.tucao.R
 import me.sweetll.tucao.extension.dp2px
 
 class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGetter {
@@ -24,6 +25,7 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
 
         GlideApp.with(context)
                 .asBitmap()
+                .placeholder(R.drawable.placeholder)
                 .load(url)
                 .into(BitmapTarget(urlDrawable))
 
@@ -51,8 +53,9 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
             drawable.bounds = rect
             urlDrawable.bounds = rect
             urlDrawable.drawable = drawable
-            view.invalidate()
-            view.text = view.text // 解决图文重叠
+
+            view.invalidate() // 解决图文重叠
+            view.text = view.text
         }
     }
 
