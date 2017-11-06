@@ -596,10 +596,6 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
         super.onPrepared()
         // 隐藏状态栏
         CommonUtil.hideSupportActionBar(context, true, true)
-        // 隐藏LoadText
-        loadText?.let {
-            it.visibility = View.GONE
-        }
     }
 
     fun resumeDanmu() {

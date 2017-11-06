@@ -296,6 +296,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
         binding.player.setStandardVideoAllCallBack(object: StandardVideoAllCallBackAdapter() {
             override fun onPrepared(url: String?) {
                 super.onPrepared(url)
+                binding.player.loadText?.let {
+                    it.visibility = View.GONE
+                }
             }
 
             override fun onClickStartIcon(url: String?) {
