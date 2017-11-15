@@ -6,13 +6,13 @@ buildscript {
             'buildTools'    : '26.0.2',
 
             'gradle'        : '3.0.0',
-            'kotlin'        : '1.1.51',
+            'kotlin'        : '1.1.60',
             'supportLibrary': '26.1.0'
     ]
 
     repositories {
         jcenter()
-        maven { url "https://dl.google.com/dl/android/maven2/"}
+        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradle}"
@@ -27,8 +27,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.google.com/dl/android/maven2/"}
         maven { url "https://dl.bintray.com/piasy/maven" }
     }
 }
