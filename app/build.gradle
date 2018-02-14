@@ -97,16 +97,16 @@ dependencies {
     kapt "com.android.databinding:compiler:${versions.gradle}"
     /* RxJava2 */
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
     /* RxKotlin */
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     /* RxBinding */
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     /* RxLifecycle */
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.1'
     /* RxPermissions */
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
     /* Retrofit */
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.moshi:moshi:1.5.0'
@@ -118,25 +118,25 @@ dependencies {
     }
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     /* Dagger2 */
-    implementation 'com.google.dagger:dagger:2.12'
-    kapt 'com.google.dagger:dagger-compiler:2.12'
+    implementation 'com.google.dagger:dagger:2.14.1'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
     /* Glide */
-    implementation 'com.github.bumptech.glide:glide:4.3.0'
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
     implementation "com.android.support:support-v4:${versions.supportLibrary}"
-    implementation 'com.github.bumptech.glide:annotations:4.3.0'
-    kapt 'com.github.bumptech.glide:compiler:4.3.0'
+    implementation 'com.github.bumptech.glide:annotations:4.4.0'
+    kapt 'com.github.bumptech.glide:compiler:4.4.0'
     /* RecyclerView Adapter */
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     /* Jsoup */
-    implementation 'org.jsoup:jsoup:1.10.3'
+    implementation 'org.jsoup:jsoup:1.11.2'
     /* Crash */
     implementation 'me.drakeet.library:crashwoodpecker:2.1.1'
     /* Umeng */
-    implementation 'com.umeng.analytics:analytics:6.1.2'
+    implementation 'com.umeng.analytics:analytics:6.1.3'
     /* EventBus */
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     /* Banner */
     implementation 'com.bigkoo:convenientbanner:2.0.5'
     /* About */

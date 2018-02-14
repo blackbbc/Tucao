@@ -3,11 +3,11 @@ buildscript {
     ext.versions = [
             'compileSdk'    : 26,
             'targetSdk'     : 26,
-            'buildTools'    : '26.0.2',
+            'buildTools'    : '27.0.3',
 
-            'gradle'        : '3.0.0',
-            'kotlin'        : '1.1.60',
-            'supportLibrary': '26.1.0'
+            'gradle'        : '3.0.1',
+            'kotlin'        : '1.2.21',
+            'supportLibrary': '27.0.2'
     ]
 
     repositories {
