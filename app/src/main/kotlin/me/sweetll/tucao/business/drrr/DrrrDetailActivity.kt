@@ -126,13 +126,13 @@ class DrrrDetailActivity : BaseActivity() {
             Const.LOAD_MORE_COMPLETE -> {
                 adapter.data[1].replyNum(total)
                 adapter.notifyItemChanged(1)
-                adapter.addData(data)
+                adapter.addData(data!!)
                 adapter.loadMoreComplete()
             }
             Const.LOAD_MORE_END -> {
                 adapter.data[1].replyNum(total)
                 adapter.notifyItemChanged(1)
-                adapter.addData(data)
+                adapter.addData(data!!)
                 adapter.loadMoreEnd()
             }
             Const.LOAD_MORE_FAIL -> {

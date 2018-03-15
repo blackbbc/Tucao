@@ -81,7 +81,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, video: Video, cover: String, bundle: Bundle) {
+        fun intentTo(context: Context, video: Video, cover: String, bundle: Bundle?) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_VIDEO, video)
             intent.putExtra(ARG_COVER, cover)
@@ -94,7 +94,7 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
             context.startActivity(intent)
         }
 
-        fun intentTo(context: Context, hid: String, cover: String, bundle: Bundle) {
+        fun intentTo(context: Context, hid: String, cover: String, bundle: Bundle?) {
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(ARG_HID, hid)
             intent.putExtra(ARG_COVER, cover)

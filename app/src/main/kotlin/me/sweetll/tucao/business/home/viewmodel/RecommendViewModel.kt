@@ -41,7 +41,7 @@ class RecommendViewModel(val fragment: RecommendFragment): BaseViewModel() {
     }
 
     fun onClickRank(view: View) {
-        RankActivity.intentTo(fragment.activity)
+        RankActivity.intentTo(fragment.activity!!)
     }
 
     fun parseBanners(doc: Document): List<Banner> {

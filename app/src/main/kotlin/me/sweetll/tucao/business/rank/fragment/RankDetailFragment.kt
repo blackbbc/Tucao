@@ -48,24 +48,24 @@ class RankDetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tid = arguments.getInt(ARG_TID, 0)
+        tid = arguments!!.getInt(ARG_TID, 0)
 
         AppApplication.get()
                 .getApiComponent()
                 .inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rank_detail, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rankVideoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 val video: Video = helper.getItem(position) as Video
-                VideoActivity.intentTo(activity, video)
+                VideoActivity.intentTo(activity!!, video)
             }
         })
         binding.rankVideoRecycler.layoutManager = LinearLayoutManager(activity)

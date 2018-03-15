@@ -7,13 +7,13 @@ import android.support.v4.content.ContextCompat
 
 class HorizontalDividerBuilder private constructor(private val context: Context) {
 
-    lateinit private var divider: Drawable
+    private lateinit var divider: Drawable
     private var drawFirstItemTop: Boolean = false
     private var leftPadding: Int = 0
     private var rightPadding: Int = 0
 
     fun setDivider(@DrawableRes dividerRes: Int): HorizontalDividerBuilder {
-        this.divider = ContextCompat.getDrawable(context, dividerRes)
+        this.divider = ContextCompat.getDrawable(context, dividerRes)!!
         return this
     }
 

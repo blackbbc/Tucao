@@ -12,7 +12,7 @@ class SettingPagerAdapter(val player: DanmuVideoPlayer): PagerAdapter() {
 
     val tabTitles = listOf("播放器设置", "弹幕设置", "弹幕屏蔽")
 
-    override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
     }
 
@@ -27,10 +27,10 @@ class SettingPagerAdapter(val player: DanmuVideoPlayer): PagerAdapter() {
             else -> SettingBlockViewFactory.create(player, container)
         }
         container.addView(view)
-        return view;
+        return view
     }
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any?) {
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
 }

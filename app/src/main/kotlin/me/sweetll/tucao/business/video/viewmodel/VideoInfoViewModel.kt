@@ -63,7 +63,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
 
     fun onClickDownload(view: View) {
         if (video.get() == null) return
-        val dialog = CustomBottomSheetDialog(videoInfoFragment.activity)
+        val dialog = CustomBottomSheetDialog(videoInfoFragment.activity!!)
         val dialogView = LayoutInflater.from(videoInfoFragment.activity).inflate(R.layout.dialog_pick_download_video, null)
         dialog.setContentView(dialogView)
 
@@ -86,7 +86,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
                 p ->
                 !p.checkDownload() && p.checked
             })
-            DownloadHelpers.startDownload(videoInfoFragment.activity, video.get().copy().apply {
+            DownloadHelpers.startDownload(videoInfoFragment.activity!!, video.get().copy().apply {
                 parts = checkedParts.toMutableList()
             })
             dialog.dismiss()
@@ -148,10 +148,10 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
     fun onClickUser(view: View) {
         if (headerBg.isNotEmpty()) {
             val options: Bundle? = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    videoInfoFragment.activity,
+                    videoInfoFragment.activity!!,
                     android.support.v4.util.Pair.create(view.findViewById(R.id.avatarImg),  "transition_avatar")
             ).toBundle()
-            UploaderActivity.intentTo(videoInfoFragment.activity, video.get().userid, video.get().user, avatar.get(), signature, headerBg, options)
+            UploaderActivity.intentTo(videoInfoFragment.activity!!, video.get().userid, video.get().user, avatar.get(), signature, headerBg, options)
         }
     }
 

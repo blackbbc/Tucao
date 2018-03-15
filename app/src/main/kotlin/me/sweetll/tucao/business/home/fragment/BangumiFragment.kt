@@ -45,7 +45,7 @@ class BangumiFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeRefresh.isEnabled = false
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
@@ -78,7 +78,7 @@ class BangumiFragment : BaseFragment() {
             override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                 when (view.id) {
                     R.id.card_more -> {
-                        ChannelDetailActivity.intentTo(activity, view.tag as Int)
+                        ChannelDetailActivity.intentTo(activity!!, view.tag as Int)
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -88,10 +88,10 @@ class BangumiFragment : BaseFragment() {
                             val p2: Pair<View, String> = Pair.create(titleText, "bg")
                             val cover = titleText.tag as String
                             val options = ActivityOptionsCompat
-                                    .makeSceneTransitionAnimation(activity, p1, p2)
-                            VideoActivity.intentTo(activity, view.tag as String, cover, options.toBundle())
+                                    .makeSceneTransitionAnimation(activity!!, p1, p2)
+                            VideoActivity.intentTo(activity!!, view.tag as String, cover, options.toBundle())
                         } else {
-                            VideoActivity.intentTo(activity, view.tag as String)
+                            VideoActivity.intentTo(activity!!, view.tag as String)
                         }
                     }
                 }
@@ -107,8 +107,8 @@ class BangumiFragment : BaseFragment() {
         val arcMotion = ArcMotion()
         changeBounds.pathMotion = arcMotion
 
-        activity.window.sharedElementExitTransition = changeBounds
-        activity.window.sharedElementReenterTransition = null
+        activity!!.window.sharedElementExitTransition = changeBounds
+        activity!!.window.sharedElementReenterTransition = null
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

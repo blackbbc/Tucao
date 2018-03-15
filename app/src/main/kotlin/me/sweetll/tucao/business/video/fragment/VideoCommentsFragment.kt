@@ -86,12 +86,12 @@ class VideoCommentsFragment: BaseFragment() {
                 .inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_video_comments, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         canInit = canInit or 1
         checkInit()
@@ -116,23 +116,23 @@ class VideoCommentsFragment: BaseFragment() {
         binding.commentRecycler.layoutManager = LinearLayoutManager(context)
         binding.commentRecycler.adapter = commentAdapter
         binding.commentRecycler.addItemDecoration(
-                HorizontalDividerBuilder.newInstance(context)
+                HorizontalDividerBuilder.newInstance(context!!)
                         .setDivider(R.drawable.divider_small)
                         .build()
         )
 
         commentAdapter.setOnItemClickListener{
             _, view, position ->
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!,
                 android.support.v4.util.Pair.create(view, "transition_background"),
                 android.support.v4.util.Pair.create(view, "transition_comment"))
-            val comment = commentAdapter.getItem(position)
-            ReplyActivity.intentTo(activity, commentId, comment, options.toBundle())
+            val comment = commentAdapter.getItem(position)!!
+            ReplyActivity.intentTo(activity!!, commentId, comment, options.toBundle())
         }
         commentAdapter.setOnItemChildClickListener {
             adapter, view, position ->
             if (view.id == R.id.linear_thumb_up) {
-                val comment = commentAdapter.getItem(position)
+                val comment = commentAdapter.getItem(position)!!
                 if (!comment.support) {
                     comment.support = true
                     comment.thumbUp += 1
@@ -168,11 +168,11 @@ class VideoCommentsFragment: BaseFragment() {
                 startFabTransform()
             } else {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, getCommentFab(), "transition_login"
+                        activity!!, getCommentFab(), "transition_login"
                 ).toBundle()
                 val intent = Intent(activity, LoginActivity::class.java)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    FabTransform.addExtras(intent, ContextCompat.getColor(activity, R.color.colorPrimary), R.drawable.ic_comment_white)
+                    FabTransform.addExtras(intent, ContextCompat.getColor(activity!!, R.color.colorPrimary), R.drawable.ic_comment_white)
                 }
                 startActivityForResult(intent, REQUEST_LOGIN, options)
             }
@@ -257,7 +257,7 @@ class VideoCommentsFragment: BaseFragment() {
             val startBounds = Rect(getCommentFab().left, getCommentFab().top, getCommentFab().right, getCommentFab().bottom)
             val endBounds = Rect(binding.commentContainer.left, binding.commentContainer.top, binding.commentContainer.right, binding.commentContainer.bottom)
 
-            val fabColor = ColorDrawable(ContextCompat.getColor(activity, R.color.pink_300))
+            val fabColor = ColorDrawable(ContextCompat.getColor(activity!!, R.color.pink_300))
             fabColor.setBounds(0, 0, endBounds.width(), endBounds.height())
             binding.commentContainer.overlay.add(fabColor)
 

@@ -56,36 +56,36 @@ class ChannelDetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tid = arguments.getInt(ARG_TID, 0)
+        tid = arguments!!.getInt(ARG_TID, 0)
 
         AppApplication.get()
                 .getApiComponent()
                 .inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_channel_detail, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         videoAdapter.setOnLoadMoreListener ({
             loadMoreData()
         }, binding.videoRecycler)
         binding.videoRecycler.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(helper: BaseQuickAdapter<*, *>, itemView: View, position: Int) {
-                val video: Video = videoAdapter.getItem(position)
+                val video: Video = videoAdapter.getItem(position)!!
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val coverImg = itemView.findViewById<ImageView>(R.id.img_thumb)
                     val titleText = itemView.findViewById<View>(R.id.text_title)
                     val p1: Pair<View, String> = Pair.create(coverImg, "cover")
                     val cover = titleText.tag as String
                     val options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(activity, p1)
-                    VideoActivity.intentTo(activity, video, cover, options.toBundle())
+                            .makeSceneTransitionAnimation(activity!!, p1)
+                    VideoActivity.intentTo(activity!!, video, cover, options.toBundle()!!)
                 } else {
-                    VideoActivity.intentTo(activity, video)
+                    VideoActivity.intentTo(activity!!, video)
                 }
             }
         })

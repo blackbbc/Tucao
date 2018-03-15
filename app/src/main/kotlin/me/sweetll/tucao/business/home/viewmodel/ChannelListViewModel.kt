@@ -8,6 +8,6 @@ class ChannelListViewModel(val fragment: Fragment) {
 
     fun onClickChannel(view: View) {
         val tid = Integer.parseInt(view.tag as String)
-        ChannelDetailActivity.intentTo(fragment.activity, tid)
+        ChannelDetailActivity.intentTo(fragment.activity!!, tid)
     }
 }

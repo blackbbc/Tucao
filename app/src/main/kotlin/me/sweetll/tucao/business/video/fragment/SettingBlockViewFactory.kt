@@ -61,7 +61,7 @@ class SettingBlockViewFactory() {
             blockListRecycler.addOnItemTouchListener(object: OnItemChildClickListener() {
                 override fun onSimpleItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
                     if (view.id == R.id.img_close) {
-                        val keyword = blockListAdapter.getItem(position)
+                        val keyword = blockListAdapter.getItem(position)!!
                         BlockListHelpers.remove(keyword)
                         blockListAdapter.remove(position)
                     }

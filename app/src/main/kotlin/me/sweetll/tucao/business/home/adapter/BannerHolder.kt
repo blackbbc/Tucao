@@ -15,6 +15,7 @@ import me.sweetll.tucao.business.browser.BrowserActivity
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.model.raw.Banner
+
 class BannerHolder: Holder<Banner> {
     lateinit var rootView: View
 
@@ -33,8 +34,8 @@ class BannerHolder: Holder<Banner> {
                     val p1: Pair<View, String> = Pair.create(bannerImg, "cover")
                     val p2: Pair<View, String> = Pair.create(bg, "bg")
                     val options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(context as Activity, p1, p2).toBundle()
-                    VideoActivity.intentTo(context, banner.hid, banner.imgUrl, options)
+                            .makeSceneTransitionAnimation(context as Activity, p1, p2)
+                    VideoActivity.intentTo(context, banner.hid, banner.imgUrl, options.toBundle())
                 } else {
                     VideoActivity.intentTo(context, banner.hid)
                 }

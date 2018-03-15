@@ -202,14 +202,14 @@ class ReplyActivity : BaseActivity() {
         )
     }
 
-    fun loadMoreData(newData: MutableList<Reply>?, flag: Int) {
+    fun loadMoreData(data: MutableList<Reply>?, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
-                replyAdapter.addData(newData)
+                replyAdapter.addData(data!!)
                 replyAdapter.loadMoreComplete()
             }
             Const.LOAD_MORE_END -> {
-                replyAdapter.addData(newData)
+                replyAdapter.addData(data!!)
                 replyAdapter.loadMoreEnd()
             }
             Const.LOAD_MORE_FAIL -> {

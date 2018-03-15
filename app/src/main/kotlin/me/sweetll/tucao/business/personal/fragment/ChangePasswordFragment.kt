@@ -20,14 +20,14 @@ class ChangePasswordFragment: BaseFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_password, container, false)
         viewModel = ChangePasswordViewModel(this)
         binding.viewModel = viewModel
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -47,7 +47,7 @@ class ChangePasswordFragment: BaseFragment() {
 
     fun saveSuccess() {
         "修改成功！请重新登录".toast()
-        activity.supportFragmentManager.popBackStack()
+        activity!!.supportFragmentManager.popBackStack()
     }
 
     fun saveFailed(msg: String) {

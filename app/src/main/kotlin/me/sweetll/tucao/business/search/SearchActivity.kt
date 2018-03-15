@@ -229,11 +229,11 @@ class SearchActivity : BaseActivity() {
     fun loadMoreData(data: MutableList<Video>?, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
-                videoAdapter.addData(data)
+                videoAdapter.addData(data!!)
                 videoAdapter.loadMoreComplete()
             }
             Const.LOAD_MORE_END -> {
-                videoAdapter.addData(data)
+                videoAdapter.addData(data!!)
                 videoAdapter.loadMoreEnd()
             }
             Const.LOAD_MORE_FAIL -> {

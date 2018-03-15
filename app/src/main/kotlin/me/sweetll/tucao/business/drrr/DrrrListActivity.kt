@@ -108,12 +108,12 @@ class DrrrListActivity : BaseActivity() {
         )
         adapter.setOnItemClickListener {
             _, _, position ->
-            val post = adapter.getItem(position)
+            val post = adapter.getItem(position)!!
             DrrrDetailActivity.intentTo(this, post)
         }
         adapter.setOnItemChildClickListener {
             _, view, position ->
-            val post = adapter.getItem(position)
+            val post = adapter.getItem(position)!!
             if (!post.vote) {
                 post.vote = true
                 post.voteNum++
@@ -140,11 +140,11 @@ class DrrrListActivity : BaseActivity() {
     fun loadMoreData(data: MutableList<Post>?, flag: Int) {
         when (flag) {
             Const.LOAD_MORE_COMPLETE -> {
-                adapter.addData(data)
+                adapter.addData(data!!)
                 adapter.loadMoreComplete()
             }
             Const.LOAD_MORE_END -> {
-                adapter.addData(data)
+                adapter.addData(data!!)
                 adapter.loadMoreEnd()
             }
             Const.LOAD_MORE_FAIL -> {

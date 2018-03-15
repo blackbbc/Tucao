@@ -59,7 +59,7 @@ class PlayHistoryActivity : BaseActivity() {
             }
 
             override fun onItemSwiped(p0: RecyclerView.ViewHolder?, position: Int) {
-                val result = playHistoryAdapter.getItem(position)
+                val result = playHistoryAdapter.getItem(position)!!
                 HistoryHelpers.removePlayHistory(result)
             }
 

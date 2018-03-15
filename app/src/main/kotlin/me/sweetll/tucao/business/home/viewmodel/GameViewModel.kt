@@ -99,6 +99,6 @@ class GameViewModel(val fragment: GameFragment): BaseViewModel() {
     }
 
     fun onClickChannel(view: View) {
-        ChannelDetailActivity.intentTo(fragment.activity, (view.tag as String).toInt())
+        ChannelDetailActivity.intentTo(fragment.activity!!, (view.tag as String).toInt())
     }
 }
