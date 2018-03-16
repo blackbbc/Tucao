@@ -10,8 +10,8 @@ android {
         applicationId 'me.sweetll.tucao'
         minSdkVersion 18
         targetSdkVersion versions.targetSdk
-        versionCode 117
-        versionName '1.1.5'
+        versionCode 118
+        versionName '1.1.6'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

@@ -63,7 +63,7 @@ class SweetEditor: EditText {
         }
         val spanString = SpannableString(imgMark)
 
-        val fixedPath = fixImage(imagePath, width)
+        val fixedPath = fixImage(imagePath, width - paddingLeft - paddingRight)
 
         imgMarkMap.put("$imgIndex", imagePath)
 

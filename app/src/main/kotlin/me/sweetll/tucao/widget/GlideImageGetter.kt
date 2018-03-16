@@ -38,24 +38,27 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
             val h = if (resource.height > 0) resource.height else 24f.dp2px().toInt()
             var res = resource
 
-            val maxWidth = view.width - view.paddingLeft - view.paddingRight
+            view.post {
+                val maxWidth = view.width - view.paddingLeft - view.paddingRight
 
-            if (w > maxWidth) {
-                val matrix = Matrix()
-                matrix.postScale(maxWidth.toFloat() / w, maxWidth.toFloat() / w)
-                res = Bitmap.createBitmap(res, 0, 0, w, h, matrix, true)
+                if (w > maxWidth) {
+                    val matrix = Matrix()
+                    matrix.postScale(maxWidth.toFloat() / w, maxWidth.toFloat() / w)
+                    res = Bitmap.createBitmap(res, 0, 0, w, h, matrix, true)
+                }
+
+                val drawable = BitmapDrawable(context.resources, res)
+                val ww = drawable.intrinsicWidth
+                val hh = drawable.intrinsicHeight
+                val rect = Rect(0, 0, ww, hh)
+                drawable.bounds = rect
+                urlDrawable.bounds = rect
+                urlDrawable.drawable = drawable
+
+                view.invalidate() // 解决图文重叠
+                view.text = view.text
             }
 
-            val drawable = BitmapDrawable(context.resources, res)
-            val ww = drawable.intrinsicWidth
-            val hh = drawable.intrinsicHeight
-            val rect = Rect(0, 0, ww, hh)
-            drawable.bounds = rect
-            urlDrawable.bounds = rect
-            urlDrawable.drawable = drawable
-
-            view.invalidate() // 解决图文重叠
-            view.text = view.text
         }
     }
 

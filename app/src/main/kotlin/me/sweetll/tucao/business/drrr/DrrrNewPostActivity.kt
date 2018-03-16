@@ -3,6 +3,7 @@ package me.sweetll.tucao.business.drrr
 import android.Manifest
 import android.accounts.NetworkErrorException
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -11,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.content.ContentResolverCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
@@ -38,6 +40,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -228,26 +231,17 @@ class DrrrNewPostActivity : BaseActivity() {
         return image
     }
 
-    private fun getRealPathFromURI(uri: Uri): String {
-        val result: String
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        if (cursor == null) {
-            result = uri.path
-        } else {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-        }
-        cursor.close()
-        return result
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_PICK_IMAGE) {
                 data?.let {
-                    val uri = it.data
-                    binding.editor.insertImage(getRealPathFromURI(uri))
+                    val inputStream = contentResolver.openInputStream(it.data)
+                    val buffer = ByteArray(inputStream.available())
+                    inputStream.read(buffer)
+                    val file = File.createTempFile("tucao", null, cacheDir)
+                    FileOutputStream(file).write(buffer)
+
+                    binding.editor.insertImage(file.absolutePath)
                 }
             } else if (requestCode == REQUEST_CAPTURE_IMAGE) {
                 binding.editor.insertImage(currentPhotoPath)
