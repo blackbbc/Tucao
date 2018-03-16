@@ -29,21 +29,7 @@ fun ImageView.load(context: Context, url: String, errorRes: Int) {
             .transition(withCrossFade())
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .apply(RequestOptions.circleCropTransform())
-            .listener(object : RequestListener<Drawable> {
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    return false
-                }
-
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    GlideApp.with(context)
-                            .load(errorRes)
-                            .transition(withCrossFade())
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(this@load)
-                    return true
-                }
-
-            })
+            .error(errorRes)
             .into(this)
 }
 
@@ -54,21 +40,7 @@ fun ImageView.load(context: Context, url: String, errorRes: Int, signature: Obje
             .transition(withCrossFade())
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .apply(RequestOptions.circleCropTransform())
-            .listener(object : RequestListener<Drawable> {
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    return false
-                }
-
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    GlideApp.with(context)
-                            .load(errorRes)
-                            .transition(withCrossFade())
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(this@load)
-                    return true
-                }
-
-            })
+            .error(errorRes)
             .into(this)
 }
 

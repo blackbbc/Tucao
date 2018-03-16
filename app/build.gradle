@@ -164,9 +164,9 @@ dependencies {
         transitive = true
     }
     /* BigImageViewer */
-    implementation 'com.github.piasy:BigImageViewer:1.4.0'
-    implementation 'com.github.piasy:GlideImageLoader:1.4.0'
-    implementation 'com.github.piasy:ProgressPieIndicator:1.4.0'
+    implementation 'com.github.piasy:BigImageViewer:1.4.6'
+    implementation 'com.github.piasy:GlideImageLoader:1.4.6'
+    implementation 'com.github.piasy:ProgressPieIndicator:1.4.6'
 }
 
 repositories {
