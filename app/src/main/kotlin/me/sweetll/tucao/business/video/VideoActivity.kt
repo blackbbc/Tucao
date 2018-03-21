@@ -64,8 +64,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-    fun getCommentFab(): FloatingActionButton = binding.commentFab
-
     fun collapse() {
         binding.appBar.setExpanded(false)
     }

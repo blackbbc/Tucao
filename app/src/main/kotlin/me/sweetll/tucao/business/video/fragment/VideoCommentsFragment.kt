@@ -72,7 +72,7 @@ class VideoCommentsFragment: BaseFragment() {
         const val REQUEST_LOGIN = 1
     }
 
-    fun getCommentFab(): FloatingActionButton = (activity as VideoActivity).getCommentFab()
+    fun getCommentFab(): FloatingActionButton = binding.commentFab
 
     fun collapse() {
         (activity as VideoActivity).collapse()

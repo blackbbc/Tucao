@@ -2,7 +2,6 @@ package me.sweetll.tucao.business.home
 
 import android.accounts.AccountManager
 import android.app.Activity
-import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -12,7 +11,6 @@ import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.NotificationCompat
@@ -61,11 +59,9 @@ import me.sweetll.tucao.rxdownload.entity.DownloadStatus
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jsoup.nodes.Document
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
-import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 import javax.inject.Inject
@@ -80,14 +76,14 @@ class MainActivity : BaseActivity() {
         const val NOTIFICATION_ID = 10
     }
 
-    val notifyMgr by lazy {
+    private val notifyMgr by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     lateinit var binding : ActivityMainBinding
     lateinit var drawerToggle: ActionBarDrawerToggle
 
-    var lastBackTime = 0L
+    private var lastBackTime = 0L
 
     @Inject
     lateinit var jsonApiService: JsonApiService

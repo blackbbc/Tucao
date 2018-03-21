@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="me.sweetll.tucao.widget.FixedBottomScrollingViewBehavior">
 
             <LinearLayout
                 android:id="@+id/mainLinear"
@@ -126,16 +126,16 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/commentFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="32dp"
-            android:src="@drawable/ic_comment_white"
-            tools:visibility="visible"
-            android:visibility="invisible"
-            app:backgroundTint="@color/pink_300"
-            app:fabSize="normal" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/commentFab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|end"-->
+            <!--android:layout_margin="32dp"-->
+            <!--android:src="@drawable/ic_comment_white"-->
+            <!--tools:visibility="visible"-->
+            <!--android:visibility="invisible"-->
+            <!--app:backgroundTint="@color/pink_300"-->
+            <!--app:fabSize="normal" />-->
     </android.support.design.widget.CoordinatorLayout>
 </layout>
