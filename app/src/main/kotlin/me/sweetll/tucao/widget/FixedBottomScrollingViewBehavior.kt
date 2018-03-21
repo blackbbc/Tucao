@@ -8,26 +8,42 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import me.sweetll.tucao.R
+import me.sweetll.tucao.R.id.commentFab
+import me.sweetll.tucao.extension.logD
+import org.jetbrains.anko.dip
 
 /**
  * Created by Sweet on 2018/3/20.
  */
-class FixedBottomScrollingViewBehavior(context: Context, attrs: AttributeSet): AppBarLayout.ScrollingViewBehavior(context, attrs) {
-    private lateinit var commentFab: View
-    private lateinit var commentContainer: View
+class FixedBottomScrollingViewBehavior(val context: Context, attrs: AttributeSet): AppBarLayout.ScrollingViewBehavior(context, attrs) {
+    private var fabOffsetHelper: ViewOffsetHelper? = null
+    private var containerOffsetHelper: ViewOffsetHelper? = null
+
+    private var offset1: Int = 0
+    private var offset2: Int = 0
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: View, layoutDirection: Int): Boolean {
         super.onLayoutChild(parent, child, layoutDirection)
 
-        commentFab = child.findViewById(R.id.commentFab)
-        commentContainer = child.findViewById(R.id.commentContainer)
+        if (fabOffsetHelper == null) {
+            val fab: View = child.findViewById(R.id.commentFab)
+            val container: View = child.findViewById(R.id.commentContainer)
+            val tab: View = child.findViewById(R.id.tab)
 
-        val offset1 = parent.height - child.top - commentContainer.height
-        ViewCompat.offsetTopAndBottom(commentContainer, offset1)
+            val headerHeight = tab.height + context.dip(0.5f)
 
-        val lp = commentFab.layoutParams as FrameLayout.LayoutParams
-        val offset2 = parent.height - child.top - commentFab.height - lp.topMargin - lp.bottomMargin
-        ViewCompat.offsetTopAndBottom(commentFab, offset2)
+            val lp = fab.layoutParams as FrameLayout.LayoutParams
+            val margin = lp.bottomMargin
+
+            offset1 = parent.height - headerHeight - container.height
+            offset2 = parent.height - headerHeight - fab.height - margin
+
+            containerOffsetHelper = ViewOffsetHelper(container)
+            fabOffsetHelper = ViewOffsetHelper(fab)
+        }
+
+        containerOffsetHelper!!.setTopAndBottomOffset(offset1 - child.top)
+        fabOffsetHelper!!.setTopAndBottomOffset(offset2 - child.top)
 
         return true
     }
@@ -36,9 +52,17 @@ class FixedBottomScrollingViewBehavior(context: Context, attrs: AttributeSet): A
         val offset = dependency.bottom - child.top
         ViewCompat.offsetTopAndBottom(child, offset)
 
-        ViewCompat.offsetTopAndBottom(commentContainer, -offset)
-        ViewCompat.offsetTopAndBottom(commentFab, -offset)
+        containerOffsetHelper!!.setTopAndBottomOffset(offset1 - child.top)
+        fabOffsetHelper!!.setTopAndBottomOffset(offset2 - child.top)
 
         return false
     }
+
+    class ViewOffsetHelper(val view: View) {
+        fun setTopAndBottomOffset(offset: Int) {
+            if (offset != view.top)
+            ViewCompat.offsetTopAndBottom(view, offset - view.top)
+        }
+    }
+
 }

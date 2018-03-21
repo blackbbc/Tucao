@@ -64,10 +64,6 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-    fun collapse() {
-        binding.appBar.setExpanded(false)
-    }
-
     companion object {
         private val ARG_VIDEO = "video"
         private val ARG_HID = "hid"
