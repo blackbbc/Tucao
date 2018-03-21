@@ -110,8 +110,6 @@ class MainActivity : BaseActivity() {
 
     override fun getToolbar(): Toolbar = binding.toolbar
 
-    override fun getStatusBar(): View? = binding.statusBar
-
     fun initDialog() {
         val updateView = LayoutInflater.from(this).inflate(R.layout.dialog_update, null)
         val descriptionText = updateView.findViewById<TextView>(R.id.text_description)
@@ -549,7 +547,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        var currentBackTime = System.currentTimeMillis()
+        val currentBackTime = System.currentTimeMillis()
         if (currentBackTime - lastBackTime < 2000) {
             super.onBackPressed()
         } else {

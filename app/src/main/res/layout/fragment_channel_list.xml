@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -23,15 +23,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,17 +43,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="动画"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="19"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="19"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -65,55 +65,55 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
-                        android:tag="28"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="MAD·AMV·GMV"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="28"
+                        android:text="MAD·AMV·GMV"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="6"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="MMD·3D"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="6"
+                        android:text="MMD·3D"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="25"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="原创·配音"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="25"
+                        android:text="原创·配音"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
 
                     <TextView
-                        android:tag="29"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="综合·周边·其他"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="29"
+                        android:text="综合·周边·其他"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -123,15 +123,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,17 +143,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="音乐"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="20"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -166,97 +166,97 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="7"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="acg音乐"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="31"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="翻唱·原唱"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-                    <TextView
-                        android:tag="37"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="舞蹈"
                         android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-
-                    <TextView
-                        android:tag="30"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="VOCALOID·UTAU"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="40"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="37"
+                        android:text="舞蹈"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="30"
+                        android:text="VOCALOID·UTAU"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
+                        android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="40"
                         android:text="演奏·乐器"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="88"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="op·ed·ost·角色歌"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="52"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="Live·声优相关"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="52"
+                        android:text="Live·声优相关"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
 
@@ -265,15 +265,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -285,17 +285,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="游戏"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="21"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -307,71 +307,71 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="8"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="游戏影音"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="34"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="网络游戏"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-                    <TextView
-                        android:tag="44"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="单机游戏"
                         android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-
-                    <TextView
-                        android:tag="33"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="电子竞技"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="42"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="44"
+                        android:text="单机游戏"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="家机·掌机·手机"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="33"
+                        android:text="电子竞技"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="42"
+                        android:text="家机·掌机·手机"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
 
@@ -380,15 +380,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -400,17 +400,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="三次元"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="22"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -422,83 +422,83 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="9"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="喜闻乐见"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
                         android:tag="32"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
                         android:text="娱乐鬼触"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-                    <TextView
-                        android:tag="57"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="科技·数码"
                         android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
-
-
-                    <TextView
-                        android:tag="61"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:background="#EEEEEE"
-                        android:gravity="center"
-                        android:text="运动·体育"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
-                        android:onClick="@{viewModel::onClickChannel}"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="65"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="军事情报"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="57"
+                        android:text="科技·数码"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
 
                     <TextView
-                        android:tag="15"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="宠物·猫·狗"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="61"
+                        android:text="运动·体育"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="65"
+                        android:text="军事情报"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="15"
+                        android:text="宠物·猫·狗"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -508,15 +508,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -528,17 +528,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="影剧"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="23"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -550,55 +550,55 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
-                        android:tag="39"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="电视剧"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="39"
+                        android:text="电视剧"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="38"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="电影"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="38"
+                        android:text="电影"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="16"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="娱乐综艺"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="16"
+                        android:text="娱乐综艺"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
 
                     <TextView
-                        android:tag="27"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="完结剧集"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="27"
+                        android:text="完结剧集"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>
@@ -609,15 +609,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="12dp"
-                android:paddingStart="12dp"
-                android:paddingRight="12dp"
-                android:paddingEnd="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -629,17 +629,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="新番"
-                        android:textSize="14sp"
-                        android:textColor="@color/primary_text"/>
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:tag="24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="24"
                         android:text="更多>>"
-                        android:textSize="12sp"
                         android:textColor="@color/colorPrimary"
-                        android:onClick="@{viewModel::onClickChannel}"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -651,55 +651,55 @@
                     app:columnOrderPreserved="false">
 
                     <TextView
-                        android:tag="11"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="连载新番"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="11"
+                        android:text="连载新番"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="43"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="天朝出品"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="43"
+                        android:text="天朝出品"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
                     <TextView
-                        android:tag="26"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="OAD·OVA·剧场版"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
-                        app:layout_columnWeight="1"/>
+                        android:tag="26"
+                        android:text="OAD·OVA·剧场版"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
+                        app:layout_columnWeight="1" />
 
 
                     <TextView
-                        android:tag="10"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="2dp"
                         android:background="#EEEEEE"
                         android:gravity="center"
-                        android:text="完结番组"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text"
                         android:onClick="@{viewModel::onClickChannel}"
+                        android:tag="10"
+                        android:text="完结番组"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
                 </android.support.v7.widget.GridLayout>

@@ -64,8 +64,6 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    override fun getStatusBar(): View = binding.statusBar
-
     override fun initView(savedInstanceState: Bundle?) {
         val keyword = intent.getStringExtra(ARG_KEYWORD)
         var tid: Int? = intent.getIntExtra(ARG_TID, 0)

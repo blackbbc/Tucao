@@ -23,7 +23,6 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
         initView(savedInstanceState)
         initToolbar()
-        initStatusBar()
     }
 
     abstract fun initView(savedInstanceState: Bundle?)
@@ -34,19 +33,6 @@ abstract class BaseActivity : RxAppCompatActivity() {
     open fun initToolbar() {
         getToolbar()?.let {
             setSupportActionBar(it)
-        }
-    }
-
-    fun initStatusBar() {
-        getStatusBar()?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                var statusBarHeight = 0
-                val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-                if (resourceId > 0) {
-                    statusBarHeight = resources.getDimensionPixelSize(resourceId)
-                }
-                it.layoutParams.height = statusBarHeight
-            }
         }
     }
 
