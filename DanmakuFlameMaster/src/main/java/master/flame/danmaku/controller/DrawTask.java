@@ -72,6 +72,8 @@ public class DrawTask implements IDrawTask {
 
     private IDanmakus mRunningDanmakus;
 
+    private boolean mRequestRender;
+
     private ConfigChangedCallback mConfigChangedCallback = new ConfigChangedCallback() {
         @Override
         public boolean onDanmakuConfigChanged(DanmakuContext config, DanmakuConfigTag tag, Object... values) {
@@ -304,7 +306,9 @@ public class DrawTask implements IDrawTask {
     }
 
     public void prepare() {
-        assert (mParser != null);
+        if (mParser == null) {
+            return;
+        }
         loadDanmakus(mParser);
         mLastBeginMills = mLastEndMills = 0;
         if (mTaskListener != null) {
@@ -346,10 +350,11 @@ public class DrawTask implements IDrawTask {
         if (danmakuList != null) {
             Canvas canvas = (Canvas) disp.getExtraData();
             DrawHelper.clearCanvas(canvas);
-            if (mIsHidden) {
+            if (mIsHidden && !mRequestRender) {
                 return mRenderingState;
             }
 
+            mRequestRender = false;
             RenderingState renderingState = mRenderingState;
             // prepare screenDanmakus
             long beginMills = timer.currMillisecond - mContext.mDanmakuFactory.MAX_DANMAKU_DURATION - 100;
@@ -484,6 +489,11 @@ public class DrawTask implements IDrawTask {
     @Override
     public void requestHide() {
         mIsHidden = true;
+    }
+
+    @Override
+    public void requestRender() {
+        this.mRequestRender = true;
     }
 
     private void beginTracing(RenderingState renderingState, IDanmakus runningDanmakus, IDanmakus screenDanmakus) {

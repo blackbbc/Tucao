@@ -426,11 +426,6 @@ class DanmuVideoPlayer : PreviewGSYVideoPlayer {
             }
 
         })
-        danmakuView!!.bindClockProvider {
-            SystemClock.uptimeMillis()
-            // TODO: 暂时禁止变速功能
-//            currentPositionWhenPlaying.toLong()
-        }
         danmakuView!!.prepare(danmuParser, danmakuContext)
         danmakuView!!.enableDanmakuDrawingCache(true)
         configDanmuStyle()

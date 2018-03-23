@@ -58,15 +58,19 @@ public class Danmakus implements IDanmakus {
     }
 
     public Danmakus(int sortType, boolean duplicateMergingEnabled) {
+        this(sortType, duplicateMergingEnabled, null);
+    }
+
+    public Danmakus(int sortType, boolean duplicateMergingEnabled, BaseComparator baseComparator) {
         BaseComparator comparator = null;
         if (sortType == ST_BY_TIME) {
-            comparator = new TimeComparator(duplicateMergingEnabled);
+            comparator = baseComparator == null ? new TimeComparator(duplicateMergingEnabled) : baseComparator;
         } else if (sortType == ST_BY_YPOS) {
             comparator = new YPosComparator(duplicateMergingEnabled);
         } else if (sortType == ST_BY_YPOS_DESC) {
             comparator = new YPosDescComparator(duplicateMergingEnabled);
         }
-        if(sortType == ST_BY_LIST) {
+        if (sortType == ST_BY_LIST) {
             items = new LinkedList<>();
         } else {
             mDuplicateMergingEnabled = duplicateMergingEnabled;
@@ -88,11 +92,12 @@ public class Danmakus implements IDanmakus {
 
     public void setItems(Collection<BaseDanmaku> items) {
         if (mDuplicateMergingEnabled && mSortType != ST_BY_LIST) {
-            this.items.clear();
-            this.items.addAll(items);
-            items = this.items;
-        }
-        else {
+            synchronized (this.mLockObject) {
+                this.items.clear();
+                this.items.addAll(items);
+                items = this.items;
+            }
+        } else {
             this.items = items;
         }
         if (items instanceof List) {
@@ -103,14 +108,16 @@ public class Danmakus implements IDanmakus {
 
     @Override
     public boolean addItem(BaseDanmaku item) {
-        if (items != null) {
-            try {
-                if (items.add(item)) {
-                    mSize.incrementAndGet();
-                    return true;
+        synchronized (this.mLockObject) {
+            if (items != null) {
+                try {
+                    if (items.add(item)) {
+                        mSize.incrementAndGet();
+                        return true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         return false;
@@ -124,9 +131,11 @@ public class Danmakus implements IDanmakus {
         if (item.isOutside()) {
             item.setVisibility(false);
         }
-        if (items.remove(item)) {
-            mSize.decrementAndGet();
-            return true;
+        synchronized (this.mLockObject) {
+            if (items.remove(item)) {
+                mSize.decrementAndGet();
+                return true;
+            }
         }
         return false;
     }
@@ -213,9 +222,11 @@ public class Danmakus implements IDanmakus {
 
     @Override
     public void clear() {
-        if (items != null) {
-            items.clear();
-            mSize.set(0);
+        synchronized (this.mLockObject) {
+            if (items != null) {
+                items.clear();
+                mSize.set(0);
+            }
         }
         if (subItems != null) {
             subItems = null;

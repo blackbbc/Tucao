@@ -77,8 +77,8 @@ public class CacheManagingDrawTask extends DrawTask {
 
     @Override
     public void invalidateDanmaku(BaseDanmaku item, boolean remeasure) {
+        super.invalidateDanmaku(item, remeasure);
         if (mCacheManager == null) {
-            super.invalidateDanmaku(item, remeasure);
             return;
         }
         mCacheManager.invalidateDanmaku(item, remeasure);
@@ -164,7 +164,9 @@ public class CacheManagingDrawTask extends DrawTask {
 
     @Override
     public void prepare() {
-        assert (mParser != null);
+        if (mParser == null) {
+            return;
+        }
         loadDanmakus(mParser);
         mCacheManager.begin();
     }
@@ -243,6 +245,8 @@ public class CacheManagingDrawTask extends DrawTask {
             if (mHandler != null) {
                 mHandler.requestCancelCaching();
                 mHandler.obtainMessage(CacheHandler.REBUILD_CACHE, danmaku).sendToTarget();
+                mHandler.sendEmptyMessage(CacheHandler.DISABLE_CANCEL_FLAG);
+                requestBuild(0);
             }
         }
 
@@ -263,6 +267,7 @@ public class CacheManagingDrawTask extends DrawTask {
                 mDrawingNotify.notifyAll();
             }
             if (mHandler != null) {
+                mHandler.removeCallbacksAndMessages(null);
                 mHandler.pause();
                 mHandler = null;
             }
@@ -398,12 +403,14 @@ public class CacheManagingDrawTask extends DrawTask {
                             }
                             //else 回收尺寸过大的cache
                         }
-                        synchronized (mDrawingNotify) {
-                            try {
-                                mDrawingNotify.wait(30);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                return ACTION_BREAK;
+                        if (!mEndFlag) {
+                            synchronized (mDrawingNotify) {
+                                try {
+                                    mDrawingNotify.wait(30);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                    return ACTION_BREAK;
+                                }
                             }
                         }
                         entryRemoved(false, val, null);
@@ -947,7 +954,6 @@ public class CacheManagingDrawTask extends DrawTask {
 
             public void pause() {
                 mPause = true;
-                removeCallbacksAndMessages(null);
                 sendEmptyMessage(QUIT);
             }
 
@@ -976,19 +982,27 @@ public class CacheManagingDrawTask extends DrawTask {
             }
         }
 
-        private void clearTimeOutAndFilteredCaches(int expectedFreeSize, boolean forcePush) {
-            BaseDanmaku oldValue = mCaches.first();
-            while (mRealSize + expectedFreeSize > mMaxSize && oldValue != null) {
-                if (oldValue.isTimeOut() || oldValue.isFiltered()) {
-                    entryRemoved(false, oldValue, null);
-                    mCaches.removeItem(oldValue);
-                    oldValue = mCaches.first();
-                } else {
-                    if (forcePush) {
-                        break;
+        private void clearTimeOutAndFilteredCaches(int expectedFreeSize, final boolean forcePush) {
+            final int fexpectedFreeSize = expectedFreeSize;
+            mCaches.forEach(new IDanmakus.DefaultConsumer<BaseDanmaku>() {
+                @Override
+                public int accept(BaseDanmaku oldValue) {
+                    if (mEndFlag) {
+                        return IDanmakus.Consumer.ACTION_BREAK;
                     }
+                    if (mRealSize + fexpectedFreeSize > mMaxSize) {
+                        if (oldValue.isTimeOut() || oldValue.isFiltered()) {
+                            entryRemoved(false, oldValue, null);
+                            return IDanmakus.Consumer.ACTION_REMOVE;
+                        } else if (forcePush) {
+                            return IDanmakus.Consumer.ACTION_BREAK;
+                        }
+                    } else {
+                        return IDanmakus.Consumer.ACTION_BREAK;
+                    }
+                    return IDanmakus.Consumer.ACTION_CONTINUE;
                 }
-            }
+            });
         }
 
         public long getFirstCacheTime() {

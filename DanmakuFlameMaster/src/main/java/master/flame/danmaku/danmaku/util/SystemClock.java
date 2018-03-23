@@ -1,29 +1,14 @@
 package master.flame.danmaku.danmaku.util;
 
+/**
+ * Created by ch on 15-12-9.
+ */
 public class SystemClock {
-    private static ClockProvider mClockProvider = null;
-
-    public static long uptimeMillis() {
-        if (mClockProvider != null) {
-            return mClockProvider.updateMillis();
-        } else {
-            return 0;
-        }
+    public static final long uptimeMillis() {
+        return android.os.SystemClock.elapsedRealtime();
     }
 
-    public static void sleep(long mills) {
+    public static final void sleep(long mills) {
         android.os.SystemClock.sleep(mills);
-    }
-
-    public static void setClockProvider(ClockProvider clockProvider) {
-        mClockProvider = clockProvider;
-    }
-
-    public static void releaseClockProvider() {
-        mClockProvider = null;
-    }
-
-    public interface ClockProvider {
-        long updateMillis();
     }
 }

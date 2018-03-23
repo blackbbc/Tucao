@@ -1,7 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
+    // http://tools.android.com/tech-docs/new-build-system/tips
+    //noinspection GroovyAssignabilityCheck
     compileSdkVersion versions.compileSdk
+    //noinspection GroovyAssignabilityCheck
     buildToolsVersion versions.buildTools
 
     defaultConfig {
