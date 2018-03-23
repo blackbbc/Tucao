@@ -248,9 +248,6 @@ public class CustomBottomSheetBehavior<V extends View> extends CoordinatorLayout
         } else if (mState == STATE_DRAGGING || mState == STATE_SETTLING) {
             ViewCompat.offsetTopAndBottom(child, savedTop - child.getTop());
         }
-        if (mViewDragHelper == null) {
-            mViewDragHelper = ViewDragHelper.create(parent, mDragCallback);
-        }
         mViewRef = new WeakReference<>(child);
         mNestedScrollingChildRef = new WeakReference<>(findScrollingChild(child));
         return true;
@@ -315,6 +312,9 @@ public class CustomBottomSheetBehavior<V extends View> extends CoordinatorLayout
         int action = MotionEventCompat.getActionMasked(event);
         if (mState == STATE_DRAGGING && action == MotionEvent.ACTION_DOWN) {
             return true;
+        }
+        if (mViewDragHelper == null) {
+            mViewDragHelper = ViewDragHelper.create(parent, mDragCallback);
         }
         mViewDragHelper.processTouchEvent(event);
         // Record the velocity
