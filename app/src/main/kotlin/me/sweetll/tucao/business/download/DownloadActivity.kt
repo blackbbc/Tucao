@@ -55,8 +55,8 @@ class DownloadActivity : BaseActivity() {
     override fun getToolbar(): Toolbar = binding.toolbar
 
     companion object {
-        const val ACTION_DOWNLOADED = "downloaded";
-        const val ACTION_DOWNLOADING = "downloading";
+        const val ACTION_DOWNLOADED = "downloaded"
+        const val ACTION_DOWNLOADING = "downloading"
 
         fun intentTo(context: Context) {
             val intent = Intent(context, DownloadActivity::class.java)

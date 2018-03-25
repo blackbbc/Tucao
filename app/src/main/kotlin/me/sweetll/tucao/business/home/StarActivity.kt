@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -21,6 +22,7 @@ import me.sweetll.tucao.business.home.adapter.StarAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityStarBinding
 import me.sweetll.tucao.extension.HistoryHelpers
+import org.jetbrains.anko.startActivity
 
 class StarActivity : BaseActivity() {
     lateinit var binding: ActivityStarBinding
@@ -32,9 +34,8 @@ class StarActivity : BaseActivity() {
     override fun getToolbar(): Toolbar = binding.toolbar
 
     companion object {
-        fun intentTo(context: Context) {
-            val intent = Intent(context, StarActivity::class.java)
-            context.startActivity(intent)
+        fun intentTo(activity: Activity) {
+            activity.startActivity<StarActivity>()
         }
     }
 
