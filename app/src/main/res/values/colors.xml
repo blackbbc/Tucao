@@ -34,7 +34,10 @@
     <color name="pink_100">#F8BBD0</color>
     <color name="pink_50">#FCE4EC</color>
 
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_400">#42A5F5</color>
     <color name="blue_500">#2196F3</color>
+    <color name="blue_600">#1E88E5</color>
     
     <color name="green_500">#4CAF50</color>
 

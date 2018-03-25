@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_marginTop="25dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        tools:src="@drawable/default_avatar"/>
+
+    <TextView
+        android:id="@+id/text_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/img_avatar"
+        android:layout_marginStart="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/primary_text"
+        android:textSize="14sp"
+        tools:text="系统公告"/>
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/secondary_text"
+        android:textSize="12sp"
+        tools:text="2017-12-28 17:56"/>
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/img_avatar"
+        android:layout_below="@id/text_username"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/secondary_text"
+        android:textSize="14sp"
+        tools:text="AC娘的新年扭蛋抽奖派送AC娘的新年扭蛋抽奖派送AC娘的新年扭蛋抽奖派送"/>
+
+</RelativeLayout>

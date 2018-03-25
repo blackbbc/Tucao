@@ -242,6 +242,9 @@ class MainActivity : BaseActivity() {
                 R.id.nav_download -> {
                     DownloadActivity.intentTo(this)
                 }
+                R.id.nav_message -> {
+                    MessageListActivity.intentTo(this)
+                }
                 R.id.nav_tucao -> {
                     DrrrListActivity.intentTo(this)
                 }

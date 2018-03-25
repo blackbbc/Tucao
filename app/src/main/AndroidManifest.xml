@@ -94,6 +94,12 @@
             android:name=".business.uploader.UploaderActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".business.home.MessageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.home.MessageDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".business.download.DownloadActivity"
             android:parentActivityName=".business.home.MainActivity"
             android:screenOrientation="portrait" />

@@ -136,4 +136,9 @@ interface RawApiService {
     @POST(ApiConfig.UPLOAD_AVATAR_URL)
     fun uploadAvatar(@Query("data") data: String, @Body body: RequestBody): Observable<ResponseBody>
 
+    @GET(ApiConfig.READ_MESSAGE_LIST_URL)
+    fun readMessageList(): Observable<ResponseBody>
+
+    @GET(ApiConfig.READ_MESSAGE_DETAIL_URL)
+    fun readMessageDetail(@Query("messageid") messageId: String): Observable<ResponseBody>
 }

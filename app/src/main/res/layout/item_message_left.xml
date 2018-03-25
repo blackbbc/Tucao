@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_marginTop="25dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="horizontal"
+    android:gravity="bottom">
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        tools:src="@drawable/default_avatar"/>
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/bg_message_left"
+        android:maxWidth="250dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/primary_text"
+        android:textSize="13sp"
+        tools:text="春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。"/>
+
+</LinearLayout>

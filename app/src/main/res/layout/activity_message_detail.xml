@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="me.sweetll.tucao.business.home.viewmodel.MessageDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimaryDark"
+            tools:layout_height="25dp" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/messageDetailRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="50dp"
+                android:paddingTop="8dp"
+                android:background="@color/grey_100"
+                tools:listitem="@layout/item_message_left" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="发送"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>
