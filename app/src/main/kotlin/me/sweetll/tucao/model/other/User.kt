@@ -17,6 +17,8 @@ class User() {
         set(value) { field = value;save() }
     var signature: String = ""
         set(value) { field = value;save() }
+    var message: Int = 0
+        set(value) { field = value;save()}
 
     fun isValid() = email.isNotEmpty()
 
@@ -26,6 +28,7 @@ class User() {
         avatar = ""
         level = 0
         signature = ""
+        message = 0
         save()
     }
 

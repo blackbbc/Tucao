@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.text.method.ScrollingMovementMethod
@@ -99,6 +101,10 @@ class MainActivity : BaseActivity() {
     lateinit var avatarImg: ImageView
 
     lateinit var usernameText: TextView
+
+    lateinit var messageMenu: MenuItem
+
+    lateinit var messageCounter: TextView
 
     lateinit var updateDialog: DialogPlus
 
@@ -186,6 +192,10 @@ class MainActivity : BaseActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        setupDrawer()
+
+        initCounter()
+
         accountManager = AccountManager.get(this)
 
         binding.viewPager.adapter = HomePagerAdapter(supportFragmentManager)
@@ -217,7 +227,6 @@ class MainActivity : BaseActivity() {
 
     override fun initToolbar() {
         super.initToolbar()
-        setupDrawer()
     }
 
     fun setupDrawer() {
@@ -292,6 +301,15 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun initCounter() {
+        messageMenu = binding.navigation.menu.findItem(R.id.nav_message)
+        messageCounter = messageMenu.actionView as TextView
+        messageCounter.gravity = Gravity.CENTER_VERTICAL
+        messageCounter.setTypeface(null, Typeface.BOLD)
+        messageCounter.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+        messageCounter.visibility = View.INVISIBLE
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -313,8 +331,16 @@ class MainActivity : BaseActivity() {
         if (user.isValid()) {
             avatarImg.load(this, user.avatar, R.drawable.default_avatar, User.signature())
             usernameText.text = user.name
+            if (user.message > 0) {
+                messageCounter.text = "${user.message}"
+                messageCounter.visibility = View.VISIBLE
+            } else {
+                messageCounter.visibility = View.INVISIBLE
+            }
+            messageMenu.isVisible = true
         } else {
             usernameText.text = "点击头像登录"
+            messageMenu.isVisible = false
             Glide.with(this)
                     .load(R.drawable.default_avatar)
                     .apply(RequestOptions.circleCropTransform())

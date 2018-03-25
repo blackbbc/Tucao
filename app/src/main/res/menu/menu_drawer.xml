@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/group_common">
         <item android:id="@+id/nav_star"
             android:title="我的收藏"
@@ -10,6 +11,10 @@
         <item android:id="@+id/nav_download"
             android:title="离线缓存"
             android:icon="@drawable/ic_file_download_white" />
+        <item android:id="@+id/nav_message"
+            app:actionViewClass="android.widget.TextView"
+            android:title="短消息"
+            android:icon="@drawable/ic_message" />
         <item android:id="@+id/nav_tucao"
             android:title="吐槽"
             android:icon="@drawable/ic_drrr" />

@@ -143,6 +143,11 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
         val signature_td = index_table.child(0).child(2).child(0)
         user.signature = signature_td.text().removeSuffix(" 更新")
 
+        // 获取短消息
+        val message_td = index_table.child(0).child(0).child(3)
+        val message = message_td.child(0).child(0).text()
+        user.message = if (message == "--") 0 else message.toInt()
+
         // 获取
         return Object()
     }
