@@ -41,6 +41,7 @@
                 android:paddingBottom="50dp"
                 android:paddingTop="8dp"
                 android:background="@color/grey_100"
+                android:scrollbars="vertical"
                 tools:listitem="@layout/item_message_left" />
 
             <LinearLayout

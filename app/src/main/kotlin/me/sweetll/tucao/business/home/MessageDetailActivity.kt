@@ -4,8 +4,6 @@ import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
-import android.view.View
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.home.adapter.MessageDetailAdapter
@@ -57,6 +55,7 @@ class MessageDetailActivity: BaseActivity() {
 
     fun onLoadData(data: MutableList<MessageDetail>) {
         adapter.setNewData(data)
+        binding.messageDetailRecycler.scrollToPosition(data.size - 1)
     }
 
     override fun initToolbar() {
