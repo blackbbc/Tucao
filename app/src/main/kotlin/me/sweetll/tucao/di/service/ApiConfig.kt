@@ -48,8 +48,8 @@ object ApiConfig {
     const val SEND_COMMENT_URL = "index.php?m=comment&c=index&a=post"
     const val READ_MESSAGE_LIST_URL = "index.php?m=message&c=index&a=inbox"
     const val READ_MESSAGE_DETAIL_URL = "index.php?m=message&c=index&a=read"
-    const val REPLY_MESSAGE_URL = ""
-    const val SEND_MESSAGE_URL = ""
+    const val REPLY_MESSAGE_URL = "index.php?m=message&c=index&a=reply"
+    const val SEND_MESSAGE_URL = "index.php?m=message&c=index&a=send"
 
     const val USER_INFO_URL  = "api.php?op=user"
     const val CODE_URL       = "api.php?op=checkcode&code_len=4&font_size=14&width=446&height=40"
