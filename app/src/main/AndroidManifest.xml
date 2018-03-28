@@ -99,7 +99,7 @@
             android:name=".business.home.MessageDetailActivity"
             android:theme="@style/Me.Sweetll.Message"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".business.download.DownloadActivity"
             android:parentActivityName=".business.home.MainActivity"

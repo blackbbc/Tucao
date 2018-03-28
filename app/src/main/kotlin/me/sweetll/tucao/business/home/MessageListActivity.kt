@@ -54,7 +54,10 @@ class MessageListActivity: BaseActivity() {
         binding.messageListRecycler.layoutManager = LinearLayoutManager(this)
         binding.messageListRecycler.adapter = adapter
 
+    }
 
+    override fun onResume() {
+        super.onResume()
         viewModel.loadData()
     }
 

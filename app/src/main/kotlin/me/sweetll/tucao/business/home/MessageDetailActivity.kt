@@ -45,7 +45,9 @@ class MessageDetailActivity: BaseActivity() {
         binding.viewModel = viewModel
 
         adapter = MessageDetailAdapter(null)
-        binding.messageDetailRecycler.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.stackFromEnd = true
+        binding.messageDetailRecycler.layoutManager = layoutManager
         binding.messageDetailRecycler.adapter = adapter
 
         viewModel.loadData()
