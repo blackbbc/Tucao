@@ -45,6 +45,9 @@
     <style name="Me.Sweetll.Drrr" parent="AppTheme">
     </style>
 
+    <style name="Me.Sweetll.Message" parent="AppTheme">
+    </style>
+
     <style name="AboutTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

@@ -117,10 +117,10 @@ class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
 
     fun parseLoginResult(doc: Document): Pair<Int, String>{
         val content = doc.body().text()
-        if ("成功" in content) {
-            return Pair(0, "")
+        return if ("成功" in content) {
+            Pair(0, "")
         } else {
-            return Pair(1, content)
+            Pair(1, content)
         }
     }
 

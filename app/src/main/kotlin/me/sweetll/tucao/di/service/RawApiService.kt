@@ -142,17 +142,19 @@ interface RawApiService {
     @GET(ApiConfig.READ_MESSAGE_DETAIL_URL)
     fun readMessageDetail(@Query("messageid") messageId: String): Observable<ResponseBody>
 
+    @FormUrlEncoded
     @POST(ApiConfig.REPLY_MESSAGE_URL)
     fun replyMessage(@Field("info[content]") content: String,
                      @Field("info[replyid]") replyId: String,
                      @Field("info[send_to_id]") senderId: String,
                      @Field("info[subject]") subject: String = "",
-                     @Field("dosubmit") submit: String = "提交")
+                     @Field("dosubmit") submit: String = "提交"): Observable<ResponseBody>
 
+    @FormUrlEncoded
     @POST(ApiConfig.SEND_MESSAGE_URL)
     fun sendMessage(@Field("info[send_to_id]") sendToId: String,
                     @Field("info[subject]") subject: String,
                     @Field("info[content]") content: String,
-                    @Field("dosubmit") submit: String = "发送")
+                    @Field("dosubmit") submit: String = "发送"): Observable<ResponseBody>
 
 }

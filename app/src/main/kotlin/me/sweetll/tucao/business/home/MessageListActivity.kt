@@ -25,8 +25,6 @@ class MessageListActivity: BaseActivity() {
 
     private lateinit var adapter: MessageListAdapter
 
-    override fun getStatusBar() = binding.statusBar
-
     override fun getToolbar() = binding.toolbar
 
     companion object {

@@ -20,8 +20,6 @@ class MessageDetailActivity: BaseActivity() {
 
     private lateinit var adapter: MessageDetailAdapter
 
-    override fun getStatusBar() = binding.statusBar
-
     override fun getToolbar() = binding.toolbar
 
     companion object {
@@ -56,6 +54,11 @@ class MessageDetailActivity: BaseActivity() {
     fun onLoadData(data: MutableList<MessageDetail>) {
         adapter.setNewData(data)
         binding.messageDetailRecycler.scrollToPosition(data.size - 1)
+    }
+
+    fun addMessage(message: MessageDetail) {
+        adapter.addData(message)
+        binding.messageDetailRecycler.scrollToPosition(adapter.data.size - 1)
     }
 
     override fun initToolbar() {
