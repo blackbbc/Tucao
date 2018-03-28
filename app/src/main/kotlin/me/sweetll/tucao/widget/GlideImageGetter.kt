@@ -19,10 +19,6 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
     override fun getDrawable(url: String): Drawable {
         val urlDrawable = UrlDrawable()
 
-//        val placeholder = context.resources.getDrawable(R.drawable.placeholder)
-//        urlDrawable.drawable = placeholder
-//        urlDrawable.bounds = Rect(0, 0, placeholder.intrinsicWidth, placeholder.intrinsicHeight)
-
         GlideApp.with(context)
                 .asBitmap()
                 .placeholder(R.drawable.placeholder)
@@ -33,6 +29,20 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
     }
 
     inner class BitmapTarget(val urlDrawable: UrlDrawable): SimpleTarget<Bitmap>() {
+
+
+        private fun setDrawable(drawable: Drawable) {
+            val width = drawable.intrinsicWidth
+            val height = drawable.intrinsicHeight
+            val rect = Rect(0, 0, width, height)
+            drawable.bounds = rect
+            urlDrawable.drawable = drawable
+            urlDrawable.bounds = rect
+
+            view.invalidate() // 解决图文重叠
+            view.text = view.text
+        }
+
         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
             val w = if (resource.width > 0) resource.width else 24f.dp2px().toInt()
             val h = if (resource.height > 0) resource.height else 24f.dp2px().toInt()
@@ -48,17 +58,21 @@ class GlideImageGetter(val context: Context, val view: TextView): Html.ImageGett
                 }
 
                 val drawable = BitmapDrawable(context.resources, res)
-                val ww = drawable.intrinsicWidth
-                val hh = drawable.intrinsicHeight
-                val rect = Rect(0, 0, ww, hh)
-                drawable.bounds = rect
-                urlDrawable.bounds = rect
-                urlDrawable.drawable = drawable
-
-                view.invalidate() // 解决图文重叠
-                view.text = view.text
+                setDrawable(drawable)
             }
 
+        }
+
+        override fun onLoadStarted(placeholder: Drawable?) {
+            placeholder?.let {
+                setDrawable(it)
+            }
+        }
+
+        override fun onLoadFailed(errorDrawable: Drawable?) {
+            errorDrawable?.let {
+                setDrawable(it)
+            }
         }
     }
 

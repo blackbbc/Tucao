@@ -35,10 +35,6 @@ class SweetEditor: EditText {
         init(attrs)
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        init(attrs)
-    }
-
     private fun init(attrs: AttributeSet?) {
 
     }
@@ -123,10 +119,16 @@ class SweetEditor: EditText {
             rotatedRawBmp.recycle()
         }
 
-		val sampleSize = if (rotatedRawBmp.width > width) rotatedRawBmp.width / width + 1 else 1
 		options.inJustDecodeBounds = false
-		options.inSampleSize = sampleSize
-		val compressedBmp =  BitmapFactory.decodeFile(imagePath, options)
+
+        var compressedBmp =  BitmapFactory.decodeFile(imagePath, options)
+
+        if (rotatedRawBmp.width > width) {
+            val outWidth = width / 2
+            val outHeight = (rotatedRawBmp.height / (rotatedRawBmp.width / outWidth.toFloat())).toInt()
+            compressedBmp = Bitmap.createScaledBitmap(compressedBmp, outWidth, outHeight, true)
+        }
+
 
         val imageFile = createImageFile()
 
