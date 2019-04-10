@@ -2,13 +2,9 @@ package me.sweetll.tucao
 
 import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
-import com.github.moduth.blockcanary.BlockCanary
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
-//import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
-import me.drakeet.library.CrashWoodpecker
-import me.drakeet.library.PatchMode
 import me.sweetll.tucao.di.component.ApiComponent
 import me.sweetll.tucao.di.component.BaseComponent
 import me.sweetll.tucao.di.component.DaggerBaseComponent
@@ -42,7 +38,6 @@ class AppApplication : MultiDexApplication() {
 
         // For performance analysis
         /*
-        BlockCanary.install(this, AppBlockCanaryContext()).start()
         CrashWoodpecker.instance()
                 .setPatchMode(PatchMode.SHOW_LOG_PAGE)
                 .flyTo(this)

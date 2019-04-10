@@ -145,7 +145,7 @@ class MovieFragment : BaseFragment() {
             TransitionManager.beginDelayedTransition(binding.swipeRefresh)
             binding.loading.visibility = View.GONE
             if (!binding.errorStub.isInflated) {
-                binding.errorStub.viewStub.visibility = View.VISIBLE
+                binding.errorStub.viewStub!!.visibility = View.VISIBLE
             } else {
                 binding.errorStub.root.visibility = View.VISIBLE
             }
@@ -160,7 +160,7 @@ class MovieFragment : BaseFragment() {
             binding.loading.visibility = if (isRefreshing) View.VISIBLE else View.GONE
             if (isRefreshing) {
                 if (!binding.errorStub.isInflated) {
-                    binding.errorStub.viewStub.visibility = View.GONE
+                    binding.errorStub.viewStub!!.visibility = View.GONE
                 } else {
                     binding.errorStub.root.visibility = View.GONE
                 }

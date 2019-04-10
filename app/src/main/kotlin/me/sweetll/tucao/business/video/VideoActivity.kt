@@ -125,9 +125,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
 
             initTransition()
             supportPostponeEnterTransition()
-            thumbImg.load(this, cover, {
+            thumbImg.load(this, cover) {
                 supportStartPostponedEnterTransition()
-            })
+            }
         } else {
             // 5.0以下加载
             binding.player.visibility = View.VISIBLE
@@ -267,7 +267,9 @@ class VideoActivity : BaseActivity(), DanmuVideoPlayer.DanmuPlayerHolder {
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-forwards-capacity", 15 * 1024 * 1024),
                 VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "async-backwards-capacity", 15 * 1024 * 1024),
-                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_CODEC,  "skip_loop_filter", 48)
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_CODEC,  "skip_loop_filter", 48),
+                VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36")
+
         )
 
         // 是否可以滑动界面改变进度，声音

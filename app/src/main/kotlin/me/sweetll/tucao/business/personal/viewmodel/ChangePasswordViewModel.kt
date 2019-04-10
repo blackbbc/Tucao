@@ -1,31 +1,31 @@
 package me.sweetll.tucao.business.personal.viewmodel
 
-import android.databinding.ObservableField
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.personal.fragment.ChangePasswordFragment
+import me.sweetll.tucao.extension.NonNullObservableField
 import me.sweetll.tucao.extension.sanitizeHtml
 import org.greenrobot.eventbus.EventBus
 import org.jsoup.nodes.Document
 
 class ChangePasswordViewModel(val fragment: ChangePasswordFragment): BaseViewModel() {
-    val oldPassword = ObservableField<String>("")
-    val oldError = ObservableField<String>()
-    val newPassword = ObservableField<String>("")
-    val newError = ObservableField<String>()
-    val renewPassword = ObservableField<String>("")
-    val renewError = ObservableField<String>()
+    val oldPassword = NonNullObservableField("")
+    val oldError = NonNullObservableField("")
+    val newPassword = NonNullObservableField("")
+    val newError = NonNullObservableField("")
+    val renewPassword = NonNullObservableField("")
+    val renewError = NonNullObservableField("")
 
     var hasError = false
 
     fun save() {
 
         hasError = false
-        oldError.set(null)
-        newError.set(null)
-        renewError.set(null)
+        oldError.set("")
+        newError.set("")
+        renewError.set("")
 
         if (oldPassword.get().length < 6 || oldPassword.get().length > 20) {
             hasError = true

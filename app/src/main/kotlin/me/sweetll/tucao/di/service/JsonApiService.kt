@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import me.sweetll.tucao.business.drrr.model.DrrrResponse
 import me.sweetll.tucao.business.drrr.model.Post
 import me.sweetll.tucao.business.drrr.model.Reply
+import me.sweetll.tucao.business.video.model.Clicli
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.model.ReplyResponse
 import me.sweetll.tucao.model.json.BaseResponse
@@ -33,6 +34,10 @@ interface JsonApiService {
     @GET(ApiConfig.RANK_API_URL)
     fun rank(@Query("tid") tid: Int,
              @Query("date") date: Int): Observable<BaseResponse<Map<Int, Video>>>
+
+    @GET
+    @Headers("user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36")
+    fun clicli(@Url url: String): Observable<Clicli>
 
     @GET(ApiConfig.UPDATE_API_URL)
     fun update(@Query("appKey") appKey: String,

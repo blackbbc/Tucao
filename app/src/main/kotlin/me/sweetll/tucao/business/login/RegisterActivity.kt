@@ -12,7 +12,6 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewTreeObserver
-import com.jakewharton.rxbinding2.view.RxView
 import io.codetail.animation.ViewAnimationUtils
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity

@@ -10,6 +10,7 @@ import me.sweetll.tucao.base.BaseViewModel
 import me.sweetll.tucao.business.home.MessageDetailActivity
 import me.sweetll.tucao.business.home.model.MessageDetail
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.NonNullObservableField
 import me.sweetll.tucao.extension.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -18,7 +19,7 @@ import java.util.*
 
 class MessageDetailViewModel(val activity: MessageDetailActivity, val id: String, val _username: String, val _avatar: String): BaseViewModel() {
 
-    val message = ObservableField<String>()
+    val message = NonNullObservableField<String>("")
 
     fun loadData() {
         rawApiService.readMessageDetail(id)

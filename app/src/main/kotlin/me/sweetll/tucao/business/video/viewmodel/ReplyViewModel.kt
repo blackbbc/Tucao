@@ -17,6 +17,7 @@ import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.video.ReplyActivity
 import me.sweetll.tucao.business.video.model.Reply
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.NonNullObservableField
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.transition.FabTransform
@@ -29,7 +30,7 @@ class ReplyViewModel(val activity: ReplyActivity, val commentId: String, val rep
     val pageSize = 10
     var pageIndex = 1
 
-    val content = ObservableField<String>("")
+    val content = NonNullObservableField("")
 
     init {
         loadData()

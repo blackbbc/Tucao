@@ -18,6 +18,7 @@ import me.sweetll.tucao.business.login.ForgotPasswordActivity
 import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.login.RegisterActivity
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.NonNullObservableField
 import me.sweetll.tucao.extension.load
 import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
@@ -26,13 +27,13 @@ import org.jsoup.nodes.Document
 
 class LoginViewModel(val activity: LoginActivity): BaseViewModel() {
 
-    val email = ObservableField<String>()
-    val password = ObservableField<String>()
-    val code = ObservableField<String>()
+    val email = NonNullObservableField("")
+    val password = NonNullObservableField("")
+    val code = NonNullObservableField("")
     val codeBytes = ObservableField<ByteArray>()
 
-    val container = ObservableField<Int>(View.VISIBLE)
-    val progress = ObservableField<Int>(View.GONE)
+    val container = NonNullObservableField(View.VISIBLE)
+    val progress = NonNullObservableField(View.GONE)
 
     init {
         initSession()

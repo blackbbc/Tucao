@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit
 object ApiConfig {
     const val API_KEY = "25tids8f1ew1821ed"
 
-    const val BASE_RAW_API_URL = "http://www.tucao.tv/"
-    const val BASE_JSON_API_URL = "http://www.tucao.tv/api_v2/"
-    const val BASE_XML_API_URL = "http://www.tucao.tv/"
+    const val BASE_RAW_API_URL = "http://www.tucao.one/"
+    const val BASE_JSON_API_URL = "http://www.tucao.one/api_v2/"
+    const val BASE_XML_API_URL = "http://www.tucao.one/"
 
     /*
      * Json
@@ -18,7 +18,7 @@ object ApiConfig {
     const val SEARCH_API_URL = "search.php"
     const val VIEW_API_URL = "view.php"
     const val RANK_API_URL = "rank.php"
-    const val REPLY_API_URL = "http://www.tucao.tv/index.php?m=comment&c=index&a=ajax"
+    const val REPLY_API_URL = "http://www.tucao.one/index.php?m=comment&c=index&a=ajax"
 
     const val UPDATE_API_URL = "http://45.63.54.11:12450/api/app-portal/version"
 
@@ -34,8 +34,8 @@ object ApiConfig {
     /*
      * XML
      */
-    const val PLAY_URL_API_URL = "http://api.tucao.tv/api/playurl"
-    const val DANMU_API_URL = "http://www.tucao.tv/index.php?m=mukio&c=index&a=init"
+    const val PLAY_URL_API_URL = "http://api.tucao.one/api/playurl"
+    const val DANMU_API_URL = "http://www.tucao.one/index.php?m=mukio&c=index&a=init"
 
     /*
      * Raw

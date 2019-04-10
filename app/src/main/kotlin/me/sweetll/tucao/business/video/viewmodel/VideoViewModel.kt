@@ -58,8 +58,35 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         if (part.flag == DownloadStatus.COMPLETED) {
             activity.loadDurls(part.durls)
         } else if (part.file.isNotEmpty()) {
-            // 这个视频是直传的
-            activity.loadDurls(mutableListOf(Durl(url = part.file)))
+            if ("clicli" !in part.file) {
+                // 这个视频是直传的
+                activity.loadDurls(mutableListOf(Durl(url = part.file)))
+            } else {
+                // 这个视频来自clicli
+                playUrlDisposable = jsonApiService.clicli(part.file)
+                        .bindToLifecycle(activity)
+                        .subscribeOn(Schedulers.io())
+                        .flatMap {
+                            clicli ->
+                            if (clicli.code == 0) {
+                                Observable.just(clicli.url)
+                            } else {
+                                Observable.error(Throwable("请求视频接口出错"))
+                            }
+                        }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            url ->
+                            activity.loadDurls(mutableListOf(Durl(url=url)))
+                        }, {
+                            error ->
+                            error.printStackTrace()
+                            activity.binding.player.loadText?.let {
+                                it.text = it.text.replace("解析视频地址...".toRegex(), "解析视频地址...[失败]")
+                            }
+                        })
+
+            }
         } else {
             playUrlDisposable = xmlApiService.playUrl(part.type, part.vid, System.currentTimeMillis() / 1000)
                     .bindToLifecycle(activity)
