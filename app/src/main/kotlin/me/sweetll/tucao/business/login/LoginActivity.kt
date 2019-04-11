@@ -55,7 +55,8 @@ class LoginActivity : BaseActivity() {
             FabTransform.setup(this, binding.container)
         }
 
-        setupAccountAutocomplete()
+        // 不要获取账户列表
+        // setupAccountAutocomplete()
 
         val validEmail = RxTextView.textChanges(binding.emailEdit)
                 .map { text -> text.isNotEmpty() }

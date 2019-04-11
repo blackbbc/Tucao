@@ -1,14 +1,9 @@
 package me.sweetll.tucao.business.login.viewmodel
 
 import android.app.Activity
-import android.content.Intent
-import android.databinding.BindingAdapter
 import android.databinding.ObservableField
-import android.net.Uri
 import android.support.design.widget.Snackbar
 import android.view.View
-import android.widget.ImageView
-import com.trello.rxlifecycle2.kotlin.bind
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,8 +14,6 @@ import me.sweetll.tucao.business.login.LoginActivity
 import me.sweetll.tucao.business.login.RegisterActivity
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.NonNullObservableField
-import me.sweetll.tucao.extension.load
-import me.sweetll.tucao.extension.sanitizeHtml
 import me.sweetll.tucao.extension.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

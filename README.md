@@ -1,7 +1,6 @@
 # Tucao
 
 [![Travis](https://img.shields.io/travis/blackbbc/Tucao.svg)](https://travis-ci.org/blackbbc/Tucao)
-[![Dependency Status](https://www.versioneye.com/user/projects/58f365330f9f35002b0bc851/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58f365330f9f35002b0bc851)
 [![GitHub release](https://img.shields.io/github/release/blackbbc/Tucao.svg)](https://github.com/blackbbc/Tucao/releases)
 [![license](https://img.shields.io/github/license/blackbbc/Tucao.svg)](https://github.com/blackbbc/Tucao/blob/master/LICENSE)
 
