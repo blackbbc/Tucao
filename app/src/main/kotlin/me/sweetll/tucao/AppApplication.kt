@@ -1,9 +1,11 @@
 package me.sweetll.tucao
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.os.StrictMode
 import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -18,6 +20,13 @@ import me.sweetll.tucao.di.module.BaseModule
 import me.sweetll.tucao.di.module.UserModule
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.UpdateHelpers
+import android.os.StrictMode.VmPolicy
+import java.lang.reflect.Array.setBoolean
+import java.lang.reflect.AccessibleObject.setAccessible
+
+
+
+
 
 class AppApplication : MultiDexApplication() {
     companion object {
@@ -53,6 +62,8 @@ class AppApplication : MultiDexApplication() {
         LeakCanary.install(this)
         */
 
+        disableHiddenApiCheck()
+
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
         FlowManager.init(this)
         PlayerConfig.init(this)
@@ -60,6 +71,22 @@ class AppApplication : MultiDexApplication() {
         initChannel()
 
         postUpdate()
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun disableHiddenApiCheck() {
+        try {
+            val cls = Class.forName("android.app.ActivityThread")
+            val declaredMethod = cls.getDeclaredMethod("currentActivityThread")
+            declaredMethod.isAccessible = true
+            val activityThread = declaredMethod.invoke(null)
+            val mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown")
+            mHiddenApiWarningShown.isAccessible = true
+            mHiddenApiWarningShown.setBoolean(activityThread, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     private fun postUpdate() {
