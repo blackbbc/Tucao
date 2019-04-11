@@ -15,9 +15,6 @@
             app:actionViewClass="android.widget.TextView"
             android:title="短消息"
             android:icon="@drawable/ic_message" />
-        <item android:id="@+id/nav_tucao"
-            android:title="吐槽"
-            android:icon="@drawable/ic_drrr" />
     </group>
     <group android:id="@+id/group_setting">
         <item android:id="@+id/nav_upgrade"

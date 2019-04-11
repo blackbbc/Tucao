@@ -1,9 +1,6 @@
 package me.sweetll.tucao.di.service
 
 import io.reactivex.Observable
-import me.sweetll.tucao.business.drrr.model.DrrrResponse
-import me.sweetll.tucao.business.drrr.model.Post
-import me.sweetll.tucao.business.drrr.model.Reply
 import me.sweetll.tucao.business.video.model.Clicli
 import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.model.ReplyResponse
@@ -49,26 +46,5 @@ interface JsonApiService {
               @Query("replyid") replyId: String,
               @Query("page") page: Int,
               @Query("num") num: Int): Observable<ReplyResponse>
-
-    @GET(ApiConfig.POSTS_API_URL)
-    fun drrrPosts(@Query("page") page: Int,
-                  @Query("size") size: Int,
-                  @Query("sortBy") sortBy: String,
-                  @Query("order") order: String): Observable<DrrrResponse<List<Post>>>
-
-    @POST(ApiConfig.CREATE_POST_API_URL)
-    fun drrrCreatePost(@Body body: RequestBody): Observable<DrrrResponse<Any>>
-
-    @GET(ApiConfig.REPLIES_API_URL)
-    fun drrrReplies(@Path("commentId") commentId: String,
-                    @Query("page") page: Int,
-                    @Query("size") size: Int): Observable<DrrrResponse<List<Reply>>>
-
-    @POST(ApiConfig.CREATE_REPLY_API_URL)
-    fun drrrCreateReply(@Path("commentId") commentId: String,
-                        @Body body: RequestBody): Observable<DrrrResponse<Any>>
-
-    @GET(ApiConfig.CREATE_VOTE_API_URL)
-    fun drrrVote(@Path("commentId") commentId: String): Observable<DrrrResponse<Any>>
 
 }

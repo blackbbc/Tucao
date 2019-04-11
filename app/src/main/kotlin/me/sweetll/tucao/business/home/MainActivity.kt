@@ -18,7 +18,6 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.text.method.ScrollingMovementMethod
@@ -41,7 +40,6 @@ import me.sweetll.tucao.BuildConfig
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.download.DownloadActivity
-import me.sweetll.tucao.business.drrr.DrrrListActivity
 import me.sweetll.tucao.business.home.adapter.HomePagerAdapter
 import me.sweetll.tucao.business.home.event.RefreshPersonalEvent
 import me.sweetll.tucao.business.login.LoginActivity
@@ -230,7 +228,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun setupDrawer() {
-        binding.navigation.setNavigationItemSelectedListener({
+        binding.navigation.setNavigationItemSelectedListener {
             menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_star -> {
@@ -245,9 +243,6 @@ class MainActivity : BaseActivity() {
                 R.id.nav_message -> {
                     MessageListActivity.intentTo(this)
                 }
-                R.id.nav_tucao -> {
-                    DrrrListActivity.intentTo(this)
-                }
                 R.id.nav_upgrade -> {
                     "检查更新中...".toast()
                     checkUpdate(false)
@@ -261,7 +256,7 @@ class MainActivity : BaseActivity() {
             }
             binding.drawer.closeDrawers()
             true
-        })
+        }
         drawerToggle = ActionBarDrawerToggle(this, binding.drawer, binding.toolbar, R.string.drawer_open, R.string.drawer_close)
         binding.drawer.addDrawerListener(drawerToggle)
     }

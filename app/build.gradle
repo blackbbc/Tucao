@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -152,10 +153,6 @@ dependencies {
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
-    /* BigImageViewer */
-    implementation 'com.github.piasy:BigImageViewer:1.5.6'
-    implementation 'com.github.piasy:GlideImageLoader:1.5.6'
-    implementation 'com.github.piasy:ProgressPieIndicator:1.5.6'
 }
 
 repositories {
@@ -163,4 +160,3 @@ repositories {
 }
 
 
-apply plugin: 'kotlin-android-extensions'

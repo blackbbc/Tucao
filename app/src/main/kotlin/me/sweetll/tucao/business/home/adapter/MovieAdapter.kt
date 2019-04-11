@@ -23,30 +23,30 @@ class MovieAdapter(data: MutableList<Pair<Channel, List<Video>>>?): BaseQuickAda
             val titleText: TextView
             when (index) {
                 0 -> {
-                    thumbImg = helper.getView<ImageView>(R.id.img_thumb1)
-                    playText = helper.getView<TextView>(R.id.text_play1)
-                    titleText = helper.getView<TextView>(R.id.text_title1)
+                    thumbImg = helper.getView(R.id.img_thumb1)
+                    playText = helper.getView(R.id.text_play1)
+                    titleText = helper.getView(R.id.text_title1)
                     helper.setTag(R.id.card1, result.hid)
                     helper.addOnClickListener(R.id.card1)
                 }
                 1 -> {
-                    thumbImg = helper.getView<ImageView>(R.id.img_thumb2)
-                    playText = helper.getView<TextView>(R.id.text_play2)
-                    titleText = helper.getView<TextView>(R.id.text_title2)
+                    thumbImg = helper.getView(R.id.img_thumb2)
+                    playText = helper.getView(R.id.text_play2)
+                    titleText = helper.getView(R.id.text_title2)
                     helper.setTag(R.id.card2, result.hid)
                     helper.addOnClickListener(R.id.card2)
                 }
                 2 -> {
-                    thumbImg = helper.getView<ImageView>(R.id.img_thumb3)
-                    playText = helper.getView<TextView>(R.id.text_play3)
-                    titleText = helper.getView<TextView>(R.id.text_title3)
+                    thumbImg = helper.getView(R.id.img_thumb3)
+                    playText = helper.getView(R.id.text_play3)
+                    titleText = helper.getView(R.id.text_title3)
                     helper.setTag(R.id.card3, result.hid)
                     helper.addOnClickListener(R.id.card3)
                 }
                 else -> {
-                    thumbImg = helper.getView<ImageView>(R.id.img_thumb4)
-                    playText = helper.getView<TextView>(R.id.text_play4)
-                    titleText = helper.getView<TextView>(R.id.text_title4)
+                    thumbImg = helper.getView(R.id.img_thumb4)
+                    playText = helper.getView(R.id.text_play4)
+                    titleText = helper.getView(R.id.text_title4)
                     helper.setTag(R.id.card4, result.hid)
                     helper.addOnClickListener(R.id.card4)
                 }
@@ -77,8 +77,8 @@ class MovieAdapter(data: MutableList<Pair<Channel, List<Video>>>?): BaseQuickAda
         if (channel.id != 0) {
             helper.setText(R.id.text_more, "更多${channel.name}内容")
             helper.setTag(R.id.card_more, channel.id)
-            helper.setVisible(R.id.card_more, true)
-            helper.setVisible(R.id.img_rank, false)
+            helper.setGone(R.id.card_more, true)
+            helper.setGone(R.id.img_rank, false)
             helper.addOnClickListener(R.id.card_more)
         }
 
