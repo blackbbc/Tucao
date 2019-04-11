@@ -43,11 +43,11 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
             TYPE_VIDEO -> {
                 val video = item as Video
                 helper.setText(R.id.text_title, video.title)
-                helper.setVisible(R.id.text_size, false)
+                helper.setGone(R.id.text_size, false)
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(mContext, video.thumb)
 
-                helper.setVisible(R.id.checkbox, video.checkable)
+                helper.setGone(R.id.checkbox, video.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = video.checked
                 checkBox.setOnCheckedChangeListener {
@@ -104,7 +104,7 @@ class DownloadingVideoAdapter(val downloadActivity: DownloadActivity, data: Muta
                             error.message?.toast()
                         })
 
-                helper.setVisible(R.id.checkbox, part.checkable)
+                helper.setGone(R.id.checkbox, part.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = part.checked
                 checkBox.setOnCheckedChangeListener {

@@ -1,5 +1,9 @@
 package me.sweetll.tucao
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -17,6 +21,8 @@ import me.sweetll.tucao.extension.UpdateHelpers
 
 class AppApplication : MultiDexApplication() {
     companion object {
+        const val PRIMARY_CHANNEL = "${BuildConfig.APPLICATION_ID}_CHANNEL_PRIMARY"
+
         private lateinit var INSTANCE: AppApplication
 
         fun get(): AppApplication {
@@ -51,6 +57,7 @@ class AppApplication : MultiDexApplication() {
         FlowManager.init(this)
         PlayerConfig.init(this)
         initComponent()
+        initChannel()
 
         postUpdate()
     }
@@ -87,4 +94,15 @@ class AppApplication : MultiDexApplication() {
     fun getApiComponent(): ApiComponent = apiComponent
 
     fun getUserComponent(): UserComponent = userComponent
+
+    private fun initChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(PRIMARY_CHANNEL, "默认通知", NotificationManager.IMPORTANCE_DEFAULT)
+            channel.enableVibration(false)
+            channel.vibrationPattern = longArrayOf(0L)
+
+            val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notifyMgr.createNotificationChannel(channel)
+        }
+    }
 }

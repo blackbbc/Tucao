@@ -35,7 +35,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 val thumbImg = helper.getView<ImageView>(R.id.img_thumb)
                 thumbImg.load(mContext, video.thumb)
 
-                helper.setVisible(R.id.checkbox, video.checkable)
+                helper.setGone(R.id.checkbox, video.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = video.checked
                 checkBox.setOnCheckedChangeListener { _, checked ->
@@ -74,7 +74,7 @@ class DownloadedVideoAdapter(val downloadActivity: DownloadActivity, data: Mutab
                 helper.setText(R.id.text_title, part.title)
                 helper.setText(R.id.text_size, part.totalSize.formatWithUnit())
 
-                helper.setVisible(R.id.checkbox, part.checkable)
+                helper.setGone(R.id.checkbox, part.checkable)
                 val checkBox = helper.getView<CheckBox>(R.id.checkbox)
                 checkBox.isChecked = part.checked
                 checkBox.setOnCheckedChangeListener { _, checked ->

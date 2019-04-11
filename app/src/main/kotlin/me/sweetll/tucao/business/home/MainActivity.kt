@@ -56,6 +56,7 @@ import me.sweetll.tucao.extension.toast
 import me.sweetll.tucao.model.other.User
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
+import me.sweetll.tucao.AppApplication.Companion.PRIMARY_CHANNEL
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -69,8 +70,6 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
-        const val PRIMARY_CHANNEL = "default"
-
         const val LOGIN_REQUEST = 1
 
         const val NOTIFICATION_ID = 10
@@ -180,11 +179,6 @@ class MainActivity : BaseActivity() {
                 .inject(this)
 
         EventBus.getDefault().register(this)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(PRIMARY_CHANNEL, "Primary Channel", NotificationManager.IMPORTANCE_DEFAULT)
-            notifyMgr.createNotificationChannel(channel)
-        }
 
         initDialog()
 

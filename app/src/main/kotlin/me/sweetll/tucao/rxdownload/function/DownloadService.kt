@@ -16,6 +16,7 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.AppApplication.Companion.PRIMARY_CHANNEL
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
 import me.sweetll.tucao.model.json.Part
@@ -42,8 +43,6 @@ import java.util.concurrent.TimeUnit
 class DownloadService : Service() {
 
     companion object {
-        const val PRIMARY_CHANNEL = "default"
-
         const val ONGOING_NOTIFICATION_ID = 1
         const val COMPLETED_NOTIFICATION_ID = 2
         const val FAILED_NOTIFICATION_ID = 3
@@ -83,11 +82,6 @@ class DownloadService : Service() {
         Log.d("DownloadService", "On Create")
         super.onCreate()
         binder = DownloadBinder()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(PRIMARY_CHANNEL, "Primary Channel", NotificationManager.IMPORTANCE_DEFAULT)
-            notifyMgr.createNotificationChannel(channel)
-        }
 
         syncFromDb()
         launchMissionConsumer()
