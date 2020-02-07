@@ -27,7 +27,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.archivepatcher.applier.FileByFileV1DeltaApplier
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -135,7 +134,7 @@ class MainActivity : BaseActivity() {
                         }
                         R.id.btn_save_update -> {
                             // 省流量更新
-                            saveUpdate()
+                            // saveUpdate()
                             dialog.dismiss()
                         }
                     }
@@ -419,6 +418,7 @@ class MainActivity : BaseActivity() {
                 }
     }
 
+    /*
     fun saveUpdate() {
         if (apkFile.exists()) {
             installFromFile(apkFile)
@@ -507,6 +507,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
     }
+    */
 
     fun installFromFile(file: File) {
         val intent = Intent(Intent.ACTION_VIEW)

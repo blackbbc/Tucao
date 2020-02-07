@@ -10,8 +10,8 @@ android {
         applicationId 'me.sweetll.tucao'
         minSdkVersion 19
         targetSdkVersion versions.targetSdk
-        versionCode 118
-        versionName '1.1.6'
+        versionCode 119
+        versionName '1.1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -77,8 +77,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     /* DialogPlus */
     implementation project(':dialogplus')
-    /* File by file patch */
-    implementation project(':applier')
     /* GSYVideoPlayer */
     implementation project(':gsyVideoPlayer')
     /* TakePhoto */
@@ -93,7 +91,6 @@ dependencies {
     implementation "com.android.support:design:${versions.supportLibrary}"
     /* Kotlin */
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
-    kapt "com.android.databinding:compiler:${versions.gradle}"
     /* Anko */
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
     /* RxJava2 */

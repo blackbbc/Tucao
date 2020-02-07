@@ -20,8 +20,4 @@
     android:versionCode="9025"
     android:versionName="0.9.25" >
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="22" />
-
 </manifest>
