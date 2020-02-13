@@ -6,8 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.StrictMode
-import android.support.multidex.MultiDexApplication
-import android.support.v7.app.AppCompatDelegate
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig
 import com.umeng.analytics.MobclickAgent
@@ -21,14 +19,17 @@ import me.sweetll.tucao.di.module.UserModule
 import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.UpdateHelpers
 import android.os.StrictMode.VmPolicy
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDexApplication
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import java.lang.reflect.Array.setBoolean
 import java.lang.reflect.AccessibleObject.setAccessible
+import javax.inject.Inject
 
 
-
-
-
-class AppApplication : MultiDexApplication() {
+class AppApplication : MultiDexApplication(), HasAndroidInjector {
     companion object {
         const val PRIMARY_CHANNEL = "${BuildConfig.APPLICATION_ID}_CHANNEL_PRIMARY"
 
@@ -42,6 +43,9 @@ class AppApplication : MultiDexApplication() {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         }
     }
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private lateinit var baseComponent: BaseComponent
     private lateinit var apiComponent: ApiComponent
@@ -132,4 +136,6 @@ class AppApplication : MultiDexApplication() {
             notifyMgr.createNotificationChannel(channel)
         }
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 }

@@ -20,14 +20,15 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.transition.TransitionValues;
 import android.transition.Visibility;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 import me.sweetll.tucao.R;
 import me.sweetll.tucao.util.AnimUtils;
@@ -43,7 +44,8 @@ public class CircularReveal extends Visibility {
     private Point center;
     private float startRadius;
     private float endRadius;
-    private @IdRes int centerOnId = View.NO_ID;
+    private @IdRes
+    int centerOnId = View.NO_ID;
     private View centerOn;
 
     public CircularReveal() {

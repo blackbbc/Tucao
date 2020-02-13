@@ -2,11 +2,11 @@ package me.sweetll.tucao.business.login
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity

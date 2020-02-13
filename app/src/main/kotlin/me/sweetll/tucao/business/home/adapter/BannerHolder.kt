@@ -1,10 +1,10 @@
 package me.sweetll.tucao.business.home.adapter
 
 import android.app.Activity
-import android.support.v4.util.Pair
+import androidx.core.util.Pair
 import android.content.Context
 import android.os.Build
-import android.support.v4.app.ActivityOptionsCompat
+import androidx.core.app.ActivityOptionsCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView

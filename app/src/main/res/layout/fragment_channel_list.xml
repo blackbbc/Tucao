@@ -9,7 +9,7 @@
             type="me.sweetll.tucao.business.home.viewmodel.ChannelListViewModel" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#EEEEEE"
@@ -57,7 +57,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -116,7 +116,7 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
@@ -157,7 +157,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -258,7 +258,7 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
@@ -299,7 +299,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -373,7 +373,7 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
@@ -414,7 +414,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -501,7 +501,7 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
@@ -542,7 +542,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -601,7 +601,7 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
@@ -643,7 +643,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.GridLayout
+                <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -702,11 +702,11 @@
                         android:textSize="12sp"
                         app:layout_columnWeight="1" />
 
-                </android.support.v7.widget.GridLayout>
+                </androidx.gridlayout.widget.GridLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

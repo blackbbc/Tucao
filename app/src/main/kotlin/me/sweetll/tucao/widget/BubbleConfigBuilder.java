@@ -1,7 +1,8 @@
 package me.sweetll.tucao.widget;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 
 import static me.sweetll.tucao.widget.BubbleUtils.dp2px;
 import static me.sweetll.tucao.widget.BubbleUtils.sp2px;

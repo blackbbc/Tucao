@@ -6,22 +6,22 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import android.transition.ArcMotion
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import me.sweetll.tucao.AppApplication
@@ -116,8 +116,8 @@ class VideoCommentsFragment: BaseFragment() {
         commentAdapter.setOnItemClickListener{
             _, view, position ->
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!,
-                android.support.v4.util.Pair.create(view, "transition_background"),
-                android.support.v4.util.Pair.create(view, "transition_comment"))
+                androidx.core.util.Pair.create(view, "transition_background"),
+                androidx.core.util.Pair.create(view, "transition_comment"))
             val comment = commentAdapter.getItem(position)!!
             ReplyActivity.intentTo(activity!!, commentId, comment, options.toBundle())
         }

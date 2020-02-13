@@ -1,7 +1,7 @@
 package me.sweetll.tucao.business.personal.fragment
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle

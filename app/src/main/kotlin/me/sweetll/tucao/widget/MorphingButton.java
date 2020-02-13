@@ -7,19 +7,20 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import me.sweetll.tucao.R;
 import me.sweetll.tucao.extension.FloatExtensionsKt;
 
-public class MorphingButton extends android.support.v7.widget.AppCompatButton {
+public class MorphingButton extends androidx.appcompat.widget.AppCompatButton {
 
     private Padding mPadding;
     private int mHeight;

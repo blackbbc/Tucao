@@ -1,7 +1,8 @@
 package com.jph.takephoto.model;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Author: JPH

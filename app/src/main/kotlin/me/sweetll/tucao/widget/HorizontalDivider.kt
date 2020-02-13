@@ -3,13 +3,13 @@ package me.sweetll.tucao.widget
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 class HorizontalDivider(private val divider: Drawable, private val drawFirstItemTop: Boolean,
                         private val leftPadding: Int, private val rightPadding: Int) : RecyclerView.ItemDecoration() {
 
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
         val childCount = parent.childCount
@@ -30,7 +30,7 @@ class HorizontalDivider(private val divider: Drawable, private val drawFirstItem
         }
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         outRect.bottom = divider.intrinsicHeight
         if (drawFirstItemTop && parent.getChildAdapterPosition(view) == 0) {
             outRect.top = divider.intrinsicHeight

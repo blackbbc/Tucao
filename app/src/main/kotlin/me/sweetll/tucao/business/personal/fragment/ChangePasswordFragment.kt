@@ -1,9 +1,9 @@
 package me.sweetll.tucao.business.personal.fragment
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.*
+import com.google.android.material.snackbar.Snackbar
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
 import me.sweetll.tucao.business.personal.viewmodel.ChangePasswordViewModel

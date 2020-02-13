@@ -1,8 +1,8 @@
 package me.sweetll.tucao.business.video.adapter
 
-import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 import me.sweetll.tucao.business.video.fragment.SettingBlockViewFactory
 import me.sweetll.tucao.business.video.fragment.SettingDanmuViewFactory
 import me.sweetll.tucao.business.video.fragment.SettingPlayViewFactory

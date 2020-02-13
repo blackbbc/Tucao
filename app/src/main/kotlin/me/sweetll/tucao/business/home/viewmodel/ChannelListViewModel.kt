@@ -1,7 +1,7 @@
 package me.sweetll.tucao.business.home.viewmodel
 
-import android.support.v4.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import me.sweetll.tucao.business.channel.ChannelDetailActivity
 
 class ChannelListViewModel(val fragment: Fragment) {

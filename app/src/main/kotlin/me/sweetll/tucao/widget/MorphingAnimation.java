@@ -1,8 +1,9 @@
 package me.sweetll.tucao.widget;
 
 import android.animation.*;
-import android.support.annotation.NonNull;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 public class MorphingAnimation {
 

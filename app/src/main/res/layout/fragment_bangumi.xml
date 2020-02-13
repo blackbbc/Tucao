@@ -9,7 +9,7 @@
             type="me.sweetll.tucao.business.home.viewmodel.BangumiViewModel" />
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bangumiRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,5 +47,5 @@
                 app:indicatorColor="@color/pink_300"/>
         </FrameLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

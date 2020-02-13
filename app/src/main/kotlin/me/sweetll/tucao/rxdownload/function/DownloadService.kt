@@ -6,10 +6,10 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.TaskStackBuilder
-import android.support.v4.util.ArrayMap
+import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
 import android.util.Log
+import androidx.collection.ArrayMap
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

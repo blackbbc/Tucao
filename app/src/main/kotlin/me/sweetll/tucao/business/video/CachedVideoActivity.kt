@@ -2,7 +2,7 @@ package me.sweetll.tucao.business.video
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View

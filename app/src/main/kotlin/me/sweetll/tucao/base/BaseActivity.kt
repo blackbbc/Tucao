@@ -3,8 +3,8 @@ package me.sweetll.tucao.base
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.umeng.analytics.MobclickAgent
 import org.jetbrains.anko.doFromSdk

@@ -1,10 +1,10 @@
 package me.sweetll.tucao.business.video.viewmodel
 
 import android.content.Intent
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.os.Build
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import com.squareup.moshi.JsonDataException
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle

@@ -185,7 +185,7 @@
                             android:layout_height="0.5dp"
                             android:background="@color/grey_300"/>
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/searchRecycler"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -193,7 +193,7 @@
 
                     </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/historyRecycler"
                         android:visibility="@{viewModel.searchHistoryVisibility}"
                         android:layout_width="match_parent"

@@ -1,9 +1,9 @@
 package me.sweetll.tucao.business.login.viewmodel
 
 import android.app.Activity
-import android.databinding.ObservableField
-import android.support.design.widget.Snackbar
+import androidx.databinding.ObservableField
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

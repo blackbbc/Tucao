@@ -28,16 +28,17 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
 import android.text.TextPaint;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.animation.Interpolator;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import me.sweetll.tucao.R;
-import me.sweetll.tucao.util.AnimUtils;
 
 import static me.sweetll.tucao.util.AnimUtils.lerp;
 

@@ -2,8 +2,7 @@ package me.sweetll.tucao.business.video.fragment
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import com.shuyu.gsyvideoplayer.utils.PlayerConfig

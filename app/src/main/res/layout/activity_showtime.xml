@@ -22,7 +22,7 @@
             tools:layout_height="25dp"
             android:background="@color/colorPrimaryDark"/>
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,11 +142,11 @@
 
         </FrameLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/showtimeRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -154,7 +154,7 @@
                 android:paddingRight="8dp"
                 android:background="@color/white"
                 tools:listitem="@layout/item_showtime"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </layout>

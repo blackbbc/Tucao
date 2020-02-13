@@ -1,12 +1,12 @@
 package me.sweetll.tucao.widget
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.ViewCompat
+import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
 import me.sweetll.tucao.R
 import me.sweetll.tucao.R.id.commentFab
 import me.sweetll.tucao.extension.logD

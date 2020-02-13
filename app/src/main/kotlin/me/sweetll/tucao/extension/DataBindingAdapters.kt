@@ -1,7 +1,7 @@
 package me.sweetll.tucao.extension
 
-import android.databinding.BindingAdapter
-import android.support.design.widget.TextInputLayout
+import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 import android.widget.ImageView
 import me.sweetll.tucao.R
 import me.sweetll.tucao.model.other.User

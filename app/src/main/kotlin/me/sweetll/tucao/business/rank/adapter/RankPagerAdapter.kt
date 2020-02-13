@@ -1,7 +1,7 @@
 package me.sweetll.tucao.business.rank.adapter
 
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import me.sweetll.tucao.business.rank.fragment.RankDetailFragment
 import me.sweetll.tucao.model.json.Channel
 

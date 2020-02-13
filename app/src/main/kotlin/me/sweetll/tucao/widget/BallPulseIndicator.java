@@ -3,7 +3,8 @@ package me.sweetll.tucao.widget;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.v4.view.animation.PathInterpolatorCompat;
+
+import androidx.core.view.animation.PathInterpolatorCompat;
 
 import java.util.ArrayList;
 

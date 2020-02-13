@@ -1,6 +1,6 @@
 package me.sweetll.tucao.business.video.adapter
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.CheckedTextView
 import android.widget.ImageView

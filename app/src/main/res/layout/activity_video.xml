@@ -11,18 +11,18 @@
             type="me.sweetll.tucao.business.video.viewmodel.VideoViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/activity_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorPrimary"
@@ -47,7 +47,7 @@
 
                 </FrameLayout>
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -55,7 +55,7 @@
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:titleTextAppearance="@style/Toolbar.TitleText">
 
-                    <android.support.v7.widget.ButtonBarLayout
+                    <androidx.appcompat.widget.ButtonBarLayout
                         android:id="@+id/playBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -77,14 +77,14 @@
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 
-                    </android.support.v7.widget.ButtonBarLayout>
+                    </androidx.appcompat.widget.ButtonBarLayout>
 
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/mainContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,7 +100,7 @@
                 android:visibility="visible"
                 tools:visibility="visible">
 
-                <android.support.design.widget.TabLayout
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                     android:layout_height="0.5dp"
                     android:background="@color/divider" />
 
-                <android.support.v4.view.ViewPager
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -124,7 +124,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <!--<android.support.design.widget.FloatingActionButton-->
             <!--android:id="@+id/commentFab"-->
@@ -137,5 +137,5 @@
             <!--android:visibility="invisible"-->
             <!--app:backgroundTint="@color/pink_300"-->
             <!--app:fabSize="normal" />-->
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

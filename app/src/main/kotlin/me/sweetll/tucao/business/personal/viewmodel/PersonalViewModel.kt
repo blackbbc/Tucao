@@ -1,7 +1,7 @@
 package me.sweetll.tucao.business.personal.viewmodel
 
 import android.app.AlertDialog
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.net.Uri
 import android.util.Base64
 import android.view.View

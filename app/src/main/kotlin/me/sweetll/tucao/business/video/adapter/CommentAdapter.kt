@@ -2,7 +2,7 @@ package me.sweetll.tucao.business.video.adapter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView

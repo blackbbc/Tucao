@@ -1,15 +1,15 @@
 package me.sweetll.tucao.business.video.viewmodel
 
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SimpleItemAnimator
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.core.app.ActivityOptionsCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -150,7 +150,7 @@ class VideoInfoViewModel(val videoInfoFragment: VideoInfoFragment): BaseViewMode
         if (headerBg.isNotEmpty()) {
             val options: Bundle? = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     videoInfoFragment.activity!!,
-                    android.support.v4.util.Pair.create(view.findViewById(R.id.avatarImg),  "transition_avatar")
+                    androidx.core.util.Pair.create(view.findViewById(R.id.avatarImg),  "transition_avatar")
             ).toBundle()
             UploaderActivity.intentTo(videoInfoFragment.activity!!, video.get()!!.userid, video.get()!!.user, avatar.get(), signature, headerBg, options)
         }

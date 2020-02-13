@@ -5,15 +5,15 @@ import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import android.support.transition.TransitionManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.transition.TransitionManager
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -73,6 +73,7 @@ class LoginActivity : BaseActivity() {
                 }
     }
 
+    /*
     private fun setupAccountAutocomplete() {
         accountManager = AccountManager.get(this)
         RxPermissions(this)
@@ -94,6 +95,7 @@ class LoginActivity : BaseActivity() {
                     }
                 }
     }
+    */
 
     fun showLoading() {
         TransitionManager.beginDelayedTransition(binding.container)

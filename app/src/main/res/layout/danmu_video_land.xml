@@ -235,7 +235,7 @@
         android:translationX="280dp"
         tools:translationX="0dp">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,7 +245,7 @@
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="2dp"/>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

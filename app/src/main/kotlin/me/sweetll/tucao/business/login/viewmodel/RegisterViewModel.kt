@@ -1,6 +1,6 @@
 package me.sweetll.tucao.business.login.viewmodel
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.os.Handler
 import android.os.Message
 import android.util.Patterns

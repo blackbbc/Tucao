@@ -1,6 +1,6 @@
 package me.sweetll.tucao.business.login.viewmodel
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.view.View
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.schedulers.Schedulers

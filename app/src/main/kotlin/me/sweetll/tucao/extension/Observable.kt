@@ -1,8 +1,8 @@
 package me.sweetll.tucao.extension
 
-import android.databinding.Observable
-import android.databinding.ObservableField
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 
 class NonNullObservableField<T: Any>(
         value: T, vararg dependencies: Observable
