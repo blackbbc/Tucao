@@ -24,7 +24,7 @@
         android:textSize="18sp"
         android:textColor="@color/colorPrimary"/>
 
-    <androidx.appcompat.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_thumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_height="90dp"
             android:scaleType="centerCrop" />
 
-    </androidx.appcompat.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/text_title"

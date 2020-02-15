@@ -37,6 +37,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    @Named("download")
+    fun provideDownloadOkHttpClient(cookieJar: CookieJar): OkHttpClient = OkHttpClient.Builder()
+            .cookieJar(cookieJar)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+            .build()
+
+    @Provides
+    @Singleton
     @Named("json")
     fun provideJsonClient(cookieJar: CookieJar, @Named("apiKey") apiKey: String): OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
@@ -77,6 +85,16 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()
+
+    @Provides
+    @Singleton
+    @Named("download")
+    fun provideDownloadRetrofit(@Named("download") client: OkHttpClient) : Retrofit = Retrofit.Builder()
+            .baseUrl(ApiConfig.BASE_RAW_API_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(client)
+            .build()
+
 
     @Provides
     @Singleton

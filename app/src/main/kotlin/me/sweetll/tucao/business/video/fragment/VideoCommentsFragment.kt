@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.graphics.Rect
@@ -24,6 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
@@ -70,12 +73,9 @@ class VideoCommentsFragment: BaseFragment() {
         const val REQUEST_LOGIN = 1
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        AppApplication.get()
-                .getUserComponent()
-                .inject(this)
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

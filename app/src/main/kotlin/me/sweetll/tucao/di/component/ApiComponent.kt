@@ -1,6 +1,7 @@
 package me.sweetll.tucao.di.component
 
 import dagger.Subcomponent
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.business.channel.fragment.ChannelDetailFragment
 import me.sweetll.tucao.business.rank.fragment.RankDetailFragment
 import me.sweetll.tucao.business.splash.SplashActivity
@@ -20,8 +21,5 @@ interface ApiComponent {
         fun create(): ApiComponent
     }
 
-    fun inject(channelDetailFragment: ChannelDetailFragment)
-    fun inject(rankDetailFragment: RankDetailFragment)
     fun inject(serviceInstance: DownloadHelpers.ServiceInstance)
-    fun inject(splashActivity: SplashActivity)
 }

@@ -1,6 +1,8 @@
 package me.sweetll.tucao.base
 
 import androidx.databinding.BaseObservable
+import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
 import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.di.service.JsonApiService
 import me.sweetll.tucao.di.service.RawApiService

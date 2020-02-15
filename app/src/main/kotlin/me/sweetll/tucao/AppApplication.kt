@@ -11,6 +11,7 @@ import com.umeng.analytics.MobclickAgent
 import me.sweetll.tucao.extension.UpdateHelpers
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
+import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -19,7 +20,7 @@ import me.sweetll.tucao.di.service.ApiConfig
 import javax.inject.Inject
 
 
-class AppApplication : MultiDexApplication() {
+class AppApplication : MultiDexApplication(), HasAndroidInjector {
     companion object {
         const val PRIMARY_CHANNEL = "${BuildConfig.APPLICATION_ID}_CHANNEL_PRIMARY"
 
@@ -55,7 +56,7 @@ class AppApplication : MultiDexApplication() {
         LeakCanary.install(this)
         */
 
-        disableHiddenApiCheck()
+        // disableHiddenApiCheck()
 
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
         FlowManager.init(this)
@@ -103,6 +104,8 @@ class AppApplication : MultiDexApplication() {
         val networkComponent = DaggerNetworkComponent.factory().create(ApiConfig.API_KEY)
         apiComponent = networkComponent.apiComponent().create()
         userComponent = apiComponent.userComponent().create()
+
+        userComponent.inject(this)
     }
 
     fun getApiComponent(): ApiComponent = apiComponent
@@ -118,6 +121,10 @@ class AppApplication : MultiDexApplication() {
             val notifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notifyMgr.createNotificationChannel(channel)
         }
+    }
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return dispatchingAndroidInjector
     }
 
 }

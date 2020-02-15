@@ -30,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.processors.BehaviorProcessor
@@ -173,9 +174,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        AppApplication.get()
-                .getUserComponent()
-                .inject(this)
+        AndroidInjection.inject(this)
 
         EventBus.getDefault().register(this)
 

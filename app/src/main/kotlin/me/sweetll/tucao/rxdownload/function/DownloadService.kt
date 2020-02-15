@@ -10,12 +10,17 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import android.util.Log
 import androidx.collection.ArrayMap
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.raizlabs.android.dbflow.kotlinextensions.*
+import dagger.android.AndroidInjection
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
+import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.AppApplication.Companion.PRIMARY_CHANNEL
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
@@ -39,6 +44,7 @@ import java.io.FileOutputStream
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class DownloadService : Service() {
 
@@ -58,18 +64,8 @@ class DownloadService : Service() {
 
     lateinit var binder: DownloadBinder
 
-    val downloadApi: DownloadApi by lazy {
-        Retrofit.Builder()
-                .baseUrl(ApiConfig.BASE_RAW_API_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(
-                        OkHttpClient.Builder()
-                                .addInterceptor(HttpLoggingInterceptor())
-                                .build()
-                )
-                .build()
-                .create(DownloadApi::class.java)
-    }
+    @Inject
+    lateinit var downloadApi: DownloadApi
 
     var semaphore: Semaphore = Semaphore(1) // 同时只允许1个任务下载
 
@@ -82,6 +78,8 @@ class DownloadService : Service() {
         Log.d("DownloadService", "On Create")
         super.onCreate()
         binder = DownloadBinder()
+
+        AndroidInjection.inject(this)
 
         syncFromDb()
         launchMissionConsumer()
