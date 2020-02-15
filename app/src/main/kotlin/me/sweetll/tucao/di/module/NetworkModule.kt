@@ -19,7 +19,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class BaseModule(val apiKey: String) {
+class NetworkModule {
     @Provides
     @Singleton
     fun provideCookieJar(): CookieJar = PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(AppApplication.get()))
@@ -38,7 +38,7 @@ class BaseModule(val apiKey: String) {
     @Provides
     @Singleton
     @Named("json")
-    fun provideJsonClient(cookieJar: CookieJar): OkHttpClient = OkHttpClient.Builder()
+    fun provideJsonClient(cookieJar: CookieJar, @Named("apiKey") apiKey: String): OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)

@@ -10,9 +10,15 @@ import me.sweetll.tucao.di.scope.ApplicationScope
 import me.sweetll.tucao.extension.DownloadHelpers
 
 @ApplicationScope
-@Subcomponent(modules = arrayOf(ApiModule::class))
+@Subcomponent(modules = [ApiModule::class])
 interface ApiComponent {
-    fun plus(userModule: UserModule): UserComponent
+
+    fun userComponent(): UserComponent.Factory
+
+    @Subcomponent.Factory
+    interface Factory {
+        fun create(): ApiComponent
+    }
 
     fun inject(channelDetailFragment: ChannelDetailFragment)
     fun inject(rankDetailFragment: RankDetailFragment)
