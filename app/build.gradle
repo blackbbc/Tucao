@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -10,8 +10,8 @@ android {
         applicationId 'me.sweetll.tucao'
         minSdkVersion 21
         targetSdkVersion versions.targetSdk
-        versionCode 119
-        versionName '1.1.7'
+        versionCode 120
+        versionName '1.1.8'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
