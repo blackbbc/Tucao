@@ -96,3 +96,6 @@ fabric.properties
 
 # generated files
 obj/
+
+# apple
+*/.DS_Store

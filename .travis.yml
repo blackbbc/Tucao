@@ -5,9 +5,11 @@ android:
   components:
   - tools
   - build-tools-28.0.3
+  - build-tools-29.0.3
   - android-26
   - android-27
   - android-28
+  - android-29
   - extra-android-m2repository
   - extra-android-support
   - extra-google-google_play_services
@@ -24,11 +26,11 @@ before_install:
 - chmod +x gradlew
 script:
 - "./gradlew assembleRelease"
-#deploy:
-#  provider: releases
-#  api_key:
-#    secure: $api_key
-#  file: app/build/outputs/apk/app-release.apk
-#  skip_cleanup: true
-#  on:
-#    tags: true
+deploy:
+  provider: releases
+  api_key:
+    secure: $api_key
+  file: app/build/outputs/apk/app-release.apk
+  skip_cleanup: true
+  on:
+    tags: true
