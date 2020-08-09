@@ -1,5 +1,6 @@
 package me.sweetll.tucao.business.video.viewmodel
 
+import android.annotation.SuppressLint
 import androidx.databinding.ObservableField
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
@@ -30,6 +31,7 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
         this.video.set(video)
     }
 
+    @SuppressLint("CheckResult")
     fun queryVideo(hid: String) {
         jsonApiService.view(hid)
                 .bindToLifecycle(activity)
@@ -114,19 +116,19 @@ class VideoViewModel(val activity: VideoActivity): BaseViewModel() {
 
         currentPlayerId = ApiConfig.generatePlayerId(hid, part.order)
         danmuDisposable = rawApiService.danmu(currentPlayerId!!, System.currentTimeMillis() / 1000)
-                .bindToLifecycle(activity)
-                .subscribeOn(Schedulers.io())
-                .map({
-                    responseBody ->
-                    val outputFile = File.createTempFile("tucao", ".xml", AppApplication.get().cacheDir)
-                    val outputStream = FileOutputStream(outputFile)
+            .bindToLifecycle(activity)
+            .subscribeOn(Schedulers.io())
+            .map {
+                responseBody ->
+                val outputFile = File.createTempFile("tucao", ".xml", AppApplication.get().cacheDir)
+                val outputStream = FileOutputStream(outputFile)
 
-                    outputStream.write(responseBody.bytes())
-                    outputStream.flush()
-                    outputStream.close()
-                    outputFile.absolutePath
-                })
-                .observeOn(AndroidSchedulers.mainThread())
+                outputStream.write(responseBody.bytes())
+                outputStream.flush()
+                outputStream.close()
+                outputFile.absolutePath
+            }
+            .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     uri ->
                     activity.loadDanmuUri(uri)

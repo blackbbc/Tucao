@@ -212,7 +212,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        checkUpdate(true)
+//        checkUpdate(true)
     }
 
     override fun initToolbar() {
