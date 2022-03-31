@@ -2,24 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-Tucao.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-Tucao.iml" group="Tucao" />
-      <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Tucao.iml" filepath="$PROJECT_DIR$/Tucao.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DanmakuFlameMaster/Tucao-DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/.idea/modules/DanmakuFlameMaster/Tucao-DanmakuFlameMaster.iml" group="Tucao/DanmakuFlameMaster" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Tucao-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Tucao-app.iml" group="Tucao/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dialogplus/Tucao-dialogplus.iml" filepath="$PROJECT_DIR$/.idea/modules/dialogplus/Tucao-dialogplus.iml" group="Tucao/dialogplus" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GSYVideoPlayer/gsyVideoPlayer/Tucao-gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/.idea/modules/GSYVideoPlayer/gsyVideoPlayer/Tucao-gsyVideoPlayer.iml" group="Tucao/gsyVideoPlayer" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ijkplayer-armv7a/Tucao-ijkplayer-armv7a.iml" filepath="$PROJECT_DIR$/.idea/modules/ijkplayer-armv7a/Tucao-ijkplayer-armv7a.iml" group="Tucao/ijkplayer-armv7a" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multipleimageselect/Tucao-multipleimageselect.iml" filepath="$PROJECT_DIR$/.idea/modules/multipleimageselect/Tucao-multipleimageselect.iml" group="Tucao/multipleimageselect" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/previewseekbar/Tucao-previewseekbar.iml" filepath="$PROJECT_DIR$/.idea/modules/previewseekbar/Tucao-previewseekbar.iml" group="Tucao/previewseekbar" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/takephoto_library/Tucao-takephoto_library.iml" filepath="$PROJECT_DIR$/.idea/modules/takephoto_library/Tucao-takephoto_library.iml" group="Tucao/takephoto_library" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dialogplus/dialogplus.iml" filepath="$PROJECT_DIR$/dialogplus/dialogplus.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/GSYVideoPlayer/gsyVideoPlayer/gsyVideoPlayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ijkplayer-armv7a/ijkplayer-armv7a.iml" filepath="$PROJECT_DIR$/ijkplayer-armv7a/ijkplayer-armv7a.iml" />
-      <module fileurl="file://$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" filepath="$PROJECT_DIR$/multipleimageselect/multipleimageselect.iml" />
-      <module fileurl="file://$PROJECT_DIR$/previewseekbar/previewseekbar.iml" filepath="$PROJECT_DIR$/previewseekbar/previewseekbar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/takephoto_library/takephoto_library.iml" filepath="$PROJECT_DIR$/takephoto_library/takephoto_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Tucao.iml" filepath="$PROJECT_DIR$/.idea/modules/Tucao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DanmakuFlameMaster/Tucao.DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/.idea/modules/DanmakuFlameMaster/Tucao.DanmakuFlameMaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Tucao.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Tucao.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dialogplus/Tucao.dialogplus.iml" filepath="$PROJECT_DIR$/.idea/modules/dialogplus/Tucao.dialogplus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GSYVideoPlayer/gsyVideoPlayer/Tucao.gsyVideoPlayer.iml" filepath="$PROJECT_DIR$/.idea/modules/GSYVideoPlayer/gsyVideoPlayer/Tucao.gsyVideoPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ijkplayer-armv7a/Tucao.ijkplayer-armv7a.iml" filepath="$PROJECT_DIR$/.idea/modules/ijkplayer-armv7a/Tucao.ijkplayer-armv7a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multipleimageselect/Tucao.multipleimageselect.iml" filepath="$PROJECT_DIR$/.idea/modules/multipleimageselect/Tucao.multipleimageselect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/previewseekbar/Tucao.previewseekbar.iml" filepath="$PROJECT_DIR$/.idea/modules/previewseekbar/Tucao.previewseekbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/takephoto_library/Tucao.takephoto_library.iml" filepath="$PROJECT_DIR$/.idea/modules/takephoto_library/Tucao.takephoto_library.iml" />
     </modules>
   </component>
 </project>

@@ -18,6 +18,8 @@ android {
 
         vectorDrawables.useSupportLibrary = true
 
+        ndkVersion '21.3.6528147'
+
         ndk {
             abiFilters 'armeabi-v7a', 'x86'
         }
