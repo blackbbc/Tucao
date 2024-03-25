@@ -1,25 +1,26 @@
 package me.sweetll.tucao.business.video.fragment
 
-import androidx.databinding.DataBindingUtil
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseFragment
-import me.sweetll.tucao.model.json.Part
-import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.business.video.adapter.PartAdapter
 import me.sweetll.tucao.business.video.viewmodel.VideoInfoViewModel
 import me.sweetll.tucao.databinding.FragmentVideoInfoBinding
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.HistoryHelpers
-import me.sweetll.tucao.model.xml.Durl
+import me.sweetll.tucao.extension.observe
+import me.sweetll.tucao.model.json.Part
+import me.sweetll.tucao.model.json.Video
 
 
 class VideoInfoFragment: BaseFragment() {
@@ -46,10 +47,18 @@ class VideoInfoFragment: BaseFragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         canInit = canInit or 1
         checkInit()
+        viewModel.video.observe(lifecycle) {
+            binding.tvPlayCount.text = "播放：${it.play}"
+            binding.tvDanmuCount.text = "弹幕：${it.mukio}"
+        }
+        viewModel.isStar.observe(lifecycle) {
+            binding.tvStar.text = if (it) "已收藏" else "收藏"
+        }
     }
 
     fun bindVideo(video: Video) {

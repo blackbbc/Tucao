@@ -39,18 +39,18 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvPlayCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{"播放：" + viewModel.video.play}'
                     android:textColor="@color/secondary_text"
                     android:textSize="12sp"
                     tools:text="播放：14.6万" />
 
                 <TextView
+                    android:id="@+id/tvDanmuCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text='@{"弹幕：" + viewModel.video.mukio}'
                     android:textColor="@color/secondary_text"
                     android:textSize="12sp"
                     tools:text="弹幕：501" />
@@ -94,9 +94,10 @@
                         android:tint="@color/pink_500" />
 
                     <TextView
+                        android:id="@+id/tvStar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{viewModel.isStar ? "已收藏" : "收藏"}'
+                        android:text="收藏"
                         android:textColor="@color/pink_500"
                         android:textSize="12sp"
                         tools:text="收藏" />
@@ -206,7 +207,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{"分集(" + viewModel.video.parts.size() + ")"}'
                 tools:text="分集(2)" />
 
             <androidx.recyclerview.widget.RecyclerView

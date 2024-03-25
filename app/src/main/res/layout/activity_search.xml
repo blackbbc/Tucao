@@ -118,7 +118,6 @@
                                 android:layout_weight="1"
                                 android:textSize="12sp"
                                 android:textColor="@color/secondary_text"
-                                android:text='@{"共：" + viewModel.totalCount + "个相关结果"}'
                                 tools:text="共:274个相关结果"/>
 
                             <LinearLayout
