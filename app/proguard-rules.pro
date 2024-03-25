@@ -215,9 +215,6 @@
   public *;
 }
 
-# DBFlow
--keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
-
 # BlockCanary
 -keep class me.sweetll.tucao.AppBlockCanaryContext
 -dontwarn com.github.moduth.blockcanary.**

@@ -1,9 +1,9 @@
 package me.sweetll.tucao.business.home
 
 import android.app.Activity
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -13,8 +13,8 @@ import me.sweetll.tucao.business.home.adapter.MessageListAdapter
 import me.sweetll.tucao.business.home.model.MessageList
 import me.sweetll.tucao.business.home.viewmodel.MessageListViewModel
 import me.sweetll.tucao.databinding.ActivityMessageListBinding
+import me.sweetll.tucao.extension.startActivity
 import me.sweetll.tucao.widget.HorizontalDividerBuilder
-import org.jetbrains.anko.startActivity
 
 
 class MessageListActivity: BaseActivity() {

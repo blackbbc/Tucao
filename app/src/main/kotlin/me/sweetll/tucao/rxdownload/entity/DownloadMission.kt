@@ -1,24 +1,30 @@
 package me.sweetll.tucao.rxdownload.entity
 
-import com.raizlabs.android.dbflow.annotation.Column
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
+import android.annotation.SuppressLint
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import me.sweetll.tucao.di.service.ApiConfig
+import io.reactivex.schedulers.Schedulers
 import me.sweetll.tucao.extension.sumByLong
 import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 
-@Table(database = TucaoDatabase::class)
+
+@Entity(tableName = "DownloadMission")
 data class DownloadMission(
-        @Column var hid: String = "",
-        @Column var order: Int = 0,
-        @Column var title: String = "",
-        @Column var type: String = "",
-        @PrimaryKey var vid: String = "") {
+    var hid: String = "",
+    var order: Int = 0,
+    var title: String = "",
+    var type: String = "",
+    @PrimaryKey var vid: String = ""
+) {
 
-    @Column(typeConverter = BeanListConverter::class) var beans: MutableList<DownloadBean> = mutableListOf()
+    @TypeConverters(BeanListConverter::class)
+    var beans: MutableList<DownloadBean> = mutableListOf()
 
-    @Transient var request: Disposable? = null
+    @Transient
+    var request: Disposable? = null
 
     var pause: Boolean = true
 
@@ -30,5 +36,12 @@ data class DownloadMission(
 
     val contentLength: Long
         get() = beans.sumByLong { it.contentLength }
+
+    @SuppressLint("CheckResult")
+    fun exec(execs: (DownloadMissionDao.() -> Unit)) {
+        Observable.create<Any> {
+            TucaoDatabase.db.missionDao().execs()
+        }.subscribeOn(Schedulers.io())
+    }
 
 }

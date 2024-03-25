@@ -1,12 +1,11 @@
 package me.sweetll.tucao.business.channel
 
 import android.app.Activity
-import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.AdapterView
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
 import me.sweetll.tucao.business.channel.adapter.ChannelFilterAdapter
@@ -15,9 +14,9 @@ import me.sweetll.tucao.business.channel.event.ChangeChannelFilterEvent
 import me.sweetll.tucao.business.channel.model.ChannelFilter
 import me.sweetll.tucao.business.channel.viewmodel.ChannelDetailViewModel
 import me.sweetll.tucao.databinding.ActivityChannelDetailBinding
+import me.sweetll.tucao.extension.startActivity
 import me.sweetll.tucao.model.json.Channel
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.startActivity
 
 class ChannelDetailActivity : BaseActivity() {
     lateinit var binding: ActivityChannelDetailBinding
@@ -32,7 +31,9 @@ class ChannelDetailActivity : BaseActivity() {
         private val ARG_TID = "arg_tid"
 
         fun intentTo(activity: Activity, tid: Int) {
-            activity.startActivity<ChannelDetailActivity>(ARG_TID to tid)
+            activity.startActivity<ChannelDetailActivity>{
+                putExtra(ARG_TID, tid)
+            }
         }
     }
 

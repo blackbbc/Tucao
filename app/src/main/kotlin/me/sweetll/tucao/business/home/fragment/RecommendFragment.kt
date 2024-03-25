@@ -1,16 +1,14 @@
 package me.sweetll.tucao.business.home.fragment
 
-import android.annotation.TargetApi
-import androidx.databinding.DataBindingUtil
-import android.os.Build
 import android.os.Bundle
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import android.transition.ArcMotion
 import android.transition.ChangeBounds
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.bigkoo.convenientbanner.ConvenientBanner
@@ -24,7 +22,6 @@ import me.sweetll.tucao.business.home.adapter.RecommendAdapter
 import me.sweetll.tucao.business.home.viewmodel.RecommendViewModel
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.FragmentRecommendBinding
-import me.sweetll.tucao.extension.logD
 import me.sweetll.tucao.model.raw.Banner
 import me.sweetll.tucao.model.raw.Index
 
@@ -60,9 +57,7 @@ class RecommendFragment : BaseFragment() {
         setupRecyclerView()
         loadWhenNeed()
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            initTransition()
-        }
+        initTransition()
     }
 
     fun setupRecyclerView() {
@@ -83,25 +78,20 @@ class RecommendFragment : BaseFragment() {
                         ChannelDetailActivity.intentTo(activity!!, view.tag as Int)
                     }
                     R.id.card1, R.id.card2, R.id.card3, R.id.card4 -> {
-                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            val coverImg = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
-                            val titleText = (view.getChildAt(0) as ViewGroup).getChildAt(1)
-                            val p1: Pair<View, String> = Pair.create(coverImg, "cover")
-                            val p2: Pair<View, String> = Pair.create(titleText, "bg")
-                            val cover = titleText.tag as String
-                            val options = ActivityOptionsCompat
-                                    .makeSceneTransitionAnimation(activity!!, p1, p2)
-                            VideoActivity.intentTo(activity!!, view.tag as String, cover, options.toBundle())
-                        } else {
-                            VideoActivity.intentTo(activity!!, view.tag as String)
-                        }
+                        val coverImg = (((view as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(0)
+                        val titleText = (view.getChildAt(0) as ViewGroup).getChildAt(1)
+                        val p1: Pair<View, String> = Pair.create(coverImg, "cover")
+                        val p2: Pair<View, String> = Pair.create(titleText, "bg")
+                        val cover = titleText.tag as String
+                        val options = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation(activity!!, p1, p2)
+                        VideoActivity.intentTo(activity!!, view.tag as String, cover, options.toBundle())
                     }
                 }
             }
         })
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun initTransition() {
         val changeBounds = ChangeBounds()
 

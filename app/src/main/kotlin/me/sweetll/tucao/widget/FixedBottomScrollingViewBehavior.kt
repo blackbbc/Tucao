@@ -1,16 +1,13 @@
 package me.sweetll.tucao.widget
 
 import android.content.Context
-import androidx.core.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import me.sweetll.tucao.R
-import me.sweetll.tucao.R.id.commentFab
-import me.sweetll.tucao.extension.logD
-import org.jetbrains.anko.dip
 
 /**
  * Created by Sweet on 2018/3/20.
@@ -30,7 +27,7 @@ class FixedBottomScrollingViewBehavior(val context: Context, attrs: AttributeSet
             val container: View = child.findViewById(R.id.commentContainer)
             val tab: View = child.findViewById(R.id.tab)
 
-            val headerHeight = tab.height + context.dip(0.5f)
+            val headerHeight = tab.height + (context.resources.displayMetrics.density * 0.5f).toInt()
 
             val lp = fab.layoutParams as FrameLayout.LayoutParams
             val margin = lp.bottomMargin

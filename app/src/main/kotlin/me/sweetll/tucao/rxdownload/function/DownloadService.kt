@@ -1,43 +1,38 @@
 package me.sweetll.tucao.rxdownload.function
 
-import android.app.*
+import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
-import androidx.core.app.TaskStackBuilder
 import android.util.Log
 import androidx.collection.ArrayMap
-import com.franmontiel.persistentcookiejar.PersistentCookieJar
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import com.raizlabs.android.dbflow.kotlinextensions.*
+import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
 import dagger.android.AndroidInjection
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
-import me.sweetll.tucao.AppApplication
 import me.sweetll.tucao.AppApplication.Companion.PRIMARY_CHANNEL
 import me.sweetll.tucao.R
 import me.sweetll.tucao.business.download.DownloadActivity
-import me.sweetll.tucao.model.json.Part
-import me.sweetll.tucao.di.service.ApiConfig
 import me.sweetll.tucao.extension.DownloadHelpers
 import me.sweetll.tucao.extension.formatWithUnit
 import me.sweetll.tucao.extension.logD
+import me.sweetll.tucao.model.json.Part
 import me.sweetll.tucao.model.xml.Durl
+import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 import me.sweetll.tucao.rxdownload.entity.DownloadBean
 import me.sweetll.tucao.rxdownload.entity.DownloadEvent
 import me.sweetll.tucao.rxdownload.entity.DownloadMission
 import me.sweetll.tucao.rxdownload.entity.DownloadStatus
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -111,15 +106,23 @@ class DownloadService : Service() {
         return START_STICKY
     }
 
+    @SuppressLint("CheckResult")
     private fun syncFromDb() {
-        val missions = (select from DownloadMission::class).list
-        missions.forEach {
-            missionMap.put(it.vid, it)
-            processorMap.put(it.vid, BehaviorProcessor.create<DownloadEvent>()
-                    .apply {
-                        onNext(DownloadEvent(DownloadStatus.PAUSED)) // 默认暂停状态
-                    })
-        }
+        Observable.create<List<DownloadMission>> {
+            val missions = TucaoDatabase.db.missionDao().getAll()
+            it.onNext(missions)
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { missions ->
+                missions.forEach {
+                    missionMap.put(it.vid, it)
+                    processorMap.put(it.vid, BehaviorProcessor.create<DownloadEvent>()
+                        .apply {
+                            onNext(DownloadEvent(DownloadStatus.PAUSED)) // 默认暂停状态
+                        })
+                }
+            }
     }
 
     private fun launchMissionConsumer() {
@@ -263,7 +266,9 @@ class DownloadService : Service() {
     }
 
     fun download(newMission: DownloadMission, part: Part) {
-        val mission = missionMap.getOrPut(newMission.vid, { newMission.apply { save() } })
+        val mission = missionMap.getOrPut(newMission.vid, {
+            newMission.apply { exec { insert(newMission) } }
+        })
 
         processorMap.getOrPut(mission.vid, {
             BehaviorProcessor.create<DownloadEvent>().apply {
@@ -340,7 +345,7 @@ class DownloadService : Service() {
             }
             missionMap.remove(vid)
             processorMap.remove(vid)
-            mission.delete()
+            mission.exec { delete(mission) }
         }
     }
 
@@ -352,15 +357,15 @@ class DownloadService : Service() {
     private fun consumeEvent(mission: DownloadMission, event: DownloadEvent, part: Part) {
         when (event.status) {
             DownloadStatus.PAUSED -> {
-                mission.save()
+                mission.exec { update(mission) }
                 stopForeground(true)
             }
             DownloadStatus.FAILED -> {
                 mission.pause = true
-                mission.save()
+                mission.exec { update(mission) }
             }
             DownloadStatus.COMPLETED -> {
-                mission.save()
+                mission.exec { update(mission) }
                 mission.beans.forEach {
                     bean ->
                     part.durls.add(Durl(flag = DownloadStatus.COMPLETED, cacheFileName = bean.saveName, cacheFolderPath = bean.savePath, downloadSize = bean.downloadLength, totalSize = bean.contentLength))

@@ -8,7 +8,7 @@ object ApiConfig {
     const val API_KEY = "25tids8f1ew1821ed"
 
     const val PROTOCOL = "https"
-    const val BASE_URL = "www.tucao.in"
+    const val BASE_URL = "www.tucao.cool"
 
     const val BASE_RAW_API_URL = "$PROTOCOL://$BASE_URL/"
     const val BASE_JSON_API_URL = "$PROTOCOL://$BASE_URL/api_v2/"
@@ -37,7 +37,7 @@ object ApiConfig {
     /*
      * XML
      */
-    const val PLAY_URL_API_URL = "$PROTOCOL://api.tucao.one/api/playurl"
+    const val PLAY_URL_API_URL = "$PROTOCOL://api.tucao.cool/api/playurl"
     const val DANMU_API_URL = "$PROTOCOL://$BASE_URL/index.php?m=mukio&c=index&a=init"
 
     /*

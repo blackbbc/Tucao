@@ -22,5 +22,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':multipleimageselect')
     implementation "androidx.legacy:legacy-support-v4:${versions.androidxLegacy}"
-    implementation 'com.soundcloud.android.crop:lib_crop:1.0.0'
+//    implementation 'com.soundcloud.android.crop:lib_crop:1.0.0'
 }

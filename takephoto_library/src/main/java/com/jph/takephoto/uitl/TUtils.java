@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.core.content.FileProvider;
 
 import com.darsh.multipleimageselect.models.Image;
 import com.jph.takephoto.R;
@@ -20,7 +21,6 @@ import com.jph.takephoto.model.TException;
 import com.jph.takephoto.model.TExceptionType;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TIntentWap;
-import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -141,25 +141,26 @@ public class TUtils {
      * @param options
      */
     public static void cropWithOwnApp(TContextWrap contextWrap, Uri imageUri, Uri outPutUri, CropOptions options){
-        if (options.getAspectX()*options.getAspectY()>0){
-            if (contextWrap.getFragment()!=null){
-                Crop.of(imageUri, outPutUri).withAspect(options.getAspectX(),options.getAspectY()).start(contextWrap.getActivity(),contextWrap.getFragment());
-            }else {
-                Crop.of(imageUri, outPutUri).withAspect(options.getAspectX(),options.getAspectY()).start(contextWrap.getActivity());
-            }
-        }else if (options.getOutputX()*options.getOutputY()>0){
-            if (contextWrap.getFragment()!=null){
-                Crop.of(imageUri, outPutUri).withMaxSize(options.getOutputX(),options.getOutputY()).start(contextWrap.getActivity(),contextWrap.getFragment());
-            }else {
-                Crop.of(imageUri, outPutUri).withMaxSize(options.getOutputX(),options.getOutputY()).start(contextWrap.getActivity());
-            }
-        }else {
-            if (contextWrap.getFragment()!=null){
-                Crop.of(imageUri, outPutUri).asSquare().start(contextWrap.getActivity(),contextWrap.getFragment());
-            }else {
-                Crop.of(imageUri, outPutUri).asSquare().start(contextWrap.getActivity());
-            }
-        }
+        // todo:确认是否有用
+//        if (options.getAspectX()*options.getAspectY()>0){
+//            if (contextWrap.getFragment()!=null){
+//                Crop.of(imageUri, outPutUri).withAspect(options.getAspectX(),options.getAspectY()).start(contextWrap.getActivity(),contextWrap.getFragment());
+//            }else {
+//                Crop.of(imageUri, outPutUri).withAspect(options.getAspectX(),options.getAspectY()).start(contextWrap.getActivity());
+//            }
+//        }else if (options.getOutputX()*options.getOutputY()>0){
+//            if (contextWrap.getFragment()!=null){
+//                Crop.of(imageUri, outPutUri).withMaxSize(options.getOutputX(),options.getOutputY()).start(contextWrap.getActivity(),contextWrap.getFragment());
+//            }else {
+//                Crop.of(imageUri, outPutUri).withMaxSize(options.getOutputX(),options.getOutputY()).start(contextWrap.getActivity());
+//            }
+//        }else {
+//            if (contextWrap.getFragment()!=null){
+//                Crop.of(imageUri, outPutUri).asSquare().start(contextWrap.getActivity(),contextWrap.getFragment());
+//            }else {
+//                Crop.of(imageUri, outPutUri).asSquare().start(contextWrap.getActivity());
+//            }
+//        }
     }
     /**
      * 是否裁剪之后返回数据

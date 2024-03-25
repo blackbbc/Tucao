@@ -1,20 +1,21 @@
 package me.sweetll.tucao.rxdownload.entity
 
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import io.reactivex.disposables.Disposable
-import me.sweetll.tucao.rxdownload.db.TucaoDatabase
 import java.io.File
 import java.io.RandomAccessFile
 
-@Table(database = TucaoDatabase::class)
-data class DownloadBean(@PrimaryKey var url: String = "",
-                        @PrimaryKey var etag: String = "\"\"",
-                        @PrimaryKey var lastModified: String = "Wed, 21 Oct 2015 07:28:00 GMT",
-                        @PrimaryKey var contentLength: Long = 0L,
-                        @PrimaryKey var downloadLength: Long = 0L,
-                        @PrimaryKey var saveName: String = "",
-                        @PrimaryKey var savePath: String = "") {
+@Entity(tableName = "DownloadBean")
+data class DownloadBean(
+    @PrimaryKey var url: String = "",
+    var etag: String = "\"\"",
+    var lastModified: String = "Wed, 21 Oct 2015 07:28:00 GMT",
+    var contentLength: Long = 0L,
+    var downloadLength: Long = 0L,
+    var saveName: String = "",
+    var savePath: String = ""
+) {
 
     @Transient var connecting = false
     @Transient var request: Disposable? = null
@@ -31,7 +32,7 @@ data class DownloadBean(@PrimaryKey var url: String = "",
     }
 
     fun getFile(): File {
-        val file =  File(savePath, saveName)
+        val file = File(savePath, saveName)
         if (!file.exists()) {
             file.parentFile.mkdirs()
             file.createNewFile()

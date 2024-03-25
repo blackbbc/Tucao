@@ -1,8 +1,8 @@
 package me.sweetll.tucao.business.home
 
 import android.app.Activity
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
@@ -10,7 +10,7 @@ import me.sweetll.tucao.business.home.adapter.MessageDetailAdapter
 import me.sweetll.tucao.business.home.model.MessageDetail
 import me.sweetll.tucao.business.home.viewmodel.MessageDetailViewModel
 import me.sweetll.tucao.databinding.ActivityMessageDetailBinding
-import org.jetbrains.anko.startActivity
+import me.sweetll.tucao.extension.startActivity
 
 class MessageDetailActivity: BaseActivity() {
 
