@@ -1,26 +1,26 @@
 package me.sweetll.tucao.business.home
 
 import android.app.Activity
-import androidx.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
 import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import me.sweetll.tucao.R
 import me.sweetll.tucao.base.BaseActivity
-import me.sweetll.tucao.model.json.Video
 import me.sweetll.tucao.business.home.adapter.StarAdapter
 import me.sweetll.tucao.business.video.VideoActivity
 import me.sweetll.tucao.databinding.ActivityStarBinding
 import me.sweetll.tucao.extension.HistoryHelpers
-import org.jetbrains.anko.startActivity
+import me.sweetll.tucao.extension.startActivity
+import me.sweetll.tucao.model.json.Video
 
 class StarActivity : BaseActivity() {
     lateinit var binding: ActivityStarBinding

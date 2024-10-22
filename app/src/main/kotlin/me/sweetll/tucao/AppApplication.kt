@@ -1,22 +1,21 @@
 package me.sweetll.tucao
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.raizlabs.android.dbflow.config.FlowManager
-import com.shuyu.gsyvideoplayer.utils.PlayerConfig
-import com.umeng.analytics.MobclickAgent
-import me.sweetll.tucao.extension.UpdateHelpers
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
-import dagger.android.AndroidInjection
+import com.shuyu.gsyvideoplayer.utils.PlayerConfig
+import com.umeng.analytics.MobclickAgent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import me.sweetll.tucao.di.component.*
+import me.sweetll.tucao.di.component.ApiComponent
+import me.sweetll.tucao.di.component.DaggerNetworkComponent
+import me.sweetll.tucao.di.component.UserComponent
 import me.sweetll.tucao.di.service.ApiConfig
+import me.sweetll.tucao.extension.UpdateHelpers
 import javax.inject.Inject
 
 
@@ -59,28 +58,11 @@ class AppApplication : MultiDexApplication(), HasAndroidInjector {
         // disableHiddenApiCheck()
 
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL)
-        FlowManager.init(this)
         PlayerConfig.init(this)
         initComponent()
         initChannel()
 
         postUpdate()
-    }
-
-    @SuppressLint("PrivateApi")
-    private fun disableHiddenApiCheck() {
-        try {
-            val cls = Class.forName("android.app.ActivityThread")
-            val declaredMethod = cls.getDeclaredMethod("currentActivityThread")
-            declaredMethod.isAccessible = true
-            val activityThread = declaredMethod.invoke(null)
-            val mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown")
-            mHiddenApiWarningShown.isAccessible = true
-            mHiddenApiWarningShown.setBoolean(activityThread, true)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
     }
 
     private fun postUpdate() {

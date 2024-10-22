@@ -20,6 +20,7 @@ import com.jph.takephoto.compress.CompressImageImpl;
 import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.MultipleCrop;
 import com.jph.takephoto.model.TContextWrap;
+import com.jph.takephoto.model.TException;
 import com.jph.takephoto.model.TExceptionType;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TIntentWap;
@@ -29,12 +30,10 @@ import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.uitl.ImageRotateUtil;
 import com.jph.takephoto.uitl.IntentUtils;
 import com.jph.takephoto.uitl.TConstant;
-import com.jph.takephoto.model.TException;
 import com.jph.takephoto.uitl.TFileUtils;
 import com.jph.takephoto.uitl.TImageFiles;
 import com.jph.takephoto.uitl.TUriParse;
 import com.jph.takephoto.uitl.TUtils;
-import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -187,7 +186,7 @@ public class TakePhotoImpl implements TakePhoto {
                 }
                 break;
             case TConstant.RC_CROP://裁剪照片返回结果
-            case Crop.REQUEST_CROP://裁剪照片返回结果
+//            case Crop.REQUEST_CROP://裁剪照片返回结果
                 if (resultCode == Activity.RESULT_OK) {
                     if (multipleCrop != null) {
                         cropContinue(true);
